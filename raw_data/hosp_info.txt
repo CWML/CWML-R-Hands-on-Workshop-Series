@@ -1,0 +1,7 @@
+hosp_name	catchment_pop	level	district	beds	established
+Central Hospital	1950280	Tertiary	Central	500	1985
+Military Hospital	10000	Secondary	North	100	1960
+Regional Medical center	50280	Secondary	West	200	1995
+St. Mark's Maternity Hospital	12000	Secondary	East	80	2000
+HMO Health	5000	Primary	South	50	2010
+Premiere Health	4200	Primary	Central	40	2015
