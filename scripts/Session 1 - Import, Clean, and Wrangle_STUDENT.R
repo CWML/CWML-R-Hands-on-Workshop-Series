@@ -1,7 +1,7 @@
 # Important Notes
 
 ## Comments - used to add notes or details to code using the pound symbol (#)
-## Running code - highlight lines then command/return
+## Running code - highlight lines then command/return or control/enter
 ## Using pipes (%>%) connects different R functions together; can run code between pipes as well
 ________________________________________________________________________________
 
@@ -60,7 +60,7 @@ linelist_raw %>% count(VARIABLE_NAME)
 # Step 5: Clean our data - add your code in front of each pipe (%>%) #
 ######################################################################
 
-# VERY IMPORTANT: un-comment the pipe (%>%) after each line is ran successfully and befor new line is added and ran
+# VERY IMPORTANT: un-comment the pipe (%>%) after each line is ran successfully and before new line is added and ran
 
 ## Start by creating a new data frame called "linelist_clean" using the <- operator
 ADD CODE HERE #%>% 
@@ -68,7 +68,7 @@ ADD CODE HERE #%>%
 ## 1. clean column names using clean_names()
 ADD CODE HERE #%>% 
   
-## 2. clean date values - Update varaible names!
+## 2. clean date values - Update variable names!
 mutate(
   VARIABLE_NAME = as.Date(VARIABLE_NAME),
   VARIABLE_NAME = as.Date(VARIABLE_NAME),
@@ -130,7 +130,7 @@ NEW_DF <- PREVIOUS_DF %>%
   mutate(across(where(is.character), ~replace_na(.x, "Unknown"))) #%>% 
   
 # 2. Choose which variables to retain and select their order in the data frame using select()
-## Order of variables: case_id, gender, age_years, bmi, date_of_infection, onset_date, hospital_date, hospital_name, outcome 
+## Order of variables: case_id, gender, age_years, wt_kg, ht_cm, bmi, date_of_infection, onset_date, hospital_date, hospital_name, date_of_outcome, outcome 
 ADD CODE HERE 
 
 ######################################

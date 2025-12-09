@@ -1,0 +1,34 @@
+
+#ignore R script notes files
+"session 2 notes.R"
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# RStudio / VS Code project junk
+.Rproj.user/
+.vscode/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Quarto & Markdown intermediates
+*.html
+*_files/
+
+# Your specific folders
+Notes/
+
+# Ignore the Notes directory (at any level)
+Notes/
+
+# Ignore all Quarto/ markdown source files
+*.qmd
+
+# Ignore the repository-level attributes file
+.gitattributes
