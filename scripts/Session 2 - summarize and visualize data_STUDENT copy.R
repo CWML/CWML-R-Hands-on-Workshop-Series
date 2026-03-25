@@ -38,7 +38,7 @@ pacman::p_load(
 
 # Use the import() and here() functions and call your new data frame "data"
 # HINT 1: folder name is "processed_data" and file name is "combined_linelist.csv"
-# HINT 2: use the structure writtne below
+# HINT 2: use the structure written below
 
 my_data <- import(here("FOLDER NAME", "DATA_FILE.xlsx"), setclass = "tbl")
 

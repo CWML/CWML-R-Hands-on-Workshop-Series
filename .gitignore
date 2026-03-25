@@ -1,12 +1,8 @@
 # History files
 .Rhistory
 .Rapp.history
-
-# R script used for notes
-session 2 notes.R
-
-# Session Data files
 .RData
+.Ruserdata
 
 # RStudio / VS Code project junk
 .Rproj.user/
@@ -22,12 +18,7 @@ Thumbs.db
 
 # Your specific folders
 Notes/
-
-# Ignore the Notes directory (at any level)
-Notes/
-
-# Ignore all Quarto/ markdown source files
-*.qmd
+instructor scripts/
 
 # Ignore the repository-level attributes file
 .gitattributes
