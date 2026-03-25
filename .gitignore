@@ -19,7 +19,7 @@ Thumbs.db
 # Your specific folders
 Notes/
 instructor scripts/
-OLD/
+processed_data/OLD/
 
 # Ignore the repository-level attributes file
 .gitattributes
