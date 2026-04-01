@@ -12,11 +12,13 @@ ________________________________________________________________________________
 #    start a new analysis.
 # ────────────────────────────────────────────────────────────────────────
 
+install.packages("renv")
+library(renv)
 
 # ── STEP 2a:Load R environment ──────────────────────────────────────────
 # 🎯 Goal: Load all the R environment packages.
 
-install.packages("renv")
+
 renv::restore()
 
 
@@ -85,7 +87,7 @@ hosp_info <- import(here('raw_data', 'hosp_info.txt'))
 # and before new line is added and ran
 
 ## Start by creating a new data frame called "linelist_clean" using the <- operator
-ADD_CODE_HERE #%>% 
+linelist_clean <- linelist_raw #%>% 
   
 ## 1. clean column names using clean_names()
 ADD_CODE_HERE #%>% 
@@ -125,7 +127,7 @@ mutate(
 ### Verify your changes worked by counting the new hospital_name variable like before; try this in the console: linelist_clean %>% count(hospital_name)
 
 ## 5. Fix age_years variable type to numeric value using mutate
-ADD_CODE_HERE #%>% 
+mutate(NEW_VARIABLE_NAME = as.numeric(OLD_VARIABLE_NAME)) #%>% 
 
 ## 6. Perform a quick calculation using wt_kg and ht_cm to calculate BMI
 mutate(NEW_VARIABLE_NAME = round(wt_kg / (ht_cm/100)^2, 2))
@@ -154,14 +156,14 @@ missing_ids <- linelist_clean %>%
 # ────────────────────────────────────────────────────────────────────────
 
 # 1. Create a new data frame (<-) the filters out the rows with missing case_id called "linelist_final"
-NEW_DF <- PREVIOUS_DF %>%
+missing_ids <- linelist_clean %>%
   filter(!is.na(VARIABLE_NAME))  %>%
   mutate(across(where(is.character), ~replace_na(.x, "Unknown"))) #%>% 
   
 # 2. Choose which variables to retain and select their order in the data frame using select()
 ## Order of variables: case_id, gender, age_years, wt_kg, ht_cm, bmi, date_of_infection, onset_date, hospital_date, hospital_name, date_of_outcome, outcome 
 
-ADD_CODE_HERE 
+FUNCTION_NAME(case_id, gender, age_years, wt_kg, ht_cm, bmi, date_of_infection, onset_date, hospital_date, hospital_name, date_of_outcome, outcome)
 
 # ── STEP 8: Join data ───────────────────────────────────────────────────
 # 🎯 Goal: Enrich your cleaned dataset by bringing in additional case
@@ -171,7 +173,7 @@ ADD_CODE_HERE
 # ────────────────────────────────────────────────────────────────────────
 
 # 1. Import case_info.csv; don't forget to create a new object (<-)
-ADD_CODE_HERE
+case_info <- FUNCTION_NAME(FUNCTION_NAME('raw_data', 'case_info.csv'))
 
 # 2. Join linelist_final and case_info using left_join() on the case_id variable; don't forget to create a new object (<-)
 combined_linelist <- PREVIOUS_DF %>%
