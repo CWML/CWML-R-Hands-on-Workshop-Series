@@ -12,7 +12,10 @@ ________________________________________________________________________________
 #    start a new analysis.
 # ────────────────────────────────────────────────────────────────────────
 
+#Install renv() package if you haven't already
 install.packages("renv")
+
+#load renv() package
 library(renv)
 
 # ── STEP 2a:Load R environment ──────────────────────────────────────────
