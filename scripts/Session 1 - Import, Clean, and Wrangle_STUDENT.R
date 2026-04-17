@@ -13,36 +13,28 @@ ________________________________________________________________________________
 # ────────────────────────────────────────────────────────────────────────
 
 #Install renv() package if you haven't already
-#install.packages("renv")
+install.packages("renv")
 
 #load renv() package
-#library(renv)
+library(renv)
+
 
 # ── STEP 2a:Load R environment ──────────────────────────────────────────
 # 🎯 Goal: Load all the R environment packages.
 
-
-r#env::restore()
-
+renv::restore()
 
 # ── STEP 2b: R Packages ──────────────────────────────────────────────────
 # 🎯 Goal: Load all the R packages you will need for this session.
 
-#library(tidyverse)
-#library(magrittr)
-#library(here)
-#library(readr)
-#library(janitor)
-#library(openxlsx)
-#library(rio)
-#library(skimr)
-
-## Use Pacman()
-
-if (!require("pacman")) install.packages("pacman")
-library(pacman)
-
-pacman::p_load(tidyverse, magrittr, here, readr, janitor, openxlsx, rio, skimr)
+library(tidyverse)
+library(magrittr)
+library(here)
+library(readr)
+library(janitor)
+library(openxlsx)
+library(rio)
+library(skimr)
 
 # ── STEP 3: Importing data ─────────────────────────────────────────────
 # 🎯 Goal: Read the raw dataset (linelist_raw.xlsx) into R and assign it
