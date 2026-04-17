@@ -1,0 +1,60 @@
+---
+title: "READ.ME"
+author: "Max Wegener"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+Windows users – installing Rtools (required for compiling R packages)
+
+Some R packages are available only as source code.
+On Windows you need Rtools (a collection of compilers and build utilities) so that R can install those packages. macOS and Linux already ship suitable build tools; Windows does not.
+
+1)  Do I already have Rtools?
+
+In a fresh R or RStudio session run:
+
+```{r}
+Sys.which("make")
+```
+• If you get a blank result (""), R cannot find make ⇒ Rtools is missing.
+• If you see a full path containing rtools…\usr\bin\make.exe, you’re all set! NO NEED TO GO ANY FURTHER!
+
+2)  Find the Rtools version that matches your R
+
+Check your R version:
+```{r}
+R.version.string
+```
+
+Your R version	Install this Rtools
+4.5.x	Rtools45
+4.4.x	Rtools44
+4.3.x	Rtools43
+4.2.x	Rtools42 (no longer needed if you upgraded R)
+
+3)  Download Rtools
+
+Go to
+https://cran.r-project.org/bin/windows/Rtools/
+Click the folder for your version (e.g. rtools43 for 4.3; rtools44 for 4.4; rtools45 for 4.5).
+Download the .exe installer (≈ 200 MB).
+
+4)  Install Rtools
+
+Close R / RStudio.
+Run the downloaded installer.
+When prompted, tick “Add Rtools to system PATH.”
+Accept the default install path (C:\rtools45, C:\rtools44, …).
+Finish the installation (it may take a minute).
+
+5)  Verify the installation
+
+After installation open a new R session (or reboot) and run:
+
+```{r}
+Sys.which("make")
+#>                  make 
+#> "C:\\rtools45\\usr\\bin\\make.exe"   # or rtools44 / rtools43
+```
+
