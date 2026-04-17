@@ -3,8 +3,7 @@
 ## Comments - used to add notes or details to code using the pound/number/hash-tag symbol (#)
 ## Running code - highlight lines (chunk) then command/return or control/enter
 ## You need to update the parts of the codes provided that have ALL CAPS or question marks (?)
-## To create a new pipe(%>%) use Shift+Command+M (Mac) or Shift+Control+M (PC)
-________________________________________________________________________________
+## To create a new pipe(%>%) use Shift+Command+M (Mac) or Shift+Control+M #________________________________________________________________________________
 
 # ── STEP 1: R Project Folder ────────────────────────────────────────────
 # 🎯 Goal: Set up an R Project folder as the foundation for this workshop.
@@ -122,7 +121,7 @@ DF_NAME %>%
 
 table(summary_data$VAR)
 
-________________________________________________________________________________________________________________________________________
+#────────────────────────────────────────────────────────────────────────────────
 
 ####################################################
 # Using the psych::describe() package and function #
@@ -133,7 +132,7 @@ ________________________________________________________________________________
 
 psych::FUNCTION(summary_data %>% select_if(is.numeric))
 
-________________________________________________________________________________________________________________________________________
+#────────────────────────────────────────────────────────────────────────────────
 
 ###################################################
 # Using the janitor::tabyl() package and function #
@@ -148,7 +147,7 @@ summary_data %>%
 
 ## Now using pipes (%>%) and the various adorn functions, add column totals; row total; and change row names to "Age Groups"
 
-________________________________________________________________________________________________________________________________________
+#────────────────────────────────────────────────────────────────────────────────
 
 ############################################################### 
 # Using the rstatix::get_summary_stats() package and function #
@@ -161,7 +160,7 @@ summary_data %>%
   FUNCTION(age_years, wt_kg, ht_cm, bmi, temp, 
                     type = "common") 
 
-________________________________________________________________________________________________________________________________________
+#────────────────────────────────────────────────────────────────────────────────
 
 #################################################
 # Using the dplyr::count() package and function #
@@ -191,7 +190,7 @@ summary_data %>%
     percent = scales::percent(n / sum(n), 
                               accuracy = 0.1))
 
-________________________________________________________________________________________________________________________________________
+#────────────────────────────────────────────────────────────────────────────────
 
 #####################################################
 # using the dplyr::summarise() package and function #

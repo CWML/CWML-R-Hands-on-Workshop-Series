@@ -3,7 +3,7 @@
 ## Comments - used to add notes or details to code using the pound symbol (#)
 ## Running code - highlight lines then command/return or control/enter
 ## Using pipes (%>%) connects different R functions together; can run code between pipes as well
-________________________________________________________________________________
+#________________________________________________________________________________
 
 # ── STEP 1: R Project Folder ────────────────────────────────────────────
 # 🎯 Goal: Set up an R Project folder as the foundation for this workshop.
