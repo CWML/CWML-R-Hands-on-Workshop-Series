@@ -48,7 +48,7 @@ library(forcats)
 # HINT 1: folder name is "processed_data" and file name is "combined_linelist.csv"
 # HINT 2: use the structure written below
 
-data <- import(here("processed_data", "_.csv"), setclass = "tbl")
+data <- import(here("processed_data", "combined_linelist.csv"), setclass = "tbl")
 
 # ── STEP  4: Inspect the raw data file ───────
 # Inspect data using str() and skim() functions
@@ -95,7 +95,7 @@ NEW_DF <- data #%>%
 
 str(summary_data)
 
-skim(DATA_FRAME_NAME)
+skim(summary_data)
 
 # ── STEP  6: descriptive tables ────────────────────────────────────────────────
 # Use the following functions to create descriptive tables for your data frame.
@@ -110,7 +110,7 @@ skim(DATA_FRAME_NAME)
 ## This code uses a mixture of base R and tidyverse logic
 ### HINT: we want to SELECT only NUMERIC variables for the SUMMARY() function
 
-DF_NAME %>% 
+summary_data %>% 
   FUNCTION(age_years, wt_kg, ht_cm, bmi, temp) %>% 
   FUNCTION()
 
@@ -173,7 +173,7 @@ summary_data %>%
 ## To get a cross tabulation, add another non-numeric variable within count() - for example you can use "outcome"
 ## HINT1: Separate the variables in count() using a comma (,)
 summary_data %>% 
-  count(age_cat, ADD_MISSING)
+  count(age_cat, ADD_VARIABLE_HERE)
 
 # Use mutate() to create a new variable called percent and scales() from the Scales Package to calculate percentages
 ## Run this code to see what happens
@@ -245,8 +245,6 @@ summary_data %>%
   )
 
 
-
-
 #──── Step 7: Time to make plots! ────────────────────────────────────────────────────────────────────
 # I will give you the basic code and you will build the plots up based on the details in the comments
 # Just use copy/paste to add the details below each plot type and see how it changes the plot
@@ -257,27 +255,40 @@ summary_data %>%
 # Histogram #
 #############
 
-## Fill in all the appropriate fields then run!
-## REMEBER: use the ggplot pipe (+) after each function combine the codes
-## Start with making a simple histogram for the variable wt_kg (VAR)
+## Fill in all the appropriate fields then run (control + enter)
+## Note1: The ggplot pipe (+) is added after each function to combine the codes
+## Note2: Just like the DPLYR pipe (%>%) code and be ran in between each pipe
 ## We will use summary_data as our DF
 
-ggplot(data = DF, mapping = aes(x = VAR)) + # set data and axes
+## Start with making a simple histogram
+## DF = summary_data and for 'the'x' we will use variable wt_kg (VAR)
+ggplot(data = DF_NAME, mapping = aes(x = VAR)) + # set data and axes
   geom_histogram() # display histogram
 
-## Let's add some details, copy/paste these lines in between the parentheses for geom_histogram() in the above code
-binwidth = 5,  # width of bins
-color = "red", # bin line color
-fill = "blue", # bin interior color
-alpha = 0.1    # bin transparency
+
+## Now we will build on our previous code using pipes and adding details inside the geom_histogram() function to make the histogram look nicer
+ggplot(data = summary_data, mapping = aes(x = wt_kg)) + # set data and axes
+  geom_histogram(binwidth = 5,  # width of bins
+                 color = "red", # bin line color
+                 fill = "blue", # bin interior color
+                 alpha = 0.1    # bin transparency
+                 )
+
 
 ## Add some labels and some finishing touches with this code added to the above
-## HINT: add a plus sign '+' after the geom_histogram() function and then copy/paste this code below it
+## NOTE: A plus sign '+' is added after the geom_histogram() function to pipe the new code to the previous code
 
-labs(
-  title = "WRITE A TITLE HERE", 
-  subtitle = "WRITE A SUBTITLE HERE"
-) +
+ggplot(data = summary_data, mapping = aes(x = wt_kg)) + # set data and axes
+  geom_histogram(  # display histogram
+    binwidth = 5,  # width of bins
+    color = "red", # bin line color
+    fill = "blue", # bin interior color
+    alpha = 0.1    # bin transparency
+  ) +
+  labs(
+    title = "Distribution of Patient Ages", 
+    subtitle = "Histogram with 5-Year Bins"
+  ) +
   theme_minimal()
 
 
@@ -285,11 +296,15 @@ labs(
 # Scatter plots #
 #################
 
-## Now we will create a simple scatter plot along with dplyr's filter() to select only those with fever ("yes")
+## Now we will create a simple scatter plot 
+ggplot(data = DF_NAME, mapping = aes(x = age_years, y = wt_kg)) +
+  geom_point()
+
+## Now we will add dplyr's filter() function to select only those with fever ("yes")
 ## We will also add a comparison of age_years and wt_kg
 
-## Run this first code and see what happens
-ggplot(data = DF %>%  filter(fever == "yes"), 
+ggplot(data = summary_data %>%  
+         filter(fever == "yes"), 
        mapping = aes(x = age_years, y = wt_kg)) +
   geom_point() 
 
@@ -297,17 +312,29 @@ ggplot(data = DF %>%  filter(fever == "yes"),
 ## Now let's add color details using the BMI of each data point using the following code
 ## Copy/paste this line in aes() after "y = wt_kg"; don't for get to use a comma after wt_kg
 
-color = bmi
+ggplot(data = summary_data %>% 
+         filter(fever == "yes"), 
+       mapping = aes(x = age_years, y = wt_kg, color = VAR_NAME))  + 
+  geom_point() # display data as points
 
-## Next, add these details inside geom_point()
+## Next, add some details to the points using size and alpha (transparency) within the geom_point() function
 ## Once you do this and run it, you can change the numbers and re-run it and see what happens
 
+ggplot(data = summary_data %>% 
+         filter(fever == "yes"), 
+       mapping = aes(x = age_years, y = wt_kg, color = bmi)) +
+  geom_point( 
     size = 1,
-    alpha = 0.5
+    alpha = 0.5)
 
-## Finally, add this line to the end of the code and we'll see what happens
-## REMINDER: add a plus sign '+' on the line above this new line
+## Finally, add geom_smooth() to add a line of best fit to the scatter plot
 
+ggplot(data = summary_data %>% 
+         filter(fever == "yes"), 
+       mapping = aes(x = age_years, y = wt_kg, color = bmi)) +
+  geom_point( 
+    size = 1,
+    alpha = 0.5) +
   geom_smooth( method = "lm", size = 2, se = FALSE)
 
 ############
@@ -321,36 +348,90 @@ ggplot(data = summary_data, mapping = aes(y = age_years, x = gender, fill = gend
 
 ## what are some weird things you notice?
 ## Let's address this by:
+
+## Add filter() to remove "Unknown" values for gender
+## Add theme(leagend.position = "none") to remove the legend since we don't need it for this plot
+ggplot(data = summary_data %>% 
+         filter(gender != "Unknown"),
+       mapping = aes(y = age_years, x = gender, fill = gender)) +
+  geom_boxplot()+
+  theme(legend.position = "none")
+
+## Now add labs() to add a title and axis labels; you can make up your own title and labels
+
+ggplot(data = summary_data %>% 
+         filter(gender != "Unknown"),
+       mapping = aes(y = age_years, x = gender, fill = gender)) +
+  geom_boxplot() + 
+  labs(
+    title = "Age Distribution by Gender",
+    y = "Age (Years)",
+    x = "Gender"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+## Here, we will add stat_summary() to calcuate the mean and add it to the boxplot as a point
+## you can change the shape, size, and color of the point as well; run the code to see how it changes the plot
+
+ggplot(data = summary_data %>% filter(gender != "Unknown"),
+       mapping = aes(y = age_years, x = gender, fill = gender)) +
+  geom_boxplot() + 
+  labs(
+    title = "Age Distribution by Gender",
+    y = "Age (Years)",
+    x = "Gender"
+  ) + 
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    shape = 23, # Diamond shape
+    size = 3,
+    fill = "black"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+## Now I will show you a more complicated code for a detailed boxplot
+## Let's see what it gives us
+
+box_stats <- summary_data %>% # First create the summary statistics
+  group_by(gender) %>%
+  summarise(
+    Median = median(age_years, na.rm = TRUE),
+    Q1 = quantile(age_years, 0.25, na.rm = TRUE),
+    Q3 = quantile(age_years, 0.75, na.rm = TRUE)
+  )
+
+box_text <- box_stats %>% # Then create the text labels
+  mutate(
+    Label_Text = paste0(
+      "Median: ", round(Median, 1), "\n",
+      "Q1: ", round(Q1, 1), "\n",
+      "Q3: ", round(Q3, 1)
+    ),
+    # Set y to a consistent middle value (e.g., the median) for placement
+    y_pos = Median 
+  )
+
+ggplot(data = summary_data %>% filter(gender != "Unknown"), # Create the plot
+       mapping = aes(y = age_years, x = gender, fill = gender)) +
+  geom_boxplot(alpha = 0.7) +
   
-### first, adding this line to the above code after, data = summary_data  
-### HINT: paste in between summary_data an the comma (,)
-  %>% filter(gender != "Unknown")
-  
-### then, add this line to the above code after theme_minimal() to remove the legend 
-### HINT: add a plus sign '+' after theme_minimal() and then copy/paste this line below it
-theme(legend.position = "none")
+  geom_text(   # Use geom_text to place the entire block of text
+    data = box_text, 
+    aes(y = y_pos, label = Label_Text), 
+    x = as.numeric(factor(box_text$gender)) + 0.1, # Move label to the right of the box
+    hjust = 0, # Left-align the text block
+    vjust = -1.5,
+    size = 3.5, 
+    color = "darkslategray"
+  ) +
+  theme_minimal() +
+  labs(title = "Age Distribution with Summary Text Block", y = "Age (Years)", x = "Gender") +
+  theme(legend.position = "none")
 
 
-## Now add these labels to the boxplot
-## HINT: this goes under geom_boxplot()
-## REMEMBER: copy/paste these lines in the code above and use the plus sign
-labs(
-  title = "Age Distribution by Gender",
-  y = "Age (Years)",
-  x = "Gender"
-)
-
-## Now copy these new lines and paste them under the labels you just created
-## NOTE: try changing the numbers under "shape" and "size" and color under "fill" to see how it affects the plot
-stat_summary(
-  fun = mean,
-  geom = "point",
-  shape = PICK A NUMBER BETWEEN 0-25,
-  size = 3,
-  fill = "black"
-)
-
-## Now I will show you a demonstration of a more complicated code for a detailed boxplot
 
 ##############
 # Bar chart #
@@ -362,65 +443,166 @@ stat_summary(
 ## NOTE3: change everything back to what they were initially 
 
 ggplot(data = summary_data, mapping = aes(x = age_cat, fill = outcome)) +
-  geom_bar(position = "fill", color = "black", linewidth = 0.1) #+
+  geom_bar(position = "fill", color = "black", linewidth = 0.1)
 
 ## You can manually change the bar colors using, scale_fill_manual()
-## choose some colors then un-comment the plus sign ABOVE and run the whole code up to ggplot()
-scale_fill_manual(values = c("Death" = "CHOOSE A COLOR", 
-                             "Recover" = "CHOOSE A COLOR", 
-                             "Unknown" = "CHOOSE A COLOR")) #+
+ggplot(data = summary_data, mapping = aes(x = age_cat, fill = outcome)) +
+  geom_bar(position = "fill", color = "black", linewidth = 0.1) +
+  scale_fill_manual(values = c("Death" = "CHOOSE_A_COLOR", 
+                             "Recover" = "CHOOSE_A_COLOR", 
+                             "Unknown" = "CHOOSE_A_COLOR"))
 
 ## You can add titles and labels using lab() just like the previous plot examples
 ## Create you own labels and title and add to the above bar chart code
-## REMINDER: un-comment the plus sign ABOVE and run the whole code up to ggplot()
-labs(
-  title = "Outcome Proportion Across Age Categories",
-  subtitle = "The height of each color shows the percentage of that outcome within the age group.",
-  x = "Age Category",
-  y = "Proportion of Cases (100%)",
-  fill = "Outcome"
+
+ggplot(data = summary_data, mapping = aes(x = age_cat, fill = outcome)) +
+  geom_bar(position = "fill", color = "black", linewidth = 0.1) +
+  scale_fill_manual(values = c("Death" = "darkred", 
+                               "Recover" = "red", 
+                               "Unknown" = "blue")) +
+  labs(
+    title = "Outcome Proportion Across Age Categories",
+    subtitle = "The height of each color shows the percentage of that outcome within the age group.",
+    x = "Age Category",
+    y = "Proportion of Cases (100%)",
+    fill = "Outcome"
+  )
+
+## Add theme(axis.text.x = element_text(angle = 45, hjust = 1)) to rotate the x-axis labels so they don't overlap
+
+ggplot(data = summary_data, mapping = aes(x = age_cat, fill = outcome)) +
+  geom_bar(position = "fill", color = "black", linewidth = 0.1) +
+  scale_fill_manual(values = c("Death" = "darkred", 
+                               "Recover" = "red", 
+                               "Unknown" = "blue")) +
+  labs(
+    title = "Outcome Proportion Across Age Categories",
+    subtitle = "The height of each color shows the percentage of that outcome within the age group.",
+    x = "Age Category",
+    y = "Proportion of Cases (100%)",
+    fill = "Outcome"
   ) +
-theme_minimal() #+
-
-## Then add this line at the very end of your bar chart code to see how it changes
-## REMINDER: un-comment the plus sign ABOVE and run the whole code up to ggplot()
-theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-## Now I will demonstrate a couple of other graphs
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ##################
 # Facet examples #
 ##################
 
-## First run this code to make a bar chart
-## NOTE: we begin by filtering out "Unknown" values from the variables we will use to make the facets look cleaner
+# Use facet_wrap to make a bar chart that shows the proportions based on specific variables
+
+## this is an example of a bar chart with a facet_wrap uing variable gender
 ggplot(summary_data %>% 
+         # Filter out "Other/Unknown" from the hospital_name column
          filter(hospital_name != "Other/Unknown") %>%
+         # Filter out "Unknown" from the outcome column
          filter(outcome != "Unknown") %>%
+         # --- ADDED FILTER STEP FOR GENDER ---
          filter(gender != "Unknown") %>%
          drop_na(hospital_name, outcome, gender)) +
+  
+  # 1. Bar Geometry: Use position="fill" for 100% proportional stacking
   geom_bar(aes(y = fct_rev(forcats::fct_infreq(hospital_name)), 
                fill = outcome), 
            width = 0.7, 
            color = "black", 
            linewidth = 0.1,
-           position = "fill") 
-
-
-## We are going to make facets by gender using this one line
-## HINT: add a plus sign to after the geom_bar() function then run the code up from facet_wrap() to ggplot()
-facet_wrap(~ VAR) 
-
-## Then you can add the other functions we discussed earlier
-scale_fill_manual(values = c("Death" = "firebrick", 
-                             "Recover" = "seagreen")) +
+           position = "fill") + 
+  
+  # 2. Add Faceting by Gender (now only showing known genders)
+  facet_wrap(~ gender) +
+  
+  # 3. Only define colors for the two remaining outcomes
+  scale_fill_manual(values = c("Death" = "firebrick", 
+                               "Recover" = "seagreen")) +
+  
   theme_minimal() +
   theme(legend.position = "bottom") +
-  labs(title = "TITLE",
-       subtitle = "SUBTITLE",
-       y = "Y-AXIS",
-       x = "X-AXIS",
+  
+  labs(title = "Proportion of Case Outcomes by Hospital, Faceted by Gender (Known Cases)",
+       subtitle = "Unknown outcomes, 'Other/Unknown' hospitals, and Unknown genders are excluded.",
+       y = "Hospital Name",
+       x = "Proportion of Cases (100%)",
        fill = "Outcome")
+
+## Facet for box plot by variable outcome
+
+# 1. UPDATE SUMMARY DATA: Group by BOTH gender AND outcome
+box_stats_faceted <- summary_data %>%
+  # Filter data first for cleaner summaries and faster calculation
+  filter(gender != "Unknown" & outcome != "Unknown") %>%
+  group_by(gender, outcome) %>% # <-- NEW: Group by both variables
+  summarise(
+    Median = median(age_years, na.rm = TRUE),
+    Q1 = quantile(age_years, 0.25, na.rm = TRUE),
+    Q3 = quantile(age_years, 0.75, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# 2. UPDATE TEXT LABELS: Create text block for each gender/outcome combination
+box_text_faceted <- box_stats_faceted %>%
+  mutate(
+    Label_Text = paste0(
+      "Median: ", round(Median, 1), "\n",
+      "Q1: ", round(Q1, 1), "\n",
+      "Q3: ", round(Q3, 1)
+    ),
+    y_pos = Median
+  )
+
+# 3. CREATE THE FACETED PLOT
+ggplot(data = summary_data %>% filter(gender != "Unknown" & outcome != "Unknown"), # Filter data for plot
+       mapping = aes(y = age_years, x = gender, fill = gender)) +
+  
+  geom_boxplot(alpha = 0.7) +
+  
+  # Use geom_text to place the entire block of text
+  # We must use 'group' or 'x' mapping to position the labels correctly within each facet.
+  geom_text(
+    data = box_text_faceted,
+    aes(y = y_pos, label = Label_Text, group = gender), # Add 'group' to ensure correct mapping
+    x = as.numeric(factor(box_text_faceted$gender)) + 0.1,
+    hjust = 0,
+    vjust = -2,
+    size = 3,
+    color = "darkslategray"
+  ) +
+  
+  # <-- NEW: Add Facet Layer -->
+  facet_wrap(~ outcome) +
+  
+  theme_minimal() +
+  labs(title = "Age Distribution by Gender, Faceted by Outcome", 
+       subtitle = "Displaying Median, Q1, and Q3 values (Excluding Unknowns)",
+       y = "Age (Years)", 
+       x = "Gender") +
+  theme(legend.position = "none")
+
+## Facet for histogram by hospital name
+
+# You may want to filter out the 'Other/Unknown' hospital for cleaner facets
+ggplot(data = summary_data %>% filter(hospital_name != "Other/Unknown"), 
+       mapping = aes(x = wt_kg)) +
+  
+  # Add Facet Layer
+  facet_wrap(~ hospital_name) +
+  
+  geom_histogram(
+    binwidth = 5,
+    color = "red",
+    fill = "blue",
+    alpha = 0.5 # Increased alpha for better visibility in smaller facets
+  ) +
+  
+  labs(
+    title = "Distribution of Patient Weight (wt_kg) by Hospital", # Updated Title
+    subtitle = "Histogram with 5 kg Bins, Faceted by Hospital Name", # Updated Subtitle
+    x = "Weight (kg)",
+    y = "Count"
+  ) +
+  
+  theme_minimal()
+
 
 
 
