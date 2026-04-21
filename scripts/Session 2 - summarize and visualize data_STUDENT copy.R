@@ -40,6 +40,11 @@ library(stringr)
 library(ggforce)
 library(forcats)
 
+# install.packages("pacman")  # run once if needed
+
+#pacman::p_load(tidyverse, magrittr, here, readr, janitor, openxlsx, rio, skimr, gtsummary, rstatix, scales, flextable, officer, psych, stringr, ggforce, forcats)
+
+
 # ── STEP 3: Import Data ───────────────────────────────────────────────────────────────────
 # Import the combined_linelist.csv data file from the processed_data folder in your project
 #───────────────────────────────────────────────────────────────────────────────────────────

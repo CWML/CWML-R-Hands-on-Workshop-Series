@@ -3,12 +3,17 @@ title: "READ.ME"
 author: "Max Wegener"
 date: "`r Sys.Date()`"
 output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
-Windows users – installing Rtools (required for compiling R packages)
+# Windows users – installing Rtools (required for compiling R packages)
 
-Some R packages are available only as source code.
-On Windows you need Rtools (a collection of compilers and build utilities) so that R can install those packages. macOS and Linux already ship suitable build tools; Windows does not.
+Some R packages are available only as source code. On Windows you need
+Rtools (a collection of compilers and build utilities) so that R can
+install those packages. macOS and Linux already ship suitable build
+tools; Windows does not.
 
 1)  Do I already have Rtools?
 
@@ -17,40 +22,38 @@ In a fresh R or RStudio session run:
 ```{r}
 Sys.which("make")
 ```
-• If you get a blank result (""), R cannot find make ⇒ Rtools is missing.
-• If you see a full path containing rtools…\usr\bin\make.exe, you’re all set! NO NEED TO GO ANY FURTHER!
+
+-   If you get a blank result (""), R cannot find make ⇒ Rtools is
+    missing. • If you see a full path containing
+    rtools…\usr\bin\make.exe, you’re all set! NO NEED TO GO ANY FURTHER!
 
 2)  Find the Rtools version that matches your R
 
 Check your R version:
+
 ```{r}
 R.version.string
 ```
 
-Your R version	Install this Rtools
-4.5.x	Rtools45
-4.4.x	Rtools44
-4.3.x	Rtools43
-4.2.x	Rtools42 (no longer needed if you upgraded R)
+-   Your R version Install this Rtools 4.5.x Rtools45 4.4.x Rtools44
+    4.3.x Rtools43 4.2.x Rtools42 (no longer needed if you upgraded R)
 
 3)  Download Rtools
 
-Go to
-https://cran.r-project.org/bin/windows/Rtools/
-Click the folder for your version (e.g. rtools43 for 4.3; rtools44 for 4.4; rtools45 for 4.5).
-Download the .exe installer (≈ 200 MB).
+-   Go to <https://cran.r-project.org/bin/windows/Rtools/> Click the
+    folder for your version (e.g. rtools43 for 4.3; rtools44 for 4.4;
+    rtools45 for 4.5). Download the .exe installer (≈ 200 MB).
 
 4)  Install Rtools
 
-Close R / RStudio.
-Run the downloaded installer.
-When prompted, tick “Add Rtools to system PATH.”
-Accept the default install path (C:\rtools45, C:\rtools44, …).
-Finish the installation (it may take a minute).
+-   Close R / RStudio. Run the downloaded installer. When prompted, tick
+    “Add Rtools to system PATH.” Accept the default install path
+    (C:\rtools45, C:\rtools44, …). Finish the installation (it may take
+    a minute).
 
 5)  Verify the installation
 
-After installation open a new R session (or reboot) and run:
+-   After installation open a new R session (or reboot) and run:
 
 ```{r}
 Sys.which("make")
@@ -58,3 +61,188 @@ Sys.which("make")
 #> "C:\\rtools45\\usr\\bin\\make.exe"   # or rtools44 / rtools43
 ```
 
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Mac users – installing gfortran and Xcode Command Line Tools (required for compiling R packages)
+
+-   macOS users – installing gfortran (required for compiling R
+    packages)
+
+-   Some R packages require a Fortran compiler to install from source.
+
+-   macOS does not include one by default.
+
+-   You need to install gfortran manually and the version must match
+    your R version.
+
+1.  Do I already have gfortran?
+
+In a fresh R or RStudio session run:
+
+```{r}
+Sys.which("gfortran") 
+```
+
+-   If you get a blank result (""), gfortran is missing ⇒ you need to
+    install it.
+
+-   If you see a path like /opt/gfortran/bin/gfortran, you're all set!
+    NO NEED TO GO ANY FURTHER!
+
+2.  Find the gfortran version that matches your R Check your R version:
+
+-   Look at the top of the R console window OR
+
+-   copy/paste this into your terminal
+
+```{plaintest}
+R.version.string 
+```
+
+-   If your R version is 4.5.x Install gfortran
+
+-   If your R version is 4.3 to 4.4.x install gfortran 12.2
+
+-   If you R version is older then no need to install gfortran
+
+3.  Download gfortran
+
+-   <https://mac.r-project.org/tools/gfortran-12.2-universal.pkg>
+
+-   <https://mac.r-project.org/tools/gfortran-14.2-universal.pkg>
+
+4.  Install gfortran
+
+-   Close R / RStudio.
+
+-   Double-click the downloaded .pkg file.
+
+-   Follow the installer prompts and accept the default install path.
+    Enter your Mac password when prompted. Finish the installation.
+
+5.  Verify the installation After installation open a new R or RStudio
+    session and run:
+
+```{plaintext}
+Sys.which("gfortran") 
+#\> gfortran 
+#\> "/opt/gfortran/bin/gfortran" 
+```
+
+-   If you see the path above, gfortran is installed correctly ✅
+
+-   If you still get a blank result, try restarting your Mac and running
+    again.
+
+6.  One more check - verify R and gfortran are in sync
+
+-   Run this in R:
+
+```{plaintext}
+system("gfortran --version") 
+```
+
+You should see output like:
+
+```{plaintext}
+GNU Fortran (GCC) 14.2.0 # if you are on R 4.5 
+GNU Fortran (GCC) 12.2.0 # if you are on R 4.4 or 4.3 
+```
+
+-   If the version number does not match your R version, you have the
+    wrong gfortran installed and need to download the correct version
+    from <https://mac.r-project.org/tools/>
+
+-   macOS users – fixing missing C++ header files (required for
+    compiling R packages)
+
+If you see errors like these when installing packages:
+
+```{plaintext}
+fatal error: 'cmath' file not found 
+fatal error: 'cstdlib' file not 
+found fatal error: 'cstring' file not found 
+```
+
+This means your Xcode Command Line Tools are missing or out of date.
+This is common after a macOS upgrade.
+
+a.  Do I have this problem?
+
+In R run:
+
+```{plaintext}
+system("xcode-select -p")
+```
+
+-   If you get an error or a blank result ⇒ Command Line Tools are
+    missing. • If you see /Library/Developer/CommandLineTools ⇒ they are
+    installed. NO NEED TO GO ANY FURTHER!
+
+b.  Fix the problem Close R and RStudio completely. Open the Mac
+    Terminal application and run these commands one at a time:
+
+### Step 1 - Remove the old Command Line Tools:
+
+```{bash}
+sudo rm -rf /Library/Developer/CommandLineTools 
+```
+
+-   You will be prompted for your Mac password.
+-   Type it and press Enter (you will not see the password as you type -
+    this is normal).
+
+### Step 2 - Reinstall the Command Line Tools:
+
+```{bash}
+xcode-select --install 
+```
+
+-   A popup window will appear.
+-   Click Install and wait for it to finish.
+-   **This may take 5 to 10 minutes depending on your internet
+    connection**
+
+### Step 3 - Verify the installation was successful:
+
+```{bash}
+xcode-select -p 
+```
+
+-   You should see:
+
+```{plaintext}
+/Library/Developer/CommandLineTools
+```
+
+a.  Try renv again
+
+-   Once the Command Line Tools are installed, reopen RStudio and run:
+
+```{r}
+renv::restore() 
+```
+
+### ⚠️ Note for macOS beta users:
+
+If you are running a beta version of macOS, package compilation errors
+are more likely because R and its tools may not yet be fully compatible
+with the newest macOS releases. If you continue to have problems after
+reinstalling the Command Line Tools, the most reliable solution is to
+use the stable (non-beta) release of macOS.
+
+### 🔑 Quick Reference Card
+
+Your Setup R Version Need
+
+Windows 4.5.x = Rtools45
+
+Windows 4.4.x = Rtools44
+
+Windows 4.3.x = Rtools43
+
+Mac 4.5.x = gfortran 14.2
+
+Mac 4.4.x or 4.3.x = gfortran 12.2
+
+Mac (any version) = any Xcode Command Line Tools

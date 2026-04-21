@@ -36,6 +36,10 @@ library(openxlsx)
 library(rio)
 library(skimr)
 
+# install.packages("pacman")  # run once if needed
+
+# pacman::p_load(tidyverse, magrittr, here, readr, janitor, openxlsx, rio, skimr, gtsummary, rstatix, scales, flextable, officer, psych, stringr, ggforce, forcats)
+
 # ── STEP 3: Importing data ─────────────────────────────────────────────
 # 🎯 Goal: Read the raw dataset (linelist_raw.xlsx) into R and assign it
 #    to a data frame. You will use import() from the rio package paired
