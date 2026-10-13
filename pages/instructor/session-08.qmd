@@ -1,0 +1,55 @@
+---
+title: "Instructor notes: Session 8"
+subtitle: "Programming — Functions, if/else, Loops, and Iteration"
+---
+
+[→ Open the Session 8 lesson](../lessons/08-programming.qmd)
+
+## Timing
+
+| Part | Topic | Time (incl. TRY IT) |
+|------|-------|---------------------|
+| 1 | Set up | 5 min |
+| 2 | Writing your first function | 15 min |
+| 3 | Functions that use data | 15 min |
+| 4 | `if` / `else` | 14 min |
+| 5 | `for` loops | 18 min |
+| 6 | Iteration the tidyverse way: `map()` and `walk()` | 13 min |
+|   | Wrap-up | 5 min |
+|   | **Total** | **85 min** |
+
+**Short on time?** Demo `walk()` but make the Part 6 TRY IT homework — part (b) just repeats the Part 5 district loop. Don't cut the Part 5 loop: it is the payoff of the session.
+
+## Before you start
+
+-   This session is **optional / advanced**: it builds on everything before it, especially vectors and subsetting (Session 4) and plotting (Sessions 6–7).
+-   Learners need `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds` (saved in Session 3; ready-made copies are in `processed_data/`), and an `outputs/` folder for the saved plots.
+-   Learners open `scripts/Session 8 - Programming_STUDENT.R`. The filled-in script is `solutions/Session 8 - Programming_SOLUTIONS.R`.
+-   Sticky notes as usual: green = done with the TRY IT, red = need help.
+
+## Teaching notes by part
+
+**The motivating example.** Keep returning to it: *"Your manager wants an epidemic curve for every hospital, every week."* By the end, one loop does it.
+
+**Part 2 — Writing your first function.** Show that a function only exists after you run the whole block — it then appears in the **Variables** pane. When you change a function, re-run the block, or R keeps using the old version. Point out that `c_to_f()` is vectorized because the maths inside is, so it works inside `mutate()`. The `f_to_c(104.7)` result (40.4) is the Fahrenheit temperature learners found in the measles data in Session 1.
+
+**Part 3 — Functions that use data.** Point out that `pct()` replaces the `round(mean(...) * 100, 1)` learners wrote over and over in Session 5, and that `paste("Weekly cases:", hospital)` gives every plot the right title. In the TRY IT, watch for learners naming the argument `district`: then `filter(district == district)` compares the column with itself and keeps every row — no error, just the wrong answer (n = 1163 instead of 342). That's why the argument is called `district_name`. The lesson page has this as a warning box.
+
+**Part 4 — `if` / `else`.** Run `fever_status(c(39.2, 36.9))` live so learners see the error "the condition has length > 1": `if` asks one yes/no question. Then switch to the vectorized `if_else()` from Session 2. Present `stop()` input checks as where `if` really shines. (Both error chunks are deliberate; the lesson page shows the errors.)
+
+**Part 5 — `for` loops.** Stress that inside a loop nothing prints automatically (`print()`), and that results need a container created **before** the loop. In the payoff loop, point out `make_clean_names()` turning "St. Mark's Maternity Hospital" into `st_marks_maternity_hospital` and `paste0()` building the file name: six files, one loop — and next week you just re-run it. Have learners check the **Explorer** for the new files in `outputs/`. Remind them that `mutate()`, `group_by()` + `summarise()`, and `across()` already loop for them; a `for` loop is for repeating a **whole task**.
+
+**Part 6 — `map()` and `walk()`.** Point out that a data frame is a list of columns, so `map_dbl()` runs once per column, and that `~ .x` is the same shorthand they used with `across()` in Session 3. Loop or `map()`? Both are fine — tell learners to use the one they can read.
+
+**Wrap-up.** Today: `function()`, arguments and defaults, `if`/`else`, `stop()`, `if_else()`, `for` loops, `map()`, `map_dbl()`, `walk()`. The big idea: write it once, run it many times — a function plus a loop (or `walk()`) turns an hour of copy-paste into one line you can re-run every week. Where to go next: [R for Data Science](https://r4ds.hadley.nz/) (functions and iteration chapters) and [The Epidemiologist R Handbook](https://epirhandbook.com/).
+
+## TRY IT answers at a glance
+
+| TRY IT | Answer |
+|---|---|
+| Import the measles data | `measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE)` — 1163 rows, 14 columns |
+| Fahrenheit to Celsius | `f_to_c(98.6)` is 37; `f_to_c(104.7)` is 40.4 |
+| Measles functions | a) East has the highest rate, 22.8 per 10,000; b) `district_summary(measles, "North")`: n = 342, 25.7% vaccinated |
+| Fever status | a) `fever_status_one(38.5)` is `"fever"`; b) 1015 "fever", 148 "no fever" |
+| One epicurve per district | Five files: `measles_central.png`, `measles_east.png`, `measles_north.png`, `measles_south.png`, `measles_west.png` |
+| Map and walk | a) 8.75, 38.82, 4.94; b) the same five files |

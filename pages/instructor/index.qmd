@@ -1,0 +1,66 @@
+---
+title: "Instructor Guide"
+subtitle: "How to run the R Hands-on Workshop Series"
+---
+
+This guide is for anyone teaching the workshop. The [lessons](../lessons/01-setup-and-first-look.qmd) contain everything learners see; the pages here add timing, teaching notes, and answers to the questions to ask the class.
+
+## The teaching rhythm
+
+Every part of every lesson follows the same three steps:
+
+1.  **👀 Follow along** — you live-code the new skill on the workshop dataset (the outbreak linelist). Learners type the same code into their student script.
+2.  **✏️ TRY IT** — learners immediately do the same thing on the practice dataset (the measles outbreak). Each TRY IT takes 1–10 minutes and has a ✅ Check so learners know they got it right.
+3.  **Show the answer** (or ask a learner to show theirs), then move on.
+
+This is the approach used by [The Carpentries](https://carpentries.org/): short demonstrations followed straight away by practice, so problems surface while they are still easy to fix.
+
+## Live coding tips
+
+-   **Type, don't paste.** Learners need to see code being written — and your typos and fixes are useful teaching moments.
+-   **Go slower than feels natural**, and say what you're typing as you type it.
+-   **Use a big font** (Positron: **View → Appearance → Zoom In**, or Cmd/Ctrl + `+`) and a light color theme for the projector.
+-   **Run every line** and talk about the output before moving on.
+-   **Read errors out loud** and fix them together — learners will meet the same errors.
+
+## Sticky notes and helpers
+
+-   Give every learner a **green** and a **red** sticky note.
+    -   **Green** on the laptop = "I'm done with the TRY IT"
+    -   **Red** = "I need help"
+-   Start the answer when most notes are green. Helpers go to red notes first.
+-   Aim for **one helper for every 8–10 learners**. Helpers don't need to be experts — they need to have done the lesson.
+-   Early finishers can work on the ⭐ BONUS at the end of each lesson.
+
+## Before the workshop
+
+-   **One week before:** send learners the link to the [Setup](../setup.qmd) page and ask them to run the test at the end. Ask anyone who sees an error to contact you before the first session.
+-   **Before each session:** remind learners to open the workshop **folder** in Positron (File → Open Recent) and to run that session's test (on the Setup page).
+-   Have a few copies of the workshop folder on a USB stick, in case of network problems.
+
+## Session overview
+
+| Session | Lesson | Time | Starts from |
+|---|---|---|---|
+| 1 | [Setup and a first look at your data](session-01.qmd) | 95 min | `raw_data/` |
+| 2 | [Cleaning](session-02.qmd) | 90 min | `raw_data/` |
+| 3 | [Missing data, joins, and export](session-03.qmd) | 87 min | `processed_data/linelist_clean.rds` |
+| 4 | [Data structures](session-04.qmd) | 86 min | `processed_data/combined_linelist.rds` |
+| 5 | [Summarizing](session-05.qmd) | 92 min | `processed_data/combined_linelist.rds` |
+| 6 | [Plotting basics](session-06.qmd) | 87 min | `processed_data/combined_linelist.rds` |
+| 7 | [Plotting further](session-07.qmd) | 87 min | `processed_data/combined_linelist.rds` |
+| 8 | [Programming](session-08.qmd) *(optional)* | 85 min | `processed_data/combined_linelist.rds` |
+
+Each session is planned for about 90 minutes including the TRY ITs. Real sessions with beginners often run long, so each session page lists what to cut if you're short on time.
+
+Every session starts from a file that is already in the repository, so learners who missed the previous session can still join.
+
+## The materials
+
+| Folder | What's in it |
+|---|---|
+| `pages/lessons/` | The lesson pages on this website (the source `.qmd` files) |
+| `scripts/` | Student scripts: notes, Pattern lines, and TRY ITs with space to type |
+| `solutions/` | The student scripts with every answer filled in |
+| `raw_data/` | The workshop and practice datasets |
+| `instructor scripts/make_practice_data.R` | Recreates the measles practice data exactly (kept out of the public repository) |

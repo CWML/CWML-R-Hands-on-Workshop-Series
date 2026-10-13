@@ -1,0 +1,596 @@
+---
+title: "Session 2: Cleaning Your Data"
+subtitle: "Column names, fixing types and values, recoding categories, new variables, and saving clean data"
+---
+
+::: downloads
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%202%20-%20Cleaning_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%202%20-%20Cleaning_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+:::
+
+::: callout-note
+## In this session you will learn to
+
+1.  Standardize column names with `clean_names()` and rename columns with `rename()`
+2.  Fix column types (dates, numbers) with `mutate()`
+3.  Fix values with `if_else()` and `case_when()`
+4.  Create new variables (BMI, age groups)
+5.  Combine every cleaning step into one pipeline and save the result
+
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 2 - Cleaning_STUDENT.R`. Today starts from the raw files, `raw_data/linelist_raw.xlsx` and `raw_data/measles_raw.csv`, and works through the problem lists you wrote at the end of [Session 1](01-setup-and-first-look.qmd). If you fall behind, ready-made copies of today's results (`linelist_clean.rds` and `measles_clean.rds`) are in `processed_data/`.
+:::
+
+You will build **two** cleaned datasets side by side: `linelist_clean` in the Follow along code, and `measles_clean` in the TRY ITs.
+
+# Part 1: Set up and recall the problem list
+
+Every session starts the same way: open the project, load packages, import data.
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+library(skimr)
+
+linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
+hosp_info    <- import(here("raw_data", "hosp_info.txt"))
+```
+
+The problem list from Session 1 is today's to-do list:
+
+| \# | Problem                                                            | Fixed in |
+|----|--------------------------------------------------------------------|----------|
+| 1  | Column names have spaces, dots, and capitals                       | Part 2   |
+| 2  | Date columns are different types                                   | Part 3   |
+| 3  | `age` is text, and 37 ages are in months                           | Parts 3–4 |
+| 4  | Hospital names are misspelled or inconsistent                      | Part 5   |
+| 5  | Gender and outcome have missing values                             | Session 3 |
+| 6  | Impossible weights and heights                                     | Parts 4, 6 |
+| 7  | 130 rows have no Case ID                                           | Session 3 |
+| 8  | 25 rows are duplicates                                             | Session 3 |
+
+::: callout-important
+## Never edit the raw data file
+
+All fixes happen in code. The raw file stays exactly as it arrived, so anyone can re-run your script and get the same result.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (1 min): import the practice data
+
+Import `raw_data/measles_raw.csv` and call it `measles_raw`.
+
+✅ **Check:** in the **Variables** pane, `measles_raw` shows 1215 rows and 11 columns
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_raw <- import(here("raw_data", "measles_raw.csv"))
+```
+:::
+:::
+
+# Part 2: Column names
+
+## `clean_names()`
+
+One function (from janitor) makes every name lower case, replaces spaces and dots with `_`, and removes symbols. `"Case ID"` becomes `case_id` — after this, you never need backticks again!
+
+```{r}
+names(linelist_raw)
+
+linelist_clean <- linelist_raw %>%
+  clean_names()
+
+names(linelist_clean)
+```
+
+## `rename()`
+
+`rename(new_name = old_name)` — the **new** name goes on the left.
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  rename(
+    date_of_infection = infection_date,
+    onset_date        = date_onset,
+    hospital_date     = hosp_date
+  )
+
+names(linelist_clean)
+```
+
+::: callout-tip
+## One step at a time
+
+We build the clean data step by step. Each step takes the current version, changes one thing, and saves it back with `<-`:
+
+`linelist_clean <- linelist_clean %>% STEP()`
+
+If your object gets into a bad state, re-run from the first step (`linelist_clean <- linelist_raw %>% clean_names()`). In Part 7 we put all the steps into one pipeline.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (2 min): clean the measles column names
+
+Create `measles_clean` from `measles_raw` with `clean_names()`. What did `` `Temp (C)` `` and `` `Vaccinated?` `` turn into?
+
+✅ **Check:** `names(measles_clean)` includes `"temp_c"` and `"vaccinated"`
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_clean <- measles_raw %>%
+  clean_names()
+
+names(measles_clean)
+```
+
+`` `Temp (C)` `` became `temp_c` and `` `Vaccinated?` `` became `vaccinated`: the parentheses and the `?` are removed, and the space becomes `_`.
+:::
+:::
+
+# Part 3: Fixing types with `mutate()`
+
+`mutate()` creates a new column or overwrites an existing one: `mutate(column = what_to_put_in_it)`. Use the same name to overwrite a column; a new name to add one.
+
+## Dates
+
+`as.Date()` converts text or date-times to dates.
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(
+    date_of_infection = as.Date(date_of_infection),
+    onset_date        = as.Date(onset_date),
+    hospital_date     = as.Date(hospital_date),
+    date_of_outcome   = as.Date(date_of_outcome)
+  )
+
+linelist_clean %>% select(date_of_infection:date_of_outcome) %>% glimpse()
+```
+
+::: callout-note
+## Dates written in other formats
+
+`as.Date()` expects year-month-day (`"2014-05-13"`). For other formats, the **lubridate** package (part of the tidyverse) has functions named after the order: `dmy("13/05/2014")`, `mdy("05/13/2014")`, `ymd("2014-05-13")`.
+:::
+
+## Numbers stored as text
+
+`as.numeric()` turns text like `"56"` into the number 56. Text that isn't a number (like `"unknown"`) becomes `NA`, and R warns you: *"NAs introduced by coercion"*. That warning is fine **if** you expected it.
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(age = as.numeric(age))
+
+class(linelist_clean$age)
+```
+
+::: callout-warning
+## Common mistakes
+
+-   Forgetting the `<-` at the start: the result prints in the Console but isn't saved.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): fix the measles types
+
+In `measles_clean`:
+
+a)  make `report_date` a date with `as.Date()`
+b)  make `age_years` a number with `as.numeric()`. Which values became `NA`?
+
+✅ **Check:** `summary(measles_clean$age_years)` shows a maximum of 999. Suspicious!
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_clean <- measles_clean %>%
+  mutate(
+    report_date = as.Date(report_date),
+    age_years   = as.numeric(age_years)   # "unknown" becomes NA (the warning is expected)
+  )
+
+summary(measles_clean$age_years)
+```
+
+The 27 `"unknown"` ages became `NA` — that is what the warning is about. A maximum age of 999 is not a real age; we fix it in the next part.
+:::
+:::
+
+# Part 4: Fixing values with `if_else()`
+
+`if_else(condition, value_if_TRUE, value_if_FALSE)` checks every row and fixes the values that meet one condition.
+
+## Ages in months → years
+
+"If the unit is months, divide by 12; otherwise keep the age."
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(age_years = if_else(age_unit == "months", age / 12, age))
+
+linelist_clean %>%
+  filter(age_unit == "months") %>%
+  select(age, age_unit, age_years) %>%
+  head()
+```
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: what would have happened in later analyses if we had skipped this step?
+
+A 6-month-old baby would be counted as 6 years old. All 37 ages recorded in months would be too old, which would shift the age groups and the average age.
+:::
+
+## Impossible values → missing
+
+Weights of zero or below are impossible. Instead of deleting the whole row (and losing the patient's age, outcome, and dates), we replace only the bad value with `NA`.
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(wt_kg = if_else(wt_kg <= 0, NA, wt_kg))
+
+summary(linelist_clean$wt_kg)
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): 999 and Fahrenheit
+
+In `measles_clean`:
+
+a)  999 is a code for "unknown": replace `age_years` of 999 with `NA`
+b)  temperatures above 45 were entered in Fahrenheit. Convert them: Celsius = (Fahrenheit − 32) × 5 / 9, rounded to 1 decimal with `round(..., 1)`
+
+✅ **Check:** `summary()` shows `age_years` max 52 and `temp_c` max 40.9
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_clean <- measles_clean %>%
+  mutate(
+    age_years = if_else(age_years == 999, NA, age_years),
+    temp_c    = if_else(temp_c > 45, round((temp_c - 32) * 5 / 9, 1), temp_c)
+  )
+
+summary(measles_clean$age_years)
+summary(measles_clean$temp_c)
+```
+
+The four 999s are now `NA` (31 missing ages in total), and the 27 Fahrenheit temperatures are now in °C, so every temperature is between 36 and 40.9.
+:::
+:::
+
+# Part 5: Recoding categories with `case_when()`
+
+`case_when()` is `if_else()` for **many** conditions. R checks each line in order and uses the first one that is TRUE:
+
+```
+case_when(
+  condition_1 ~ new_value_1,
+  condition_2 ~ new_value_2,
+  .default    = value_for_everything_else
+)
+```
+
+## Gender
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(gender = case_when(
+    gender == "m" ~ "male",
+    gender == "f" ~ "female"
+  ))
+
+linelist_clean %>% count(gender)
+```
+
+Any row that matches no condition becomes `NA` — here, that is the rows that were already missing.
+
+## Hospital names (using the look-up table)
+
+```{r}
+hosp_info
+linelist_clean %>% count(hospital)
+```
+
+`str_detect(column, "pattern")` is TRUE when the text **contains** the pattern, so one line catches every misspelling. `|` means "or".
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(hospital_name = case_when(
+    str_detect(hospital, "Central")           ~ "Central Hospital",
+    str_detect(hospital, "Military|Mitylira") ~ "Military Hospital",
+    str_detect(hospital, "Regional")          ~ "Regional Medical center",
+    str_detect(hospital, "Mark")              ~ "St. Mark's Maternity Hospital",
+    str_detect(hospital, "HMO")               ~ "HMO Health",
+    str_detect(hospital, "Premier")           ~ "Premiere Health",
+    .default = "Other/Unknown"
+  ))
+
+# Check: every old value next to its new value
+linelist_clean %>% count(hospital, hospital_name)
+```
+
+::: callout-note
+## Other useful text functions (stringr)
+
+`str_to_lower()`, `str_to_upper()`, `str_to_title()` change capitalization (`str_to_title("north")` gives `"North"`) · `str_trim()` removes extra spaces · `str_replace(x, "old", "new")` replaces text. You may need these for the TRY ITs!
+
+To check for any of several exact values, use `%in%`: `sex %in% c("Male", "male", "M")`.
+:::
+
+::: callout-warning
+## Common mistakes
+
+-   Use `~` (tilde), not `=`, between the condition and the new value
+-   Put a comma after each line **except** the last
+-   Check every recode with `count(old_column, new_column)`
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): sex and vaccinated
+
+In `measles_clean`, recode
+
+-   `sex`: Male / male / M → `"male"`, Female / female / F → `"female"`
+-   `vaccinated`: Yes / yes / Y → `"Yes"`, No / no / N / NO → `"No"`, Unknown → `"Unknown"`
+
+Pattern: `COLUMN %in% c("VALUE_1", "VALUE_2") ~ "NEW_VALUE"`
+
+✅ **Check:** `count(sex)` shows female 533, male 642, NA 40; `count(vaccinated)` shows only No, Unknown, Yes
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_clean <- measles_clean %>%
+  mutate(
+    sex = case_when(
+      sex %in% c("Male", "male", "M")     ~ "male",
+      sex %in% c("Female", "female", "F") ~ "female"
+    ),
+    vaccinated = case_when(
+      vaccinated %in% c("Yes", "yes", "Y")     ~ "Yes",
+      vaccinated %in% c("No", "no", "N", "NO") ~ "No",
+      vaccinated == "Unknown"                  ~ "Unknown"
+    )
+  )
+
+measles_clean %>% count(sex)
+measles_clean %>% count(vaccinated)
+```
+
+Six spellings of sex became two values (the 40 missing stay `NA`), and eight spellings of vaccinated became three: No 741, Unknown 183, Yes 291.
+:::
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): district
+
+Make `district` one of North, South, East, West, Central.
+
+-   Step 1: `district = str_to_title(district)` fixes the capitals
+-   Step 2: `case_when()` + `str_detect()` fixes the misspellings ("Nroth", "Cetnral") and the "... District" versions. Keep `NA` as `NA` (no `.default`).
+
+✅ **Check:** `count(district)` shows exactly 5 districts plus NA (34)
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_clean <- measles_clean %>%
+  mutate(
+    district = str_to_title(district),
+    district = case_when(
+      str_detect(district, "North|Nroth")     ~ "North",
+      str_detect(district, "South")           ~ "South",
+      str_detect(district, "East")            ~ "East",
+      str_detect(district, "West")            ~ "West",
+      str_detect(district, "Central|Cetnral") ~ "Central"
+    )
+  )
+
+measles_clean %>% count(district)
+```
+
+`str_to_title()` turns "north" into "North" first, so each `str_detect()` line only has to catch the misspellings and the "... District" versions. Because there is no `.default`, the 34 missing districts stay `NA`.
+:::
+:::
+
+# Part 6: Creating new variables
+
+## BMI
+
+`mutate()` can calculate a new column from other columns.
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(bmi = round(wt_kg / (ht_cm / 100)^2, 1))
+
+summary(linelist_clean$bmi)
+```
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: a BMI of 1,250?
+
+That is impossible: the heights and weights don't fit together. Set BMIs outside a plausible range (10–60) to `NA`.
+:::
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(bmi = if_else(bmi < 10 | bmi > 60, NA, bmi))
+
+summary(linelist_clean$bmi)
+```
+
+About 1,400 BMIs are now `NA`, because many height and weight values in this teaching dataset are unrealistic. Setting only the bad value to `NA` (instead of filtering out those rows) keeps everything else we know about each patient.
+
+## Age groups
+
+```{r}
+linelist_clean <- linelist_clean %>%
+  mutate(age_cat = case_when(
+    age_years < 18 ~ "Under 18",
+    age_years < 30 ~ "18-29",
+    age_years < 40 ~ "30-39",
+    age_years < 50 ~ "40-49",
+    age_years < 60 ~ "50-59",
+    age_years < 70 ~ "60-69",
+    age_years < 80 ~ "70-79",
+    age_years >= 80 ~ "80+"
+  ))
+
+linelist_clean %>% count(age_cat)
+```
+
+Because `case_when()` stops at the first TRUE line, `age_years < 30` only catches ages 18–29 (younger ages were already caught by the line above).
+
+`count()` lists the groups in alphabetical order ("18-29" before "Under 18"). In Session 5 you will learn how to put them in a sensible order with factors.
+
+::: callout-warning
+## Common mistakes
+
+Ending with `TRUE ~ "80+"` (or `.default = "80+"`) puts every patient with a **missing** age into the 80+ group. Write the last condition out in full (`age_years >= 80 ~ "80+"`) so missing ages stay `NA`.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): outcome and age groups
+
+In `measles_clean`:
+
+a)  make `outcome` consistent with `str_to_title()`
+b)  create `age_cat`: "Under 5", "5-9", "10-14", "15+"
+
+✅ **Check:** `count(outcome)` shows only Died, Recovered, NA; `count(age_cat)` shows 4 groups plus NA (31)
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_clean <- measles_clean %>%
+  mutate(
+    outcome = str_to_title(outcome),
+    age_cat = case_when(
+      age_years < 5   ~ "Under 5",
+      age_years < 10  ~ "5-9",
+      age_years < 15  ~ "10-14",
+      age_years >= 15 ~ "15+"
+    )
+  )
+
+measles_clean %>% count(outcome)
+measles_clean %>% count(age_cat)
+```
+
+"died" and "recovered" now match "Died" and "Recovered" (52 died, 1095 recovered, 68 missing). The 31 missing ages (the 27 "unknown" plus the four 999s) stay `NA` because the last condition is written out in full.
+:::
+:::
+
+# Part 7: One pipeline and saving your work
+
+Here is every step as **one** pipeline. This is the version to keep in a real project: one block that goes from raw data to clean data, so anyone can re-run it and get exactly the same result.
+
+```{r}
+linelist_clean <- linelist_raw %>%
+  clean_names() %>%
+  rename(
+    date_of_infection = infection_date,
+    onset_date        = date_onset,
+    hospital_date     = hosp_date
+  ) %>%
+  mutate(
+    # Types
+    date_of_infection = as.Date(date_of_infection),
+    onset_date        = as.Date(onset_date),
+    hospital_date     = as.Date(hospital_date),
+    date_of_outcome   = as.Date(date_of_outcome),
+    age               = as.numeric(age),
+    # Values
+    age_years = if_else(age_unit == "months", age / 12, age),
+    wt_kg     = if_else(wt_kg <= 0, NA, wt_kg),
+    gender    = case_when(
+      gender == "m" ~ "male",
+      gender == "f" ~ "female"
+    ),
+    hospital_name = case_when(
+      str_detect(hospital, "Central")           ~ "Central Hospital",
+      str_detect(hospital, "Military|Mitylira") ~ "Military Hospital",
+      str_detect(hospital, "Regional")          ~ "Regional Medical center",
+      str_detect(hospital, "Mark")              ~ "St. Mark's Maternity Hospital",
+      str_detect(hospital, "HMO")               ~ "HMO Health",
+      str_detect(hospital, "Premier")           ~ "Premiere Health",
+      .default = "Other/Unknown"
+    ),
+    # New variables
+    bmi = round(wt_kg / (ht_cm / 100)^2, 1),
+    bmi = if_else(bmi < 10 | bmi > 60, NA, bmi),
+    age_cat = case_when(
+      age_years < 18 ~ "Under 18",
+      age_years < 30 ~ "18-29",
+      age_years < 40 ~ "30-39",
+      age_years < 50 ~ "40-49",
+      age_years < 60 ~ "50-59",
+      age_years < 70 ~ "60-69",
+      age_years < 80 ~ "70-79",
+      age_years >= 80 ~ "80+"
+    )
+  )
+
+glimpse(linelist_clean)
+```
+
+Inside one `mutate()`, later lines can use columns made on earlier lines (`bmi` is created, then fixed).
+
+## Save your work
+
+`export()` is the opposite of `import()`. Save cleaned data to `processed_data/` — never over the raw file.
+
+```{r}
+export(linelist_clean, here("processed_data", "linelist_clean.rds"))
+```
+
+`.rds` is R's own file format. It keeps everything exactly as it is in R — dates stay dates and missing values stay `NA` — so it's the best choice for a file you will open in R again. (We compare `.rds` and `.csv` in Session 3.)
+
+Session 3 starts from this file.
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (2 min): save the measles data
+
+Save `measles_clean` as `processed_data/measles_clean.rds`. You need this file in Session 3!
+
+✅ **Check:** the file appears in the `processed_data` folder (**Explorer**, on the left)
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+export(measles_clean, here("processed_data", "measles_clean.rds"))
+```
+
+Same pattern as for `linelist_clean`: `export(DATA, here("FOLDER", "FILE_NAME.rds"))`. Session 3 starts by importing this file.
+:::
+:::
+
+::: callout-tip
+## ⭐ Bonus
+
+1.  Rewrite all of your measles TRY ITs as **one** pipeline that starts from `measles_raw` (like Part 7). It should give the same result — see the solutions file.
+2.  Brought your own data? Fix the problems on your own problem list, then `export()` the clean version to `processed_data/`.
+:::
+
+# Key points
+
+-   **Never edit the raw data file** — every fix happens in code, so anyone can re-run it.
+-   `clean_names()` fixes every column name at once; `rename(new = old)` changes one.
+-   `mutate()` creates or overwrites columns; `as.Date()` and `as.numeric()` fix types.
+-   `if_else()` fixes values that meet one condition; `case_when()` handles many, checked in order. Use `NA` to blank out impossible values instead of deleting rows.
+-   `str_detect()` and `str_to_title()` catch misspellings and inconsistent capitals; check every recode with `count(old, new)`.
+-   Keep **one pipeline** from raw to clean data, and save the result with `export()` as `.rds` in `processed_data/`.
+
+**Next: Session 3 — Missing Data, Joins, and Export.** We deal with rows that have no Case ID, duplicates, and missing values, join extra case information, and save the final datasets.

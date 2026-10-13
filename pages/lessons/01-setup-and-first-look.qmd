@@ -1,0 +1,517 @@
+---
+title: "Session 1: Setup and a First Look at Your Data"
+subtitle: "Project folders, packages, R basics, the pipe, and importing and inspecting data"
+---
+
+::: downloads
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%201%20-%20Setup%20and%20First%20Look_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20Setup%20and%20First%20Look_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+:::
+
+::: callout-note
+## In this session you will learn to
+
+1.  Open the workshop's project folder and explain why `here()` makes file paths work on any computer
+2.  Install packages (once) and load them (every session)
+3.  Create objects, call functions, and chain steps together with the pipe `%>%`
+4.  Import a data file with `import()` and `here()`
+5.  Inspect a dataset and write down a list of the problems that need cleaning
+
+**Before you start:** complete the [Setup](../setup.qmd) and open `scripts/Session 1 - Setup and First Look_STUDENT.R`.
+:::
+
+# Part 1: Project folders and `here()`
+
+## Why keep everything in one project folder?
+
+-   **Organization:** data, scripts, and outputs live in one folder with a predictable structure (`raw_data/`, `processed_data/`, `scripts/`)
+-   **Reproducibility:** the project works on any computer — yours, a collaborator's, future you's
+-   **Shareable:** zip the folder and send it, or put it on GitHub
+
+## Open the project folder for this class
+
+1.  Download the workshop folder and save it somewhere you can find it (not your Downloads folder)
+2.  In Positron, choose **File → Open Folder...**, select the `CWML-R-Hands-on-Workshop-Series` folder, and click **Open**. Positron uses that folder as the working directory
+3.  Check the **Explorer** on the left: it should list the workshop files (`raw_data`, `scripts`, ...)
+
+::: callout-tip
+## Your own projects later
+
+Make a new folder for each project (with subfolders like `raw_data/` and `scripts/`), and open it in Positron with **File → Open Folder...**. Add an empty file called `.here` at the top so `here()` always finds it. *(RStudio users: **File → New Project** does the same thing and creates an `.Rproj` file.)*
+:::
+
+## Relative vs absolute paths
+
+-   **Bad (absolute):** `"/Users/mwegener/Desktop/maybe_here/data.csv"` — only works on one computer
+-   **Good (relative):** `here("raw_data", "data.csv")` — works on any computer that has the project folder
+
+`here()` finds the top of the project folder (it looks for a `.here` file, which the workshop folder has) and builds the path from there.
+
+```{r}
+#| eval: false
+here::here()                                   # where is the top of my project?
+here::here("raw_data", "linelist_raw.xlsx")    # full path to a file inside it
+```
+
+`here::here()` means "the `here()` function from the here package". The `::` lets you use a function before loading its package.
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (1 min): a path to the practice data
+
+Build the path to the practice data, `raw_data/measles_raw.csv`.
+
+✅ **Check:** the output ends in `.../raw_data/measles_raw.csv`
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| eval: false
+here::here("raw_data", "measles_raw.csv")
+```
+:::
+:::
+
+# Part 2: Installing and loading packages
+
+A **package** is a collection of functions someone else wrote. There are two steps:
+
+| Step    | Function             | How often                 | Analogy                 |
+|---------|----------------------|---------------------------|-------------------------|
+| Install | `install.packages()` | **Once** per computer     | Buying a book           |
+| Load    | `library()`          | **Every** time you open R | Taking it off the shelf |
+
+Install everything for the whole workshop series (skip this if you did the [Setup](../setup.qmd)):
+
+```{r}
+#| eval: false
+install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
+```
+
+Load only what you need today:
+
+```{r}
+library(tidyverse)   # data wrangling (dplyr) and plotting (ggplot2), plus the pipe
+library(here)        # file paths that work on any computer
+library(rio)         # import() and export() for almost any file type
+library(skimr)       # skim() for a quick data summary
+library(janitor)     # get_dupes() today; clean_names() in Session 2
+```
+
+::: callout-warning
+## Common mistakes
+
+-   Package names need quotes in `install.packages()` but **not** in `library()`.
+-   Red text is not always an error! Messages like "Attaching core tidyverse packages" are normal. An error starts with **Error**.
+:::
+
+# Part 3: R basics
+
+## Objects and the assignment arrow `<-`
+
+`<-` stores a value in an **object** so you can use it later. Read it as "gets". The object appears in the **Variables** pane.
+
+```{r}
+my_age <- 35
+my_age
+my_age + 5
+```
+
+## Vectors
+
+`c()` combines values into a **vector**. Every value in a vector has the same type.
+
+```{r}
+ages <- c(2, 18, 56, 61)
+hospitals <- c("Central Hospital", "Military Hospital", "Other")
+
+mean(ages)
+length(hospitals)
+```
+
+## Functions and arguments
+
+A **function** does something to its inputs (**arguments**): `function_name(argument1, argument2, ...)`. Arguments can be named.
+
+```{r}
+round(3.14159)
+round(3.14159, digits = 2)
+```
+
+::: callout-tip
+## Getting help
+
+Type `?round` in the Console to open the help page for any function.
+:::
+
+## Data frames
+
+A **data frame** is a table: each **column** is a variable (a vector), each **row** is an observation. The tidyverse version is called a **tibble**.
+
+```{r}
+patients <- tibble(
+  name = c("Ana", "Ben", "Cho"),
+  age  = c(34, 51, 27)
+)
+patients
+
+patients$age        # $ pulls out one column
+```
+
+::: callout-warning
+## Common mistakes
+
+-   R is **case-sensitive**: `Age` and `age` are different
+-   Text needs quotes (`"Central Hospital"`); object names do not (`my_age`)
+-   Every `(` needs a `)` — Positron highlights the matching pair
+-   `#` starts a comment; R ignores the rest of the line
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (2 min): objects and functions
+
+Store three temperatures, 38.5, 39.1, and 37.9, in an object called `my_temps`. Then find their `mean()`.
+
+✅ **Check:** the mean is 38.5
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+my_temps <- c(38.5, 39.1, 37.9)
+mean(my_temps)
+```
+:::
+:::
+
+# Part 4: The pipe `%>%`
+
+The pipe takes the result on its left and passes it into the function on its right. Read it as **"and then"**. Shortcut: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows).
+
+```{r}
+# Without the pipe: read from the inside out
+round(mean(ages), 1)
+
+# With the pipe: read from left to right — "take ages, and then mean, and then round"
+ages %>% mean() %>% round(1)
+```
+
+::: callout-note
+You may also see `|>` — the pipe built into R itself. For this workshop they do the same thing.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (1 min): the pipe
+
+Use the pipe to find the mean of `my_temps` and round it to 0 decimals.
+
+✅ **Check:** the answer is 38
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+my_temps %>% mean() %>% round(0)
+```
+
+Why not 39? R rounds a 5 to the nearest **even** number (38.5 → 38), a rule used to avoid bias when rounding lots of numbers.
+:::
+:::
+
+# Part 5: Importing data
+
+## `import()` + `here()`
+
+`rio::import()` reads almost any file type (`.csv`, `.xlsx`, `.txt`, SPSS, Stata, SAS, ...). It works out the type from the file extension, so you only need to learn one function. Save the result with `<-`, or it only prints to the Console and is gone.
+
+```{r}
+linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
+```
+
+The same function works for other file types:
+
+```{r}
+case_info <- import(here("raw_data", "case_info.csv"))   # comma-separated
+hosp_info <- import(here("raw_data", "hosp_info.txt"))   # tab-separated text
+```
+
+::: callout-warning
+## Common mistakes
+
+-   File names must match exactly, including capitals and the extension.
+-   "Error: No such file" means the folder or file name is misspelled, or the workshop folder isn't open (check the **Explorer** on the left).
+:::
+
+::: callout-tip
+## Other import options you may see
+
+-   **Base R:** `read.csv()` — older, slower, and needs more settings
+-   **readr:** `read_csv()` — the tidyverse version, fast and returns a tibble
+-   **haven:** `read_sav()`, `read_dta()`, `read_sas()` — SPSS, Stata, SAS files
+-   **Excel files with several sheets:** `import(here("raw_data", "file.xlsx"), which = "Sheet2")`
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (2 min): import the practice data
+
+Import the practice data `raw_data/measles_raw.csv` and call it `measles_raw`.
+
+✅ **Check:** in the **Variables** pane, `measles_raw` shows 1215 rows and 11 columns
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_raw <- import(here("raw_data", "measles_raw.csv"))
+```
+:::
+:::
+
+# Part 6: Inspecting data
+
+**Always look before you clean.** Inspecting tells you whether the data imported correctly and what needs fixing.
+
+## Size and structure
+
+```{r}
+#| eval: false
+view(linelist_raw)       # opens the Data Explorer (or click the table icon next to it in the Variables pane)
+```
+
+```{r}
+dim(linelist_raw)        # rows, columns
+names(linelist_raw)      # column names
+```
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: what is wrong with these column names?
+
+Spaces, dots, capitals, and a mix of styles (`Case ID`, `date.onset`, `OUTCOME`). They are hard to type and need special handling. We fix all of them in Session 2 with one function.
+:::
+
+```{r}
+head(linelist_raw)       # first 6 rows
+glimpse(linelist_raw)    # every column, its type, and the first few values
+```
+
+In `glimpse()`, the type is shown in angle brackets: `<chr>` text, `<dbl>` number, `<date>` date, `<dttm>` date-time.
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: which column types look wrong?
+
+-   `date.onset` is `<chr>` (text) but the other dates are `<dttm>` (date-time)
+-   `age` is `<chr>` — it should be a number
+-   There is an `age_unit` column — are all ages in years?
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): size and structure
+
+Use `dim()` and `glimpse()` on `measles_raw`.
+
+a)  Which column should be a number but is stored as text (`<chr>`)?
+b)  Which column names will need backticks?
+
+✅ **Check:** `dim()` gives 1215 11
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+dim(measles_raw)
+glimpse(measles_raw)
+```
+
+a)  `Age (years)` is `<chr>` — it contains "unknown" and the code "999"
+b)  Names with spaces or symbols need backticks: `` `Patient ID` ``, `` `Report Date` ``, `` `Age (years)` ``, `` `Vaccinated?` ``, `` `Temp (C)` ``, `` `Days in Hospital` ``
+:::
+:::
+
+## Summary of every column
+
+```{r}
+skim(linelist_raw)
+```
+
+Look at the `n_missing` column, the minimum of `wt_kg` (below zero!), and the maximum of `ht_cm` (almost 3 meters!).
+
+## Categories: `count()`
+
+`count()` shows every distinct value in a column and how often it appears. It's the fastest way to find misspellings.
+
+```{r}
+linelist_raw %>% count(hospital)
+linelist_raw %>% count(Gender)
+linelist_raw %>% count(OUTCOME)
+linelist_raw %>% count(age_unit)
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): categories
+
+`count()` District, SEX, and `` `Vaccinated?` `` in `measles_raw`. How many different ways is "North" written? How many ways is "No" written?
+
+✅ **Check:** `count(District)` shows 18 rows (including NA)
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_raw %>% count(District)
+measles_raw %>% count(SEX)
+measles_raw %>% count(`Vaccinated?`)
+```
+
+"North" is written 4 ways ("North", "north", "Nroth", "North District"), and so is "No" ("No", "no", "N", "NO").
+:::
+:::
+
+## Zooming in: `select()`, `filter()`, `arrange()`
+
+-   `select()` keeps **columns**
+-   `filter()` keeps **rows** that meet a condition
+-   `arrange()` sorts rows (`desc()` for largest first)
+
+Column names with spaces need **backticks**: `` `Case ID` ``. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!
+
+```{r}
+# Which patients have ages in months?
+linelist_raw %>%
+  filter(age_unit == "months") %>%
+  select(`Case ID`, age, age_unit)
+
+# Impossible weights: sort smallest first
+linelist_raw %>%
+  select(`Case ID`, wt_kg, ht_cm) %>%
+  arrange(wt_kg)
+
+# Tallest patients
+linelist_raw %>%
+  select(`Case ID`, ht_cm) %>%
+  arrange(desc(ht_cm))
+```
+
+::: callout-note
+## Conditions you can use in `filter()`
+
+`==` equal · `!=` not equal · `>` `<` `>=` `<=` · `%in% c(...)` one of several values · `is.na()` missing · `&` and · `|` or
+
+Use `==` (two equals signs) to compare. One `=` is for naming arguments.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): zooming in
+
+Sort `measles_raw` by `` `Temp (C)` ``, largest first, showing only `` `Patient ID` `` and `` `Temp (C)` ``. What is the highest temperature? What do you think happened?
+
+✅ **Check:** the top value is 104.7
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_raw %>%
+  select(`Patient ID`, `Temp (C)`) %>%
+  arrange(desc(`Temp (C)`))
+```
+
+104.7 is about 40 °C written in **Fahrenheit**. A few temperatures were entered in °F instead of °C.
+:::
+:::
+
+## Missing values and duplicates
+
+```{r}
+# Missing values in each column
+colSums(is.na(linelist_raw))
+
+# How many rows have no Case ID?
+linelist_raw %>% filter(is.na(`Case ID`)) %>% nrow()
+
+# How many rows are exact copies of an earlier row?
+sum(duplicated(linelist_raw))
+```
+
+```{r}
+#| eval: false
+# Look at the duplicated rows (shows every copy, plus a dupe_count column)
+get_dupes(linelist_raw)
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): missing values and duplicates
+
+In `measles_raw`:
+
+a)  How many rows have a missing `` `Patient ID` ``?
+b)  How many rows are exact duplicates?
+c)  Which column has the most missing values? Is that a mistake, or does it make sense?
+
+✅ **Check:** a) 37 b) 15
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_raw %>% filter(is.na(`Patient ID`)) %>% nrow()
+sum(duplicated(measles_raw))
+colSums(is.na(measles_raw))
+```
+
+c)  `Days in Hospital` has the most (766). That makes sense: patients who were never hospitalized have no hospital days. **Missing is not always an error!**
+:::
+:::
+
+# Part 7: The problem list
+
+Here is everything we found in `linelist_raw`. This list is the to-do list for Session 2.
+
+| \# | Problem | How we found it |
+|----|---------|-----------------|
+| 1 | Column names have spaces, dots, and capitals | `names()` |
+| 2 | Date columns are different types (`date.onset` is text) | `glimpse()` |
+| 3 | `age` is stored as text, and 37 ages are in **months** not years | `glimpse()`, `count()` |
+| 4 | Hospital names are misspelled ("Hopital") or inconsistent ("Regional MC"), and many are missing | `count()` |
+| 5 | Gender and outcome have missing values | `count()`, `skim()` |
+| 6 | Impossible weights (negative, 0) and heights (4 cm, 295 cm) | `skim()`, `arrange()` |
+| 7 | 130 rows have no Case ID | `is.na()` |
+| 8 | 25 rows are duplicates | `duplicated()` |
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (10 min): the measles problem list
+
+Write a numbered problem list for `measles_raw` in your student script, using everything you found in the TRY ITs. Save it — you will fix these problems in Session 2!
+
+✅ **Check:** you should find at least 8 problems
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+1.  Column names have spaces, capitals, and symbols (`?` and parentheses)
+2.  `Age (years)` is stored as text because of "unknown" (27 rows) and "999" (4 rows)
+3.  District is misspelled ("Nroth", "Cetnral"), has lower-case versions, and some say "... District"
+4.  SEX is written 6 different ways (Male / male / M, Female / female / F)
+5.  `Vaccinated?` is written 8 different ways (Yes / yes / Y, No / no / N / NO, Unknown)
+6.  Outcome has inconsistent capitalization and 68 missing values
+7.  Some temperatures were entered in Fahrenheit (values around 97–105)
+8.  37 rows have no Patient ID
+9.  15 rows are duplicates
+10. `Report Date`, District, and SEX have some missing values
+:::
+:::
+
+::: callout-tip
+## ⭐ Bonus: your own data
+
+Brought your own dataset? Put the file in the `raw_data/` folder, then: `import()` it; look at it with `dim()`, `glimpse()`, and `skim()`; `count()` its text columns to look for misspellings; check for missing values and duplicates; and write its problem list.
+:::
+
+# Key points
+
+-   A **project folder** plus `here()` makes file paths work on any computer.
+-   **Install** a package once with `install.packages()`; **load** it every session with `library()`.
+-   `<-` saves a value in an object; `c()` makes a vector; functions take arguments.
+-   The pipe `%>%` means "and then", so code reads from left to right.
+-   `import(here("folder", "file"))` reads almost any file type.
+-   **Look before you clean:** `glimpse()`, `skim()`, `count()`, `filter()`/`select()`/`arrange()`, `is.na()`, and `duplicated()` find the problems.
+
+**Next: Session 2 — Cleaning.** We fix the problem list with `clean_names()`, `mutate()`, `if_else()`, and `case_when()`.

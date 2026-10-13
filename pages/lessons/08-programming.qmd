@@ -1,0 +1,531 @@
+---
+title: "Session 8: Programming — Functions, if/else, Loops, and Iteration"
+subtitle: "Writing functions, if/else and if_else(), for loops, and iteration with map() and walk()"
+---
+
+::: downloads
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%208%20-%20Programming_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%208%20-%20Programming_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+:::
+
+::: callout-note
+## In this session you will learn to
+
+This session is **optional / advanced**: it builds on everything before it, especially vectors and subsetting ([Session 4](04-data-structures.qmd)) and plotting (Sessions 6 and 7).
+
+1.  Write your own functions with arguments and default values
+2.  Write functions that work on data frames and return tables or plots
+3.  Use `if`/`else` for one value and `if_else()` for a whole column, and explain the difference
+4.  Repeat a task with a `for` loop — for example, saving one epidemic curve per hospital
+5.  Do the same with `map()` / `walk()` from purrr (part of the tidyverse)
+
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 8 - Programming_STUDENT.R`. This session starts from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, which you saved in Session 3. If you missed it, ready-made copies are already in `processed_data/`.
+
+**Today's goal:** *"Your manager wants an epidemic curve for every hospital, every week."* By the end of the session, one loop does it.
+:::
+
+# Part 1: Set up
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (1 min): import the measles data
+
+Import `processed_data/measles_final.rds` as `measles`.
+
+✅ **Check:** in the **Variables** pane, `measles` shows 1163 rows and 14 columns
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE)
+dim(measles)
+```
+
+`measles` appears in the **Variables** pane with 1163 rows and 14 columns.
+:::
+:::
+
+# Part 2: Writing your first function
+
+## Why write functions?
+
+If you copy and paste code more than twice, write a function. Functions:
+
+-   avoid copy-paste mistakes (change it once, fixed everywhere)
+-   give a task a clear name (`c_to_f()` says what it does)
+-   make your scripts shorter and easier to read
+
+## The shape of a function
+
+```{r}
+c_to_f <- function(temp_c) {
+  temp_c * 9 / 5 + 32
+}
+```
+
+-   `c_to_f` is the **name** — you save a function with `<-` like any object. Run the whole block to create it; then it appears in the **Variables** pane
+-   `temp_c` is the **argument** — the input. Inside the function, it is whatever value you pass in
+-   The code between `{ }` is the **body**
+-   The function **returns** the result of its last line
+
+```{r}
+c_to_f(38)
+c_to_f(c(36.8, 38.5, 40.1))   # it's vectorized, because the maths inside is
+```
+
+Because it's vectorized, it works on a whole column inside `mutate()`:
+
+```{r}
+linelist %>%
+  mutate(temp_f = c_to_f(temp)) %>%
+  select(case_id, temp, temp_f) %>%
+  head(3)
+```
+
+## Default values
+
+Give an argument a **default** with `=`. You can change it, but you don't have to:
+
+```{r}
+c_to_f <- function(temp_c, digits = 1) {
+  round(temp_c * 9 / 5 + 32, digits)
+}
+
+c_to_f(38.37)              # uses digits = 1
+c_to_f(38.37, digits = 0)  # overrides it
+```
+
+::: callout-warning
+## Common mistakes
+
+-   Changing the function but not re-running the block: R still uses the old version.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): Fahrenheit to Celsius
+
+Write `f_to_c(temp_f)` that converts Fahrenheit to Celsius: `(temp_f - 32) * 5 / 9`, rounded to 1 decimal. Test it on 98.6 and 104.7.
+
+✅ **Check:** `f_to_c(98.6)` is 37 and `f_to_c(104.7)` is 40.4
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+f_to_c <- function(temp_f) {
+  round((temp_f - 32) * 5 / 9, 1)
+}
+
+f_to_c(98.6)
+f_to_c(104.7)
+```
+
+104.7 °F is 40.4 °C — the Fahrenheit temperature you found in the measles data in Session 1!
+:::
+:::
+
+# Part 3: Functions that use data
+
+## A calculation used in many places
+
+```{r}
+pct <- function(x, digits = 1) {
+  round(mean(x, na.rm = TRUE) * 100, digits)
+}
+
+linelist %>%
+  group_by(hospital_name) %>%
+  summarise(
+    n         = n(),
+    pct_death = pct(outcome == "Death"),
+    pct_fever = pct(fever == "yes")
+  )
+```
+
+Compare with [Session 5](05-summarizing.qmd), where we wrote `round(mean(...) * 100, 1)` every time.
+
+## A function that takes a data frame
+
+```{r}
+hospital_summary <- function(data, hospital) {
+  data %>%
+    filter(hospital_name == hospital) %>%
+    summarise(
+      n         = n(),
+      pct_death = pct(outcome == "Death")
+    )
+}
+
+hospital_summary(linelist, "Military Hospital")
+hospital_summary(linelist, "Central Hospital")
+```
+
+`hospital` is an argument holding a **value** (the hospital's name), so it can go straight into `filter()`.
+
+## A function that makes a plot
+
+```{r}
+make_epicurve <- function(data, hospital) {
+  data %>%
+    filter(hospital_name == hospital, onset_date >= as.Date("2014-01-01")) %>%
+    ggplot(aes(x = onset_date)) +
+    geom_histogram(binwidth = 7, fill = "#2a78d6", color = "white") +
+    labs(
+      title = paste("Weekly cases:", hospital),
+      x     = "Week of onset",
+      y     = "Number of cases"
+    ) +
+    theme_minimal()
+}
+
+make_epicurve(linelist, "Military Hospital")
+```
+
+`paste("Weekly cases:", hospital)` builds the title from the argument, so every plot gets the right title.
+
+::: callout-warning
+## Common mistake: name the argument `district_name`, not `district`
+
+Don't give an argument the same name as a column! In
+
+``` r
+function(data, district) { data %>% filter(district == district) }
+```
+
+R compares the `district` **column with itself**, so every row is kept — no error, just the wrong answer. Name the argument `district_name` instead: `filter(district == district_name)`.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (6 min): measles functions
+
+a)  Write `rate_per_10k(cases, population)` that returns `cases / population * 10000`, rounded to 1 decimal. Use it in `mutate()` after `count(district, population)`.
+b)  Write `district_summary(data, district_name)` that returns the number of cases and the percentage vaccinated (use your `pct()` function!) for one district.
+
+✅ **Check:** a) East is 22.8   b) `district_summary(measles, "North")` gives n 342, 25.7%
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+# a)
+rate_per_10k <- function(cases, population) {
+  round(cases / population * 10000, 1)
+}
+
+measles %>%
+  count(district, population) %>%
+  mutate(rate = rate_per_10k(n, population)) %>%
+  arrange(desc(rate))
+
+# b)
+district_summary <- function(data, district_name) {
+  data %>%
+    filter(district == district_name) %>%
+    summarise(
+      n              = n(),
+      pct_vaccinated = pct(vaccinated == "Yes")
+    )
+}
+
+district_summary(measles, "North")
+```
+
+East has the highest rate, 22.8 cases per 10,000. North has 342 cases, and 25.7% of them were vaccinated. Because the argument is called `district_name`, `filter(district == district_name)` keeps only North.
+:::
+:::
+
+# Part 4: `if` / `else`
+
+`if` runs code only when a condition is TRUE. `else` runs when it's FALSE:
+
+```{r}
+fever_status <- function(temp) {
+  if (temp >= 38) {
+    "fever"
+  } else {
+    "no fever"
+  }
+}
+
+fever_status(39.2)
+fever_status(36.9)
+```
+
+## `if` works on ONE value
+
+```{r}
+#| error: true
+fever_status(c(39.2, 36.9))
+```
+
+`if` asks one yes/no question. For a whole column, use the **vectorized** `if_else()` from [Session 2](02-cleaning.qmd):
+
+```{r}
+fever_status <- function(temp) {
+  if_else(temp >= 38, "fever", "no fever")
+}
+
+fever_status(c(39.2, 36.9))
+
+linelist %>%
+  mutate(fever_measured = fever_status(temp)) %>%
+  count(fever_measured)
+```
+
+## Where `if` shines: checking inputs
+
+`if` is perfect for questions with one answer, like "is the input a number?". `stop()` ends the function with a helpful error message:
+
+```{r}
+#| error: true
+c_to_f <- function(temp_c, digits = 1) {
+  if (!is.numeric(temp_c)) {
+    stop("temp_c must be a number, not ", class(temp_c))
+  }
+  round(temp_c * 9 / 5 + 32, digits)
+}
+
+c_to_f("38")
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): fever status for the measles data
+
+a)  Write a one-value `fever_status()` with `if` / `else` and test it on 38.5.
+b)  Write the vectorized version with `if_else()`, use it in `mutate()` on `measles$temp_c`, and `count()` the result.
+
+✅ **Check:** a) `"fever"`   b) 1015 "fever" and 148 "no fever"
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+# a)
+fever_status_one <- function(temp) {
+  if (temp >= 38) {
+    "fever"
+  } else {
+    "no fever"
+  }
+}
+
+fever_status_one(38.5)
+
+# b)
+fever_status <- function(temp) {
+  if_else(temp >= 38, "fever", "no fever")
+}
+
+measles %>%
+  mutate(fever_measured = fever_status(temp_c)) %>%
+  count(fever_measured)
+```
+
+38.5 is at least 38, so the one-value version returns `"fever"`. The `if_else()` version works on all 1163 temperatures at once: 1015 with fever and 148 without.
+:::
+:::
+
+# Part 5: `for` loops
+
+A `for` loop runs the same code **once for each value** in a vector:
+
+```{r}
+for (h in c("Central Hospital", "Military Hospital")) {
+  print(h)
+}
+```
+
+Read it as: "for each `h` in this vector, run the code between `{ }`". `h` takes each value in turn.
+
+## Loop over every hospital
+
+```{r}
+hospitals <- linelist %>%
+  filter(hospital_name != "Other/Unknown") %>%
+  distinct(hospital_name) %>%
+  pull(hospital_name) %>%
+  sort()
+
+hospitals
+
+for (h in hospitals) {
+  n_cases <- sum(linelist$hospital_name == h)
+  print(paste(h, "has", n_cases, "cases"))
+}
+```
+
+Inside a loop, results are not printed automatically — use `print()`.
+
+## Save the results
+
+To keep results, create an empty container **before** the loop and fill it inside:
+
+```{r}
+case_counts <- c()   # an empty vector
+
+for (h in hospitals) {
+  case_counts[h] <- sum(linelist$hospital_name == h)
+}
+
+case_counts
+```
+
+## The payoff: one epidemic curve per hospital
+
+```{r}
+#| eval: false
+for (h in hospitals) {
+  p <- make_epicurve(linelist, h)
+  file_name <- paste0("epicurve_", make_clean_names(h), ".png")
+  ggsave(here("outputs", file_name), plot = p, width = 8, height = 5, dpi = 300)
+}
+```
+
+-   `make_clean_names()` (janitor) turns "St. Mark's Maternity Hospital" into `st_marks_maternity_hospital` — safe for a file name
+-   `paste0()` glues the pieces with no spaces into `epicurve_st_marks_maternity_hospital.png`
+-   Six files, one loop. Next week, re-run it with the new data — check the **Explorer** to see the new files in `outputs/`
+
+::: callout-note
+## You've already been looping
+
+`mutate()`, `summarise()` with `group_by()`, and `across()` all repeat work for you. In R, reach for those first; write a loop when you need to repeat a **whole task**, like making and saving a plot.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (6 min): one epicurve per district
+
+Write `make_measles_epicurve(data, district_name)` for weekly cases by `report_date` in one district. Then loop over the five districts (not "Unknown") and save each plot to `outputs/` as `measles_central.png`, `measles_east.png`, ...
+
+✅ **Check:** five new .png files in the outputs folder
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| eval: false
+make_measles_epicurve <- function(data, district_name) {
+  data %>%
+    filter(district == district_name, !is.na(report_date)) %>%
+    ggplot(aes(x = report_date)) +
+    geom_histogram(binwidth = 7, fill = "#2a78d6", color = "white") +
+    labs(
+      title = paste("Weekly measles cases:", district_name),
+      x     = "Week of report",
+      y     = "Number of cases"
+    ) +
+    theme_minimal()
+}
+
+districts <- c("Central", "East", "North", "South", "West")
+
+for (d in districts) {
+  p <- make_measles_epicurve(measles, d)
+  file_name <- paste0("measles_", make_clean_names(d), ".png")
+  ggsave(here("outputs", file_name), plot = p, width = 8, height = 5, dpi = 300)
+}
+```
+
+The loop creates five files in `outputs/`: `measles_central.png`, `measles_east.png`, `measles_north.png`, `measles_south.png`, and `measles_west.png`. Again, the argument is `district_name`, not `district`.
+:::
+:::
+
+# Part 6: Iteration the tidyverse way: `map()` and `walk()`
+
+The **purrr** package (part of the tidyverse) does what loops do, in one line:
+
+-   `map(x, f)` — run `f` on each element of `x` and **return** a list of results
+-   `map_dbl()` — the same, but return a **number** vector
+-   `walk(x, f)` — run `f` on each element for its **side effect** (like saving a file), return nothing
+
+```{r}
+# The mean of three columns
+linelist %>%
+  select(age_years, bmi, temp) %>%
+  map_dbl(~ mean(.x, na.rm = TRUE))
+```
+
+A data frame is a list of columns, so `map_dbl()` runs once per column. `~ mean(.x, na.rm = TRUE)` is a short function: `.x` is the current element — the same `~ .x` you used with `across()` in [Session 3](03-missing-data-joins-export.qmd).
+
+```{r}
+# A list of six plots
+epicurves <- map(hospitals, ~ make_epicurve(linelist, .x))
+length(epicurves)
+epicurves[[1]]
+```
+
+```{r}
+#| eval: false
+# Save them all: the same as the for loop in Part 5, in one call
+walk(hospitals, ~ ggsave(
+  here("outputs", paste0("epicurve_", make_clean_names(.x), ".png")),
+  plot = make_epicurve(linelist, .x), width = 8, height = 5, dpi = 300
+))
+```
+
+::: callout-note
+## Loop or `map()`?
+
+Both are fine! Loops are easier to read when you're starting out; `map()` is shorter and is what you'll see in modern R code. Choose the one you can read.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): map and walk
+
+a)  Use `map_dbl()` to find the mean of `age_years`, `temp_c`, and `days_in_hospital` in `measles`.
+b)  Replace your district loop with `walk()`.
+
+✅ **Check:** a) 8.75, 38.82, 4.94   b) the same five .png files
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+# a)
+measles %>%
+  select(age_years, temp_c, days_in_hospital) %>%
+  map_dbl(~ mean(.x, na.rm = TRUE))
+```
+
+```{r}
+#| eval: false
+# b)
+walk(districts, ~ ggsave(
+  here("outputs", paste0("measles_", make_clean_names(.x), ".png")),
+  plot = make_measles_epicurve(measles, .x), width = 8, height = 5, dpi = 300
+))
+```
+
+a) The mean age is 8.75 years, the mean temperature 38.82 °C, and the mean hospital stay 4.94 days (`na.rm = TRUE` skips patients who were never hospitalized). b) `walk()` saves the same five files as your loop: `measles_central.png`, `measles_east.png`, `measles_north.png`, `measles_south.png`, and `measles_west.png`.
+:::
+:::
+
+::: callout-tip
+## ⭐ Bonus
+
+1.  Add a `fill` argument to `make_epicurve()`, with a default of `"#2a78d6"`, so you can choose the bar color.
+2.  Add an input check to `rate_per_10k()`: `stop()` if population is 0 or missing.
+3.  Write a function that makes the whole measles Table 1 from [Session 5](05-summarizing.qmd), and run it for each district with `map()`.
+4.  Brought your own data? Find a piece of code you copied and pasted, and turn it into a function.
+
+See the solutions file for answers.
+:::
+
+# Key points
+
+-   **Write it once, run it many times:** if you copy and paste code more than twice, write a function with `function()`.
+-   A function takes **arguments** (which can have **default values**) and returns the result of its last line. Re-run the block after every change.
+-   Never give an argument the same name as a column — use `district_name`, not `district`.
+-   `if` / `else` works on **one** value (great for input checks with `stop()`); `if_else()` works on a whole column.
+-   A `for` loop repeats a **whole task** for each value; create an empty container before the loop to keep results.
+-   `map()` returns a list, `map_dbl()` a number vector, and `walk()` just does something (like saving files) for each element.
+
+**Where to go next:** [R for Data Science](https://r4ds.hadley.nz/) (free online) — chapters on functions and iteration; [The Epidemiologist R Handbook](https://epirhandbook.com/) — applied examples for public health.

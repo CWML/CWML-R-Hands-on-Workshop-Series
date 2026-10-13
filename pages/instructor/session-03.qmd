@@ -1,0 +1,69 @@
+---
+title: "Instructor notes: Session 3"
+subtitle: "Missing data, joins, and export"
+---
+
+[→ Open the Session 3 lesson](../lessons/03-missing-data-joins-export.qmd)
+
+## Timing
+
+| Part | Topic | Time (incl. TRY IT) |
+|------|-------|---------------------|
+| 1 | Set up | 7 min |
+| 2 | Where is data missing? | 10 min |
+| 3 | Rows with no ID | 10 min |
+| 4 | Duplicates | 12 min |
+| 5 | Replacing missing values and choosing columns | 15 min |
+| 6 | Joining datasets | 20 min |
+| 7 | Exporting | 8 min |
+|   | Wrap-up and preview | 5 min |
+|   | **Total** | **87 min** |
+
+**Short on time?** Shorten Part 5 by skipping the step-by-step `select()` and showing only "the whole thing as one pipeline". Do **not** cut the Part 7 TRY IT: every later session starts from `measles_final.rds` (ready-made copies are in `processed_data/` for anyone who doesn't finish).
+
+## Before you start
+
+-   Learners start from `processed_data/linelist_clean.rds` and `processed_data/measles_clean.rds`, saved at the end of Session 2. The repository includes correct copies, so learners who missed Session 2 can start here too.
+-   Learners open `scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R`. The filled-in version is `solutions/Session 3 - Missing Data, Joins, and Export_SOLUTIONS.R`.
+-   Sticky notes: green = done with the TRY IT, red = need help.
+-   Learners finish **two** datasets side by side: `combined_linelist` with you, and `measles_final` in the TRY ITs.
+
+## Teaching notes by part
+
+**Part 1 — Set up.** Explain `trust = TRUE` briefly (an `.rds` can contain R code; we made these files ourselves). If a learner's `measles_clean.rds` is missing or broken, they can download a fresh copy from GitHub.
+
+**Part 2 — Where is data missing?** Ask the class: *is every missing value a mistake?* — No. `date_of_outcome` is missing for patients with no outcome yet (real information); `bmi` is missing where Session 2 set impossible values to `NA`; a missing `case_id` **is** a problem because those rows can't be linked. Point out that `drop_na(bmi)` would lose 1382 of 6604 patients.
+
+**Part 3 — Rows with no ID.** Build `paste0("ID", sprintf("%05d", row_number()))` up piece by piece in the Console (`row_number()`, then `sprintf("%05d", 1)`, then `paste0()`) if learners look lost.
+
+**Part 4 — Duplicates.** After `distinct()`, `get_dupes(case_id)` still finds 1106 rows whose ID appears more than once. These rows are **not** exact copies, so `distinct()` keeps them. In a real project you would ask the data owner which record is correct. We keep them for this workshop, but it's a good discussion point: cleaning often needs people, not just code.
+
+**Part 5 — Replacing missing values.** Point out that `where(is.character)` skips number and date columns, so they keep their `NA`s — which is what we want.
+
+**Part 6 — Joining datasets.** Draw the tiny `patients`/`labs` example on the board if you can. The old version of this workshop ran `distinct()` **after** the join. Removing duplicates **before** joining (Part 4) is the better habit: duplicates are easier to spot in the original data, and they can't multiply during the join. Stress the row-count check: 6451 rows before and after.
+
+**Part 7 — Exporting: live demo of the `.csv` problem.** Save `linelist_clean` as a `.csv`, read it back, and look for the missing IDs:
+
+``` r
+export(linelist_clean, here("processed_data", "test.csv"))
+import(here("processed_data", "test.csv")) %>% filter(is.na(case_id)) %>% nrow()   # 0, not 130!
+```
+
+The 130 missing IDs came back as blank text `""`, so `is.na()` no longer finds them. This is why Session 2 saved `linelist_clean` as `.rds`. Delete `test.csv` afterwards.
+
+Make sure everyone saves `measles_final.rds` — they need it for every remaining session. Early finishers: ⭐ Bonus (inner vs left join).
+
+**Wrap-up.** Today: `is.na()`, `drop_na()`, `filter(!is.na())`, `distinct()`, `get_dupes()`, `replace_na()`, `across()`, `select()`, joins, `export()`. **The data are ready!** Sessions 4–8 start from `combined_linelist.rds` and `measles_final.rds`. Preview Session 4 — Data structures: vectors, base R subsetting, and `pivot_longer()` / `pivot_wider()`.
+
+## TRY IT answers at a glance
+
+| TRY IT | Answer |
+|---|---|
+| Import the measles data | `measles_clean` 1215 rows; `district_info` 5 rows |
+| Missing values in the measles data | `days_in_hospital` has 766 NAs — never hospitalized, not a mistake |
+| Measles rows with no ID | `filter(is.na(patient_id)) %>% mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))` — 37 rows |
+| Measles duplicates | 1178 rows after `filter()`, 1163 after `distinct()` — 15 duplicates removed |
+| Replace missing text | `mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))`; district Unknown (34); `days_in_hospital` is numeric so it is skipped |
+| Join the district information | Still 1163 rows; the 34 "Unknown" district rows have no match, so `population` is NA |
+| Save the measles data | Three `export()` lines: `measles_final.rds`, `measles_final.csv`, `measles_missing_ids.csv` |
+| ⭐ Bonus | `inner_join()` gives 1129 rows (drops the 34 Unknown) vs 1163 for `left_join()` |

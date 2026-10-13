@@ -1,0 +1,58 @@
+---
+title: "Instructor notes: Session 7"
+subtitle: "Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
+---
+
+[→ Open the Session 7 lesson](../lessons/07-plotting-further.qmd)
+
+## Timing
+
+| Part | Topic | Time (incl. TRY IT) |
+|------|-------|---------------------|
+| 1 | Set up | 6 min |
+| 2 | Bar charts of counts: `geom_bar()` | 15 min |
+| 3 | Bar charts of values: `geom_col()` | 13 min |
+| 4 | Choosing colors | 12 min |
+| 5 | Epidemic curves | 17 min |
+| 6 | Facets | 12 min |
+| 7 | Saving plots | 7 min |
+|   | Wrap-up | 5 min |
+|   | **Total** | **87 min** |
+
+**Short on time?** Make the Part 3 TRY IT (case rates by district) homework — it repeats Session 5's rate calculation and nothing later depends on it. Don't skip the Part 5 epicurve TRY IT: learners need `measles_epicurve` for Parts 6 and 7. The **Extra** box-plot section is optional — use it only if there is time, or for learners who finish early.
+
+## Before you start
+
+-   Learners need `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds` (from Session 3). Ready-made copies are in `processed_data/` for anyone who missed it.
+-   They type along in `scripts/Session 7 - Plotting Further_STUDENT.R`; the filled-in version is `solutions/Session 7 - Plotting Further_SOLUTIONS.R`.
+-   Sticky notes as usual: green = done with the TRY IT, red = need help.
+
+## Teaching notes by part
+
+**Part 1 — Set up.** Same import pipeline as Session 6. Point out why we save `vacc_colors` now: every plot later in the session reuses it, so "Yes" is always the same blue.
+
+**Part 2 — `geom_bar()`.** Start with `x = hospital_name` so learners see the overlapping labels, then switch to `y`. Ask the class: *which version (stack, fill, or dodge) answers "do older patients die more often?"* — the 100% `"fill"` version; the stacked one mostly shows that there are many more young patients.
+
+**Part 3 — `geom_col()`.** Ask the class: *the 70–79 and 80+ bars are based on very few patients — check `n` in `death_by_age`. How much should we trust them?* — Not much: 70–79 has 6 patients and 80+ has 1 (0% died).
+
+**Part 4 — Choosing colors.** The original workshop used red/green and dark red/red. These pages use blue, orange, and gray (`#2a78d6`, `#eb6834`, `#9a9a95`); blue, orange, and aqua (`#2a78d6`, `#eb6834`, `#1baf7a`) stay distinguishable for the common types of color blindness. For more colors, the **viridis** scales are built in: `scale_fill_viridis_d()`.
+
+**Part 5 — Epidemic curves.** Show the full-range epicurve first and ask the class: *what is going on before 2014?* — 538 onset dates fall in 2012–2013 (April 2012 – April 2013), long before the outbreak, and every one belongs to a case ID that appears more than once (the duplicate IDs from Session 3), usually with the same day and month but a different year. Almost certainly data-entry errors. Make the point: **plots reveal problems tables hide.**
+
+**Part 6 — Facets.** Point out that facets share axes by default, which is what makes them comparable; `scales = "free_y"` breaks that. In the TRY IT, district peaks are close but not identical with weekly bins (Central and North peak the week of 17 March, East the week of 24 March, West 10 March, and South is nearly flat from early March into April) — "they all peak in March" is the fair answer.
+
+**Part 7 — Saving plots.** Have learners open the saved PNG from the **Explorer** (`outputs/` folder) — text size in the file often looks different from the Plots pane; adjust `width`/`height` to fix it.
+
+**Wrap-up.** Recap the journey: problem list (S1) → cleaning pipeline (S2) → de-duplicated, joined file (S3) → vectors, subsetting, reshaping (S4) → summary tables and Table 1 (S5) → histograms, scatter, box plots (S6) → bar charts, epicurves, facets saved to files (S7). Session 8 (Programming) is optional: functions, if/else, and loops — for example, one epicurve per hospital automatically. Encourage learners to repeat the whole workflow on their own data.
+
+## TRY IT answers at a glance
+
+| TRY IT | Answer |
+|---|---|
+| Set up the measles data | Same import as Session 6, plus `vacc_colors` (three named colors) |
+| Cases by district | `aes(y = fct_rev(fct_infreq(district)))` + `geom_bar()`; North (342) on top, Unknown (34) at the bottom |
+| Case rates by district | Central lowest (5.2 per 10,000), then North 18.5, South 20.0, West 22.2, East highest (22.8) |
+| Vaccination by age group | `geom_bar(position = "fill", color = "white") + scale_fill_manual(values = vacc_colors) + scale_y_continuous(labels = scales::percent)` |
+| The measles epicurve | Peak in the second half of March 2024 (week of 17 March, 117 cases); save as `measles_epicurve` |
+| Facets | Five panels; all districts peak in March; North has the most cases (39 in its peak week) |
+| Save a plot | `ggsave(here("outputs", "measles_epicurve.png"), plot = measles_epicurve, width = 8, height = 5, dpi = 300)` |

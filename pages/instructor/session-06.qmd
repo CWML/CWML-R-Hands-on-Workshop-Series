@@ -1,0 +1,67 @@
+---
+title: "Instructor notes: Session 6"
+subtitle: "Plotting Basics with ggplot2"
+---
+
+[→ Open the Session 6 lesson](../lessons/06-plotting-basics.qmd)
+
+## Timing
+
+| Part | Topic | Time (incl. TRY IT) |
+|------|-------|---------------------|
+| 1 | Set up | 6 min |
+| 2 | The grammar of graphics | 10 min |
+| 3 | Histograms | 11 min |
+| 4 | Mapping vs setting | 12 min |
+| 5 | Scatter plots | 14 min |
+| 6 | Box plots | 15 min |
+| 7 | Labels and themes | 14 min |
+|   | Wrap-up and preview | 5 min |
+|   | **Total** | **87 min** |
+
+**Short on time?** Shorten Part 7: demo `labs()` and one theme, skip saving `age_plot`, and make the "finish a plot" TRY IT homework. Don't cut Part 4 (mapping vs setting) — it is the key idea of the session.
+
+## Before you start
+
+-   Learners need `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds` (saved in Session 3). Anyone who missed it can use the ready-made copies already in `processed_data/`.
+-   They should have the workshop folder open in Positron (**File → Open Folder...**) and `scripts/Session 6 - Plotting Basics_STUDENT.R` open.
+-   Remind them of the sticky notes: green = done with the TRY IT, red = need help.
+-   The filled-in script is `solutions/Session 6 - Plotting Basics_SOLUTIONS.R`.
+
+## Teaching notes by part
+
+**Every part.** Build each plot **one layer at a time** and run it after every `+`, so learners see what each layer adds.
+
+**Part 1 — Set up.** Point out that the factor order from Session 5 isn't saved in the `.rds` file, so it has to be set again right after importing — and that `import()` and `mutate()` can go in one pipeline.
+
+**Part 2 — The grammar of graphics.** Run the three steps separately: empty canvas, axes only, then bars. Stress `+` not `%>%` between layers, and that `+` goes at the **end** of the line — the two most common beginner errors.
+
+**Part 3 — Histograms.** Point out the "using `bins = 30`" message from the Part 2 plot, then choose `binwidth` yourself. Live-try `binwidth = 1` and `binwidth = 10` so learners see the shape change. In the TRY IT, reassure learners that the "removed rows" warning is just the 29 missing ages.
+
+**Part 4 — Mapping vs setting.** This is the key idea. Ask the class:
+
+-   *What happens if you put `fill = "blue"` inside `aes()`?* Have them try it first. — The bars are pink-red and the legend says "blue": ggplot treated "blue" as data (a column whose every value is the word "blue") and gave it the first default color.
+
+**Part 5 — Scatter plots.** With 6,451 rows, many points overlap — show `size` and `alpha` fixing that. When filtering inside the pipeline, point out the switch: `%>%` **into** `ggplot()`, then `+` **between** layers. In the TRY IT, emphasize that a flat trend line ("no relationship") is a result too.
+
+**Part 6 — Box plots.** Walk through the parts of the box (median, IQR, whiskers at 1.5 × IQR, outliers). Ask the class:
+
+-   *Why is the mean (diamond) above the median (line)?* — The ages are right-skewed: a few older patients pull the mean up (female: median 11, mean 12.7; male: median 17, mean 19.5).
+
+Mention `geom_violin()` as an alternative.
+
+**Part 7 — Labels and themes.** Point out that a complete theme like `theme_minimal()` resets everything, so it must come **before** `theme(legend.position = ...)`. `base_size = 14` is handy for slides. Early finishers: ⭐ BONUS (fill by `vaccinated`; `geom_violin()`).
+
+**Wrap-up.** Today: `ggplot()`, `aes()`, `geom_histogram()`, `geom_point()`, `geom_smooth()`, `geom_boxplot()`, `stat_summary()`, `labs()`, themes. Next, Session 7 — Plotting further: bar charts, choosing colors, epidemic curves, facets, and saving plots to files.
+
+## TRY IT answers at a glance
+
+| TRY IT | Answer |
+|---|---|
+| Import and order the measles data | `import(...) %>% mutate(age_cat = fct_relevel(...), vaccinated = fct_relevel(...))`; `levels(measles$age_cat)` starts with "Under 5" |
+| Build a plot in three steps | Step 2 is an empty plot with temperatures on the x-axis; step 3 draws the bars |
+| Measles ages | Age 2 has the most cases (102); most cases are ages 1–5; the warning is the 29 missing ages |
+| Mapping fill | Small hump near 37 °C = no fever (99); big hump near 39 °C = fever (1064) |
+| A scatter plot | `filter(!is.na(days_in_hospital))` gives 427 patients; the trend line is nearly flat |
+| A box plot | Medians 4 days (Yes), 5 (No), 5 (Unknown) — no clear difference |
+| Finish a plot | Any measles plot with `labs()` and a theme, saved as `my_plot` — see the solutions file |

@@ -1,0 +1,1164 @@
+patient_id,report_date,district,sex,age_years,vaccinated,fever,rash,temp_c,days_in_hospital,outcome,age_cat,population,n_clinics
+MS-0931,2024-04-13,West,female,4,No,yes,yes,38.3,,Died,Under 5,76500,5
+MS-0113,2024-04-28,North,male,5,Yes,yes,no,38.4,,Recovered,5-9,185000,12
+MS-0975,2024-03-25,Central,Unknown,7,No,yes,no,39.3,,Recovered,5-9,210000,15
+MS-0297,2024-03-24,North,Unknown,1,No,yes,no,38,4,Recovered,Under 5,185000,12
+MS-0159,2024-02-25,South,female,10,No,yes,yes,38.9,,Recovered,10-14,142000,9
+MS-0946,2024-03-22,West,female,7,No,yes,yes,38.5,5,Recovered,5-9,76500,5
+MS-0705,2024-03-06,West,male,4,No,yes,yes,38.7,6,Died,Under 5,76500,5
+MS-1018,2024-02-18,North,male,2,Unknown,yes,no,38.5,5,Recovered,Under 5,185000,12
+MS-1103,2024-04-08,South,male,0,No,yes,yes,39.1,9,Recovered,Under 5,142000,9
+MS-0241,2024-04-09,North,female,3,No,yes,yes,39.5,,Died,Under 5,185000,12
+MS-0390,2024-04-25,North,male,8,Yes,yes,yes,38,3,Recovered,5-9,185000,12
+MS-0276,2024-04-25,West,Unknown,9,Yes,yes,yes,38.5,1,Recovered,5-9,76500,5
+MS-0657,2024-05-09,Central,female,11,No,yes,yes,38.2,4,Recovered,10-14,210000,15
+MS-0134,2024-05-09,West,female,4,No,yes,yes,39.2,,Recovered,Under 5,76500,5
+MS-0776,2024-03-15,West,male,11,No,yes,no,39.1,,Recovered,10-14,76500,5
+MS-1124,2024-03-25,South,male,1,No,yes,yes,39.7,,Recovered,Under 5,142000,9
+MS-0525,2024-03-13,Central,male,3,Yes,yes,yes,37.8,,Recovered,Under 5,210000,15
+MS-1059,2024-04-19,West,female,2,Unknown,yes,yes,38.5,,Recovered,Under 5,76500,5
+MS-1122,2024-04-30,North,male,21,Yes,yes,yes,38.9,,Recovered,15+,185000,12
+MS-1169,2024-05-12,West,female,17,Yes,yes,yes,38.5,,Recovered,15+,76500,5
+MS-0621,2024-03-01,West,male,1,No,yes,yes,38.7,5,Recovered,Under 5,76500,5
+MS-0934,2024-03-10,West,male,3,No,yes,no,38.7,,Recovered,Under 5,76500,5
+MS-1029,2024-03-29,East,male,1,Unknown,yes,yes,38.5,,Recovered,Under 5,98000,7
+MS-0248,2024-04-09,South,male,1,No,no,yes,36.4,,Recovered,Under 5,142000,9
+MS-1172,2024-02-09,West,male,18,No,yes,yes,40.6,,Recovered,15+,76500,5
+MS-0374,2024-04-04,West,male,1,No,yes,yes,38.8,5,Died,Under 5,76500,5
+MS-0935,2024-04-23,South,male,1,Yes,yes,yes,38.8,6,Recovered,Under 5,142000,9
+MS-0139,2024-02-14,East,female,8,Unknown,yes,no,38.8,8,Recovered,5-9,98000,7
+MS-0694,2024-05-21,Central,female,8,Unknown,yes,yes,40.3,3,Recovered,5-9,210000,15
+MS-0492,2024-04-14,North,female,2,Yes,yes,yes,38.5,6,Recovered,Under 5,185000,12
+MS-0862,2024-03-12,South,female,2,No,yes,yes,39.8,,Recovered,Under 5,142000,9
+MS-1076,2024-04-30,North,male,6,Yes,yes,yes,39.6,4,Recovered,5-9,185000,12
+MS-1028,2024-06-05,Central,male,15,No,yes,yes,38.9,,Recovered,15+,210000,15
+MS-0298,2024-04-09,North,female,2,No,yes,yes,39.3,,Died,Under 5,185000,12
+MS-0445,2024-05-22,East,male,5,Unknown,yes,yes,38.7,,Recovered,5-9,98000,7
+MS-0186,2024-04-24,East,male,2,Unknown,yes,no,39.5,2,Recovered,Under 5,98000,7
+MS-0647,2024-02-10,Unknown,male,3,No,yes,yes,39.5,,Recovered,Under 5,,
+MS-0130,2024-04-05,North,female,14,Yes,yes,yes,38.7,,Recovered,10-14,185000,12
+MS-0171,2024-03-30,North,female,0,Unknown,yes,yes,37.5,,Recovered,Under 5,185000,12
+MS-0433,2024-02-09,East,female,15,No,yes,no,39.4,,Recovered,15+,98000,7
+MS-1069,2024-03-10,South,Unknown,13,Yes,yes,yes,39.1,,Recovered,10-14,142000,9
+MS-0572,2024-03-15,Central,male,4,No,no,yes,37.1,,Recovered,Under 5,210000,15
+MS-0091,2024-02-08,West,male,24,No,yes,yes,38.9,,Recovered,15+,76500,5
+MS-1133,2024-03-17,North,male,12,No,yes,yes,37.7,,Died,10-14,185000,12
+MS-0205,2024-04-02,North,female,32,Yes,yes,yes,38.3,4,Recovered,15+,185000,12
+MS-0191,2024-04-25,Unknown,female,26,No,yes,yes,38.2,,Recovered,15+,,
+MS-0530,2024-05-23,North,male,22,Unknown,yes,no,39.7,,Recovered,15+,185000,12
+MS-0992,2024-02-03,South,female,4,No,yes,yes,39,,Recovered,Under 5,142000,9
+MS-1121,2024-02-26,North,female,3,Yes,yes,yes,38.2,,Recovered,Under 5,185000,12
+MS-0611,2024-04-28,North,female,4,No,yes,no,38.9,,Recovered,Under 5,185000,12
+MS-0296,2024-07-04,North,male,15,Unknown,yes,yes,39.5,,Recovered,15+,185000,12
+MS-1054,2024-04-06,West,female,7,No,yes,no,39.3,5,Recovered,5-9,76500,5
+MS-0834,2024-04-01,Central,male,20,No,yes,yes,38.8,3,Recovered,15+,210000,15
+MS-0045,2024-05-03,West,female,4,No,yes,yes,38.8,,Recovered,Under 5,76500,5
+MS-0395,2024-03-24,South,female,12,No,yes,yes,39.3,,Recovered,10-14,142000,9
+MS-0948,2024-03-30,North,female,9,Yes,yes,no,38.8,,Recovered,5-9,185000,12
+MS-1179,2024-04-13,South,female,16,No,yes,yes,39.1,3,Recovered,15+,142000,9
+MS-0253,2024-04-13,East,male,11,No,yes,no,38.9,3,Unknown,10-14,98000,7
+MS-0751,2024-05-19,North,male,13,No,yes,yes,38.7,4,Recovered,10-14,185000,12
+MS-0708,2024-03-24,North,female,2,No,yes,no,38.6,,Recovered,Under 5,185000,12
+MS-1168,2024-03-21,North,male,21,Yes,yes,yes,39.3,,Recovered,15+,185000,12
+MS-1042,2024-03-15,South,male,22,Yes,no,yes,37,,Recovered,15+,142000,9
+MS-0375,2024-04-13,North,female,10,No,yes,yes,38.8,,Recovered,10-14,185000,12
+MS-1008,,East,female,10,No,no,yes,36.2,,Recovered,10-14,98000,7
+MS-0465,2024-04-14,East,male,6,No,yes,yes,39.6,4,Recovered,5-9,98000,7
+MS-0283,2024-02-27,West,male,3,No,yes,yes,38.5,10,Recovered,Under 5,76500,5
+MS-0029,2024-03-09,West,male,9,No,yes,yes,39.8,7,Recovered,5-9,76500,5
+MS-0265,,South,male,24,Yes,yes,yes,37.4,3,Recovered,15+,142000,9
+MS-0443,2024-02-21,East,male,,No,yes,yes,39.5,,Recovered,Unknown,98000,7
+MS-1007,2024-05-01,Central,male,3,No,yes,yes,38.1,,Recovered,Under 5,210000,15
+MS-0190,2024-05-18,North,male,2,No,yes,no,38.4,,Recovered,Under 5,185000,12
+MS-0785,2024-03-27,South,female,4,Unknown,yes,yes,39.1,,Recovered,Under 5,142000,9
+MS-1159,2024-03-01,South,female,13,No,yes,no,38.5,,Recovered,10-14,142000,9
+MS-0710,2024-03-21,East,female,1,Yes,no,yes,37,,Unknown,Under 5,98000,7
+MS-0156,2024-06-30,North,male,19,No,yes,no,38.6,3,Recovered,15+,185000,12
+MS-0721,2024-08-02,East,female,7,No,yes,yes,38.4,,Recovered,5-9,98000,7
+MS-0146,2024-02-25,East,Unknown,15,Yes,yes,yes,39.1,,Recovered,15+,98000,7
+MS-1116,2024-05-04,South,male,13,No,yes,yes,38.7,,Recovered,10-14,142000,9
+MS-0352,2024-06-10,South,female,5,No,yes,yes,38.9,,Recovered,5-9,142000,9
+MS-0631,2024-07-04,South,male,27,No,yes,yes,38.7,,Recovered,15+,142000,9
+MS-0551,2024-04-05,West,female,9,No,yes,yes,39.3,2,Recovered,5-9,76500,5
+MS-1094,2024-03-14,North,male,6,No,yes,yes,37.8,5,Recovered,5-9,185000,12
+MS-0225,2024-03-05,South,male,22,Yes,yes,no,39.6,4,Recovered,15+,142000,9
+MS-0624,2024-05-14,East,female,10,Yes,yes,yes,39.4,,Unknown,10-14,98000,7
+MS-0429,2024-04-10,North,male,7,Unknown,yes,yes,39,,Recovered,5-9,185000,12
+MS-0147,2024-02-24,North,male,5,Yes,yes,yes,39.4,4,Recovered,5-9,185000,12
+MS-1030,2024-04-11,East,female,6,Unknown,yes,yes,40,8,Recovered,5-9,98000,7
+MS-0345,2024-03-24,West,female,4,Yes,yes,yes,38.6,,Recovered,Under 5,76500,5
+MS-1064,2024-03-08,East,female,15,Yes,yes,yes,39.7,,Recovered,15+,98000,7
+MS-0145,2024-03-06,West,female,6,No,yes,yes,39.5,,Recovered,5-9,76500,5
+MS-0799,2024-03-07,West,male,5,Yes,yes,yes,38.6,,Recovered,5-9,76500,5
+MS-0753,2024-02-24,North,male,24,Unknown,yes,yes,39.8,,Recovered,15+,185000,12
+MS-0869,2024-02-27,North,male,13,Yes,yes,yes,39,,Recovered,10-14,185000,12
+MS-0192,2024-05-06,East,female,13,No,yes,yes,38.9,,Unknown,10-14,98000,7
+MS-0398,2024-02-27,North,female,4,No,yes,no,39.8,6,Recovered,Under 5,185000,12
+MS-0106,2024-04-03,North,male,4,Yes,yes,yes,38.9,,Recovered,Under 5,185000,12
+MS-0918,2024-04-17,South,male,9,No,yes,no,38.9,,Recovered,5-9,142000,9
+MS-0407,2024-05-05,South,female,17,No,yes,yes,38.7,10,Recovered,15+,142000,9
+MS-0837,2024-03-27,West,male,6,No,yes,yes,39.2,5,Recovered,5-9,76500,5
+MS-0427,2024-03-28,South,male,2,No,yes,no,38.9,7,Recovered,Under 5,142000,9
+MS-0452,2024-02-20,South,female,15,Yes,yes,yes,39.1,,Recovered,15+,142000,9
+MS-0423,2024-03-27,East,female,12,Unknown,yes,yes,39,3,Recovered,10-14,98000,7
+MS-0538,2024-05-02,West,female,1,No,yes,yes,40.2,2,Recovered,Under 5,76500,5
+MS-1198,2024-03-08,North,female,8,Unknown,yes,yes,38.7,3,Recovered,5-9,185000,12
+MS-0063,2024-02-08,North,female,5,No,yes,yes,38,,Recovered,5-9,185000,12
+MS-0444,2024-02-26,East,male,8,Unknown,yes,yes,40,,Recovered,5-9,98000,7
+MS-0738,2024-02-27,Central,male,1,Unknown,yes,yes,39.1,,Recovered,Under 5,210000,15
+MS-0319,2024-03-29,North,male,5,No,yes,yes,39,5,Recovered,5-9,185000,12
+MS-0587,2024-04-10,North,Unknown,3,No,yes,no,39,,Recovered,Under 5,185000,12
+MS-1084,2024-05-05,East,male,2,No,no,yes,37.1,,Recovered,Under 5,98000,7
+MS-0439,2024-03-23,North,male,7,Yes,yes,yes,39.8,3,Recovered,5-9,185000,12
+MS-0026,2024-03-16,South,female,6,No,yes,no,39.4,,Recovered,5-9,142000,9
+MS-0348,2024-05-16,North,male,12,Yes,yes,yes,38.1,,Recovered,10-14,185000,12
+MS-0042,2024-02-13,East,male,24,No,yes,yes,40,,Unknown,15+,98000,7
+MS-0578,2024-03-20,North,female,14,No,yes,no,39.3,,Recovered,10-14,185000,12
+MS-0112,2024-03-31,East,female,7,No,yes,yes,39,8,Recovered,5-9,98000,7
+MS-0128,2024-05-15,East,female,16,No,yes,yes,39.7,,Recovered,15+,98000,7
+MS-1087,2024-03-12,East,female,14,Unknown,yes,yes,39.1,8,Recovered,10-14,98000,7
+MS-0052,2024-02-01,South,male,5,Yes,yes,yes,39.6,,Recovered,5-9,142000,9
+MS-0067,2024-01-27,North,male,18,No,yes,no,37.6,6,Recovered,15+,185000,12
+MS-0608,2024-06-04,Unknown,male,6,Yes,yes,yes,38.5,5,Recovered,5-9,,
+MS-0482,2024-03-31,South,female,6,No,yes,no,39.5,2,Recovered,5-9,142000,9
+MS-0224,2024-06-07,West,male,2,No,yes,no,40,,Recovered,Under 5,76500,5
+MS-0400,2024-02-24,South,female,13,Yes,yes,yes,38.9,6,Recovered,10-14,142000,9
+MS-0630,2024-03-08,Unknown,female,6,No,yes,yes,39.4,,Died,5-9,,
+MS-0393,2024-03-01,East,male,8,Yes,yes,yes,40,,Recovered,5-9,98000,7
+MS-0493,2024-02-21,West,male,8,No,yes,yes,39.3,2,Recovered,5-9,76500,5
+MS-0698,2024-03-23,North,male,11,Unknown,yes,yes,38.7,2,Recovered,10-14,185000,12
+MS-0312,2024-04-02,North,male,7,No,yes,yes,40.5,4,Recovered,5-9,185000,12
+MS-0509,2024-05-06,South,male,,Yes,yes,yes,39,,Recovered,Unknown,142000,9
+MS-0140,2024-04-20,East,male,4,Unknown,yes,yes,39.9,,Recovered,Under 5,98000,7
+MS-0811,2024-03-12,South,male,10,No,yes,yes,39.5,,Recovered,10-14,142000,9
+MS-0727,2024-04-28,North,Unknown,8,No,yes,yes,38.5,,Recovered,5-9,185000,12
+MS-0278,2024-02-23,Central,male,4,No,yes,yes,39.4,,Unknown,Under 5,210000,15
+MS-0459,2024-03-27,West,female,1,No,yes,yes,38.8,,Died,Under 5,76500,5
+MS-0873,2024-05-02,West,male,5,No,yes,yes,38.8,7,Recovered,5-9,76500,5
+MS-0926,2024-02-10,Central,female,5,No,yes,yes,38.4,9,Recovered,5-9,210000,15
+MS-1066,2024-04-29,North,female,11,No,yes,yes,38.7,5,Recovered,10-14,185000,12
+MS-1138,2024-02-29,South,female,2,No,yes,no,38.6,,Recovered,Under 5,142000,9
+MS-1005,2024-05-15,Central,female,4,No,no,yes,37.2,,Recovered,Under 5,210000,15
+MS-0092,2024-02-18,North,female,5,Yes,no,yes,37.4,,Died,5-9,185000,12
+MS-1081,2024-04-10,East,male,2,No,yes,yes,40,,Recovered,Under 5,98000,7
+MS-0010,2024-04-12,East,female,1,No,yes,yes,38.4,3,Recovered,Under 5,98000,7
+MS-0471,,East,Unknown,8,No,yes,yes,39,,Recovered,5-9,98000,7
+MS-0389,2024-03-15,West,male,8,Yes,yes,yes,39,,Recovered,5-9,76500,5
+MS-0800,2024-02-24,Central,male,10,Unknown,yes,yes,39.8,4,Recovered,10-14,210000,15
+MS-0586,2024-03-26,South,male,7,No,yes,no,39,,Recovered,5-9,142000,9
+MS-0650,2024-02-18,South,female,30,Unknown,yes,yes,39.3,,Recovered,15+,142000,9
+MS-0805,2024-07-29,West,female,4,No,yes,yes,39.4,,Recovered,Under 5,76500,5
+MS-0116,2024-04-14,Unknown,female,1,Yes,no,yes,36.8,,Recovered,Under 5,,
+MS-0496,2024-02-21,North,female,9,No,yes,yes,38.3,4,Recovered,5-9,185000,12
+MS-0118,2024-07-09,Central,male,15,Unknown,yes,yes,39,5,Recovered,15+,210000,15
+MS-0979,2024-03-24,East,male,4,Yes,yes,yes,38.3,8,Recovered,Under 5,98000,7
+MS-1192,2024-04-11,West,male,3,Yes,yes,yes,39.1,7,Unknown,Under 5,76500,5
+MS-0884,2024-07-18,South,female,11,Unknown,yes,yes,39.8,,Recovered,10-14,142000,9
+MS-0256,2024-03-29,North,Unknown,3,No,yes,yes,39.6,,Recovered,Under 5,185000,12
+MS-0498,2024-03-03,North,male,3,No,yes,yes,38.2,,Recovered,Under 5,185000,12
+MS-0266,2024-04-22,Central,male,9,Yes,yes,no,38.8,,Unknown,5-9,210000,15
+MS-0814,2024-04-15,North,male,10,No,yes,yes,39.2,5,Recovered,10-14,185000,12
+MS-0628,2024-04-05,South,Unknown,,Yes,yes,no,39.7,,Recovered,Unknown,142000,9
+MS-0101,2024-02-29,West,female,1,No,yes,yes,39.5,,Recovered,Under 5,76500,5
+MS-0685,2024-03-14,North,male,4,Yes,yes,yes,39,,Recovered,Under 5,185000,12
+MS-0808,2024-04-16,West,female,22,Unknown,yes,yes,39.3,,Recovered,15+,76500,5
+MS-0028,2024-04-16,South,female,1,No,yes,yes,39.6,,Recovered,Under 5,142000,9
+MS-0484,2024-02-24,Central,male,11,Unknown,yes,yes,39.6,,Recovered,10-14,210000,15
+MS-0341,2024-04-05,North,male,12,No,yes,yes,39.8,,Died,10-14,185000,12
+MS-0725,2024-03-06,East,male,2,No,yes,yes,38.2,,Recovered,Under 5,98000,7
+MS-0510,2024-03-06,West,female,3,No,yes,yes,38.7,5,Recovered,Under 5,76500,5
+MS-0759,2024-06-08,South,male,8,No,no,yes,37.3,,Died,5-9,142000,9
+MS-0172,2024-03-25,West,female,6,No,yes,yes,39.7,,Recovered,5-9,76500,5
+MS-0976,2024-03-19,West,female,1,Yes,yes,yes,39.1,4,Recovered,Under 5,76500,5
+MS-0449,2024-03-02,West,male,6,Yes,yes,no,39.1,3,Recovered,5-9,76500,5
+MS-0728,2024-06-25,North,male,2,No,no,yes,37.1,,Recovered,Under 5,185000,12
+MS-1099,2024-04-28,Central,male,5,No,yes,yes,39.6,4,Recovered,5-9,210000,15
+MS-0500,2024-04-23,South,female,1,Unknown,yes,yes,39.3,,Recovered,Under 5,142000,9
+MS-0939,2024-04-26,South,male,5,Yes,yes,yes,39.3,4,Recovered,5-9,142000,9
+MS-0604,2024-04-21,East,female,16,No,yes,yes,38.5,,Recovered,15+,98000,7
+MS-0046,2024-03-25,North,female,1,No,yes,yes,39.3,,Recovered,Under 5,185000,12
+MS-0827,2024-05-04,East,female,19,Yes,yes,yes,38.4,,Recovered,15+,98000,7
+MS-0059,2024-02-25,South,female,3,No,yes,yes,39.3,,Unknown,Under 5,142000,9
+MS-1188,2024-02-21,North,female,2,Yes,yes,yes,38.3,,Recovered,Under 5,185000,12
+MS-0457,2024-02-26,North,male,25,Yes,yes,no,39.5,,Recovered,15+,185000,12
+MS-0678,2024-03-20,North,female,8,No,yes,yes,38.9,6,Recovered,5-9,185000,12
+MS-0024,2024-02-02,East,male,11,No,yes,no,38.2,,Recovered,10-14,98000,7
+MS-1078,2024-03-26,West,male,17,No,yes,yes,39,,Died,15+,76500,5
+MS-0816,2024-03-12,East,male,,No,yes,yes,38.2,,Recovered,Unknown,98000,7
+MS-0847,2024-03-10,South,male,5,No,yes,yes,39,,Recovered,5-9,142000,9
+MS-0428,2024-04-22,North,female,2,No,yes,yes,38.7,,Recovered,Under 5,185000,12
+MS-0027,2024-04-28,South,male,7,Unknown,yes,yes,38.4,4,Unknown,5-9,142000,9
+MS-0402,2024-03-29,East,female,6,No,yes,yes,39.5,,Recovered,5-9,98000,7
+MS-0858,2024-03-01,North,female,7,No,yes,yes,37.8,,Recovered,5-9,185000,12
+MS-1039,2024-03-06,South,female,5,Unknown,yes,yes,39.6,,Died,5-9,142000,9
+MS-0972,2024-02-22,East,female,0,No,yes,yes,39,,Recovered,Under 5,98000,7
+MS-1001,2024-02-13,South,male,9,No,yes,no,38.1,2,Recovered,5-9,142000,9
+MS-1162,2024-04-18,Central,male,3,No,yes,yes,38.2,2,Recovered,Under 5,210000,15
+MS-0846,2024-02-29,West,male,6,No,yes,yes,39.1,,Died,5-9,76500,5
+MS-0656,2024-05-29,East,female,14,No,no,yes,36.9,5,Unknown,10-14,98000,7
+MS-0970,2024-03-19,South,female,2,No,no,yes,37.2,,Died,Under 5,142000,9
+MS-0980,2024-04-27,Central,Unknown,5,Yes,yes,yes,38.5,9,Recovered,5-9,210000,15
+MS-1050,2024-04-01,North,male,11,No,yes,yes,39,,Recovered,10-14,185000,12
+MS-0758,2024-05-03,West,female,14,No,yes,yes,37.4,,Recovered,10-14,76500,5
+MS-0652,2024-02-11,East,female,10,No,yes,yes,38.7,,Recovered,10-14,98000,7
+MS-0755,2024-02-09,West,female,10,Unknown,yes,yes,39.2,8,Recovered,10-14,76500,5
+MS-0432,2024-03-14,South,male,2,No,no,yes,36.9,,Recovered,Under 5,142000,9
+MS-0034,2024-03-25,South,Unknown,19,No,yes,yes,38.9,,Recovered,15+,142000,9
+MS-0863,2024-06-04,West,female,5,No,yes,yes,38.9,7,Recovered,5-9,76500,5
+MS-1155,2024-04-12,South,female,7,No,yes,yes,39.6,6,Recovered,5-9,142000,9
+MS-0291,2024-02-14,East,female,3,No,yes,yes,39,,Recovered,Under 5,98000,7
+MS-0494,2024-05-12,North,male,0,No,yes,yes,38.2,,Died,Under 5,185000,12
+MS-0450,2024-03-21,North,male,7,No,yes,yes,38.5,,Recovered,5-9,185000,12
+MS-0535,2024-05-20,Central,male,3,Yes,yes,yes,39.9,3,Recovered,Under 5,210000,15
+MS-0924,2024-02-25,North,female,2,Unknown,no,yes,36.8,,Unknown,Under 5,185000,12
+MS-0554,2024-03-18,East,male,21,Yes,yes,yes,39.1,,Recovered,15+,98000,7
+MS-0016,2024-06-08,West,female,4,No,yes,yes,39.6,5,Died,Under 5,76500,5
+MS-0003,2024-03-23,East,female,2,Unknown,yes,yes,39.3,2,Recovered,Under 5,98000,7
+MS-0543,,East,female,14,Yes,yes,yes,39.1,7,Recovered,10-14,98000,7
+MS-0189,2024-02-28,North,female,11,No,yes,no,38.9,3,Recovered,10-14,185000,12
+MS-0796,2024-03-18,East,male,7,Unknown,yes,yes,37.7,,Recovered,5-9,98000,7
+MS-0690,2024-04-19,South,male,1,No,yes,yes,38.7,,Recovered,Under 5,142000,9
+MS-0967,2024-05-22,North,female,6,Unknown,yes,no,38.5,,Recovered,5-9,185000,12
+MS-0840,2024-03-19,East,male,6,Unknown,yes,yes,38.9,,Recovered,5-9,98000,7
+MS-0810,2024-03-30,South,male,7,No,yes,yes,39.6,4,Recovered,5-9,142000,9
+MS-0215,2024-03-07,West,male,7,No,yes,yes,38.5,,Recovered,5-9,76500,5
+MS-0501,2024-04-02,East,female,,No,yes,yes,39.8,,Recovered,Unknown,98000,7
+MS-0107,2024-04-01,Central,female,3,No,yes,yes,39.1,7,Recovered,Under 5,210000,15
+MS-0394,2024-03-16,South,male,18,No,yes,yes,38,3,Recovered,15+,142000,9
+MS-0707,2024-06-12,Central,male,2,No,yes,yes,37.8,,Recovered,Under 5,210000,15
+MS-0531,2024-03-05,North,female,2,No,yes,yes,40.1,,Recovered,Under 5,185000,12
+MS-1040,2024-03-11,West,female,8,Unknown,yes,yes,38.5,,Recovered,5-9,76500,5
+MS-0887,2024-03-14,North,male,1,No,yes,yes,39.3,,Recovered,Under 5,185000,12
+MS-0781,2024-04-13,East,male,17,Yes,yes,yes,39,,Recovered,15+,98000,7
+MS-1025,2024-04-02,West,male,1,No,yes,yes,38.5,,Recovered,Under 5,76500,5
+MS-0632,2024-05-23,South,male,1,No,yes,yes,39.2,5,Recovered,Under 5,142000,9
+MS-0486,2024-03-20,North,female,5,No,yes,yes,38.7,,Recovered,5-9,185000,12
+MS-1048,2024-05-19,North,male,12,No,yes,yes,39.6,,Recovered,10-14,185000,12
+MS-0468,2024-04-17,South,Unknown,2,Unknown,yes,yes,37,8,Recovered,Under 5,142000,9
+MS-0833,,North,female,7,No,yes,yes,38.3,,Recovered,5-9,185000,12
+MS-0078,2024-02-19,West,male,5,No,yes,yes,39.1,,Recovered,5-9,76500,5
+MS-0035,2024-02-21,East,female,12,No,yes,yes,40.1,,Recovered,10-14,98000,7
+MS-0714,2024-03-27,East,male,17,No,yes,yes,40.4,,Recovered,15+,98000,7
+MS-0002,2024-04-12,South,male,22,Yes,yes,yes,39.2,5,Recovered,15+,142000,9
+MS-0826,2024-03-11,Central,male,4,No,yes,yes,39.8,,Recovered,Under 5,210000,15
+MS-1108,2024-04-13,South,Unknown,6,No,yes,yes,38.7,,Recovered,5-9,142000,9
+MS-0286,2024-03-05,Central,female,10,No,yes,yes,39.3,,Recovered,10-14,210000,15
+MS-0831,2024-06-01,North,male,10,No,yes,yes,38.5,,Recovered,10-14,185000,12
+MS-1144,2024-03-23,North,female,2,Unknown,yes,yes,39.2,,Recovered,Under 5,185000,12
+MS-1106,2024-03-28,Central,male,3,No,no,yes,36.9,,Recovered,Under 5,210000,15
+MS-0129,2024-05-17,Central,male,4,No,yes,yes,39.2,6,Recovered,Under 5,210000,15
+MS-1151,2024-03-19,Unknown,Unknown,13,Yes,yes,yes,38.2,,Recovered,10-14,,
+MS-0075,2024-04-11,North,male,11,Yes,yes,yes,39.2,,Recovered,10-14,185000,12
+MS-0986,2024-07-30,South,male,14,Yes,yes,yes,39.3,,Recovered,10-14,142000,9
+MS-0141,2024-03-06,East,male,2,No,yes,yes,37.6,6,Unknown,Under 5,98000,7
+MS-0984,2024-03-17,West,female,13,No,yes,yes,38.9,,Recovered,10-14,76500,5
+MS-0122,2024-03-26,East,male,13,Unknown,yes,yes,38.7,,Recovered,10-14,98000,7
+MS-0392,2024-06-27,South,male,13,No,yes,yes,39,,Recovered,10-14,142000,9
+MS-0218,2024-05-02,North,female,10,No,yes,yes,39,4,Recovered,10-14,185000,12
+MS-1105,2024-05-26,South,female,4,No,yes,yes,38.9,7,Recovered,Under 5,142000,9
+MS-1033,2024-03-15,North,female,3,No,yes,yes,39.2,,Recovered,Under 5,185000,12
+MS-1051,2024-03-04,Central,female,14,No,yes,yes,39.5,7,Recovered,10-14,210000,15
+MS-1143,2024-02-25,Unknown,male,2,Yes,yes,no,39.8,,Recovered,Under 5,,
+MS-0194,2024-04-27,East,male,10,Yes,yes,no,39.6,2,Recovered,10-14,98000,7
+MS-1177,2024-04-06,East,female,11,Yes,yes,yes,38.5,5,Recovered,10-14,98000,7
+MS-0366,2024-03-16,South,female,5,No,yes,yes,38.3,,Recovered,5-9,142000,9
+MS-1058,2024-03-01,North,male,11,Unknown,yes,yes,39.2,,Recovered,10-14,185000,12
+MS-0380,2024-03-26,Central,female,12,No,yes,yes,38.7,,Recovered,10-14,210000,15
+MS-0441,2024-03-24,Central,male,11,Unknown,yes,no,38.2,8,Recovered,10-14,210000,15
+MS-0646,2024-02-17,South,female,11,No,yes,no,38.9,7,Recovered,10-14,142000,9
+MS-1158,2024-03-22,West,female,2,Yes,yes,yes,39.3,,Recovered,Under 5,76500,5
+MS-0581,2024-03-30,West,male,35,Unknown,yes,yes,38.6,,Recovered,15+,76500,5
+MS-0620,2024-05-09,South,male,12,Yes,yes,yes,38.6,2,Recovered,10-14,142000,9
+MS-0397,2024-03-05,North,male,2,No,no,yes,36.9,8,Unknown,Under 5,185000,12
+MS-0232,2024-04-09,East,male,9,No,yes,no,38.6,8,Recovered,5-9,98000,7
+MS-0956,2024-03-10,North,female,21,No,no,no,37.3,,Died,15+,185000,12
+MS-0994,2024-03-13,East,female,12,No,yes,yes,38.6,7,Recovered,10-14,98000,7
+MS-0332,2024-03-15,North,female,12,No,yes,yes,38.8,,Recovered,10-14,185000,12
+MS-0968,2024-05-20,North,male,19,No,yes,yes,39.3,,Recovered,15+,185000,12
+MS-0424,2024-04-24,Central,female,10,No,yes,no,39.7,,Recovered,10-14,210000,15
+MS-0661,2024-07-08,South,male,14,No,yes,no,39.6,2,Recovered,10-14,142000,9
+MS-0922,2024-07-22,North,male,4,Yes,yes,yes,39.2,,Recovered,Under 5,185000,12
+MS-0196,2024-05-04,West,female,1,No,yes,yes,39.2,,Recovered,Under 5,76500,5
+MS-0852,2024-03-29,West,male,3,No,yes,yes,39.3,,Recovered,Under 5,76500,5
+MS-0136,2024-04-01,North,female,16,No,yes,yes,40.9,,Recovered,15+,185000,12
+MS-0419,2024-02-29,South,male,11,Yes,yes,yes,38.1,,Recovered,10-14,142000,9
+MS-0275,2024-04-22,East,female,9,No,yes,yes,39.2,,Recovered,5-9,98000,7
+MS-0607,2024-03-21,Central,female,2,Yes,yes,yes,39.5,4,Recovered,Under 5,210000,15
+MS-0626,2024-05-10,North,male,16,No,yes,yes,39.7,4,Recovered,15+,185000,12
+MS-1163,2024-03-01,North,male,7,Yes,yes,yes,39,7,Recovered,5-9,185000,12
+MS-0961,,South,male,4,Yes,yes,yes,39.4,,Unknown,Under 5,142000,9
+MS-0208,2024-02-08,North,male,10,Yes,yes,yes,38,2,Recovered,10-14,185000,12
+MS-0416,2024-06-17,Central,female,2,No,yes,yes,38.8,5,Recovered,Under 5,210000,15
+MS-0741,2024-02-04,South,female,8,Yes,yes,no,39.4,,Recovered,5-9,142000,9
+MS-1187,2024-03-29,Central,male,12,Yes,yes,yes,38.7,,Recovered,10-14,210000,15
+MS-0108,2024-03-15,West,male,11,No,yes,no,39.2,,Died,10-14,76500,5
+MS-0915,,North,female,7,No,yes,yes,38.6,,Recovered,5-9,185000,12
+MS-0740,2024-05-23,South,male,4,No,yes,yes,38.3,,Recovered,Under 5,142000,9
+MS-0568,2024-07-11,North,female,6,Yes,yes,yes,39.4,4,Recovered,5-9,185000,12
+MS-1125,2024-04-04,South,female,7,No,no,yes,36.7,,Recovered,5-9,142000,9
+MS-0760,2024-06-17,North,male,1,Unknown,yes,yes,38.4,,Recovered,Under 5,185000,12
+MS-1128,2024-04-10,East,male,9,No,yes,no,38.9,9,Recovered,5-9,98000,7
+MS-0469,2024-03-31,Unknown,female,10,No,yes,yes,39.2,9,Recovered,10-14,,
+MS-0550,2024-03-09,Central,male,19,No,yes,yes,38.7,5,Recovered,15+,210000,15
+MS-0743,2024-02-12,West,female,4,No,yes,yes,39.6,5,Recovered,Under 5,76500,5
+MS-0536,2024-03-06,East,male,9,No,yes,yes,39.3,,Recovered,5-9,98000,7
+MS-0041,2024-04-30,West,Unknown,14,Unknown,yes,no,38.6,6,Recovered,10-14,76500,5
+MS-1089,2024-03-18,North,male,11,No,yes,yes,39.9,5,Recovered,10-14,185000,12
+MS-0877,2024-03-02,North,male,11,No,yes,yes,38.7,,Recovered,10-14,185000,12
+MS-0932,2024-02-17,North,male,14,No,yes,yes,37.4,,Recovered,10-14,185000,12
+MS-0472,2024-03-24,South,male,19,No,yes,no,39.2,,Recovered,15+,142000,9
+MS-1197,2024-03-26,East,male,31,Yes,yes,yes,38.8,,Recovered,15+,98000,7
+MS-0634,,West,male,6,Unknown,yes,yes,39.3,,Recovered,5-9,76500,5
+MS-0137,2024-04-21,Central,female,5,No,no,yes,36.7,2,Recovered,5-9,210000,15
+MS-0697,2024-05-13,North,female,13,No,yes,yes,38,8,Recovered,10-14,185000,12
+MS-0660,2024-02-28,East,Unknown,20,No,yes,yes,38.5,3,Recovered,15+,98000,7
+MS-0168,2024-04-21,North,male,6,Yes,yes,yes,38.5,,Recovered,5-9,185000,12
+MS-0928,2024-03-13,East,male,7,Yes,yes,yes,37.5,,Recovered,5-9,98000,7
+MS-1196,2024-05-26,North,male,7,No,yes,yes,38.5,,Recovered,5-9,185000,12
+MS-1139,2024-04-02,South,male,14,Unknown,yes,no,39,5,Recovered,10-14,142000,9
+MS-0362,2024-05-15,South,female,9,No,yes,yes,38.9,,Recovered,5-9,142000,9
+MS-0576,2024-03-01,South,female,3,No,yes,yes,39.2,,Recovered,Under 5,142000,9
+MS-0316,2024-03-23,North,female,4,Yes,yes,yes,39,6,Recovered,Under 5,185000,12
+MS-0519,2024-03-21,North,female,1,Yes,yes,yes,37.8,4,Recovered,Under 5,185000,12
+MS-0871,2024-02-27,North,female,14,No,no,yes,36.6,,Died,10-14,185000,12
+MS-1075,2024-03-17,Central,female,14,No,yes,yes,38.2,,Recovered,10-14,210000,15
+MS-0124,2024-03-14,West,male,5,No,no,yes,37,,Recovered,5-9,76500,5
+MS-1060,2024-04-01,South,male,4,No,yes,yes,39,,Recovered,Under 5,142000,9
+MS-1186,2024-03-23,East,male,2,No,yes,yes,38.7,,Recovered,Under 5,98000,7
+MS-0722,2024-02-06,North,male,10,No,yes,yes,40.1,9,Recovered,10-14,185000,12
+MS-0940,2024-03-18,Central,male,2,No,yes,yes,39.6,3,Recovered,Under 5,210000,15
+MS-0874,2024-06-08,North,female,1,No,yes,no,40.9,,Died,Under 5,185000,12
+MS-0780,2024-03-17,West,male,5,Yes,yes,yes,39.3,,Recovered,5-9,76500,5
+MS-0687,2024-04-16,South,male,1,Yes,yes,yes,37.9,4,Recovered,Under 5,142000,9
+MS-0848,2024-03-18,North,female,4,No,yes,yes,40.1,,Recovered,Under 5,185000,12
+MS-0638,,South,male,18,Yes,yes,yes,39.3,,Recovered,15+,142000,9
+MS-0671,2024-04-10,North,female,2,No,yes,yes,38.7,12,Unknown,Under 5,185000,12
+MS-0917,2024-03-16,West,female,5,Yes,yes,yes,39.1,,Recovered,5-9,76500,5
+MS-0420,2024-02-22,South,female,3,No,yes,yes,40.8,4,Recovered,Under 5,142000,9
+MS-0748,,East,Unknown,14,No,yes,yes,38.6,,Recovered,10-14,98000,7
+MS-0752,2024-05-02,North,male,4,No,yes,yes,39.2,4,Recovered,Under 5,185000,12
+MS-0861,2024-03-05,West,male,18,No,yes,yes,39.4,5,Recovered,15+,76500,5
+MS-0032,2024-03-20,North,female,8,Unknown,yes,yes,38.9,,Recovered,5-9,185000,12
+MS-0580,2024-04-17,Central,male,11,No,no,no,36.4,,Recovered,10-14,210000,15
+MS-0251,2024-02-25,East,male,13,Yes,yes,yes,38.3,,Recovered,10-14,98000,7
+MS-1009,2024-05-12,North,male,7,Yes,yes,yes,38.7,,Recovered,5-9,185000,12
+MS-0269,2024-02-29,West,male,3,Yes,yes,yes,38.2,,Recovered,Under 5,76500,5
+MS-1027,2024-03-21,East,male,3,Unknown,yes,yes,39.6,,Recovered,Under 5,98000,7
+MS-0502,2024-02-18,North,female,2,Unknown,yes,yes,39.4,2,Recovered,Under 5,185000,12
+MS-0065,2024-03-21,West,male,11,Yes,yes,yes,39.1,6,Recovered,10-14,76500,5
+MS-0399,2024-04-11,South,male,9,Yes,yes,yes,38.5,,Recovered,5-9,142000,9
+MS-0559,2024-04-03,South,female,2,No,yes,yes,38.4,6,Recovered,Under 5,142000,9
+MS-0369,2024-02-02,West,male,4,Unknown,yes,yes,40.6,,Recovered,Under 5,76500,5
+MS-1165,2024-04-05,Central,male,1,Yes,yes,yes,39.1,2,Recovered,Under 5,210000,15
+MS-1046,2024-04-22,East,female,7,No,yes,yes,39,,Recovered,5-9,98000,7
+MS-0007,2024-03-22,South,male,12,No,yes,yes,38.3,4,Recovered,10-14,142000,9
+MS-0506,2024-03-01,East,male,2,No,yes,yes,38.7,,Recovered,Under 5,98000,7
+MS-1127,2024-04-01,East,male,1,No,yes,yes,38.5,,Recovered,Under 5,98000,7
+MS-0131,2024-05-20,West,male,7,Unknown,yes,yes,38.1,,Recovered,5-9,76500,5
+MS-1031,2024-03-24,West,male,8,Yes,no,yes,36.9,,Recovered,5-9,76500,5
+MS-0588,2024-03-28,East,male,5,No,yes,yes,39.4,,Recovered,5-9,98000,7
+MS-0998,2024-04-06,North,female,2,No,yes,yes,38.7,4,Recovered,Under 5,185000,12
+MS-0954,2024-04-24,North,female,11,No,yes,yes,38,10,Recovered,10-14,185000,12
+MS-0745,2024-03-24,West,male,2,No,yes,yes,38.1,,Recovered,Under 5,76500,5
+MS-1104,2024-04-03,West,male,13,Unknown,yes,yes,39.9,,Recovered,10-14,76500,5
+MS-1149,2024-04-07,East,male,2,No,yes,yes,39.6,5,Recovered,Under 5,98000,7
+MS-0807,2024-05-06,North,male,9,Yes,yes,yes,39.1,,Recovered,5-9,185000,12
+MS-0658,2024-04-13,Central,female,,Yes,yes,yes,39.9,,Recovered,Unknown,210000,15
+MS-0981,2024-03-18,East,male,0,Yes,yes,yes,39.5,4,Unknown,Under 5,98000,7
+MS-0901,2024-05-20,East,female,2,Unknown,yes,yes,39.5,,Recovered,Under 5,98000,7
+MS-0641,2024-05-11,West,male,8,No,yes,yes,39.4,,Recovered,5-9,76500,5
+MS-0088,2024-04-14,Unknown,female,8,No,yes,no,39.2,2,Recovered,5-9,,
+MS-0882,2024-02-21,East,male,8,Yes,yes,yes,39,,Recovered,5-9,98000,7
+MS-0211,2024-03-21,East,male,2,Yes,yes,no,39.9,,Recovered,Under 5,98000,7
+MS-0377,2024-03-19,South,female,10,No,yes,yes,39.4,5,Died,10-14,142000,9
+MS-0203,2024-06-03,East,male,1,No,yes,yes,40,4,Recovered,Under 5,98000,7
+MS-0927,2024-02-16,North,female,1,No,yes,no,38.8,,Recovered,Under 5,185000,12
+MS-0889,2024-03-22,East,male,13,No,yes,yes,39.7,,Recovered,10-14,98000,7
+MS-0365,2024-03-01,East,male,3,No,yes,yes,40.4,,Recovered,Under 5,98000,7
+MS-0462,2024-03-18,North,male,12,No,yes,yes,39.4,,Recovered,10-14,185000,12
+MS-0056,2024-04-02,North,female,5,Yes,yes,no,38.6,,Recovered,5-9,185000,12
+MS-0528,2024-04-08,Central,male,8,No,yes,yes,39.9,,Recovered,5-9,210000,15
+MS-0786,2024-03-18,West,female,9,No,yes,yes,38.1,5,Recovered,5-9,76500,5
+MS-0338,2024-02-28,East,male,5,No,yes,yes,40,,Recovered,5-9,98000,7
+MS-1112,2024-03-28,North,female,1,No,yes,no,40,,Recovered,Under 5,185000,12
+MS-0199,2024-02-17,North,male,23,Yes,yes,yes,38.6,,Recovered,15+,185000,12
+MS-0460,2024-02-20,Unknown,male,2,No,yes,no,39.1,,Recovered,Under 5,,
+MS-0718,2024-05-03,North,female,26,No,yes,yes,39.3,4,Recovered,15+,185000,12
+MS-0696,2024-02-05,East,female,26,Yes,yes,yes,39,,Recovered,15+,98000,7
+MS-0899,2024-06-04,West,male,24,Unknown,yes,yes,38.4,4,Recovered,15+,76500,5
+MS-1109,2024-04-03,West,male,16,No,yes,yes,39.3,5,Recovered,15+,76500,5
+MS-0599,2024-04-06,South,female,8,Yes,yes,yes,39.2,,Recovered,5-9,142000,9
+MS-0843,2024-03-28,East,female,5,No,yes,yes,38.9,,Recovered,5-9,98000,7
+MS-1129,2024-03-30,West,male,6,No,yes,yes,39.2,,Recovered,5-9,76500,5
+MS-0787,2024-03-05,North,female,7,Yes,yes,yes,38.7,,Recovered,5-9,185000,12
+MS-0344,2024-04-03,East,male,8,Unknown,yes,yes,40.6,3,Recovered,5-9,98000,7
+MS-0223,,North,female,10,Yes,yes,no,38.9,,Recovered,10-14,185000,12
+MS-0997,2024-03-29,South,female,12,Yes,yes,no,38.9,,Recovered,10-14,142000,9
+MS-0490,2024-03-03,Unknown,male,7,Unknown,yes,yes,39.4,3,Recovered,5-9,,
+MS-0995,2024-01-26,North,female,6,Yes,yes,yes,39.7,,Recovered,5-9,185000,12
+MS-0138,2024-03-14,North,male,7,No,yes,yes,39.2,,Recovered,5-9,185000,12
+MS-0152,2024-04-13,North,male,10,No,yes,yes,39.5,6,Recovered,10-14,185000,12
+MS-0009,2024-03-10,North,female,5,No,yes,yes,38.9,,Recovered,5-9,185000,12
+MS-1086,2024-04-24,North,male,7,Yes,yes,yes,39.3,,Recovered,5-9,185000,12
+MS-0617,2024-04-12,North,male,3,No,yes,yes,39.1,7,Recovered,Under 5,185000,12
+MS-0841,2024-04-09,North,female,23,Yes,yes,yes,39.3,4,Recovered,15+,185000,12
+MS-0282,2024-04-10,North,male,1,No,yes,yes,39.5,,Recovered,Under 5,185000,12
+MS-1123,2024-03-19,South,male,13,Unknown,yes,yes,38.9,,Recovered,10-14,142000,9
+MS-0257,2024-02-10,North,female,2,No,yes,yes,38.9,,Died,Under 5,185000,12
+MS-0364,2024-03-08,East,male,15,No,yes,yes,38,,Recovered,15+,98000,7
+MS-1055,2024-03-10,South,female,1,No,yes,yes,39.9,,Unknown,Under 5,142000,9
+MS-0779,2024-02-16,Central,female,14,No,yes,no,38.7,,Recovered,10-14,210000,15
+MS-0012,2024-04-06,North,male,6,Yes,yes,yes,38.9,,Recovered,5-9,185000,12
+MS-0672,2024-03-15,Central,male,7,Yes,yes,yes,39.1,8,Recovered,5-9,210000,15
+MS-1047,2024-05-22,North,female,6,Yes,yes,no,38.2,,Recovered,5-9,185000,12
+MS-0143,2024-05-18,West,female,5,Unknown,yes,yes,38.4,4,Unknown,5-9,76500,5
+MS-0017,2024-04-09,North,female,4,No,yes,yes,38.6,1,Recovered,Under 5,185000,12
+MS-0343,2024-03-07,West,female,6,Yes,yes,yes,39.2,3,Recovered,5-9,76500,5
+MS-0616,2024-03-23,Central,female,6,Yes,yes,yes,37.8,,Unknown,5-9,210000,15
+MS-0517,2024-02-09,East,male,18,No,yes,no,38.4,,Recovered,15+,98000,7
+MS-0910,2024-03-21,North,male,5,No,yes,yes,39.3,4,Recovered,5-9,185000,12
+MS-0565,2024-03-11,North,female,29,Yes,yes,yes,39.3,2,Recovered,15+,185000,12
+MS-0358,2024-04-15,South,male,11,No,yes,yes,37.7,5,Recovered,10-14,142000,9
+MS-0865,2024-04-03,East,male,7,Yes,yes,yes,38.6,,Recovered,5-9,98000,7
+MS-0637,2024-03-24,South,male,12,Unknown,no,yes,37.3,,Recovered,10-14,142000,9
+MS-0185,2024-02-28,East,female,13,Unknown,no,yes,37.1,5,Recovered,10-14,98000,7
+MS-0176,2024-03-24,South,male,2,No,yes,yes,38.8,,Recovered,Under 5,142000,9
+MS-0144,2024-02-04,East,female,6,No,yes,yes,39.8,,Unknown,5-9,98000,7
+MS-0464,2024-05-23,West,female,3,Unknown,yes,no,38.7,1,Recovered,Under 5,76500,5
+MS-0929,2024-05-19,Central,female,4,No,yes,no,38.5,6,Recovered,Under 5,210000,15
+MS-0704,2024-03-27,East,female,3,No,yes,yes,39.2,,Recovered,Under 5,98000,7
+MS-0522,2024-03-03,East,female,2,No,yes,yes,38.8,,Recovered,Under 5,98000,7
+MS-0260,2024-03-31,North,male,14,No,yes,yes,39.5,,Recovered,10-14,185000,12
+MS-0720,2024-03-10,Central,male,13,No,yes,yes,38.2,7,Recovered,10-14,210000,15
+MS-0957,2024-04-26,South,male,18,No,yes,no,38.9,,Recovered,15+,142000,9
+MS-0912,2024-05-12,West,male,18,No,yes,yes,37.9,,Died,15+,76500,5
+MS-0135,2024-05-13,East,female,4,No,yes,yes,39.4,,Recovered,Under 5,98000,7
+MS-0890,2024-03-20,Central,female,6,No,yes,yes,39.8,,Unknown,5-9,210000,15
+MS-1012,2024-03-23,East,male,2,No,yes,no,38.8,,Recovered,Under 5,98000,7
+MS-0916,2024-05-03,East,male,2,Yes,yes,yes,39.2,5,Unknown,Under 5,98000,7
+MS-0622,2024-03-10,South,female,4,No,yes,no,38.5,,Unknown,Under 5,142000,9
+MS-0943,2024-04-11,South,female,23,Unknown,yes,yes,39.2,,Recovered,15+,142000,9
+MS-0999,2024-03-22,Central,male,11,No,yes,yes,39.2,5,Recovered,10-14,210000,15
+MS-0923,2024-05-01,North,female,14,Yes,yes,no,38,,Recovered,10-14,185000,12
+MS-1170,2024-03-18,North,female,10,Unknown,yes,yes,38.4,,Recovered,10-14,185000,12
+MS-0544,2024-02-27,East,female,11,No,yes,yes,39.2,4,Recovered,10-14,98000,7
+MS-0878,2024-02-28,North,female,9,No,yes,yes,40.3,,Recovered,5-9,185000,12
+MS-0821,2024-04-02,West,female,24,No,yes,yes,39.2,3,Recovered,15+,76500,5
+MS-0773,2024-04-21,North,male,5,No,yes,no,38.4,,Died,5-9,185000,12
+MS-0302,2024-03-27,South,male,13,No,no,yes,36.7,7,Recovered,10-14,142000,9
+MS-0665,2024-05-25,West,male,11,Unknown,yes,no,39.7,,Recovered,10-14,76500,5
+MS-0373,2024-05-14,South,male,2,No,yes,yes,38.1,5,Recovered,Under 5,142000,9
+MS-0977,2024-03-07,West,male,9,No,yes,yes,39,,Recovered,5-9,76500,5
+MS-0789,2024-03-24,North,female,2,Unknown,yes,yes,39.4,8,Recovered,Under 5,185000,12
+MS-0504,2024-03-11,North,male,12,Yes,yes,yes,38.4,,Recovered,10-14,185000,12
+MS-1085,2024-03-08,South,female,14,No,yes,yes,38.7,5,Recovered,10-14,142000,9
+MS-0591,2024-05-20,West,female,4,No,yes,yes,38.9,,Recovered,Under 5,76500,5
+MS-0790,2024-03-07,East,female,11,No,yes,no,38.8,6,Recovered,10-14,98000,7
+MS-0187,2024-03-16,Central,male,0,No,yes,yes,39.2,,Recovered,Under 5,210000,15
+MS-0539,2024-04-24,East,male,27,No,yes,yes,39.4,,Recovered,15+,98000,7
+MS-1062,,South,male,3,No,yes,yes,38.6,3,Recovered,Under 5,142000,9
+MS-0892,2024-03-30,West,male,3,Unknown,yes,yes,38.6,,Recovered,Under 5,76500,5
+MS-0235,2024-04-16,West,male,16,Yes,yes,yes,39,,Recovered,15+,76500,5
+MS-0564,2024-04-22,North,female,5,Yes,yes,yes,38.7,,Recovered,5-9,185000,12
+MS-1183,2024-06-28,West,male,8,No,yes,no,39.5,,Recovered,5-9,76500,5
+MS-0706,2024-03-14,North,Unknown,,No,yes,yes,38.6,,Died,Unknown,185000,12
+MS-0350,2024-03-13,North,female,2,No,yes,yes,39.7,,Recovered,Under 5,185000,12
+MS-0068,,North,male,11,No,yes,yes,39.6,,Recovered,10-14,185000,12
+MS-0440,2024-04-04,North,male,10,Unknown,yes,yes,39.1,,Recovered,10-14,185000,12
+MS-0320,2024-04-25,West,male,6,Yes,yes,yes,38.9,,Recovered,5-9,76500,5
+MS-1115,2024-04-21,South,male,8,Unknown,yes,yes,39.5,,Recovered,5-9,142000,9
+MS-0447,2024-04-20,North,female,2,No,yes,yes,39.9,,Recovered,Under 5,185000,12
+MS-0914,2024-04-14,South,female,26,No,yes,yes,39.8,5,Recovered,15+,142000,9
+MS-1193,2024-03-16,West,male,15,No,yes,yes,39.3,,Recovered,15+,76500,5
+MS-0680,2024-02-20,North,male,6,No,yes,yes,39.9,,Recovered,5-9,185000,12
+MS-1026,2024-05-06,South,male,7,No,yes,yes,40.3,5,Recovered,5-9,142000,9
+MS-1016,2024-03-02,North,female,,Unknown,yes,yes,39.4,,Recovered,Unknown,185000,12
+MS-0949,2024-03-23,North,male,1,No,yes,yes,38.5,6,Recovered,Under 5,185000,12
+MS-0478,2024-05-05,South,female,4,Yes,yes,no,38.9,5,Recovered,Under 5,142000,9
+MS-0226,2024-03-18,South,female,5,Unknown,yes,no,39.2,5,Recovered,5-9,142000,9
+MS-0409,2024-05-14,North,male,14,Yes,yes,yes,39.3,,Recovered,10-14,185000,12
+MS-0387,2024-04-15,East,female,10,No,yes,no,38,,Recovered,10-14,98000,7
+MS-0082,2024-02-24,North,female,2,No,yes,yes,39.2,,Recovered,Under 5,185000,12
+MS-0198,2024-05-05,West,male,17,No,yes,yes,38.1,2,Unknown,15+,76500,5
+MS-0562,2024-03-26,North,male,3,No,yes,yes,38,,Recovered,Under 5,185000,12
+MS-1120,2024-03-12,South,male,2,Yes,yes,yes,39,,Recovered,Under 5,142000,9
+MS-1119,2024-03-19,Central,female,1,No,yes,no,39.1,,Recovered,Under 5,210000,15
+MS-0909,2024-02-12,North,male,3,No,yes,yes,39.1,,Recovered,Under 5,185000,12
+MS-0908,2024-03-03,North,male,1,Yes,yes,yes,40,,Recovered,Under 5,185000,12
+MS-0676,2024-05-07,South,male,12,No,yes,yes,38.2,6,Recovered,10-14,142000,9
+MS-1044,2024-02-20,South,female,21,Unknown,yes,yes,39.1,,Recovered,15+,142000,9
+MS-0475,2024-02-16,South,female,,Yes,yes,yes,39.1,,Recovered,Unknown,142000,9
+MS-0335,2024-06-21,South,male,4,Yes,yes,yes,37.7,8,Recovered,Under 5,142000,9
+MS-0234,2024-04-10,Central,male,5,No,yes,yes,39,8,Recovered,5-9,210000,15
+MS-0989,2024-01-28,North,female,4,No,yes,no,38.4,5,Recovered,Under 5,185000,12
+MS-0346,2024-04-15,North,female,24,No,yes,yes,38.5,,Recovered,15+,185000,12
+MS-1164,2024-05-07,East,male,16,No,yes,yes,40,4,Recovered,15+,98000,7
+MS-0414,2024-04-18,West,male,5,No,yes,yes,37.8,,Recovered,5-9,76500,5
+MS-0771,2024-03-05,South,male,,Yes,yes,yes,38.3,,Recovered,Unknown,142000,9
+MS-0533,2024-03-26,East,female,15,No,yes,yes,40,,Recovered,15+,98000,7
+MS-0363,2024-06-09,South,male,5,No,yes,yes,38.8,,Recovered,5-9,142000,9
+MS-0025,2024-03-08,North,female,18,No,yes,yes,39.6,4,Recovered,15+,185000,12
+MS-0426,2024-02-27,East,female,10,Yes,no,yes,36.9,5,Recovered,10-14,98000,7
+MS-0735,2024-02-28,South,female,4,Yes,no,yes,37.1,,Recovered,Under 5,142000,9
+MS-0081,2024-03-09,South,male,,No,yes,no,39.6,,Recovered,Unknown,142000,9
+MS-0001,2024-05-02,East,male,11,No,yes,yes,38.5,3,Recovered,10-14,98000,7
+MS-0405,2024-03-03,East,male,10,No,yes,yes,39.5,,Recovered,10-14,98000,7
+MS-0301,2024-05-11,South,female,4,No,yes,yes,38.5,6,Unknown,Under 5,142000,9
+MS-0835,2024-04-25,South,female,27,No,yes,yes,38.4,2,Unknown,15+,142000,9
+MS-0367,2024-03-10,South,male,3,Yes,yes,yes,38.8,,Recovered,Under 5,142000,9
+MS-0855,2024-03-24,Unknown,female,3,No,yes,yes,38.1,,Unknown,Under 5,,
+MS-0308,2024-04-06,East,male,10,Yes,yes,no,38.8,6,Recovered,10-14,98000,7
+MS-0355,2024-02-20,North,male,2,No,yes,no,38.9,,Recovered,Under 5,185000,12
+MS-0556,2024-03-15,South,female,5,No,no,yes,36.7,,Recovered,5-9,142000,9
+MS-0832,2024-03-14,North,male,8,No,yes,no,38.3,,Recovered,5-9,185000,12
+MS-0361,2024-01-27,Central,female,,No,yes,yes,38.6,5,Recovered,Unknown,210000,15
+MS-0481,2024-03-28,North,male,1,No,yes,yes,39.9,,Unknown,Under 5,185000,12
+MS-0062,2024-04-27,East,female,6,Yes,yes,yes,38.3,7,Recovered,5-9,98000,7
+MS-1002,2024-04-30,South,female,3,Yes,yes,yes,38.8,2,Recovered,Under 5,142000,9
+MS-0903,2024-03-10,North,male,20,Yes,yes,yes,40,5,Recovered,15+,185000,12
+MS-1097,2024-02-19,North,male,6,Yes,yes,yes,38.4,,Recovered,5-9,185000,12
+MS-1092,2024-02-04,West,male,2,No,yes,yes,39.5,,Recovered,Under 5,76500,5
+MS-0593,2024-04-30,West,female,8,Unknown,yes,yes,39.1,,Recovered,5-9,76500,5
+MS-0983,2024-05-19,West,female,9,No,yes,yes,38.8,,Recovered,5-9,76500,5
+MS-0828,2024-03-07,South,female,8,Yes,yes,yes,39.6,,Recovered,5-9,142000,9
+MS-1061,2024-05-14,East,female,10,Yes,yes,no,39.7,4,Recovered,10-14,98000,7
+MS-1181,2024-03-01,East,male,6,No,yes,yes,39.3,,Died,5-9,98000,7
+MS-0157,2024-02-11,North,male,6,No,no,yes,37,,Recovered,5-9,185000,12
+MS-1184,2024-04-17,West,male,14,No,yes,no,38.9,6,Recovered,10-14,76500,5
+MS-0885,2024-04-08,Unknown,male,8,No,yes,yes,38.6,,Recovered,5-9,,
+MS-1021,2024-03-25,East,male,18,Yes,yes,no,38.4,9,Recovered,15+,98000,7
+MS-0084,2024-03-05,North,male,21,Unknown,yes,no,39,,Recovered,15+,185000,12
+MS-0162,2024-04-11,East,male,3,Yes,yes,yes,38.6,,Recovered,Under 5,98000,7
+MS-0747,2024-05-05,North,female,8,No,yes,yes,38.7,7,Recovered,5-9,185000,12
+MS-0270,2024-05-15,Central,female,8,No,yes,yes,39.2,,Recovered,5-9,210000,15
+MS-0952,2024-03-21,North,female,5,No,yes,yes,38.6,,Recovered,5-9,185000,12
+MS-0897,2024-04-30,East,female,9,Yes,yes,yes,38.7,4,Recovered,5-9,98000,7
+MS-0262,2024-04-11,Central,female,6,Unknown,yes,yes,38.2,4,Recovered,5-9,210000,15
+MS-0767,2024-03-16,East,female,21,Yes,yes,yes,38.8,6,Recovered,15+,98000,7
+MS-1190,2024-02-28,North,female,7,Yes,no,no,37.2,,Recovered,5-9,185000,12
+MS-0209,2024-04-30,South,female,1,No,yes,yes,39.8,9,Recovered,Under 5,142000,9
+MS-0654,2024-03-16,North,male,4,Unknown,yes,yes,37.6,,Recovered,Under 5,185000,12
+MS-0104,2024-04-07,South,male,12,Unknown,no,yes,37.3,5,Recovered,10-14,142000,9
+MS-0774,2024-05-02,North,female,6,No,yes,yes,38.9,,Recovered,5-9,185000,12
+MS-0569,2024-04-13,South,male,22,No,no,yes,36.7,3,Recovered,15+,142000,9
+MS-0555,2024-05-29,Central,male,8,No,yes,yes,38.6,,Recovered,5-9,210000,15
+MS-0953,2024-03-04,East,male,4,Unknown,yes,yes,39.1,8,Recovered,Under 5,98000,7
+MS-0430,2024-04-11,Central,male,1,No,yes,yes,39.6,5,Recovered,Under 5,210000,15
+MS-0520,2024-03-24,South,male,8,Yes,yes,yes,38.5,,Recovered,5-9,142000,9
+MS-0396,2024-04-17,East,female,12,No,no,yes,37,7,Recovered,10-14,98000,7
+MS-0866,2024-03-23,Unknown,female,10,No,no,yes,37.6,,Recovered,10-14,,
+MS-0756,2024-02-24,Central,female,9,No,yes,yes,38.7,,Recovered,5-9,210000,15
+MS-0613,2024-06-02,Central,female,1,Yes,yes,yes,38.7,,Recovered,Under 5,210000,15
+MS-0507,2024-03-28,West,female,,No,yes,yes,39.2,,Recovered,Unknown,76500,5
+MS-1093,2024-05-27,Unknown,male,2,No,yes,yes,39,,Recovered,Under 5,,
+MS-0906,2024-03-24,North,male,14,No,yes,yes,39.2,,Recovered,10-14,185000,12
+MS-1080,2024-02-25,South,female,4,No,yes,yes,38.8,,Recovered,Under 5,142000,9
+MS-0930,2024-04-13,South,male,2,Yes,yes,yes,40.1,,Recovered,Under 5,142000,9
+MS-0115,2024-02-22,North,female,2,Yes,yes,yes,38.3,9,Recovered,Under 5,185000,12
+MS-1070,2024-02-21,Unknown,female,18,No,yes,yes,39.5,,Recovered,15+,,
+MS-0592,2024-04-10,South,female,3,No,yes,no,38.8,7,Recovered,Under 5,142000,9
+MS-0561,2024-02-22,South,male,6,Yes,no,yes,37.4,6,Recovered,5-9,142000,9
+MS-0524,2024-04-11,North,male,18,No,no,yes,36.9,,Recovered,15+,185000,12
+MS-0210,2024-04-28,East,male,7,No,yes,yes,37.9,,Unknown,5-9,98000,7
+MS-1045,2024-04-25,North,female,5,No,no,yes,36.7,,Recovered,5-9,185000,12
+MS-0529,2024-06-11,North,female,2,Yes,yes,yes,39,,Unknown,Under 5,185000,12
+MS-0864,2024-03-07,Unknown,male,4,Yes,yes,yes,39.5,,Recovered,Under 5,,
+MS-0437,2024-06-14,South,female,23,No,yes,no,37.7,5,Recovered,15+,142000,9
+MS-0717,2024-04-17,North,male,6,No,no,yes,37.3,8,Recovered,5-9,185000,12
+MS-0085,2024-06-04,South,male,17,Yes,yes,yes,39.3,5,Recovered,15+,142000,9
+MS-0560,2024-04-27,West,female,3,No,yes,yes,38.8,3,Recovered,Under 5,76500,5
+MS-0206,2024-03-06,North,male,7,No,yes,yes,38.4,4,Recovered,5-9,185000,12
+MS-0792,2024-04-10,North,female,11,No,yes,yes,38.7,,Recovered,10-14,185000,12
+MS-0212,2024-04-08,Central,female,13,Unknown,yes,yes,39.5,,Recovered,10-14,210000,15
+MS-1032,2024-04-05,South,female,15,No,yes,yes,38.7,,Recovered,15+,142000,9
+MS-0087,2024-06-11,Central,female,3,Unknown,yes,no,38.3,,Recovered,Under 5,210000,15
+MS-0691,2024-04-30,South,male,8,No,yes,yes,40.2,3,Recovered,5-9,142000,9
+MS-1035,2024-05-25,South,female,5,No,yes,yes,37.7,,Recovered,5-9,142000,9
+MS-1006,2024-01-31,North,female,18,Yes,yes,yes,39.1,,Recovered,15+,185000,12
+MS-0603,2024-03-19,Central,male,3,No,yes,no,38.9,,Recovered,Under 5,210000,15
+MS-0164,2024-04-29,East,female,8,No,yes,yes,39,,Recovered,5-9,98000,7
+MS-0856,2024-03-26,North,male,5,Unknown,no,yes,37.3,7,Recovered,5-9,185000,12
+MS-0353,2024-04-24,South,male,1,Yes,yes,yes,39.1,4,Recovered,Under 5,142000,9
+MS-1083,2024-03-06,East,male,3,No,yes,yes,39.2,,Recovered,Under 5,98000,7
+MS-0795,2024-06-02,Central,female,20,Unknown,yes,no,39.3,8,Recovered,15+,210000,15
+MS-1043,2024-07-14,North,male,2,Unknown,no,yes,37.4,4,Recovered,Under 5,185000,12
+MS-0406,2024-02-04,North,female,3,Yes,yes,no,40,2,Recovered,Under 5,185000,12
+MS-0169,2024-04-14,West,male,25,Yes,yes,yes,38.3,2,Recovered,15+,76500,5
+MS-1102,2024-03-02,North,male,45,No,yes,yes,38.4,,Recovered,15+,185000,12
+MS-0734,2024-03-06,North,female,21,No,yes,yes,39.4,,Recovered,15+,185000,12
+MS-0590,2024-03-27,West,male,5,No,yes,no,39.6,,Recovered,5-9,76500,5
+MS-0095,2024-02-24,West,male,5,Yes,yes,yes,37.9,,Recovered,5-9,76500,5
+MS-0683,2024-03-07,North,male,3,No,yes,yes,39.1,,Recovered,Under 5,185000,12
+MS-0043,2024-02-15,North,female,5,No,yes,yes,39,5,Recovered,5-9,185000,12
+MS-0221,2024-02-15,South,female,8,Yes,yes,yes,39.6,,Unknown,5-9,142000,9
+MS-0456,2024-03-31,North,male,16,Unknown,yes,no,39,,Recovered,15+,185000,12
+MS-0830,2024-03-20,South,female,24,No,yes,yes,38.6,,Recovered,15+,142000,9
+MS-1065,2024-02-27,North,female,4,No,no,yes,37.2,3,Recovered,Under 5,185000,12
+MS-0061,2024-05-02,North,male,20,No,yes,no,38.7,4,Recovered,15+,185000,12
+MS-0153,2024-06-30,Central,male,8,Unknown,yes,yes,39.8,7,Recovered,5-9,210000,15
+MS-1038,2024-02-28,North,female,1,No,no,yes,36.8,,Recovered,Under 5,185000,12
+MS-0623,2024-03-20,West,male,5,No,yes,yes,39.6,,Recovered,5-9,76500,5
+MS-0497,2024-05-20,North,male,2,Yes,yes,no,39.1,8,Recovered,Under 5,185000,12
+MS-0114,2024-05-05,South,male,8,No,yes,yes,39,,Recovered,5-9,142000,9
+MS-0476,2024-03-06,South,male,3,No,yes,yes,39.7,,Recovered,Under 5,142000,9
+MS-1194,2024-03-05,North,male,5,No,yes,no,38.2,9,Recovered,5-9,185000,12
+MS-0739,2024-03-04,North,male,7,No,yes,yes,38.8,,Recovered,5-9,185000,12
+MS-0166,2024-03-11,South,female,3,Yes,yes,no,38.2,6,Recovered,Under 5,142000,9
+MS-0619,2024-02-23,West,male,20,No,no,no,37.2,6,Recovered,15+,76500,5
+MS-1053,2024-02-24,Central,female,2,No,no,yes,36.8,,Died,Under 5,210000,15
+MS-0695,2024-03-05,South,female,13,No,yes,yes,38.9,,Recovered,10-14,142000,9
+MS-1098,2024-04-02,East,male,14,No,no,yes,36.8,,Recovered,10-14,98000,7
+MS-0079,2024-05-13,West,male,24,No,yes,yes,38.8,,Recovered,15+,76500,5
+MS-0742,2024-02-09,East,Unknown,8,No,no,yes,37.5,4,Recovered,5-9,98000,7
+MS-0802,2024-03-19,Central,female,5,Unknown,yes,yes,38.7,,Recovered,5-9,210000,15
+MS-0388,2024-04-10,Central,female,1,No,yes,yes,39,,Recovered,Under 5,210000,15
+MS-1024,,Unknown,male,7,Unknown,yes,yes,38.9,,Recovered,5-9,,
+MS-0359,2024-05-10,East,female,4,No,yes,no,38.5,,Recovered,Under 5,98000,7
+MS-0233,2024-04-25,North,female,1,No,yes,no,39.5,5,Recovered,Under 5,185000,12
+MS-0180,2024-04-20,South,male,13,No,yes,yes,39.8,,Recovered,10-14,142000,9
+MS-0775,2024-03-24,South,male,14,No,yes,yes,39.4,,Recovered,10-14,142000,9
+MS-0102,2024-03-01,West,male,28,No,yes,yes,37.9,6,Recovered,15+,76500,5
+MS-0518,2024-04-09,Central,female,26,No,yes,yes,40,,Recovered,15+,210000,15
+MS-0633,2024-05-23,North,male,11,No,yes,no,37.8,,Recovered,10-14,185000,12
+MS-0534,2024-03-09,North,male,8,No,yes,yes,39.3,6,Recovered,5-9,185000,12
+MS-0222,2024-04-17,West,male,4,No,yes,yes,38.8,4,Recovered,Under 5,76500,5
+MS-0699,2024-03-28,South,female,5,No,yes,yes,39.1,,Recovered,5-9,142000,9
+MS-0925,2024-04-24,North,female,5,Unknown,yes,yes,39.4,,Recovered,5-9,185000,12
+MS-0097,2024-03-10,South,female,7,No,yes,yes,37.8,,Recovered,5-9,142000,9
+MS-0451,2024-03-14,West,male,18,Unknown,yes,yes,38.2,,Recovered,15+,76500,5
+MS-0246,2024-03-07,West,female,2,No,yes,yes,38,,Recovered,Under 5,76500,5
+MS-0175,2024-02-23,West,female,8,No,no,yes,37,8,Recovered,5-9,76500,5
+MS-0370,2024-03-09,West,male,4,No,yes,yes,38.7,6,Recovered,Under 5,76500,5
+MS-0258,2024-05-08,East,female,11,Yes,yes,yes,38.8,3,Recovered,10-14,98000,7
+MS-0857,2024-05-20,West,female,36,No,no,yes,37.2,,Recovered,15+,76500,5
+MS-0639,2024-03-27,North,male,8,No,yes,no,38.9,,Recovered,5-9,185000,12
+MS-0453,2024-03-22,South,female,50,No,no,yes,36.9,4,Recovered,15+,142000,9
+MS-1118,2024-04-05,South,female,12,No,yes,yes,38.6,,Unknown,10-14,142000,9
+MS-0150,2024-04-16,South,male,3,Yes,yes,yes,39,,Recovered,Under 5,142000,9
+MS-0071,2024-04-19,Central,male,3,No,yes,yes,38.4,6,Recovered,Under 5,210000,15
+MS-0567,2024-03-22,East,female,4,Unknown,yes,yes,38.6,,Recovered,Under 5,98000,7
+MS-0431,2024-03-20,South,male,3,No,yes,yes,38.6,8,Recovered,Under 5,142000,9
+MS-0765,2024-05-06,East,male,12,Unknown,yes,yes,38.6,,Recovered,10-14,98000,7
+MS-0243,2024-05-28,South,male,2,Unknown,yes,no,37.9,6,Unknown,Under 5,142000,9
+MS-0015,2024-04-12,North,female,6,No,no,yes,36.8,,Recovered,5-9,185000,12
+MS-0762,2024-03-09,South,female,16,Unknown,yes,yes,39.4,,Recovered,15+,142000,9
+MS-1056,2024-05-12,South,female,2,Yes,yes,yes,38.9,,Recovered,Under 5,142000,9
+MS-0386,2024-03-29,South,male,1,No,yes,yes,39.4,,Recovered,Under 5,142000,9
+MS-0349,2024-03-04,South,male,1,No,yes,yes,38.7,6,Recovered,Under 5,142000,9
+MS-0973,2024-04-06,North,male,6,Yes,yes,yes,39.7,,Recovered,5-9,185000,12
+MS-1071,2024-03-17,West,male,8,Yes,yes,yes,38.7,,Recovered,5-9,76500,5
+MS-0859,2024-03-06,South,male,5,Unknown,yes,yes,39.9,4,Recovered,5-9,142000,9
+MS-0357,2024-04-18,Central,female,7,No,yes,yes,39.3,,Recovered,5-9,210000,15
+MS-0188,2024-05-08,North,female,2,No,yes,yes,37.4,,Died,Under 5,185000,12
+MS-0382,2024-03-19,North,male,,Unknown,yes,no,39,,Recovered,Unknown,185000,12
+MS-0228,2024-04-07,North,female,7,Yes,yes,yes,39.7,,Recovered,5-9,185000,12
+MS-1110,2024-02-16,West,male,7,No,yes,yes,38.9,,Recovered,5-9,76500,5
+MS-0305,2024-02-22,North,male,19,No,yes,yes,38.3,,Recovered,15+,185000,12
+MS-0066,2024-04-08,Central,male,5,Unknown,yes,no,39.3,,Recovered,5-9,210000,15
+MS-0385,2024-04-09,North,male,2,Yes,yes,no,40.1,,Recovered,Under 5,185000,12
+MS-0726,2024-03-22,Central,female,4,Yes,yes,yes,39.2,4,Recovered,Under 5,210000,15
+MS-0642,2024-03-17,West,female,2,No,yes,yes,40.1,,Died,Under 5,76500,5
+MS-0902,2024-04-11,South,male,10,No,yes,yes,39.1,6,Recovered,10-14,142000,9
+MS-0815,2024-03-06,North,male,,Yes,yes,yes,40,4,Recovered,Unknown,185000,12
+MS-0791,2024-03-19,East,male,,Unknown,yes,yes,38.9,,Recovered,Unknown,98000,7
+MS-0238,2024-03-23,South,male,3,Unknown,yes,yes,38.9,,Died,Under 5,142000,9
+MS-0039,2024-03-09,South,female,13,No,yes,yes,39.7,,Recovered,10-14,142000,9
+MS-0991,2024-06-17,North,female,6,No,yes,yes,39.3,,Recovered,5-9,185000,12
+MS-0454,2024-02-28,North,male,21,No,yes,yes,38.2,,Recovered,15+,185000,12
+MS-1145,2024-05-04,West,male,4,Yes,no,yes,36.9,,Recovered,Under 5,76500,5
+MS-0645,2024-03-25,South,male,8,No,yes,yes,39.3,3,Recovered,5-9,142000,9
+MS-0625,2024-02-26,South,female,4,No,no,yes,36.8,7,Recovered,Under 5,142000,9
+MS-0036,2024-05-17,West,male,4,Unknown,yes,yes,39.7,4,Recovered,Under 5,76500,5
+MS-1017,2024-03-22,North,female,7,No,yes,no,39.7,7,Recovered,5-9,185000,12
+MS-0549,2024-03-23,Central,male,11,No,yes,yes,39.1,5,Recovered,10-14,210000,15
+MS-0446,2024-04-16,Unknown,male,4,No,yes,yes,38.8,,Recovered,Under 5,,
+MS-0170,2024-03-08,Central,female,5,No,no,yes,36.7,8,Recovered,5-9,210000,15
+MS-0655,2024-05-01,West,male,0,No,yes,yes,38.4,,Recovered,Under 5,76500,5
+MS-0838,2024-05-27,North,female,4,No,yes,no,39,,Recovered,Under 5,185000,12
+MS-0371,2024-03-30,West,male,4,Unknown,yes,no,38.3,,Recovered,Under 5,76500,5
+MS-0466,2024-03-17,Unknown,male,13,No,yes,yes,38.8,,Recovered,10-14,,
+MS-1137,2024-03-15,West,male,15,Unknown,yes,yes,38.5,4,Recovered,15+,76500,5
+MS-0461,2024-03-12,West,female,7,No,yes,no,39.1,,Recovered,5-9,76500,5
+MS-0072,2024-03-14,East,male,3,No,yes,yes,39.1,,Recovered,Under 5,98000,7
+MS-0422,2024-02-24,South,male,4,No,yes,yes,39.8,,Recovered,Under 5,142000,9
+MS-0090,2024-05-25,East,male,16,Yes,yes,yes,38.4,,Recovered,15+,98000,7
+MS-0558,2024-04-15,East,female,10,Unknown,yes,no,39.3,6,Recovered,10-14,98000,7
+MS-0614,2024-04-09,South,male,4,Yes,yes,yes,39,,Recovered,Under 5,142000,9
+MS-0242,2024-06-01,East,male,21,Yes,yes,yes,39,6,Recovered,15+,98000,7
+MS-0585,2024-06-12,South,male,3,Yes,yes,yes,38.7,7,Recovered,Under 5,142000,9
+MS-0376,2024-02-05,East,female,5,Yes,yes,yes,38.7,7,Recovered,5-9,98000,7
+MS-0644,2024-03-30,East,male,5,Unknown,yes,yes,39.2,,Recovered,5-9,98000,7
+MS-0713,2024-04-03,South,female,9,No,yes,yes,39.3,,Recovered,5-9,142000,9
+MS-0328,2024-05-01,East,male,0,Yes,yes,no,39.6,,Recovered,Under 5,98000,7
+MS-0715,,South,male,5,No,yes,yes,37.9,,Died,5-9,142000,9
+MS-1049,2024-03-05,North,female,10,Yes,yes,yes,38.8,,Recovered,10-14,185000,12
+MS-0768,2024-03-15,North,female,9,No,yes,yes,38.9,,Died,5-9,185000,12
+MS-0057,2024-03-16,West,female,1,Yes,yes,yes,38.3,,Recovered,Under 5,76500,5
+MS-1111,2024-03-27,West,male,8,Unknown,yes,no,38.8,3,Recovered,5-9,76500,5
+MS-1091,2024-03-29,South,female,6,No,yes,yes,39.2,,Recovered,5-9,142000,9
+MS-0526,2024-04-16,South,male,4,No,yes,yes,39.8,,Recovered,Under 5,142000,9
+MS-0288,2024-03-13,North,male,4,Unknown,yes,yes,39,,Recovered,Under 5,185000,12
+MS-1011,2024-04-11,South,female,3,No,yes,yes,38.5,,Died,Under 5,142000,9
+MS-0195,2024-03-21,East,male,9,No,yes,yes,39.7,,Recovered,5-9,98000,7
+MS-0033,2024-03-26,South,male,5,Yes,yes,yes,39.3,,Recovered,5-9,142000,9
+MS-0598,2024-04-24,North,male,1,No,yes,yes,40,2,Recovered,Under 5,185000,12
+MS-1090,2024-03-03,East,male,5,No,yes,yes,38.7,,Recovered,5-9,98000,7
+MS-0050,2024-03-22,South,female,5,No,yes,yes,38.1,,Recovered,5-9,142000,9
+MS-0583,2024-03-13,West,male,4,No,yes,yes,38.4,5,Recovered,Under 5,76500,5
+MS-0532,2024-03-19,West,female,19,No,yes,yes,39.1,,Recovered,15+,76500,5
+MS-0177,2024-03-20,Central,female,17,No,yes,yes,40.4,,Died,15+,210000,15
+MS-0933,2024-04-20,South,female,5,No,no,yes,36.6,,Recovered,5-9,142000,9
+MS-0868,2024-04-18,North,male,1,No,no,yes,37.2,1,Recovered,Under 5,185000,12
+MS-0280,2024-03-03,East,female,15,Yes,yes,no,38.3,,Recovered,15+,98000,7
+MS-0202,2024-03-19,East,male,26,Unknown,no,yes,36.6,,Recovered,15+,98000,7
+MS-0703,2024-05-02,East,male,1,No,yes,yes,39.3,,Recovered,Under 5,98000,7
+MS-0279,2024-03-02,Central,female,2,Yes,yes,yes,38.5,4,Recovered,Under 5,210000,15
+MS-0487,2024-03-31,North,male,,No,yes,no,38.9,3,Recovered,Unknown,185000,12
+MS-0612,2024-05-17,South,female,5,No,yes,no,38,5,Recovered,5-9,142000,9
+MS-1107,2024-03-22,North,Unknown,12,Yes,yes,yes,37.7,5,Recovered,10-14,185000,12
+MS-0255,2024-04-06,North,male,6,Yes,yes,yes,38.3,4,Recovered,5-9,185000,12
+MS-0404,2024-03-02,Unknown,female,2,Yes,yes,no,38.7,,Recovered,Under 5,,
+MS-0110,2024-04-22,South,male,4,No,yes,yes,39.4,,Recovered,Under 5,142000,9
+MS-1079,2024-04-22,East,female,15,Yes,yes,yes,39.1,3,Recovered,15+,98000,7
+MS-0467,2024-02-11,South,male,1,No,yes,no,38.5,3,Recovered,Under 5,142000,9
+MS-0213,2024-02-20,South,male,3,No,yes,yes,38.5,4,Recovered,Under 5,142000,9
+MS-1200,2024-04-29,East,female,10,No,yes,yes,39.1,,Recovered,10-14,98000,7
+MS-0553,2024-03-12,South,male,21,No,yes,yes,37.7,7,Recovered,15+,142000,9
+MS-0629,2024-02-14,Central,male,16,Unknown,no,yes,37.5,5,Recovered,15+,210000,15
+MS-0425,2024-04-12,East,female,1,No,yes,yes,38.8,,Recovered,Under 5,98000,7
+MS-0160,2024-03-25,North,female,5,No,yes,yes,39.2,4,Recovered,5-9,185000,12
+MS-0547,2024-03-30,South,female,13,No,yes,yes,38.7,,Recovered,10-14,142000,9
+MS-1057,2024-03-05,South,male,2,Unknown,yes,yes,39.6,,Recovered,Under 5,142000,9
+MS-0421,2024-03-25,South,male,16,Yes,yes,yes,39,,Recovered,15+,142000,9
+MS-0330,2024-03-17,North,male,21,Unknown,yes,yes,39.4,6,Recovered,15+,185000,12
+MS-0849,2024-02-06,South,male,5,Yes,yes,yes,39.5,,Recovered,5-9,142000,9
+MS-0700,2024-04-12,Central,male,,No,yes,yes,39,5,Unknown,Unknown,210000,15
+MS-0347,2024-03-14,East,female,1,Unknown,yes,yes,38.7,6,Recovered,Under 5,98000,7
+MS-0161,2024-04-28,North,male,3,No,yes,yes,38.9,,Recovered,Under 5,185000,12
+MS-0142,2024-04-13,North,male,4,No,yes,no,38.4,4,Recovered,Under 5,185000,12
+MS-0148,2024-03-20,South,male,19,No,yes,yes,39,4,Recovered,15+,142000,9
+MS-0596,2024-03-07,South,female,19,No,yes,yes,39.7,,Recovered,15+,142000,9
+MS-0019,2024-03-18,East,male,0,Unknown,yes,yes,39.4,,Unknown,Under 5,98000,7
+MS-0615,2024-05-05,North,female,15,No,yes,yes,39.1,3,Recovered,15+,185000,12
+MS-0354,2024-05-09,North,female,20,No,yes,yes,39,,Recovered,15+,185000,12
+MS-0240,2024-03-17,East,male,8,Unknown,yes,yes,39.1,3,Recovered,5-9,98000,7
+MS-0653,2024-04-07,South,female,8,No,yes,yes,39.4,,Recovered,5-9,142000,9
+MS-0273,2024-03-03,North,female,2,Unknown,yes,yes,38.5,,Recovered,Under 5,185000,12
+MS-0477,2024-04-01,South,female,12,No,yes,yes,39.3,,Recovered,10-14,142000,9
+MS-0682,2024-02-17,East,male,4,No,yes,yes,38.5,,Recovered,Under 5,98000,7
+MS-0937,2024-03-24,South,female,24,Yes,yes,yes,38.7,,Recovered,15+,142000,9
+MS-0299,2024-02-11,North,male,0,Yes,yes,yes,38.3,3,Recovered,Under 5,185000,12
+MS-0505,2024-03-09,North,female,10,Unknown,yes,yes,39.8,,Recovered,10-14,185000,12
+MS-0099,2024-04-16,North,male,6,No,yes,yes,38.7,,Recovered,5-9,185000,12
+MS-1015,2024-03-10,East,male,6,Unknown,yes,no,40.1,,Recovered,5-9,98000,7
+MS-0883,2024-03-07,North,female,10,Yes,yes,yes,39.1,,Recovered,10-14,185000,12
+MS-0264,2024-03-22,South,female,8,No,yes,yes,38.7,3,Recovered,5-9,142000,9
+MS-0391,2024-03-27,South,female,12,No,yes,yes,38.2,5,Recovered,10-14,142000,9
+MS-0872,2024-04-22,South,male,15,Yes,yes,yes,38.2,6,Unknown,15+,142000,9
+MS-0879,2024-03-06,Central,female,,Yes,yes,no,39.2,,Recovered,Unknown,210000,15
+MS-0495,2024-02-23,East,male,33,No,yes,yes,39.1,5,Recovered,15+,98000,7
+MS-0853,2024-06-05,East,female,6,No,yes,yes,39.2,7,Recovered,5-9,98000,7
+MS-0666,2024-03-02,West,female,4,Yes,yes,yes,39.5,,Recovered,Under 5,76500,5
+MS-0207,2024-03-12,North,male,18,No,yes,yes,38.5,,Recovered,15+,185000,12
+MS-1003,2024-05-03,East,male,5,No,yes,yes,40.3,,Recovered,5-9,98000,7
+MS-0867,,South,female,16,No,yes,no,39.2,,Recovered,15+,142000,9
+MS-0627,2024-02-23,East,female,17,Yes,yes,yes,39,,Died,15+,98000,7
+MS-0600,2024-03-24,South,male,11,No,yes,no,39,,Unknown,10-14,142000,9
+MS-0712,2024-03-24,North,male,10,No,yes,yes,39.7,4,Recovered,10-14,185000,12
+MS-0812,2024-03-17,Central,male,8,Yes,yes,no,38.9,,Recovered,5-9,210000,15
+MS-0293,2024-03-01,South,female,5,Unknown,yes,yes,38.6,2,Unknown,5-9,142000,9
+MS-0723,2024-05-01,South,male,2,No,yes,yes,39.8,6,Died,Under 5,142000,9
+MS-1195,2024-02-25,North,female,9,No,yes,yes,39.4,3,Recovered,5-9,185000,12
+MS-0971,2024-02-29,Central,male,9,Unknown,yes,yes,38.8,5,Recovered,5-9,210000,15
+MS-1013,2024-05-17,West,female,14,Yes,yes,no,39.5,,Recovered,10-14,76500,5
+MS-0860,2024-06-01,West,male,6,Yes,yes,yes,38.2,,Unknown,5-9,76500,5
+MS-0990,2024-05-17,West,male,2,Yes,no,yes,37,5,Recovered,Under 5,76500,5
+MS-0684,2024-03-20,South,female,3,Yes,yes,yes,40.4,8,Recovered,Under 5,142000,9
+MS-0819,2024-05-07,South,male,2,No,yes,yes,39.1,,Died,Under 5,142000,9
+MS-1154,2024-05-12,West,Unknown,11,Yes,yes,no,39.3,,Recovered,10-14,76500,5
+MS-0231,2024-04-16,North,female,6,No,yes,yes,39.4,,Recovered,5-9,185000,12
+MS-1152,2024-03-08,North,male,,Yes,yes,yes,40.7,,Recovered,Unknown,185000,12
+MS-0974,2024-01-31,Central,male,17,Yes,yes,yes,40.8,4,Recovered,15+,210000,15
+MS-0417,2024-03-22,North,female,5,Unknown,yes,yes,39.9,2,Recovered,5-9,185000,12
+MS-0692,2024-03-14,East,male,4,Yes,yes,yes,38.8,,Recovered,Under 5,98000,7
+MS-0020,2024-03-20,South,male,12,No,yes,no,39,,Recovered,10-14,142000,9
+MS-0542,2024-04-26,South,female,5,No,yes,yes,38.9,,Recovered,5-9,142000,9
+MS-0577,2024-02-18,North,male,9,No,yes,yes,40.8,,Recovered,5-9,185000,12
+MS-1020,2024-02-24,North,male,6,No,no,yes,36.9,3,Recovered,5-9,185000,12
+MS-0886,2024-03-07,East,female,19,Yes,yes,yes,38.2,,Recovered,15+,98000,7
+MS-0182,2024-04-07,North,female,30,Yes,yes,yes,40,,Recovered,15+,185000,12
+MS-0321,2024-04-22,West,male,2,Unknown,yes,yes,38.4,2,Recovered,Under 5,76500,5
+MS-0503,2024-03-19,North,female,6,No,yes,yes,38.6,5,Died,5-9,185000,12
+MS-1052,2024-06-18,Central,female,26,Yes,yes,yes,38.3,,Recovered,15+,210000,15
+MS-0289,2024-03-21,South,male,5,No,yes,yes,38.8,,Recovered,5-9,142000,9
+MS-0415,2024-04-03,East,female,22,Yes,yes,yes,38.7,4,Recovered,15+,98000,7
+MS-0479,2024-02-20,East,male,1,No,yes,yes,39.7,,Recovered,Under 5,98000,7
+MS-0214,2024-03-28,North,male,13,No,yes,yes,39,,Recovered,10-14,185000,12
+MS-0292,2024-07-02,West,female,9,No,yes,yes,39.2,,Recovered,5-9,76500,5
+MS-0668,2024-02-22,South,Unknown,4,No,yes,yes,39,,Recovered,Under 5,142000,9
+MS-0474,2024-05-22,North,male,11,Yes,yes,no,39.6,,Recovered,10-14,185000,12
+MS-0688,2024-04-12,East,female,8,Unknown,no,yes,36,6,Recovered,5-9,98000,7
+MS-0337,2024-05-02,North,female,9,No,yes,yes,39,8,Recovered,5-9,185000,12
+MS-0006,2024-04-15,East,Unknown,1,No,yes,yes,39.1,,Recovered,Under 5,98000,7
+MS-0574,2024-03-28,East,male,3,No,yes,yes,38.9,7,Unknown,Under 5,98000,7
+MS-0702,2024-03-09,South,male,15,Yes,yes,no,39.3,3,Recovered,15+,142000,9
+MS-1173,2024-05-19,West,female,31,No,yes,yes,39.3,,Recovered,15+,76500,5
+MS-0480,2024-06-29,South,male,13,No,yes,yes,38.6,,Recovered,10-14,142000,9
+MS-0309,2024-03-03,North,male,3,Yes,yes,yes,40,,Recovered,Under 5,185000,12
+MS-0064,2024-03-17,East,male,5,No,yes,yes,38.1,,Recovered,5-9,98000,7
+MS-0749,2024-04-04,South,female,31,Unknown,yes,yes,38.1,,Recovered,15+,142000,9
+MS-0905,2024-04-15,West,female,8,Unknown,yes,no,38.9,3,Recovered,5-9,76500,5
+MS-0499,2024-03-11,East,male,15,No,yes,yes,40,11,Recovered,15+,98000,7
+MS-0573,2024-03-29,North,female,9,Yes,no,yes,36.7,8,Recovered,5-9,185000,12
+MS-0229,2024-01-23,North,female,1,No,yes,no,38.7,,Recovered,Under 5,185000,12
+MS-0455,2024-03-25,North,female,4,No,yes,yes,39.4,,Recovered,Under 5,185000,12
+MS-0485,2024-03-26,Central,female,17,No,no,yes,36.9,1,Recovered,15+,210000,15
+MS-0770,2024-04-20,East,female,5,No,yes,yes,38.8,,Unknown,5-9,98000,7
+MS-0803,2024-05-06,West,male,3,No,no,yes,37.2,6,Recovered,Under 5,76500,5
+MS-0236,2024-03-07,North,female,12,No,yes,yes,39.9,,Recovered,10-14,185000,12
+MS-0958,2024-04-21,South,male,11,No,yes,no,37.7,,Recovered,10-14,142000,9
+MS-0667,2024-03-12,East,male,12,Yes,no,yes,37.5,,Unknown,10-14,98000,7
+MS-1113,,North,female,5,Unknown,yes,yes,39.5,7,Recovered,5-9,185000,12
+MS-0069,2024-04-19,South,female,8,No,yes,yes,38.4,,Recovered,5-9,142000,9
+MS-0959,2024-03-03,West,female,2,No,yes,yes,38.5,5,Recovered,Under 5,76500,5
+MS-0094,2024-04-25,East,female,12,No,no,yes,37.1,,Recovered,10-14,98000,7
+MS-0701,2024-03-08,West,female,9,Unknown,yes,yes,38,,Recovered,5-9,76500,5
+MS-0764,2024-04-06,Central,male,7,No,yes,yes,39.3,,Recovered,5-9,210000,15
+MS-1131,2024-03-11,East,female,14,Unknown,yes,yes,39,4,Recovered,10-14,98000,7
+MS-1077,2024-05-15,South,Unknown,12,No,yes,yes,39.5,,Recovered,10-14,142000,9
+MS-1117,2024-05-31,East,female,8,Yes,yes,yes,39.6,,Recovered,5-9,98000,7
+MS-0442,2024-05-07,North,male,30,No,yes,yes,38.8,4,Died,15+,185000,12
+MS-0351,2024-03-24,North,male,15,No,yes,no,38.5,,Recovered,15+,185000,12
+MS-0151,2024-05-14,South,female,13,No,no,yes,36.6,,Recovered,10-14,142000,9
+MS-1142,2024-03-30,East,female,2,Unknown,yes,yes,39.3,,Recovered,Under 5,98000,7
+MS-0907,2024-03-23,North,male,12,No,yes,yes,39.7,,Recovered,10-14,185000,12
+MS-0514,2024-03-05,Central,male,2,No,yes,yes,38.8,,Recovered,Under 5,210000,15
+MS-0839,2024-03-11,East,male,6,No,no,yes,37.2,,Recovered,5-9,98000,7
+MS-0023,2024-03-26,South,male,3,No,yes,yes,39.5,,Recovered,Under 5,142000,9
+MS-0788,2024-03-05,South,male,5,No,yes,yes,40.3,,Recovered,5-9,142000,9
+MS-0797,2024-04-12,East,male,0,No,yes,yes,39.4,,Recovered,Under 5,98000,7
+MS-0836,2024-04-02,West,male,6,No,yes,yes,39,,Recovered,5-9,76500,5
+MS-0183,2024-04-26,West,male,18,Yes,yes,yes,39.2,,Recovered,15+,76500,5
+MS-0782,2024-04-18,South,female,12,No,no,yes,37.1,,Recovered,10-14,142000,9
+MS-0896,2024-03-26,North,female,9,No,yes,yes,39.8,,Recovered,5-9,185000,12
+MS-0516,2024-04-27,East,male,6,No,yes,yes,39.1,9,Recovered,5-9,98000,7
+MS-0356,2024-02-04,North,Unknown,1,Yes,yes,yes,39.2,,Recovered,Under 5,185000,12
+MS-0817,2024-04-03,North,male,6,Yes,yes,no,39.9,,Recovered,5-9,185000,12
+MS-1140,2024-05-05,North,Unknown,1,No,yes,no,38.4,3,Recovered,Under 5,185000,12
+MS-0247,2024-02-19,West,male,3,Unknown,yes,yes,37.9,,Recovered,Under 5,76500,5
+MS-0784,2024-04-19,North,male,16,No,yes,yes,38,,Recovered,15+,185000,12
+MS-0640,2024-07-06,East,male,3,No,yes,no,38,,Recovered,Under 5,98000,7
+MS-0610,2024-04-16,West,male,12,No,yes,yes,39.4,3,Recovered,10-14,76500,5
+MS-0076,2024-05-04,South,male,22,Yes,yes,no,38.8,,Recovered,15+,142000,9
+MS-0053,2024-03-14,East,male,2,Yes,yes,yes,39.3,,Unknown,Under 5,98000,7
+MS-0881,2024-02-24,North,female,9,No,yes,yes,38.8,,Recovered,5-9,185000,12
+MS-1019,2024-04-09,South,male,11,No,no,yes,37.1,,Died,10-14,142000,9
+MS-0960,2024-04-08,South,male,10,No,yes,yes,38.7,,Recovered,10-14,142000,9
+MS-0220,2024-04-07,South,female,10,No,yes,yes,39.8,,Recovered,10-14,142000,9
+MS-0155,2024-05-11,South,male,13,Yes,yes,yes,38.2,4,Recovered,10-14,142000,9
+MS-0966,2024-01-30,West,male,1,Yes,yes,no,39.9,,Recovered,Under 5,76500,5
+MS-0080,2024-03-23,Unknown,female,9,No,no,yes,36.7,,Recovered,5-9,,
+MS-0985,2024-04-17,East,female,5,No,yes,yes,39.7,,Recovered,5-9,98000,7
+MS-0096,2024-02-23,South,female,12,No,yes,no,38.4,1,Recovered,10-14,142000,9
+MS-0602,2024-02-21,South,male,2,No,yes,no,39.7,,Recovered,Under 5,142000,9
+MS-0609,2024-04-20,Unknown,female,3,No,yes,yes,40.3,4,Recovered,Under 5,,
+MS-0754,,North,female,21,No,yes,no,37.5,,Recovered,15+,185000,12
+MS-0582,,South,male,5,Yes,yes,yes,39,,Recovered,5-9,142000,9
+MS-0287,2024-02-22,North,male,1,Yes,no,no,37,,Recovered,Under 5,185000,12
+MS-0962,2024-03-28,West,male,6,Yes,yes,yes,39,,Recovered,5-9,76500,5
+MS-0941,2024-04-06,South,male,5,No,yes,no,37.8,2,Unknown,5-9,142000,9
+MS-0681,2024-03-07,North,female,9,No,yes,yes,38.5,,Recovered,5-9,185000,12
+MS-0904,2024-02-22,East,male,3,No,yes,no,39,,Recovered,Under 5,98000,7
+MS-0436,2024-05-17,West,female,4,No,yes,no,40,5,Died,Under 5,76500,5
+MS-0284,2024-03-31,East,male,4,No,yes,no,39.2,9,Recovered,Under 5,98000,7
+MS-0058,2024-02-28,North,male,7,No,yes,yes,38.6,3,Recovered,5-9,185000,12
+MS-0508,2024-03-22,East,female,5,No,yes,yes,39.5,,Recovered,5-9,98000,7
+MS-0845,2024-04-24,East,male,3,No,yes,yes,39.1,,Recovered,Under 5,98000,7
+MS-0201,2024-03-26,West,female,25,No,yes,yes,39,,Recovered,15+,76500,5
+MS-1100,2024-04-13,North,female,14,Yes,yes,yes,39,,Recovered,10-14,185000,12
+MS-1134,2024-04-08,East,Unknown,8,No,yes,yes,39,,Recovered,5-9,98000,7
+MS-0379,2024-03-12,South,male,5,Yes,yes,yes,38.6,,Recovered,5-9,142000,9
+MS-1180,2024-03-16,North,female,5,Yes,yes,yes,39.3,,Unknown,5-9,185000,12
+MS-1185,2024-05-01,North,male,34,No,yes,yes,38.8,9,Recovered,15+,185000,12
+MS-0197,2024-03-18,South,female,28,Yes,yes,yes,39.9,,Recovered,15+,142000,9
+MS-0761,2024-05-16,West,male,1,No,yes,no,40.1,3,Died,Under 5,76500,5
+MS-0274,,North,female,7,Unknown,yes,yes,39.2,,Recovered,5-9,185000,12
+MS-0724,2024-05-25,South,female,6,No,yes,yes,38.9,,Recovered,5-9,142000,9
+MS-1199,2024-03-26,North,female,9,Unknown,yes,no,38.3,7,Recovered,5-9,185000,12
+MS-0545,2024-04-07,South,male,17,Unknown,yes,yes,38.4,6,Recovered,15+,142000,9
+MS-0300,2024-03-25,Central,female,9,No,yes,no,38.6,,Recovered,5-9,210000,15
+MS-0993,2024-04-24,Unknown,male,15,No,yes,yes,39.6,3,Unknown,15+,,
+MS-0277,2024-05-10,South,male,10,Yes,yes,no,39.4,,Recovered,10-14,142000,9
+MS-0378,2024-04-12,North,female,16,Yes,yes,yes,38.6,,Recovered,15+,185000,12
+MS-0403,2024-02-27,Central,female,25,No,yes,yes,38.8,3,Recovered,15+,210000,15
+MS-0178,2024-04-18,North,female,14,Unknown,yes,yes,38.2,5,Recovered,10-14,185000,12
+MS-1010,2024-04-07,South,male,8,Yes,yes,yes,38.1,4,Recovered,5-9,142000,9
+MS-0340,2024-02-10,South,female,7,No,yes,yes,38.6,4,Recovered,5-9,142000,9
+MS-1174,2024-03-21,North,male,4,No,yes,yes,40.5,,Recovered,Under 5,185000,12
+MS-0919,2024-03-01,West,female,13,No,yes,yes,38,4,Recovered,10-14,76500,5
+MS-0557,2024-02-21,West,female,8,No,yes,yes,39.1,11,Recovered,5-9,76500,5
+MS-0250,2024-03-19,East,female,14,No,yes,yes,39.5,,Recovered,10-14,98000,7
+MS-0825,2024-03-01,South,female,1,Unknown,yes,yes,38.2,3,Recovered,Under 5,142000,9
+MS-1004,2024-03-15,East,female,5,No,yes,yes,37.7,5,Unknown,5-9,98000,7
+MS-1160,2024-04-03,East,male,11,Yes,yes,yes,38.7,,Recovered,10-14,98000,7
+MS-0851,2024-03-03,Unknown,male,14,No,yes,no,38.5,4,Recovered,10-14,,
+MS-0589,2024-03-22,Central,female,12,No,yes,yes,38.8,,Died,10-14,210000,15
+MS-1095,2024-03-25,South,male,8,No,yes,yes,38.3,,Recovered,5-9,142000,9
+MS-0575,2024-03-27,Central,female,15,No,yes,yes,40.1,,Recovered,15+,210000,15
+MS-0008,2024-05-07,East,male,1,No,no,yes,37.4,3,Recovered,Under 5,98000,7
+MS-0679,2024-04-11,South,female,11,No,yes,yes,38.3,,Recovered,10-14,142000,9
+MS-0149,2024-05-15,North,male,6,No,yes,yes,39.2,,Recovered,5-9,185000,12
+MS-0339,2024-03-18,North,male,2,Unknown,yes,yes,39.9,,Died,Under 5,185000,12
+MS-0513,2024-03-31,South,female,11,Yes,yes,yes,38.8,,Recovered,10-14,142000,9
+MS-0732,2024-03-01,South,female,17,No,yes,yes,39.9,7,Recovered,15+,142000,9
+MS-0372,2024-06-24,South,Unknown,10,No,yes,yes,39.1,6,Recovered,10-14,142000,9
+MS-0448,2024-05-19,Central,male,10,Unknown,yes,yes,38.3,,Recovered,10-14,210000,15
+MS-0822,2024-03-08,South,female,7,Unknown,yes,yes,38.4,,Recovered,5-9,142000,9
+MS-0086,2024-03-25,West,male,5,No,no,yes,36.9,8,Recovered,5-9,76500,5
+MS-0737,2024-07-05,North,male,6,No,yes,yes,39.3,,Recovered,5-9,185000,12
+MS-0566,2024-04-28,South,male,2,Yes,yes,yes,39.8,7,Recovered,Under 5,142000,9
+MS-0070,2024-07-12,East,male,0,No,yes,yes,39.8,,Recovered,Under 5,98000,7
+MS-0651,2024-03-09,West,male,3,Yes,yes,yes,38.8,,Recovered,Under 5,76500,5
+MS-0763,2024-02-17,Unknown,female,5,Unknown,yes,yes,39.8,,Recovered,5-9,,
+MS-1141,2024-03-06,South,male,15,No,yes,no,37.5,,Recovered,15+,142000,9
+MS-0022,2024-04-19,North,female,16,No,yes,yes,38.5,,Recovered,15+,185000,12
+MS-0595,2024-04-27,Unknown,female,21,No,yes,yes,38.6,,Recovered,15+,,
+MS-1041,2024-03-14,North,female,28,Unknown,yes,yes,40.4,,Recovered,15+,185000,12
+MS-0037,2024-06-24,East,male,3,No,no,yes,37.3,5,Recovered,Under 5,98000,7
+MS-0384,2024-04-15,South,male,17,No,no,yes,36.8,,Recovered,15+,142000,9
+MS-1088,2024-02-24,South,male,6,Unknown,no,yes,36.9,,Recovered,5-9,142000,9
+MS-0675,2024-02-11,East,Unknown,30,No,yes,yes,40.3,,Recovered,15+,98000,7
+MS-0322,2024-04-22,South,female,10,No,yes,no,39.7,,Recovered,10-14,142000,9
+MS-0230,2024-02-20,North,female,4,Yes,yes,yes,39.1,5,Recovered,Under 5,185000,12
+MS-1157,2024-03-29,East,female,2,No,yes,yes,39.3,,Recovered,Under 5,98000,7
+MS-0285,2024-04-17,South,female,0,Unknown,yes,yes,39,,Recovered,Under 5,142000,9
+MS-0073,2024-03-25,North,female,9,Yes,yes,yes,39,9,Recovered,5-9,185000,12
+MS-0801,2024-04-03,North,female,11,No,yes,yes,38.2,8,Recovered,10-14,185000,12
+MS-0005,2024-05-15,North,female,25,No,yes,yes,39.4,,Recovered,15+,185000,12
+MS-0049,2024-03-22,West,male,3,No,no,yes,37.2,,Recovered,Under 5,76500,5
+MS-0263,2024-03-06,North,male,15,No,no,yes,36.9,,Recovered,15+,185000,12
+MS-0249,2024-03-05,South,male,34,No,yes,yes,38.4,,Recovered,15+,142000,9
+MS-0870,2024-04-30,Central,male,1,Yes,yes,yes,38.5,4,Recovered,Under 5,210000,15
+MS-0778,,East,male,12,Unknown,yes,yes,38.7,6,Unknown,10-14,98000,7
+MS-0184,2024-03-29,South,female,9,Unknown,yes,yes,39.2,,Recovered,5-9,142000,9
+MS-0996,2024-05-02,South,male,18,No,yes,yes,39,7,Recovered,15+,142000,9
+MS-0527,2024-02-16,North,female,25,No,yes,yes,39.2,4,Recovered,15+,185000,12
+MS-0898,2024-03-12,South,male,7,No,no,yes,36.2,,Died,5-9,142000,9
+MS-1153,2024-04-27,Central,male,1,Yes,yes,yes,39.1,,Recovered,Under 5,210000,15
+MS-0663,2024-03-15,South,male,14,No,yes,yes,40.4,,Recovered,10-14,142000,9
+MS-0331,2024-03-17,East,female,5,No,yes,yes,38.7,,Recovered,5-9,98000,7
+MS-0806,2024-04-02,South,male,5,No,no,yes,37,,Recovered,5-9,142000,9
+MS-0601,2024-04-28,East,male,,Unknown,yes,yes,38,5,Recovered,Unknown,98000,7
+MS-0121,2024-02-10,South,male,,No,yes,yes,39.1,7,Recovered,Unknown,142000,9
+MS-1082,2024-03-16,East,male,16,Unknown,yes,yes,39,,Recovered,15+,98000,7
+MS-1147,2024-04-10,South,male,6,No,yes,yes,39.3,5,Recovered,5-9,142000,9
+MS-0044,2024-02-17,North,male,16,Yes,yes,yes,39.7,,Unknown,15+,185000,12
+MS-0921,2024-06-05,North,female,7,No,no,no,36.4,8,Unknown,5-9,185000,12
+MS-0730,2024-05-17,South,female,1,Yes,yes,yes,39.5,,Recovered,Under 5,142000,9
+MS-0891,2024-03-25,East,female,5,No,yes,yes,39.6,,Recovered,5-9,98000,7
+MS-0597,2024-03-11,South,male,,Yes,yes,yes,39.5,,Recovered,Unknown,142000,9
+MS-1189,2024-03-28,Central,female,1,Yes,yes,yes,37.9,,Recovered,Under 5,210000,15
+MS-0669,2024-03-17,South,male,,Yes,yes,yes,38.1,4,Recovered,Unknown,142000,9
+MS-0772,2024-07-07,North,male,8,No,yes,yes,39,5,Unknown,5-9,185000,12
+MS-0473,2024-03-24,North,female,10,No,yes,yes,39.3,,Recovered,10-14,185000,12
+MS-0854,2024-05-17,West,male,7,No,yes,no,38.7,,Recovered,5-9,76500,5
+MS-0117,2024-02-17,West,male,10,No,yes,yes,39,5,Recovered,10-14,76500,5
+MS-0648,,North,female,2,No,yes,yes,38.6,,Recovered,Under 5,185000,12
+MS-0823,2024-03-31,North,male,4,No,yes,yes,40,3,Died,Under 5,185000,12
+MS-0711,,West,male,17,No,yes,yes,37.5,3,Recovered,15+,76500,5
+MS-0051,2024-04-13,East,male,8,No,yes,yes,39.4,8,Recovered,5-9,98000,7
+MS-1022,2024-04-02,South,male,12,No,yes,yes,38.6,3,Recovered,10-14,142000,9
+MS-0893,2024-03-19,East,female,7,Yes,yes,yes,39.2,10,Recovered,5-9,98000,7
+MS-0677,2024-04-22,West,male,42,Unknown,yes,no,39.1,5,Recovered,15+,76500,5
+MS-0750,2024-05-01,East,male,5,No,yes,yes,39.4,,Recovered,5-9,98000,7
+MS-0512,2024-05-24,West,male,1,No,yes,yes,39.5,3,Recovered,Under 5,76500,5
+MS-0326,2024-04-17,North,male,13,No,yes,yes,38.8,,Recovered,10-14,185000,12
+MS-0021,2024-04-09,East,female,4,Unknown,yes,yes,38.6,,Recovered,Under 5,98000,7
+MS-0552,2024-03-13,East,male,8,No,yes,no,38.9,4,Recovered,5-9,98000,7
+MS-0820,2024-06-05,North,female,7,Unknown,yes,yes,39,5,Recovered,5-9,185000,12
+MS-0217,2024-04-24,South,male,,Yes,yes,no,38.9,,Recovered,Unknown,142000,9
+MS-1000,2024-02-20,East,female,5,Yes,yes,yes,38.4,5,Recovered,5-9,98000,7
+MS-0605,2024-04-01,Central,male,13,No,yes,yes,39.4,,Recovered,10-14,210000,15
+MS-0804,2024-03-25,South,female,11,No,yes,yes,39.4,5,Recovered,10-14,142000,9
+MS-1148,2024-05-30,North,male,13,Yes,yes,yes,39.3,,Recovered,10-14,185000,12
+MS-0662,2024-03-13,Central,male,8,No,yes,no,38.8,,Recovered,5-9,210000,15
+MS-0635,2024-04-13,East,female,6,No,yes,yes,39,,Recovered,5-9,98000,7
+MS-0259,2024-02-13,West,female,6,No,yes,yes,39.5,7,Recovered,5-9,76500,5
+MS-0165,2024-06-26,East,female,1,No,yes,yes,40.1,,Recovered,Under 5,98000,7
+MS-0030,2024-04-07,North,female,15,No,yes,yes,38.6,,Recovered,15+,185000,12
+MS-0709,2024-04-04,South,female,15,No,yes,yes,40.1,,Recovered,15+,142000,9
+MS-0125,2024-06-16,North,male,3,Unknown,yes,yes,38.4,,Recovered,Under 5,185000,12
+MS-1191,2024-04-15,East,female,40,No,yes,yes,38.5,,Unknown,15+,98000,7
+MS-0254,2024-04-21,West,male,13,Yes,yes,yes,38,,Recovered,10-14,76500,5
+MS-0074,2024-06-26,North,female,14,No,yes,yes,39.8,,Unknown,10-14,185000,12
+MS-1135,,West,female,3,Unknown,no,yes,37.2,,Recovered,Under 5,76500,5
+MS-0267,2024-05-24,North,male,8,Yes,yes,yes,39.5,6,Recovered,5-9,185000,12
+MS-0606,2024-05-19,South,female,2,No,yes,yes,37.2,4,Recovered,Under 5,142000,9
+MS-0911,2024-03-13,North,male,6,Unknown,yes,no,38.7,,Recovered,5-9,185000,12
+MS-0945,2024-04-06,South,female,17,Unknown,yes,yes,38.8,,Recovered,15+,142000,9
+MS-0783,2024-02-23,Central,female,2,No,yes,yes,39.8,,Recovered,Under 5,210000,15
+MS-0731,2024-04-02,Central,male,1,No,yes,yes,38.8,6,Recovered,Under 5,210000,15
+MS-0323,2024-03-29,Central,male,9,Yes,yes,yes,38.5,,Recovered,5-9,210000,15
+MS-0324,2024-02-24,South,Unknown,1,No,no,yes,36.6,3,Recovered,Under 5,142000,9
+MS-1096,2024-03-04,South,female,5,No,yes,yes,38.3,,Recovered,5-9,142000,9
+MS-0777,2024-04-17,South,female,15,No,yes,yes,39.6,2,Recovered,15+,142000,9
+MS-0047,2024-06-08,South,female,22,Yes,no,yes,36.7,3,Recovered,15+,142000,9
+MS-1178,2024-05-07,North,female,11,Yes,yes,yes,38.3,,Recovered,10-14,185000,12
+MS-0733,2024-04-20,North,Unknown,10,No,yes,yes,39.7,,Recovered,10-14,185000,12
+MS-0579,2024-02-19,East,male,7,No,yes,yes,38.7,,Recovered,5-9,98000,7
+MS-0244,2024-03-10,North,male,5,Unknown,yes,yes,39.3,,Recovered,5-9,185000,12
+MS-0757,2024-04-02,East,female,10,Unknown,yes,yes,39.1,4,Recovered,10-14,98000,7
+MS-0716,2024-04-02,East,Unknown,23,No,yes,yes,38.9,5,Recovered,15+,98000,7
+MS-0936,2024-04-14,South,male,5,Unknown,yes,yes,39.6,4,Recovered,5-9,142000,9
+MS-0083,2024-05-08,South,male,1,No,yes,yes,39.7,,Recovered,Under 5,142000,9
+MS-0031,2024-03-11,South,female,6,Yes,yes,yes,39.5,,Recovered,5-9,142000,9
+MS-0438,2024-03-07,East,male,32,No,yes,yes,38.4,,Recovered,15+,98000,7
+MS-0489,,North,female,4,Yes,yes,no,38.2,,Recovered,Under 5,185000,12
+MS-0154,2024-02-07,East,male,20,Unknown,yes,yes,39.9,7,Recovered,15+,98000,7
+MS-0054,2024-04-06,North,female,4,Unknown,yes,yes,38.6,,Unknown,Under 5,185000,12
+MS-0325,2024-03-03,North,female,1,No,no,no,36.9,3,Recovered,Under 5,185000,12
+MS-0793,2024-02-25,North,male,9,No,yes,no,38.8,,Recovered,5-9,185000,12
+MS-1132,2024-04-07,East,male,7,Unknown,yes,yes,39.6,6,Recovered,5-9,98000,7
+MS-1034,2024-03-01,South,male,4,No,yes,yes,39,,Recovered,Under 5,142000,9
+MS-1074,2024-06-01,Central,male,9,Yes,yes,yes,38.8,,Recovered,5-9,210000,15
+MS-0944,2024-06-09,South,female,4,Unknown,yes,yes,38.7,5,Unknown,Under 5,142000,9
+MS-0314,2024-02-28,East,female,8,No,yes,no,37.3,,Recovered,5-9,98000,7
+MS-0219,2024-03-29,North,male,2,No,yes,yes,38.9,5,Recovered,Under 5,185000,12
+MS-0413,2024-02-29,South,male,19,No,yes,yes,38.7,2,Recovered,15+,142000,9
+MS-0488,2024-02-12,East,female,2,No,yes,yes,39,,Recovered,Under 5,98000,7
+MS-0093,2024-04-30,South,male,2,Yes,yes,yes,38.9,,Unknown,Under 5,142000,9
+MS-0947,2024-03-21,Central,male,3,Unknown,yes,yes,38.9,6,Recovered,Under 5,210000,15
+MS-0523,2024-04-21,East,female,13,No,yes,yes,40,,Recovered,10-14,98000,7
+MS-0746,2024-05-02,North,female,6,Yes,yes,yes,39.4,,Recovered,5-9,185000,12
+MS-0098,2024-02-26,South,female,52,No,yes,yes,38.6,5,Recovered,15+,142000,9
+MS-0383,2024-03-01,South,male,8,No,yes,yes,38.4,3,Recovered,5-9,142000,9
+MS-0842,2024-02-10,South,male,6,Yes,yes,yes,39,,Recovered,5-9,142000,9
+MS-0004,2024-03-10,East,male,8,No,yes,yes,39.3,6,Recovered,5-9,98000,7
+MS-0963,2024-04-06,West,male,2,No,yes,no,39.7,,Recovered,Under 5,76500,5
+MS-0304,2024-04-28,South,male,12,No,yes,no,39.4,,Recovered,10-14,142000,9
+MS-0938,2024-03-14,North,male,6,No,yes,yes,38.9,,Recovered,5-9,185000,12
+MS-0729,2024-04-02,Central,male,9,No,yes,yes,39.7,,Recovered,5-9,210000,15
+MS-0303,2024-04-22,West,male,20,No,yes,yes,39.1,,Recovered,15+,76500,5
+MS-0693,2024-04-22,North,female,3,No,yes,no,38.4,,Recovered,Under 5,185000,12
+MS-1175,2024-03-18,South,male,8,Unknown,yes,yes,38.1,4,Recovered,5-9,142000,9
+MS-0463,2024-03-13,East,male,13,No,yes,no,38.7,4,Recovered,10-14,98000,7
+MS-1167,2024-04-06,East,female,7,No,no,yes,37,,Recovered,5-9,98000,7
+MS-0670,2024-04-03,North,female,6,No,yes,yes,39.1,,Recovered,5-9,185000,12
+MS-0109,2024-04-27,North,male,0,No,yes,yes,39.6,,Recovered,Under 5,185000,12
+MS-0410,2024-02-23,North,male,6,No,yes,yes,39.3,,Recovered,5-9,185000,12
+MS-1171,2024-04-05,East,male,5,No,yes,yes,38.4,,Recovered,5-9,98000,7
+MS-0766,2024-03-18,North,male,1,No,yes,yes,37.8,,Recovered,Under 5,185000,12
+MS-0193,2024-05-05,South,female,26,Yes,no,no,36.8,6,Recovered,15+,142000,9
+MS-0965,2024-05-05,South,Unknown,23,Yes,no,no,36.8,,Recovered,15+,142000,9
+MS-0969,2024-02-29,South,female,3,No,yes,no,38.8,,Recovered,Under 5,142000,9
+MS-0434,2024-03-12,North,female,11,No,yes,yes,39.7,5,Recovered,10-14,185000,12
+MS-0310,2024-06-16,North,male,14,No,yes,yes,38.7,,Recovered,10-14,185000,12
+MS-0313,2024-03-01,South,male,8,No,yes,no,37.2,,Recovered,5-9,142000,9
+MS-0798,2024-04-03,South,male,7,No,yes,yes,38.9,,Recovered,5-9,142000,9
+MS-1068,2024-03-14,North,male,14,No,yes,yes,38.2,,Recovered,10-14,185000,12
+MS-1101,2024-04-04,Unknown,female,7,Unknown,yes,yes,38.5,,Recovered,5-9,,
+MS-0982,2024-03-29,North,female,13,Unknown,no,no,37.1,4,Recovered,10-14,185000,12
+MS-0060,2024-02-27,West,female,7,Unknown,yes,yes,39.1,2,Recovered,5-9,76500,5
+MS-0813,2024-02-22,East,female,7,No,no,yes,36.9,,Recovered,5-9,98000,7
+MS-0491,2024-02-26,South,female,22,No,yes,yes,38.7,5,Recovered,15+,142000,9
+MS-0174,2024-03-24,West,male,6,No,yes,yes,38.8,,Recovered,5-9,76500,5
+MS-0515,2024-04-01,South,female,19,No,yes,yes,39.8,4,Recovered,15+,142000,9
+MS-0618,2024-02-28,North,male,4,Yes,yes,yes,39.4,,Recovered,Under 5,185000,12
+MS-0458,2024-03-09,North,female,11,No,yes,yes,39.9,,Recovered,10-14,185000,12
+MS-0317,2024-03-28,Central,male,18,No,yes,yes,38.7,,Recovered,15+,210000,15
+MS-0540,2024-03-02,South,male,7,No,no,yes,37.2,,Unknown,5-9,142000,9
+MS-1036,2024-07-07,South,male,11,No,yes,yes,39.6,2,Recovered,10-14,142000,9
+MS-0077,2024-03-31,North,male,15,Yes,yes,yes,39.4,,Recovered,15+,185000,12
+MS-0818,2024-03-24,West,male,7,Yes,yes,yes,39.1,5,Unknown,5-9,76500,5
+MS-0200,2024-03-21,North,female,19,No,yes,yes,39.5,9,Recovered,15+,185000,12
+MS-0204,2024-04-15,North,female,3,Unknown,yes,yes,39.2,3,Recovered,Under 5,185000,12
+MS-0548,2024-04-13,North,male,5,No,yes,yes,38.7,,Unknown,5-9,185000,12
+MS-0158,2024-05-04,East,male,17,No,yes,no,38.4,4,Recovered,15+,98000,7
+MS-0123,2024-03-18,North,male,5,Yes,yes,no,39.4,,Recovered,5-9,185000,12
+MS-0368,2024-03-25,Central,female,24,No,no,yes,36.6,,Recovered,15+,210000,15
+MS-0875,2024-03-13,West,female,10,No,yes,yes,39.2,,Recovered,10-14,76500,5
+MS-0571,2024-02-22,North,male,,No,yes,yes,40.1,5,Recovered,Unknown,185000,12
+MS-0120,2024-03-05,North,male,14,No,yes,yes,38.9,6,Recovered,10-14,185000,12
+MS-1182,2024-03-12,West,female,1,No,yes,yes,38.9,6,Recovered,Under 5,76500,5
+MS-0055,2024-03-29,North,male,,No,yes,yes,39.4,,Recovered,Unknown,185000,12
+MS-0119,2024-03-14,North,female,6,No,yes,yes,39.7,1,Recovered,5-9,185000,12
+MS-0336,2024-05-21,North,female,15,Unknown,yes,yes,38.1,5,Recovered,15+,185000,12
+MS-0636,2024-02-24,Unknown,male,3,No,yes,yes,40.1,5,Recovered,Under 5,,
+MS-0011,2024-04-26,North,male,1,No,yes,yes,39.1,,Recovered,Under 5,185000,12
+MS-0040,2024-03-29,East,female,0,No,yes,yes,38.8,,Recovered,Under 5,98000,7
+MS-1023,2024-06-09,South,female,11,Unknown,yes,no,38.6,,Unknown,10-14,142000,9
+MS-1176,2024-03-15,West,male,1,No,yes,yes,39.2,4,Recovered,Under 5,76500,5
+MS-0643,2024-04-22,East,female,2,No,yes,yes,38.7,,Unknown,Under 5,98000,7
+MS-0173,2024-03-31,East,male,5,No,yes,yes,38.1,1,Recovered,5-9,98000,7
+MS-1073,2024-05-05,North,male,4,No,yes,yes,39.2,,Recovered,Under 5,185000,12
+MS-0252,2024-05-03,Central,female,4,No,yes,yes,38,,Died,Under 5,210000,15
+MS-0013,2024-04-27,North,Unknown,6,Yes,yes,yes,38.3,,Recovered,5-9,185000,12
+MS-0333,2024-04-25,South,female,8,Yes,yes,yes,39.6,,Recovered,5-9,142000,9
+MS-0900,2024-02-14,Unknown,male,20,Yes,yes,yes,39.1,,Recovered,15+,,
+MS-0541,2024-04-01,North,male,7,Unknown,yes,yes,38.1,5,Recovered,5-9,185000,12
+MS-0412,2024-03-01,East,male,10,Yes,yes,yes,38.8,2,Recovered,10-14,98000,7
+MS-0360,2024-02-12,South,male,5,Unknown,yes,yes,39.1,4,Recovered,5-9,142000,9
+MS-0844,2024-03-29,East,female,4,Yes,yes,yes,39.4,,Unknown,Under 5,98000,7
+MS-0179,2024-05-17,South,female,2,Yes,yes,yes,39.2,6,Recovered,Under 5,142000,9
+MS-0132,2024-03-18,Unknown,male,1,Yes,yes,yes,39.7,,Recovered,Under 5,,
+MS-0268,2024-02-22,North,male,8,Unknown,yes,no,38.5,3,Recovered,5-9,185000,12
+MS-0570,2024-04-15,South,female,23,No,yes,no,39.6,,Recovered,15+,142000,9
+MS-0719,2024-03-29,East,male,16,No,yes,yes,39.6,4,Recovered,15+,98000,7
+MS-0880,2024-05-19,North,female,10,Yes,yes,yes,39.6,6,Recovered,10-14,185000,12
+MS-1150,2024-04-02,Central,male,10,No,yes,yes,37.6,,Recovered,10-14,210000,15
+MS-0829,,East,male,1,No,no,yes,37,,Recovered,Under 5,98000,7
+MS-0950,2024-04-16,West,male,19,Yes,yes,no,38.8,,Recovered,15+,76500,5
+MS-1067,2024-05-17,North,female,3,No,yes,yes,39.3,,Recovered,Under 5,185000,12
+MS-0103,2024-02-12,North,Unknown,2,Unknown,yes,no,38.1,,Recovered,Under 5,185000,12
+MS-1166,2024-06-17,North,female,5,No,yes,yes,39.5,3,Died,5-9,185000,12
+MS-0089,2024-03-18,North,female,16,No,yes,yes,39.4,,Recovered,15+,185000,12
+MS-0736,2024-04-25,East,Unknown,3,No,yes,yes,39,9,Recovered,Under 5,98000,7
+MS-0342,,West,male,10,Unknown,yes,yes,39.1,,Recovered,10-14,76500,5
+MS-0964,2024-04-12,North,female,3,Unknown,yes,yes,38.4,,Recovered,Under 5,185000,12
+MS-0295,2024-03-29,South,male,10,Unknown,yes,yes,39.2,8,Recovered,10-14,142000,9
+MS-0850,2024-03-21,Unknown,female,,No,yes,yes,39.4,5,Recovered,Unknown,,
+MS-0418,2024-05-01,Central,female,5,No,yes,yes,40.6,6,Recovered,5-9,210000,15
+MS-0038,2024-06-13,Central,female,2,No,no,yes,37.1,,Recovered,Under 5,210000,15
+MS-0537,2024-04-26,Central,male,8,No,yes,yes,38,,Recovered,5-9,210000,15
+MS-0563,2024-02-28,West,female,8,Yes,yes,yes,38.9,,Recovered,5-9,76500,5
+MS-0987,2024-02-19,Unknown,female,1,No,yes,no,39.1,5,Recovered,Under 5,,
+MS-0281,2024-04-22,North,female,8,No,yes,yes,39.5,2,Recovered,5-9,185000,12
+MS-0290,2024-03-22,North,male,10,Yes,yes,yes,39.6,,Unknown,10-14,185000,12
+MS-0511,2024-04-05,West,female,21,Unknown,no,yes,36.6,8,Recovered,15+,76500,5
+MS-0894,2024-02-17,West,Unknown,,Unknown,yes,yes,38.9,,Recovered,Unknown,76500,5
+MS-0271,2024-03-13,West,female,3,No,yes,yes,38,,Recovered,Under 5,76500,5
+MS-0470,2024-04-03,Central,female,1,Yes,yes,yes,39.4,3,Recovered,Under 5,210000,15
+MS-0306,2024-02-18,West,female,5,No,yes,yes,38.5,3,Recovered,5-9,76500,5
+MS-0673,2024-05-27,East,female,18,Unknown,yes,yes,40.1,,Recovered,15+,98000,7
+MS-0521,2024-04-22,North,female,31,No,yes,yes,37.8,,Recovered,15+,185000,12
+MS-0809,2024-07-17,East,female,9,No,yes,yes,38.2,,Recovered,5-9,98000,7
+MS-0127,2024-03-30,East,female,6,No,yes,yes,38.4,,Recovered,5-9,98000,7
+MS-0327,2024-02-09,East,male,14,No,yes,yes,38.6,,Recovered,10-14,98000,7
+MS-1156,2024-07-07,South,male,5,Yes,yes,yes,38.8,,Recovered,5-9,142000,9
+MS-0888,2024-03-30,West,male,2,No,yes,yes,39.5,,Recovered,Under 5,76500,5
+MS-1072,2024-05-02,South,male,11,No,yes,yes,38.4,,Recovered,10-14,142000,9
+MS-0133,,West,male,14,No,yes,yes,39.2,4,Recovered,10-14,76500,5
+MS-0245,2024-05-04,East,female,2,No,yes,yes,39.7,,Recovered,Under 5,98000,7
+MS-0744,2024-04-10,North,male,2,No,yes,yes,38.6,,Recovered,Under 5,185000,12
+MS-0794,2024-06-04,West,female,2,Yes,no,yes,36.5,5,Recovered,Under 5,76500,5
+MS-0126,2024-04-17,Unknown,male,14,Yes,yes,yes,39.1,,Recovered,10-14,,
+MS-1037,2024-03-12,South,male,3,Unknown,yes,yes,39.9,4,Recovered,Under 5,142000,9
+MS-0664,2024-02-19,North,male,4,No,yes,yes,38.4,,Recovered,Under 5,185000,12
+MS-1126,2024-06-25,East,female,9,Unknown,yes,yes,39.6,,Recovered,5-9,98000,7
+MS-0318,2024-03-13,North,male,12,No,yes,yes,39.5,,Unknown,10-14,185000,12
+MS-0014,2024-06-13,South,female,3,No,yes,yes,39.7,,Died,Under 5,142000,9
+MS-0686,2024-02-08,South,female,0,No,yes,yes,39.5,,Recovered,Under 5,142000,9
+MS-0315,2024-04-04,North,male,4,Yes,yes,yes,38.2,4,Recovered,Under 5,185000,12
+MS-0876,2024-05-06,East,female,4,Yes,yes,yes,38.1,3,Recovered,Under 5,98000,7
+MS-0978,2024-02-21,North,male,17,Yes,yes,no,38.9,,Recovered,15+,185000,12
+MS-0261,2024-03-06,East,male,5,No,no,yes,36.9,5,Recovered,5-9,98000,7
+MS-0181,2024-03-19,North,male,1,No,yes,yes,38.9,2,Recovered,Under 5,185000,12
+MS-0988,2024-04-26,East,female,3,No,yes,yes,40.1,,Recovered,Under 5,98000,7
+MS-0955,2024-04-10,North,male,13,No,yes,yes,38.3,,Recovered,10-14,185000,12
+MS-0111,2024-06-03,North,male,2,No,yes,yes,39.6,,Recovered,Under 5,185000,12
+MS-0294,2024-04-23,South,female,12,No,yes,no,37.5,,Recovered,10-14,142000,9
+MS-0895,2024-04-19,South,female,2,Yes,yes,yes,38.7,,Recovered,Under 5,142000,9
+MS-0942,2024-02-26,North,male,1,No,yes,yes,39.7,,Recovered,Under 5,185000,12
+MS-0167,2024-04-10,Central,female,6,No,yes,yes,39.6,,Recovered,5-9,210000,15
+MS-0100,2024-04-03,South,female,3,No,yes,yes,39,6,Recovered,Under 5,142000,9
+MS-0594,2024-04-07,South,female,20,No,yes,yes,38.5,3,Recovered,15+,142000,9

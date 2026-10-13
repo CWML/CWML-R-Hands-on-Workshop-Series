@@ -1,0 +1,61 @@
+---
+title: "Instructor notes: Session 5"
+subtitle: "Summarizing your data"
+---
+
+[→ Open the Session 5 lesson](../lessons/05-summarizing.qmd)
+
+## Timing
+
+| Part | Topic | Time (incl. TRY IT) |
+|------|-------|---------------------|
+| 1 | Set up | 5 min |
+| 2 | Putting categories in order (factors) | 10 min |
+| 3 | Counting and percentages with `count()` | 17 min |
+| 4 | Summary statistics with `summarise()` (2 TRY ITs) | 25 min |
+| 5 | Quick tables with `tabyl()` | 12 min |
+| 6 | Table 1 with `gtsummary` | 18 min |
+|   | Wrap-up and preview | 5 min |
+|   | **Total** | **92 min** |
+
+**Short on time?** Make the Part 4 "case rates by district" TRY IT homework (nothing later depends on it). Don't cut the measles Table 1 in Part 6 — it's the payoff of the session.
+
+## Before you start
+
+-   Learners start from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, saved in Session 3. Anyone who missed Session 3 can use the ready-made copies already in `processed_data/`.
+-   Learners type along in `scripts/Session 5 - Summarizing_STUDENT.R`; the filled-in version is `solutions/Session 5 - Summarizing_SOLUTIONS.R`.
+-   Sticky notes as usual: green = done with the TRY IT, red = need help.
+
+## Teaching notes by part
+
+**Overview — why these three packages.** There are many packages for summary tables (base R `summary()` and `table()`, `psych::describe()`, `rstatix::get_summary_stats()`, ...). This session teaches three that cover almost every need: **dplyr** (`count()`/`summarise()`) for flexible summaries you can plot, **janitor** (`tabyl()`) for quick cross-tabs, and **gtsummary** for tables you publish. Say this up front if learners ask "why not X?".
+
+**Part 1 — Set up.** Remind learners this is the dataset finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature). They can confirm the import in the **Variables** pane.
+
+**Part 2 — Factors.** Run `count(age_cat)` *before* relevelling and ask learners what's wrong with the order ("Under 18" sorts after "80+"). Emphasize that the order carries through to plots too — they'll see it again in Sessions 6 and 7. Note: the `.rds` files saved in Session 3 contain plain text columns, not factors, so the order has to be set again after every import (the student script says this; the original instructor script implied the `.rds` already kept the order). A misspelled level gives an "Unknown levels" warning and is silently ignored.
+
+**Part 3 — Counting and percentages.** After the `group_by(age_cat) %>% count(outcome)` example, ask the class:
+
+-   *How is this different from `count(age_cat, outcome)` without `group_by()`?* — Without grouping, the percentages are out of all 6,451 cases, so all rows together add up to 100%. With grouping, each age group adds up to 100%.
+
+Stress `ungroup()`: a grouped data frame stays grouped and can surprise them later.
+
+**Part 4 — `summarise()`.** Show what happens without `na.rm = TRUE` (the whole result becomes `NA`). Connect `mean(fever == "yes")` to Session 4's vectorization: TRUE/FALSE, `sum()` counts the TRUEs, `mean()` gives the proportion. In the "statistics by outcome" TRY IT, `days_in_hospital` needs `na.rm = TRUE` because non-hospitalized patients have `NA`. In the district rates TRY IT, point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the "Unknown" district gets no rate.
+
+**Part 5 — `tabyl()`.** Spend a moment on the order of the `adorn_` functions — totals must come before percentages because they need the raw counts. The vaccination-and-death TRY IT (6.3% vs 0.7%) is a good moment to discuss what this data does and doesn't show: it's fictional practice data, the numbers of deaths are small (2 vaccinated deaths), and a crude cross-tab doesn't adjust for anything (e.g. age).
+
+**Part 6 — Table 1.** Explain why we turn "Unknown" back into `NA` with `na_if()`: in Session 3 we replaced `NA` with "Unknown" so missing values show up in counts, but `tbl_summary()` has its own Missing row. `na_if()` with `where(is.character)` only touches text columns, so factor columns (`age_cat`, `vaccinated`) keep "Unknown" as a category. Mention `add_p()` but only for analyses where a statistical test is planned. The Word export uses `as_flex_table() %>% flextable::save_as_docx()`; have learners find `outputs/table1.docx` in the **Explorer** and open it. For the measles Table 1, point out that "Missing" days in hospital means *not hospitalized*, not lost data.
+
+**Wrap-up.** Recap: `fct_relevel()`, `count()`, `group_by()`, `summarise()`, `across()`, `tabyl()` + `adorn_*()`, `tbl_summary()`. Preview **Session 6 — Plotting basics:** `ggplot2` from the ground up — histograms, scatter plots, and box plots.
+
+## TRY IT answers at a glance
+
+| TRY IT | Answer |
+|---|---|
+| Import the measles data | 1163 rows, 14 columns |
+| Order the measles categories | One `mutate()` with three `fct_relevel()` lines; `count(age_cat)` starts with Under 5 (369) |
+| Vaccination coverage | a) Yes 23.8% (277); b) 10-14 lowest at 21.2% |
+| Statistics by outcome | Recovered n = 1048, median age 7; Died n = 50, median age 5 (Unknown n = 65) |
+| Case rates by district | East highest 22.8 per 10,000; Central lowest 5.2; Unknown has no rate |
+| Vaccination and death | 6.3% of unvaccinated (45/709) vs 0.7% of vaccinated (2/277) died — fictional practice data |
+| A measles Table 1 | Overall N = 1,098, Recovered N = 1,048, Died N = 50; 697 "Missing" days in hospital = not hospitalized |

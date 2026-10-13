@@ -23,3 +23,11 @@ processed_data/OLD/
 
 # Ignore the repository-level attributes file
 .gitattributes
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Quarto website: the built site in docs/ IS published (GitHub Pages), so un-ignore it
+!docs/
+!docs/**
+/.quarto/

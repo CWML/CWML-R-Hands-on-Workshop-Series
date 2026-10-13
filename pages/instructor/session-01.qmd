@@ -1,0 +1,60 @@
+---
+title: "Instructor notes: Session 1"
+subtitle: "Setup and a first look at your data"
+---
+
+[→ Open the Session 1 lesson](../lessons/01-setup-and-first-look.qmd)
+
+## Timing
+
+| Part | Topic | Time (incl. TRY IT) |
+|------|-------|---------------------|
+| 1 | R Projects and `here()` | 10 min |
+| 2 | Installing and loading packages | 8 min |
+| 3 | R basics | 12 min |
+| 4 | The pipe `%>%` | 5 min |
+| 5 | Importing data | 10 min |
+| 6 | Inspecting data (4 TRY ITs) | 30 min |
+| 7 | The problem list (class + TRY IT) | 15 min |
+|   | Wrap-up and preview | 5 min |
+|   | **Total** | **95 min** |
+
+**Short on time?** Make the Part 7 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.
+
+## Before you start
+
+-   Check that everyone ran the [Setup](../setup.qmd) test. Anyone who didn't should start `install.packages()` **at the very beginning** of class — it can take several minutes. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools ([Troubleshooting](../troubleshooting.qmd)).
+-   Hand out the green and red sticky notes and explain them.
+
+## Teaching notes by part
+
+**Part 1 — Project folders and `here()`.** Show that `here::here()` points at the workshop folder because it's open in Positron (and has a `.here` file). Learners using RStudio should open the `.Rproj` file instead; everything else is the same.
+
+**Positron vs RStudio names:** if learners follow older tutorials, Positron's **Variables** pane is RStudio's **Environment** pane, and the **Explorer** is the **Files** pane.
+
+**Part 3 — R basics.** Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (`Mean(ages)`) to show that R is case-sensitive.
+
+**Part 4 — The pipe.** If anyone asks why `round(38.5)` gives 38 rather than 39: R rounds a 5 to the nearest **even** number, which avoids bias when rounding many values.
+
+**Part 6 — Inspecting.** This is the longest part. The "Think about it" questions on the lesson page are prompts to ask the class:
+
+-   *What is wrong with these column names?* — spaces, dots, capitals, mixed styles.
+-   *Which column types look wrong?* — `date.onset` is text, `age` is text, and `age_unit` hints that some ages aren't in years.
+
+After `skim()`, point at the `n_missing` column, the negative minimum of `wt_kg`, and the near-300 cm maximum of `ht_cm`.
+
+**Part 7 — The problem list.** Build the list **with the class** — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2's TRY ITs work through it.
+
+## TRY IT answers at a glance
+
+| TRY IT | Answer |
+|---|---|
+| Path to the practice data | `here::here("raw_data", "measles_raw.csv")` |
+| Objects and functions | `mean(my_temps)` is 38.5 |
+| The pipe | `my_temps %>% mean() %>% round(0)` is 38 |
+| Import | 1215 rows, 11 columns |
+| Size and structure | `Age (years)` is text; six names need backticks |
+| Categories | District has 18 values; "North" and "No" are each written 4 ways |
+| Zooming in | Highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
+| Missing values and duplicates | 37 missing IDs, 15 duplicates; `Days in Hospital` has 766 NAs (not hospitalized) |
+| Problem list | At least 8 problems — see the lesson's solution |

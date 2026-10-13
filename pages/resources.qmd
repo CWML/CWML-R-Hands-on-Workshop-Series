@@ -1,0 +1,38 @@
+---
+title: "Resources"
+subtitle: "Where to go next, and where to get help"
+---
+
+## Getting help
+
+-   **In R:** type `?function_name` in the Console (for example `?mutate`) to open its help page.
+-   **Setup problems:** see [Troubleshooting](troubleshooting.qmd) for installing Rtools (Windows) and the Xcode Command Line Tools and gfortran (Mac).
+-   **During the workshop:** put up your red sticky note!
+
+## Free books and guides
+
+-   **[R for Data Science (2e)](https://r4ds.hadley.nz/)** — the standard introduction to the tidyverse, by the people who wrote it. Free online.
+-   **[The Epidemiologist R Handbook](https://epirhandbook.com/)** — hundreds of applied examples for public health, using the same packages as this workshop. The workshop's outbreak dataset is based on its example linelist.
+-   **[Data Carpentry: R for Social Scientists](https://datacarpentry.github.io/r-socialsci/)** and **[R for Ecologists](https://datacarpentry.github.io/R-ecology-lesson/)** — other beginner R lessons in the same hands-on style.
+
+## Cheat sheets
+
+Posit's one-page cheat sheets are great to keep open while you work: [all cheat sheets](https://posit.co/resources/cheatsheets/). The most useful for this workshop:
+
+-   **Data transformation with dplyr** — Sessions 1–5
+-   **Data tidying with tidyr** — Session 4
+-   **Data visualization with ggplot2** — Sessions 6–7
+-   **Factors with forcats**, **Strings with stringr**, **Dates and times with lubridate**
+-   **Apply functions with purrr** — Session 8
+
+## Packages used in the workshop
+
+| Package | What we use it for |
+|---|---|
+| [tidyverse](https://www.tidyverse.org/) | dplyr (wrangling), ggplot2 (plots), tidyr (reshaping), stringr, forcats, lubridate, purrr |
+| [here](https://here.r-lib.org/) | file paths that work on any computer |
+| [rio](https://gesistsa.github.io/rio/) | `import()` and `export()` for almost any file type |
+| [janitor](https://sfirke.github.io/janitor/) | `clean_names()`, `tabyl()`, `get_dupes()` |
+| [skimr](https://docs.ropensci.org/skimr/) | `skim()` summaries |
+| [gtsummary](https://www.danieldsjoberg.com/gtsummary/) | publication-ready tables |
+| [scales](https://scales.r-lib.org/) | formatting percentages |

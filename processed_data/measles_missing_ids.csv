@@ -1,0 +1,38 @@
+patient_id,report_date,district,sex,age_years,vaccinated,fever,rash,temp_c,days_in_hospital,outcome,age_cat
+NEW-0001,2024-03-16,South,male,3,No,yes,yes,38.8,,Recovered,Under 5
+NEW-0002,2024-04-11,South,,,No,yes,yes,38.7,,,
+NEW-0003,2024-03-17,East,male,22,Yes,yes,yes,38.7,6,Recovered,15+
+NEW-0004,2024-03-25,North,female,8,Yes,yes,yes,38.8,,Recovered,5-9
+NEW-0005,2024-03-19,West,male,,Yes,yes,yes,38.2,5,Recovered,
+NEW-0006,2024-04-07,South,male,6,No,yes,yes,39.7,5,,5-9
+NEW-0007,2024-04-24,South,male,3,No,yes,yes,39.4,,Recovered,Under 5
+NEW-0008,2024-05-30,West,male,11,No,yes,no,39.3,6,Recovered,10-14
+NEW-0009,2024-04-14,North,male,8,No,yes,yes,38.8,8,Recovered,5-9
+NEW-0010,2024-03-13,West,,7,No,yes,yes,38.8,8,Recovered,5-9
+NEW-0011,2024-06-17,West,female,5,Unknown,yes,yes,38.8,,Recovered,5-9
+NEW-0012,2024-03-27,East,male,7,No,yes,yes,38.1,,Recovered,5-9
+NEW-0013,2024-05-20,East,female,11,No,yes,no,38.2,,Recovered,10-14
+NEW-0014,2024-04-24,South,male,6,No,yes,yes,39.9,7,Recovered,5-9
+NEW-0015,2024-05-16,North,female,6,Unknown,yes,yes,39.9,7,Recovered,5-9
+NEW-0016,2024-04-05,West,male,3,No,no,yes,36.6,,Recovered,Under 5
+NEW-0017,2024-05-24,East,male,6,No,yes,yes,38.9,,Died,5-9
+NEW-0018,2024-03-06,West,male,14,Yes,yes,yes,38.4,3,Recovered,10-14
+NEW-0019,2024-05-21,East,male,22,No,yes,yes,38.7,,Recovered,15+
+NEW-0020,2024-03-13,North,female,5,Yes,yes,yes,38.9,,Recovered,5-9
+NEW-0021,2024-04-22,North,female,13,No,yes,yes,38.1,,Recovered,10-14
+NEW-0022,2024-04-27,South,female,16,No,yes,yes,38.8,1,Recovered,15+
+NEW-0023,,South,male,11,No,yes,yes,39.2,,Recovered,10-14
+NEW-0024,2024-02-13,East,female,12,No,yes,yes,39.6,4,Recovered,10-14
+NEW-0025,2024-02-09,North,female,16,Yes,yes,yes,40.8,,Recovered,15+
+NEW-0026,2024-04-11,East,male,11,No,yes,yes,38.3,4,Recovered,10-14
+NEW-0027,2024-04-25,South,male,2,Yes,yes,no,39.9,8,Recovered,Under 5
+NEW-0028,2024-05-17,Central,male,8,No,yes,yes,39.8,6,Died,5-9
+NEW-0029,2024-02-25,East,male,8,No,yes,yes,39.6,,Recovered,5-9
+NEW-0030,2024-04-24,North,male,12,Yes,yes,yes,39.3,2,Recovered,10-14
+NEW-0031,2024-07-04,South,female,1,No,yes,yes,38.6,,Recovered,Under 5
+NEW-0032,2024-06-27,North,female,18,No,no,yes,37.1,,Recovered,15+
+NEW-0033,2024-02-22,West,male,9,Yes,yes,yes,39.5,6,Recovered,5-9
+NEW-0034,2024-04-08,Central,female,5,No,yes,yes,38.4,,Recovered,5-9
+NEW-0035,2024-03-31,North,female,13,Yes,yes,yes,39.3,,Recovered,10-14
+NEW-0036,2024-05-14,North,male,15,No,yes,no,39.1,3,Recovered,15+
+NEW-0037,2024-02-22,South,male,2,Yes,yes,yes,38.6,,Recovered,Under 5

@@ -1,0 +1,59 @@
+---
+title: "R Hands-on Workshop Series"
+subtitle: "Data analysis in R with the tidyverse — from messy raw data to tables and plots"
+toc: false
+---
+
+Welcome! This hands-on workshop teaches you to analyze data in **R** using the **tidyverse**. You will take a realistic, messy outbreak dataset all the way from the raw file to clean data, summary tables, and publication-ready plots — and finish by writing your own functions and loops.
+
+No experience with R or programming is needed.
+
+## What you'll learn
+
+-   Set up a project folder and import data from almost any file type
+-   Inspect a dataset and find its problems before you analyze it
+-   Clean messy data: fix column names, types, misspellings, impossible values, and duplicates
+-   Handle missing values and join datasets together
+-   Understand how R stores data, and reshape it between wide and long
+-   Summarize data and make a publication-ready "Table 1"
+-   Make histograms, scatter plots, box plots, bar charts, and epidemic curves with **ggplot2**
+-   Write your own functions and loops to automate repeated work
+
+## Start here
+
+1.  **[Setup](pages/setup.qmd)** — install R, Positron, and the packages, and download the workshop folder. Please do this **before** the first session.
+2.  **Work through the lessons in order:**
+
+::: lesson-list
+| \#    | Lesson                                                                   | You will learn                                                                  |
+|-------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| 1     | [Setup and a first look at your data](pages/lessons/01-setup-and-first-look.qmd) | R Projects, packages, R basics, the pipe, importing and inspecting data |
+| 2     | [Cleaning](pages/lessons/02-cleaning.qmd)                                                 | `clean_names()`, `mutate()`, `if_else()`, `case_when()`                          |
+| 3     | [Missing data, joins, and export](pages/lessons/03-missing-data-joins-export.qmd)                          | missing values, duplicates, joins, `export()`                                   |
+| 4     | [Data structures](pages/lessons/04-data-structures.qmd)                                          | vectors, subsetting, `pivot_longer()` / `pivot_wider()`                         |
+| 5     | [Summarizing](pages/lessons/05-summarizing.qmd)                                              | `count()`, `summarise()`, `tabyl()`, a `gtsummary` Table 1                      |
+| 6     | [Plotting basics](pages/lessons/06-plotting-basics.qmd)                                          | histograms, scatter plots, box plots                                            |
+| 7     | [Plotting further](pages/lessons/07-plotting-further.qmd)                                         | bar charts, colors, epidemic curves, facets                                     |
+| 8     | [Programming](pages/lessons/08-programming.qmd) *(optional)*                                    | functions, `if`/`else`, loops, `map()`                                          |
+:::
+
+## How each lesson works
+
+Every lesson is split into short parts. Each part follows the same rhythm:
+
+-   **👀 Follow along** — the instructor live-codes a new skill on the workshop dataset, and you type the same code into your **student script** (download it from the top of each lesson).
+-   **✏️ TRY IT** — straight away, you do the same thing yourself on a practice dataset (a measles outbreak). Each TRY IT has a ✅ **Check** so you know whether you got it right, and a **solution** you can open if you're stuck.
+
+During live sessions, put up your **green sticky note** when you finish a TRY IT, or your **red** one if you need help.
+
+::: callout-tip
+## Learning on your own?
+
+You can! Each lesson page has everything you need: the explanations, the code with its output, every TRY IT, and its solution. Download the student script and work through the page at your own pace.
+:::
+
+## About this workshop
+
+Created by Max Wegener at the [Cushing/Whitney Medical Library](https://library.medicine.yale.edu/), Yale School of Medicine. All datasets are fictional and made for teaching.
+
+The materials are on [GitHub](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series).

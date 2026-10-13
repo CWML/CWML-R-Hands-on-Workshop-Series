@@ -1,0 +1,61 @@
+---
+title: "Data"
+subtitle: "The datasets used in the workshop"
+---
+
+All datasets are **fictional** and were created for teaching. They come with the workshop folder (see [Setup](setup.qmd)) — you don't need to download them separately.
+
+## The workshop dataset: an outbreak linelist
+
+A **linelist** is a table with one row per case, the standard format for outbreak data. The instructor uses this dataset in the 👀 Follow along parts.
+
+| File | What it is | Used in |
+|---|---|---|
+| `raw_data/linelist_raw.xlsx` | 6,604 cases with dates, demographics, hospital, and outcome | Sessions 1–2 |
+| `raw_data/case_info.csv` | Symptoms and temperature for each case | Session 3 (joined to the linelist) |
+| `raw_data/hosp_info.txt` | Look-up table of the correct hospital names | Session 2 |
+
+**Problems built into the raw data** (you find them in Session 1 and fix them in Sessions 2–3):
+
+-   Column names with spaces, dots, and capitals
+-   Dates stored as different types; ages stored as text, some in months
+-   Misspelled and inconsistent hospital names ("Hopital", "Regional MC")
+-   Impossible weights and heights
+-   130 rows with no case ID, and 25 duplicate rows
+
+## The practice dataset: a measles outbreak
+
+You use this dataset in every ✏️ TRY IT. It has the same kinds of problems as the workshop dataset, so every skill transfers directly.
+
+| File | What it is | Used in |
+|---|---|---|
+| `raw_data/measles_raw.csv` | 1,215 measles cases in 2024 across five districts | Sessions 1–8 |
+| `raw_data/district_info.csv` | Population and number of clinics for each district | Session 3 (joined), Sessions 5 and 7 (case rates) |
+
+**Problems built into the practice data:**
+
+-   Column names with spaces and symbols (`Temp (C)`, `Vaccinated?`)
+-   Age stored as text, with "unknown" and the code 999
+-   District names misspelled ("Nroth", "Cetnral") and capitalized inconsistently
+-   Sex written six ways and vaccination status written eight ways
+-   Some temperatures entered in **Fahrenheit** instead of Celsius
+-   37 rows with no patient ID, and 15 duplicate rows
+
+## Files made during the sessions
+
+As you work through the lessons, you save cleaned versions in `processed_data/`. Ready-made copies are included, so you can start any session even if you missed the one before.
+
+| File | Made in | Used in |
+|---|---|---|
+| `processed_data/linelist_clean.rds`, `measles_clean.rds` | Session 2 | Session 3 |
+| `processed_data/combined_linelist.rds`, `measles_final.rds` | Session 3 | Sessions 4–8 |
+
+::: callout-note
+## Why `.rds`?
+
+`.rds` is R's own file format. It keeps dates as dates and missing values as `NA`, so it's the best choice for files you will open in R again. `.csv` files are better for sharing with other software, but missing text comes back as blank `""` instead of `NA`. Session 3 explains this in detail.
+:::
+
+## Bring your own data
+
+Every lesson ends with a ⭐ BONUS for your own data. Put your file in `raw_data/` and work through the same steps. Please only use data you are allowed to share with others in the room, and never bring identifiable patient data to a workshop.
