@@ -191,6 +191,8 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #      filter()    keeps ROWS that meet a condition:  filter(age_unit == "months")
 #      select()    keeps COLUMNS:                     select(age, age_unit)
 #      arrange()   sorts rows; desc() sorts largest first: arrange(desc(ht_cm))
+#      head(10)    shows only the first 10 rows. linelist_raw is a regular data
+#                  frame, so R prints ALL 6,604 rows unless you add %>% head(10)
 #      Conditions: == equal, != not equal, > < >= <=, is.na() missing
 #
 #    Missing values and duplicates
@@ -232,10 +234,12 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    - the smallest weights (any impossible values?)
 #    - the tallest patients
 #    Pattern: DATA %>% filter(CONDITION) %>% select(COLUMN_1, COLUMN_2)
+#    Pattern: DATA %>% select(COLUMN_1, COLUMN_2) %>% arrange(COLUMN) %>% head(10)
 
 
 # ✏️ TRY IT (3 min): sort measles_raw by `Temp (C)`, largest first, showing only
-#    `Patient ID` and `Temp (C)`. What is the highest temperature? What happened?
+#    `Patient ID` and `Temp (C)`. Add head(10) to see just the top 10.
+#    What is the highest temperature? What happened?
 #    ✅ Check: the top value is 104.7
 
 

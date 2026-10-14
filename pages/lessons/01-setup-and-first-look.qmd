@@ -379,16 +379,24 @@ linelist_raw %>%
   filter(age_unit == "months") %>%
   select(`Case ID`, age, age_unit)
 
-# Impossible weights: sort smallest first
+# Impossible weights: sort smallest first, show the first 10 rows
 linelist_raw %>%
   select(`Case ID`, wt_kg, ht_cm) %>%
-  arrange(wt_kg)
+  arrange(wt_kg) %>%
+  head(10)
 
 # Tallest patients
 linelist_raw %>%
   select(`Case ID`, ht_cm) %>%
-  arrange(desc(ht_cm))
+  arrange(desc(ht_cm)) %>%
+  head(10)
 ```
+
+::: callout-tip
+## Long output? Add `head()`
+
+`linelist_raw` is a regular data frame, so R prints **every** row — all 6,604 of them! Adding `%>% head(10)` at the end shows only the first 10.
+:::
 
 ::: callout-note
 ## Conditions you can use in `filter()`
@@ -401,7 +409,7 @@ Use `==` (two equals signs) to compare. One `=` is for naming arguments.
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT (3 min): zooming in
 
-Sort `measles_raw` by `` `Temp (C)` ``, largest first, showing only `` `Patient ID` `` and `` `Temp (C)` ``. What is the highest temperature? What do you think happened?
+Sort `measles_raw` by `` `Temp (C)` ``, largest first, showing only `` `Patient ID` `` and `` `Temp (C)` ``. Add `head(10)` so you only see the top 10. What is the highest temperature? What do you think happened?
 
 ✅ **Check:** the top value is 104.7
 
@@ -411,7 +419,8 @@ Sort `measles_raw` by `` `Temp (C)` ``, largest first, showing only `` `Patient 
 ```{r}
 measles_raw %>%
   select(`Patient ID`, `Temp (C)`) %>%
-  arrange(desc(`Temp (C)`))
+  arrange(desc(`Temp (C)`)) %>%
+  head(10)
 ```
 
 104.7 is about 40 °C written in **Fahrenheit**. A few temperatures were entered in °F instead of °C.

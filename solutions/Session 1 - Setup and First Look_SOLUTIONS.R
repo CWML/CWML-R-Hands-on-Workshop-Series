@@ -141,17 +141,21 @@ linelist_raw %>%
 
 linelist_raw %>%
   select(`Case ID`, wt_kg, ht_cm) %>%
-  arrange(wt_kg)
+  arrange(wt_kg) %>%
+  head(10)
 
 linelist_raw %>%
   select(`Case ID`, ht_cm) %>%
-  arrange(desc(ht_cm))
+  arrange(desc(ht_cm)) %>%
+  head(10)
 
 # ✏️ TRY IT: sort measles_raw by `Temp (C)`, largest first, showing only
-#    `Patient ID` and `Temp (C)`. What is the highest temperature? What happened?
+#    `Patient ID` and `Temp (C)`. Add head(10) to see just the top 10.
+#    What is the highest temperature? What happened?
 measles_raw %>%
   select(`Patient ID`, `Temp (C)`) %>%
-  arrange(desc(`Temp (C)`))
+  arrange(desc(`Temp (C)`)) %>%
+  head(10)
 # 104.7 is about 40 °C written in Fahrenheit. A few temperatures were entered in °F.
 
 # 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID,
