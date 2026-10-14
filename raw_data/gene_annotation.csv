@@ -1,0 +1,60 @@
+gene_id,symbol,pathway
+GX00101,ISG15,Interferon response
+GX00138,MX1,Interferon response
+GX00175,OAS1,Interferon response
+GX00212,OAS2,Interferon response
+GX00249,IFIT1,Interferon response
+GX00286,IFIT3,Interferon response
+GX00323,IFI44L,Interferon response
+GX00360,RSAD2,Interferon response
+GX00397,IFI27,Interferon response
+GX00434,CXCL10,Interferon response
+GX00471,STAT1,Interferon response
+GX00508,IRF7,Interferon response
+GX00545,IFNG,Interferon response
+GX00582,SIGLEC1,Interferon response
+GX00619,IL6,Inflammation
+GX00656,IL10,Inflammation
+GX00693,CXCL8,Inflammation
+GX00730,TNF,Inflammation
+GX00767,IL1B,Inflammation
+GX00804,CCL2,Inflammation
+GX00841,S100A8,Inflammation
+GX00878,S100A9,Inflammation
+GX00915,NLRP3,Inflammation
+GX00952,PTGS2,Inflammation
+GX00989,CD3E,T cell
+GX01026,CD4,T cell
+GX01063,CD8A,T cell
+GX01100,GZMB,T cell
+GX01137,PRF1,T cell
+GX01174,CD69,T cell
+GX01211,IL2RA,T cell
+GX01248,FOXP3,T cell
+GX01285,PDCD1,T cell
+GX01322,LAG3,T cell
+GX01359,CD19,B cell / antibody
+GX01396,MS4A1,B cell / antibody
+GX01433,CD27,B cell / antibody
+GX01470,JCHAIN,B cell / antibody
+GX01507,MZB1,B cell / antibody
+GX01544,IGHG1,B cell / antibody
+GX01581,IGHM,B cell / antibody
+GX01618,TNFRSF17,B cell / antibody
+GX01655,XBP1,B cell / antibody
+GX01692,PRDM1,B cell / antibody
+GX01729,HLA-DRA,Antigen presentation
+GX01766,CD74,Antigen presentation
+GX01803,CIITA,Antigen presentation
+GX01840,1-Mar,Antigen presentation
+GX01877,B2M,Antigen presentation
+GX01914,TAP1,Antigen presentation
+GX01951,7-Sep,Cytoskeleton
+GX02025,ACTB,Housekeeping
+GX02062,GAPDH,Housekeeping
+GX02099,RPLP0,Housekeeping
+GX02136,PPIA,Housekeeping
+GX02173,TBP,Housekeeping
+GX02210,HPRT1,Housekeeping
+GX02247,GUSB,Housekeeping
+GX02284,YWHAZ,Housekeeping

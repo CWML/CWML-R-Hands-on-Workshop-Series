@@ -1,0 +1,459 @@
+---
+title: "DRAFT Session 5: Matrices and Lists"
+subtitle: "The data shapes behind lab data, model results, and every Bioconductor object"
+---
+
+::: callout-caution
+## Draft for discussion
+
+This lesson is a **proposal** (see `proposal/README.md`). It lives outside `pages/`, so it is not part of the website. It uses the new lab files made by `data-raw/make_lab_data.R`.
+:::
+
+::: callout-note
+## In this session you will learn to
+
+1.  Explain how a **matrix** differs from a data frame, and turn one into the other without losing row names
+2.  Do **row and column calculations** (`colSums()`, `rowMeans()`, `apply()`) and avoid the recycling trap
+3.  **Match** sample metadata to the columns of a matrix, and check that it matched
+4.  Reshape a matrix to **long** format for plotting
+5.  Explain what a **list** is, pull results out of one, and run the same test on every gene
+
+**Before you start:** open `processed_data/measles_final.rds` from Session 3 and the three lab files in `raw_data/`.
+:::
+
+So far every dataset has been a data frame: one row per case, columns of different types. Lab data usually arrives in a different shape. A **matrix** holds one number for every *gene × sample* combination, and the information *about* each sample sits in a separate **sample sheet**. The skills in this session are the same ones you need for any numeric table, such as a district × week case-count table in epidemiology.
+
+# Part 1: Set up
+
+The story: 137 measles cases had a blood sample taken at diagnosis, and a 60-gene immune panel was measured on each one. The numbers are **read counts**: how many times each gene was detected.
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+
+measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE)
+panel   <- import(here("raw_data", "measles_immune_panel.csv"))
+samples_raw <- import(here("raw_data", "measles_lab_samples.csv"))
+genes_raw   <- import(here("raw_data", "gene_annotation.csv"))
+```
+
+```{r}
+dim(panel)
+panel[1:3, 1:6]
+```
+
+`panel` has one row per gene and one column per sample, plus a `gene_id` column.
+
+# Part 2: Matrices
+
+A **matrix** is a table where **every cell has the same type**, almost always numbers. Rows and columns can have **names**. That is exactly what a count table is.
+
+## Data frame → matrix
+
+```{r}
+# Base R
+counts <- as.matrix(panel[, -1])      # every column except gene_id
+rownames(counts) <- panel$gene_id     # gene IDs become ROW NAMES
+
+# Tidyverse (same result)
+counts <- panel %>%
+  column_to_rownames("gene_id") %>%
+  as.matrix()
+
+class(counts)
+dim(counts)
+counts[1:3, 1:4]
+```
+
+## Subsetting works like a data frame, and names work too
+
+```{r}
+counts["GX00101", 1:5]             # one gene, first five samples
+counts[1:2, c("S001", "S002")]     # rows and columns by name
+```
+
+## Why not just keep a data frame?
+
+-   **Maths on the whole table at once:** `log2(counts)`, `counts / 2`, `t(counts)` (transpose)
+-   **Many functions require a matrix:** `cor()`, `dist()`, `prcomp()` (PCA), heatmaps, and every Bioconductor package
+-   **Row names keep the gene IDs attached** to the numbers whatever you do to them
+
+::: callout-warning
+## Tibbles throw away row names
+
+```{r}
+as_tibble(counts)[1:2, 1:3]                       # gene IDs are gone!
+as_tibble(counts, rownames = "gene_id")[1:2, 1:3] # kept as a column
+```
+
+Going from a matrix to the tidyverse: `as_tibble(x, rownames = "gene_id")`. Coming back: `column_to_rownames("gene_id")`.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): explore the matrix
+
+a)  How many samples are in `counts`? (`ncol()`)
+b)  Show the counts of gene `GX00138` (MX1) for samples `S010` to `S014`
+c)  What is the `max()` of the whole matrix?
+
+✅ **Check:** a) 141 b) the first value is 540 c) 44742
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+ncol(counts)                                         # a)
+counts["GX00138", c("S010", "S011", "S012", "S013", "S014")]   # b)
+max(counts)                                          # c)
+```
+
+`max()` works on the whole matrix at once: no need to pick a column first.
+:::
+:::
+
+# Part 3: Row and column calculations
+
+## Library size: `colSums()`
+
+Some samples were sequenced more deeply than others, so all their counts are bigger. The total per sample is the **library size**:
+
+```{r}
+lib_size <- colSums(counts)
+summary(lib_size)
+```
+
+Base R has fast functions for the four common cases: `rowSums()`, `colSums()`, `rowMeans()`, `colMeans()`. For anything else, use `apply()`. Its second argument is **1 for rows, 2 for columns**:
+
+```{r}
+apply(counts, 2, max)[1:5]   # largest count in each sample (columns)
+apply(counts, 1, sd)[1:5]    # standard deviation of each gene (rows)
+```
+
+## Normalizing, and the recycling trap
+
+To compare samples, divide each column by its library size. The obvious code is **wrong**:
+
+```{r}
+m <- matrix(1:6, nrow = 2)   # a tiny matrix: 2 rows, 3 columns
+m
+colSums(m)
+m / colSums(m)               # WRONG
+```
+
+R stores a matrix column by column and **recycles** the shorter vector down the columns, so the numbers are divided by the wrong totals. No error, no warning. Use `sweep()`, which says *which direction* to divide in (2 = columns):
+
+```{r}
+sweep(m, 2, colSums(m), "/")   # right: each column sums to 1
+```
+
+For read counts we scale to **counts per million** (CPM), then take `log2()` so a few huge values don't dominate:
+
+```{r}
+cpm     <- sweep(counts, 2, lib_size, "/") * 1e6
+log_cpm <- log2(cpm + 1)      # + 1 because log2(0) is -Inf
+
+colSums(cpm)[1:3]             # every sample now sums to 1 million
+```
+
+::: callout-warning
+## Common mistakes
+
+-   `matrix / colSums(matrix)` silently divides the wrong way. Use `sweep()`.
+-   `apply(x, 1, ...)` is rows and `apply(x, 2, ...)` is columns. Check with a tiny matrix if unsure.
+-   `log2(0)` is `-Inf`. Add 1 first.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): rows and columns
+
+a)  Which sample has the largest library? Use `which.max(lib_size)`.
+b)  Find the mean `log_cpm` of every gene with `rowMeans()`, then show the 3 highest with `sort(..., decreasing = TRUE)` and `head(3)`.
+
+✅ **Check:** a) S108 b) the top gene is GX02173
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+which.max(lib_size)                                   # a)
+
+gene_means <- rowMeans(log_cpm)                       # b)
+gene_means %>% sort(decreasing = TRUE) %>% head(3)
+```
+
+`which.max()` returns the position *and* its name. The most highly expressed genes are housekeeping genes, which is expected: they are measured because they are always on.
+:::
+:::
+
+::: callout-tip
+## ⭐ Epi link
+
+A district × week table of case counts is also a matrix. `rowSums()` gives cases per district, `colSums()` cases per week, and `sweep(x, 1, population, "/") * 10000` gives rates per 10,000.
+:::
+
+# Part 4: Matching the sample sheet to the matrix
+
+The **most important habit** with lab data: the columns of the matrix and the rows of the sample sheet must describe **the same samples in the same order**. R will not check this for you.
+
+## Clean the sample sheet
+
+The skills from Sessions 2–3:
+
+```{r}
+samples <- samples_raw %>%
+  clean_names() %>%
+  mutate(
+    sample_id       = str_to_upper(str_trim(sample_id)),           # "s017 " -> "S017"
+    patient_id      = str_replace(patient_id, "^MS(\\d)", "MS-\\1"), # "MS0033" -> "MS-0033"
+    batch           = str_to_upper(batch),                         # "b2" -> "B2"
+    collection_date = as.Date(collection_date)
+  ) %>%
+  distinct()
+
+nrow(samples)
+```
+
+## Join the case information
+
+```{r}
+# Samples whose patient is not in the case list
+samples %>% anti_join(measles, by = "patient_id")
+
+samples <- samples %>%
+  inner_join(select(measles, patient_id, vaccinated, outcome, age_years, district),
+             by = "patient_id")
+nrow(samples)
+```
+
+## Compare the two sets of sample IDs
+
+Base R **set functions** answer "which IDs are in one but not the other?":
+
+```{r}
+setdiff(colnames(counts), samples$sample_id)   # in the matrix, no metadata
+setdiff(samples$sample_id, colnames(counts))   # metadata, not in the matrix
+```
+
+Keep only the samples with metadata, **in the order of the sample sheet**, and then **check**:
+
+```{r}
+log_cpm <- log_cpm[, samples$sample_id]   # select AND reorder columns by name
+
+identical(colnames(log_cpm), samples$sample_id)
+stopifnot(identical(colnames(log_cpm), samples$sample_id))   # stops with an error if not
+```
+
+`stopifnot()` is a guard: put it in your scripts, and a mismatch stops your analysis instead of silently giving wrong results.
+
+::: callout-warning
+## Common mistakes
+
+-   Assuming the matrix columns and sample sheet rows are already in the same order. They almost never are.
+-   Matching by **position** (`samples$vaccinated[1]` belongs to column 1?) instead of by **name**. Always index by `sample_id`.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): clean the gene annotation
+
+`genes_raw` maps each `gene_id` to a gene `symbol`.
+
+a)  Look at it with `filter(genes_raw, str_detect(symbol, "-"))`. Excel turned two gene names into dates! Fix them with `case_when()`: `"1-Mar"` is `"MARCHF1"` and `"7-Sep"` is `"SEPTIN7"`. Call the result `genes`.
+b)  Which gene in the matrix has no annotation? Use `setdiff(rownames(counts), genes$gene_id)`.
+
+✅ **Check:** a) the only dash left is in `HLA-DRA` b) `GX01988`
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+filter(genes_raw, str_detect(symbol, "-"))
+
+genes <- genes_raw %>%
+  mutate(symbol = case_when(
+    symbol == "1-Mar" ~ "MARCHF1",
+    symbol == "7-Sep" ~ "SEPTIN7",
+    .default = symbol
+  ))
+filter(genes, str_detect(symbol, "-"))   # a)
+
+setdiff(rownames(counts), genes$gene_id)   # b)
+```
+
+This Excel problem is real: a 2016 study found gene names turned into dates in about one in five genomics papers with Excel supplementary files. Never open gene lists in Excel without setting the column type to Text.
+:::
+:::
+
+::: callout-tip
+## ⭐ Bonus: batch effects
+
+The samples were run in two batches. Compare library sizes with base R `tapply()`: `tapply(lib_size[samples$sample_id], samples$batch, median)`. What do you notice? (The same idea as `group_by(batch) %>% summarise(median(...))`.)
+:::
+
+# Part 5: Matrix → long → plot
+
+To plot with ggplot, go from the matrix to a long tibble (one row per gene per sample), then join the sample and gene information. This is the same `pivot_longer()` as in Session 4:
+
+```{r}
+expr_long <- log_cpm %>%
+  as_tibble(rownames = "gene_id") %>%
+  pivot_longer(-gene_id, names_to = "sample_id", values_to = "log_cpm") %>%
+  left_join(samples, by = "sample_id") %>%
+  left_join(genes, by = "gene_id")
+
+nrow(expr_long)   # 60 genes × 137 samples
+```
+
+```{r}
+expr_long %>%
+  filter(symbol == "ISG15") %>%
+  ggplot(mapping = aes(x = vaccinated, y = log_cpm, fill = vaccinated)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.4) +
+  geom_jitter(width = 0.15, alpha = 0.6) +
+  labs(title = "ISG15 (an interferon gene) by vaccination status",
+       x = "Vaccinated", y = "log2 CPM") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): an inflammation gene by outcome
+
+Plot `IL6` by `outcome` in the same way.
+
+✅ **Check:** the "Died" box is clearly higher
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+expr_long %>%
+  filter(symbol == "IL6") %>%
+  ggplot(mapping = aes(x = outcome, y = log_cpm, fill = outcome)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.4) +
+  geom_jitter(width = 0.15, alpha = 0.6) +
+  labs(x = NULL, y = "log2 CPM") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+:::
+:::
+
+# Part 6: Lists, and testing every gene
+
+## A list holds anything
+
+A vector holds values of one type. A **list** can hold anything, including vectors of different lengths, data frames, and other lists:
+
+```{r}
+study <- list(
+  name     = "Measles immune panel",
+  n        = nrow(samples),
+  batches  = unique(samples$batch),
+  metadata = samples
+)
+
+study$name             # $ by name
+study[["batches"]]     # [[ ]] by name in quotes
+length(study)
+```
+
+A data frame is a special list: a list of columns that all have the same length.
+
+## Test results are lists
+
+```{r}
+isg15 <- log_cpm["GX00101", ]    # ISG15 in every sample, already in sample-sheet order
+res <- t.test(isg15 ~ samples$vaccinated)
+res
+```
+
+The printout is just a nice view of a list:
+
+```{r}
+names(res)
+res$p.value
+res$estimate
+```
+
+Model results from `lm()`, `glm()`, `chisq.test()`, and Bioconductor objects work the same way. `broom::tidy()` turns them into a one-row tibble: `broom::tidy(res)`.
+
+## The same test for every gene
+
+`apply()` runs a function on every row. Here the function is written in place with `function(x)`: `x` is one row (one gene) at a time. You will write your own functions in Session 8.
+
+```{r}
+p_values <- apply(log_cpm, 1, function(x) t.test(x ~ samples$vaccinated)$p.value)
+
+head(sort(p_values))
+sum(p_values < 0.05)
+```
+
+The tidyverse version uses the long data, one group per gene:
+
+```{r}
+gene_tests <- expr_long %>%
+  group_by(gene_id, symbol, pathway) %>%
+  summarise(p_value = t.test(log_cpm ~ vaccinated)$p.value, .groups = "drop") %>%
+  arrange(p_value)
+
+head(gene_tests)
+```
+
+## 60 tests means 60 chances to be wrong
+
+With a 0.05 cut-off, about 1 in 20 tests on *pure noise* is "significant". `p.adjust()` corrects for the number of tests:
+
+```{r}
+gene_tests <- gene_tests %>%
+  mutate(p_adj = p.adjust(p_value, method = "BH"))
+
+sum(gene_tests$p_value < 0.05)
+sum(gene_tests$p_adj < 0.05)
+```
+
+::: callout-tip
+## ⭐ Epi link: the same pattern
+
+Swap *gene* for *district* and it is an everyday epidemiology task: `measles %>% group_by(district) %>% summarise(...)` runs the same calculation in every district. Testing 30 exposures in a case-control study has the same multiple-testing problem as testing 60 genes.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): genes linked to death
+
+Change the tidyverse version to test every gene by `outcome` instead of `vaccinated`. Add `p_adj`, and keep the genes with `p_adj < 0.05`.
+
+✅ **Check:** 22 genes; the top 5 are all in the Inflammation pathway
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+expr_long %>%
+  group_by(gene_id, symbol, pathway) %>%
+  summarise(p_value = t.test(log_cpm ~ outcome)$p.value, .groups = "drop") %>%
+  mutate(p_adj = p.adjust(p_value, method = "BH")) %>%
+  filter(p_adj < 0.05) %>%
+  arrange(p_adj)
+```
+
+The five inflammation genes are the clear winners. But why do interferon and antibody genes show up too? Look at who died:
+
+```{r}
+count(samples, vaccinated, outcome)
+```
+
+Almost every death was unvaccinated, so any gene that differs by vaccination *also* differs by outcome. This is **confounding**, the same problem epidemiologists handle every day. One fix is to adjust for vaccination in a model: `lm(log_cpm ~ outcome + vaccinated)`.
+:::
+:::
+
+# Key points
+
+-   A **matrix** has one type and can have row and column names. Lab data, such as counts, is usually a genes × samples matrix.
+-   `as_tibble(x, rownames = "gene_id")` and `column_to_rownames("gene_id")` move between matrices and the tidyverse without losing gene IDs.
+-   `rowSums()`, `colSums()`, `rowMeans()`, `colMeans()`, and `apply(x, 1 or 2, f)` calculate across rows or columns. Use `sweep()` to divide each column by a number: `/` recycles the wrong way.
+-   **Index the matrix by the sample sheet's IDs** (`x[, samples$sample_id]`), then check with `stopifnot(identical(...))`.
+-   A **list** holds anything. Test and model results are lists: pull values out with `$` or `[[ ]]`, or use `broom::tidy()`.
+-   Running many tests needs `p.adjust()`.
