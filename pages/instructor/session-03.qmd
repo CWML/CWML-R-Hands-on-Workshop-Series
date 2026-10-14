@@ -24,7 +24,7 @@ subtitle: "Missing data, joins, and export"
 ## Before you start
 
 -   Learners start from `processed_data/linelist_clean.rds` and `processed_data/measles_clean.rds`, saved at the end of Session 2. The repository includes correct copies, so learners who missed Session 2 can start here too.
--   Learners open `scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R`. The filled-in version is `solutions/Session 3 - Missing Data, Joins, and Export_SOLUTIONS.R`.
+-   Learners open `student_scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R`. The filled-in version is `solutions/Session 3 - Missing Data, Joins, and Export_SOLUTIONS.R`.
 -   Sticky notes: green = done with the TRY IT, red = need help.
 -   Learners finish **two** datasets side by side: `combined_linelist` with you, and `measles_final` in the TRY ITs.
 

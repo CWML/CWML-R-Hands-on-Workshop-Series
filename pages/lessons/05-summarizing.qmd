@@ -4,7 +4,7 @@ subtitle: "Factors, counts and percentages, group_by() and summarise(), tabyl() 
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%205%20-%20Summarizing_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%205%20-%20Summarizing_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%205%20-%20Summarizing_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%205%20-%20Summarizing_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -16,7 +16,7 @@ subtitle: "Factors, counts and percentages, group_by() and summarise(), tabyl() 
 4.  Make frequency and cross-tabulation tables with `tabyl()`
 5.  Make a publication-ready "Table 1" with `gtsummary` and save it to Word
 
-**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 5 - Summarizing_STUDENT.R`. This session starts from the files you saved in Session 3: `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`. Missed Session 3? Ready-made copies are already in `processed_data/`.
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 5 - Summarizing_STUDENT.R`. This session starts from the files you saved in Session 3: `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`. Missed Session 3? Ready-made copies are already in `processed_data/`.
 :::
 
 There are many packages for summary tables. This session uses three that cover almost every need: **dplyr** (`count()`/`summarise()`) for flexible summaries you can plot, **janitor** (`tabyl()`) for quick cross-tabs, and **gtsummary** for tables you publish.

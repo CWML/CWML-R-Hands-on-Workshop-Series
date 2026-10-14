@@ -60,7 +60,7 @@ Every session starts from a file that is already in the repository, so learners 
 | Folder | What's in it |
 |---|---|
 | `pages/lessons/` | The lesson pages on this website (the source `.qmd` files) |
-| `scripts/` | Student scripts: notes, Pattern lines, and TRY ITs with space to type |
+| `student_scripts/` | Student scripts: notes, Pattern lines, and TRY ITs with space to type |
 | `solutions/` | The student scripts with every answer filled in |
 | `raw_data/` | The workshop and practice datasets |
 | `instructor scripts/make_practice_data.R` | Recreates the measles practice data exactly (kept out of the public repository) |

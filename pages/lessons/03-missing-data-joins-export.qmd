@@ -4,7 +4,7 @@ subtitle: "Missing values, rows with no ID, duplicates, replace_na() and across(
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -16,7 +16,7 @@ subtitle: "Missing values, rows with no ID, duplicates, replace_na() and across(
 4.  Combine two datasets with a join, and check that the join worked
 5.  Export finished datasets for analysis
 
-**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R`. We start from `processed_data/linelist_clean.rds` and `processed_data/measles_clean.rds`, which you saved at the end of Session 2. Missed Session 2? Ready-made copies of both files are already in `processed_data/`.
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R`. We start from `processed_data/linelist_clean.rds` and `processed_data/measles_clean.rds`, which you saved at the end of Session 2. Missed Session 2? Ready-made copies of both files are already in `processed_data/`.
 :::
 
 Today you finish **two** datasets side by side, so they are ready for analysis:

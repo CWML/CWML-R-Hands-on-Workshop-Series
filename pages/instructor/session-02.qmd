@@ -23,7 +23,7 @@ subtitle: "Cleaning your data"
 
 ## Before you start
 
--   Learners need the workshop folder open in Positron (**File → Open Folder...**), `scripts/Session 2 - Cleaning_STUDENT.R` open, and their **measles problem list** from the end of Session 1 — today's TRY ITs work through it.
+-   Learners need the workshop folder open in Positron (**File → Open Folder...**), `student_scripts/Session 2 - Cleaning_STUDENT.R` open, and their **measles problem list** from the end of Session 1 — today's TRY ITs work through it.
 -   Today starts from the raw files (`raw_data/linelist_raw.xlsx`, `raw_data/measles_raw.csv`), so learners who missed Session 1 can still follow.
 -   Sticky notes: green = done with the TRY IT, red = need help. Start the answer when most notes are green.
 

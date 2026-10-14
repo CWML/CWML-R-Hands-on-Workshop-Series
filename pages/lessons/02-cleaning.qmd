@@ -4,7 +4,7 @@ subtitle: "Column names, fixing types and values, recoding categories, new varia
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%202%20-%20Cleaning_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%202%20-%20Cleaning_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%202%20-%20Cleaning_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%202%20-%20Cleaning_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -16,7 +16,7 @@ subtitle: "Column names, fixing types and values, recoding categories, new varia
 4.  Create new variables (BMI, age groups)
 5.  Combine every cleaning step into one pipeline and save the result
 
-**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 2 - Cleaning_STUDENT.R`. Today starts from the raw files, `raw_data/linelist_raw.xlsx` and `raw_data/measles_raw.csv`, and works through the problem lists you wrote at the end of [Session 1](01-setup-and-first-look.qmd). If you fall behind, ready-made copies of today's results (`linelist_clean.rds` and `measles_clean.rds`) are in `processed_data/`.
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 2 - Cleaning_STUDENT.R`. Today starts from the raw files, `raw_data/linelist_raw.xlsx` and `raw_data/measles_raw.csv`, and works through the problem lists you wrote at the end of [Session 1](01-setup-and-first-look.qmd). If you fall behind, ready-made copies of today's results (`linelist_clean.rds` and `measles_clean.rds`) are in `processed_data/`.
 :::
 
 You will build **two** cleaned datasets side by side: `linelist_clean` in the Follow along code, and `measles_clean` in the TRY ITs.

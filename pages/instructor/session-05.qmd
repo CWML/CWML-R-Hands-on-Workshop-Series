@@ -23,7 +23,7 @@ subtitle: "Summarizing your data"
 ## Before you start
 
 -   Learners start from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, saved in Session 3. Anyone who missed Session 3 can use the ready-made copies already in `processed_data/`.
--   Learners type along in `scripts/Session 5 - Summarizing_STUDENT.R`; the filled-in version is `solutions/Session 5 - Summarizing_SOLUTIONS.R`.
+-   Learners type along in `student_scripts/Session 5 - Summarizing_STUDENT.R`; the filled-in version is `solutions/Session 5 - Summarizing_SOLUTIONS.R`.
 -   Sticky notes as usual: green = done with the TRY IT, red = need help.
 
 ## Teaching notes by part

@@ -24,7 +24,7 @@ subtitle: "Programming — Functions, if/else, Loops, and Iteration"
 
 -   This session is **optional / advanced**: it builds on everything before it, especially vectors and subsetting (Session 4) and plotting (Sessions 6–7).
 -   Learners need `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds` (saved in Session 3; ready-made copies are in `processed_data/`), and an `outputs/` folder for the saved plots.
--   Learners open `scripts/Session 8 - Programming_STUDENT.R`. The filled-in script is `solutions/Session 8 - Programming_SOLUTIONS.R`.
+-   Learners open `student_scripts/Session 8 - Programming_STUDENT.R`. The filled-in script is `solutions/Session 8 - Programming_SOLUTIONS.R`.
 -   Sticky notes as usual: green = done with the TRY IT, red = need help.
 
 ## Teaching notes by part

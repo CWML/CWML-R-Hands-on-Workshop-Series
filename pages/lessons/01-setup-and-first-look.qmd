@@ -4,7 +4,7 @@ subtitle: "Project folders, packages, R basics, the pipe, and importing and insp
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%201%20-%20Setup%20and%20First%20Look_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20Setup%20and%20First%20Look_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%201%20-%20Setup%20and%20First%20Look_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20Setup%20and%20First%20Look_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -16,14 +16,14 @@ subtitle: "Project folders, packages, R basics, the pipe, and importing and insp
 4.  Import a data file with `import()` and `here()`
 5.  Inspect a dataset and write down a list of the problems that need cleaning
 
-**Before you start:** complete the [Setup](../setup.qmd) and open `scripts/Session 1 - Setup and First Look_STUDENT.R`.
+**Before you start:** complete the [Setup](../setup.qmd) and open `student_scripts/Session 1 - Setup and First Look_STUDENT.R`.
 :::
 
 # Part 1: Project folders and `here()`
 
 ## Why keep everything in one project folder?
 
--   **Organization:** data, scripts, and outputs live in one folder with a predictable structure (`raw_data/`, `processed_data/`, `scripts/`)
+-   **Organization:** data, scripts, and outputs live in one folder with a predictable structure (`raw_data/`, `processed_data/`, `student_scripts/`)
 -   **Reproducibility:** the project works on any computer — yours, a collaborator's, future you's
 -   **Shareable:** zip the folder and send it, or put it on GitHub
 
@@ -31,7 +31,7 @@ subtitle: "Project folders, packages, R basics, the pipe, and importing and insp
 
 1.  Download the workshop folder and save it somewhere you can find it (not your Downloads folder)
 2.  In Positron, choose **File → Open Folder...**, select the `CWML-R-Hands-on-Workshop-Series` folder, and click **Open**. Positron uses that folder as the working directory
-3.  Check the **Explorer** on the left: it should list the workshop files (`raw_data`, `scripts`, ...)
+3.  Check the **Explorer** on the left: it should list the workshop files (`raw_data`, `student_scripts`, ...)
 
 ::: callout-tip
 ## Your own projects later

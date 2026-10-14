@@ -24,7 +24,7 @@ subtitle: "Plotting Basics with ggplot2"
 ## Before you start
 
 -   Learners need `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds` (saved in Session 3). Anyone who missed it can use the ready-made copies already in `processed_data/`.
--   They should have the workshop folder open in Positron (**File → Open Folder...**) and `scripts/Session 6 - Plotting Basics_STUDENT.R` open.
+-   They should have the workshop folder open in Positron (**File → Open Folder...**) and `student_scripts/Session 6 - Plotting Basics_STUDENT.R` open.
 -   Remind them of the sticky notes: green = done with the TRY IT, red = need help.
 -   The filled-in script is `solutions/Session 6 - Plotting Basics_SOLUTIONS.R`.
 

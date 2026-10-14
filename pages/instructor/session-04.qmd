@@ -23,7 +23,7 @@ subtitle: "Data Structures — Vectors, Subsetting, and Reshaping"
 ## Before you start
 
 -   Learners need `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds` from Session 3. Ready-made copies are in `processed_data/` for anyone who missed it.
--   Learners type into `scripts/Session 4 - Data Structures_STUDENT.R`; the filled-in version is `solutions/Session 4 - Data Structures_SOLUTIONS.R`.
+-   Learners type into `student_scripts/Session 4 - Data Structures_STUDENT.R`; the filled-in version is `solutions/Session 4 - Data Structures_SOLUTIONS.R`.
 -   Remind everyone of the sticky notes: green = done with the TRY IT, red = need help.
 
 ## Teaching notes by part

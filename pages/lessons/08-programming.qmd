@@ -4,7 +4,7 @@ subtitle: "Writing functions, if/else and if_else(), for loops, and iteration wi
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%208%20-%20Programming_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%208%20-%20Programming_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%208%20-%20Programming_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%208%20-%20Programming_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -18,7 +18,7 @@ This session is **optional / advanced**: it builds on everything before it, espe
 4.  Repeat a task with a `for` loop — for example, saving one epidemic curve per hospital
 5.  Do the same with `map()` / `walk()` from purrr (part of the tidyverse)
 
-**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 8 - Programming_STUDENT.R`. This session starts from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, which you saved in Session 3. If you missed it, ready-made copies are already in `processed_data/`.
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 8 - Programming_STUDENT.R`. This session starts from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, which you saved in Session 3. If you missed it, ready-made copies are already in `processed_data/`.
 
 **Today's goal:** *"Your manager wants an epidemic curve for every hospital, every week."* By the end of the session, one loop does it.
 :::

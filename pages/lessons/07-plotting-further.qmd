@@ -4,7 +4,7 @@ subtitle: "Bar charts of counts and values, choosing colors, epidemic curves, fa
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%207%20-%20Plotting%20Further_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%207%20-%20Plotting%20Further_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%207%20-%20Plotting%20Further_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%207%20-%20Plotting%20Further_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -17,7 +17,7 @@ subtitle: "Bar charts of counts and values, choosing colors, epidemic curves, fa
 5.  Split a plot into small multiples with `facet_wrap()`
 6.  Save plots to files with `ggsave()`
 
-**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 7 - Plotting Further_STUDENT.R`. This session starts from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, the files you made in Session 3. Missed a session? Ready-made copies are already in `processed_data/`.
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 7 - Plotting Further_STUDENT.R`. This session starts from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, the files you made in Session 3. Missed a session? Ready-made copies are already in `processed_data/`.
 :::
 
 # Part 1: Set up

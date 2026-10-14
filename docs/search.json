@@ -302,7 +302,7 @@
     "href": "pages/lessons/01-setup-and-first-look.html#why-keep-everything-in-one-project-folder",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "Why keep everything in one project folder?",
-    "text": "Why keep everything in one project folder?\n\nOrganization: data, scripts, and outputs live in one folder with a predictable structure (raw_data/, processed_data/, scripts/)\nReproducibility: the project works on any computer — yours, a collaborator’s, future you’s\nShareable: zip the folder and send it, or put it on GitHub",
+    "text": "Why keep everything in one project folder?\n\nOrganization: data, scripts, and outputs live in one folder with a predictable structure (raw_data/, processed_data/, student_scripts/)\nReproducibility: the project works on any computer — yours, a collaborator’s, future you’s\nShareable: zip the folder and send it, or put it on GitHub",
     "crumbs": [
       "Lessons",
       "Session 1: Setup and a First Look at Your Data"
@@ -313,7 +313,7 @@
     "href": "pages/lessons/01-setup-and-first-look.html#open-the-project-folder-for-this-class",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "Open the project folder for this class",
-    "text": "Open the project folder for this class\n\nDownload the workshop folder and save it somewhere you can find it (not your Downloads folder)\nIn Positron, choose File → Open Folder…, select the CWML-R-Hands-on-Workshop-Series folder, and click Open. Positron uses that folder as the working directory\nCheck the Explorer on the left: it should list the workshop files (raw_data, scripts, …)\n\n\n\n\n\n\n\nTipYour own projects later\n\n\n\nMake a new folder for each project (with subfolders like raw_data/ and scripts/), and open it in Positron with File → Open Folder…. Add an empty file called .here at the top so here() always finds it. (RStudio users: File → New Project does the same thing and creates an .Rproj file.)",
+    "text": "Open the project folder for this class\n\nDownload the workshop folder and save it somewhere you can find it (not your Downloads folder)\nIn Positron, choose File → Open Folder…, select the CWML-R-Hands-on-Workshop-Series folder, and click Open. Positron uses that folder as the working directory\nCheck the Explorer on the left: it should list the workshop files (raw_data, student_scripts, …)\n\n\n\n\n\n\n\nTipYour own projects later\n\n\n\nMake a new folder for each project (with subfolders like raw_data/ and scripts/), and open it in Positron with File → Open Folder…. Add an empty file called .here at the top so here() always finds it. (RStudio users: File → New Project does the same thing and creates an .Rproj file.)",
     "crumbs": [
       "Lessons",
       "Session 1: Setup and a First Look at Your Data"
@@ -467,7 +467,7 @@
     "href": "pages/instructor/session-07.html#before-you-start",
     "title": "Instructor notes: Session 7",
     "section": "Before you start",
-    "text": "Before you start\n\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds (from Session 3). Ready-made copies are in processed_data/ for anyone who missed it.\nThey type along in scripts/Session 7 - Plotting Further_STUDENT.R; the filled-in version is solutions/Session 7 - Plotting Further_SOLUTIONS.R.\nSticky notes as usual: green = done with the TRY IT, red = need help.",
+    "text": "Before you start\n\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds (from Session 3). Ready-made copies are in processed_data/ for anyone who missed it.\nThey type along in student_scripts/Session 7 - Plotting Further_STUDENT.R; the filled-in version is solutions/Session 7 - Plotting Further_SOLUTIONS.R.\nSticky notes as usual: green = done with the TRY IT, red = need help.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 7"
@@ -522,7 +522,7 @@
     "href": "pages/instructor/session-05.html#before-you-start",
     "title": "Instructor notes: Session 5",
     "section": "Before you start",
-    "text": "Before you start\n\nLearners start from processed_data/combined_linelist.rds and processed_data/measles_final.rds, saved in Session 3. Anyone who missed Session 3 can use the ready-made copies already in processed_data/.\nLearners type along in scripts/Session 5 - Summarizing_STUDENT.R; the filled-in version is solutions/Session 5 - Summarizing_SOLUTIONS.R.\nSticky notes as usual: green = done with the TRY IT, red = need help.",
+    "text": "Before you start\n\nLearners start from processed_data/combined_linelist.rds and processed_data/measles_final.rds, saved in Session 3. Anyone who missed Session 3 can use the ready-made copies already in processed_data/.\nLearners type along in student_scripts/Session 5 - Summarizing_STUDENT.R; the filled-in version is solutions/Session 5 - Summarizing_SOLUTIONS.R.\nSticky notes as usual: green = done with the TRY IT, red = need help.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 5"
@@ -577,7 +577,7 @@
     "href": "pages/instructor/session-03.html#before-you-start",
     "title": "Instructor notes: Session 3",
     "section": "Before you start",
-    "text": "Before you start\n\nLearners start from processed_data/linelist_clean.rds and processed_data/measles_clean.rds, saved at the end of Session 2. The repository includes correct copies, so learners who missed Session 2 can start here too.\nLearners open scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R. The filled-in version is solutions/Session 3 - Missing Data, Joins, and Export_SOLUTIONS.R.\nSticky notes: green = done with the TRY IT, red = need help.\nLearners finish two datasets side by side: combined_linelist with you, and measles_final in the TRY ITs.",
+    "text": "Before you start\n\nLearners start from processed_data/linelist_clean.rds and processed_data/measles_clean.rds, saved at the end of Session 2. The repository includes correct copies, so learners who missed Session 2 can start here too.\nLearners open student_scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R. The filled-in version is solutions/Session 3 - Missing Data, Joins, and Export_SOLUTIONS.R.\nSticky notes: green = done with the TRY IT, red = need help.\nLearners finish two datasets side by side: combined_linelist with you, and measles_final in the TRY ITs.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 3"
@@ -795,7 +795,7 @@
     "href": "pages/instructor/index.html#the-materials",
     "title": "Instructor Guide",
     "section": "The materials",
-    "text": "The materials\n\n\n\n\n\n\n\nFolder\nWhat’s in it\n\n\n\n\npages/lessons/\nThe lesson pages on this website (the source .qmd files)\n\n\nscripts/\nStudent scripts: notes, Pattern lines, and TRY ITs with space to type\n\n\nsolutions/\nThe student scripts with every answer filled in\n\n\nraw_data/\nThe workshop and practice datasets\n\n\ninstructor scripts/make_practice_data.R\nRecreates the measles practice data exactly (kept out of the public repository)",
+    "text": "The materials\n\n\n\n\n\n\n\nFolder\nWhat’s in it\n\n\n\n\npages/lessons/\nThe lesson pages on this website (the source .qmd files)\n\n\nstudent_scripts/\nStudent scripts: notes, Pattern lines, and TRY ITs with space to type\n\n\nsolutions/\nThe student scripts with every answer filled in\n\n\nraw_data/\nThe workshop and practice datasets\n\n\ninstructor scripts/make_practice_data.R\nRecreates the measles practice data exactly (kept out of the public repository)",
     "crumbs": [
       "Instructor Guide"
     ]
@@ -827,7 +827,7 @@
     "href": "pages/instructor/session-02.html#before-you-start",
     "title": "Instructor notes: Session 2",
     "section": "Before you start",
-    "text": "Before you start\n\nLearners need the workshop folder open in Positron (File → Open Folder…), scripts/Session 2 - Cleaning_STUDENT.R open, and their measles problem list from the end of Session 1 — today’s TRY ITs work through it.\nToday starts from the raw files (raw_data/linelist_raw.xlsx, raw_data/measles_raw.csv), so learners who missed Session 1 can still follow.\nSticky notes: green = done with the TRY IT, red = need help. Start the answer when most notes are green.",
+    "text": "Before you start\n\nLearners need the workshop folder open in Positron (File → Open Folder…), student_scripts/Session 2 - Cleaning_STUDENT.R open, and their measles problem list from the end of Session 1 — today’s TRY ITs work through it.\nToday starts from the raw files (raw_data/linelist_raw.xlsx, raw_data/measles_raw.csv), so learners who missed Session 1 can still follow.\nSticky notes: green = done with the TRY IT, red = need help. Start the answer when most notes are green.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 2"
@@ -882,7 +882,7 @@
     "href": "pages/instructor/session-04.html#before-you-start",
     "title": "Instructor notes: Session 4",
     "section": "Before you start",
-    "text": "Before you start\n\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds from Session 3. Ready-made copies are in processed_data/ for anyone who missed it.\nLearners type into scripts/Session 4 - Data Structures_STUDENT.R; the filled-in version is solutions/Session 4 - Data Structures_SOLUTIONS.R.\nRemind everyone of the sticky notes: green = done with the TRY IT, red = need help.",
+    "text": "Before you start\n\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds from Session 3. Ready-made copies are in processed_data/ for anyone who missed it.\nLearners type into student_scripts/Session 4 - Data Structures_STUDENT.R; the filled-in version is solutions/Session 4 - Data Structures_SOLUTIONS.R.\nRemind everyone of the sticky notes: green = done with the TRY IT, red = need help.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 4"
@@ -937,7 +937,7 @@
     "href": "pages/instructor/session-06.html#before-you-start",
     "title": "Instructor notes: Session 6",
     "section": "Before you start",
-    "text": "Before you start\n\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds (saved in Session 3). Anyone who missed it can use the ready-made copies already in processed_data/.\nThey should have the workshop folder open in Positron (File → Open Folder…) and scripts/Session 6 - Plotting Basics_STUDENT.R open.\nRemind them of the sticky notes: green = done with the TRY IT, red = need help.\nThe filled-in script is solutions/Session 6 - Plotting Basics_SOLUTIONS.R.",
+    "text": "Before you start\n\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds (saved in Session 3). Anyone who missed it can use the ready-made copies already in processed_data/.\nThey should have the workshop folder open in Positron (File → Open Folder…) and student_scripts/Session 6 - Plotting Basics_STUDENT.R open.\nRemind them of the sticky notes: green = done with the TRY IT, red = need help.\nThe filled-in script is solutions/Session 6 - Plotting Basics_SOLUTIONS.R.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 6"
@@ -992,7 +992,7 @@
     "href": "pages/instructor/session-08.html#before-you-start",
     "title": "Instructor notes: Session 8",
     "section": "Before you start",
-    "text": "Before you start\n\nThis session is optional / advanced: it builds on everything before it, especially vectors and subsetting (Session 4) and plotting (Sessions 6–7).\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds (saved in Session 3; ready-made copies are in processed_data/), and an outputs/ folder for the saved plots.\nLearners open scripts/Session 8 - Programming_STUDENT.R. The filled-in script is solutions/Session 8 - Programming_SOLUTIONS.R.\nSticky notes as usual: green = done with the TRY IT, red = need help.",
+    "text": "Before you start\n\nThis session is optional / advanced: it builds on everything before it, especially vectors and subsetting (Session 4) and plotting (Sessions 6–7).\nLearners need processed_data/combined_linelist.rds and processed_data/measles_final.rds (saved in Session 3; ready-made copies are in processed_data/), and an outputs/ folder for the saved plots.\nLearners open student_scripts/Session 8 - Programming_STUDENT.R. The filled-in script is solutions/Session 8 - Programming_SOLUTIONS.R.\nSticky notes as usual: green = done with the TRY IT, red = need help.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 8"
@@ -1545,13 +1545,13 @@
     "href": "pages/setup.html#before-every-session-2-minutes",
     "title": "Setup",
     "section": "Before every session (2 minutes)",
-    "text": "Before every session (2 minutes)\n\nOpen the workshop folder in Positron (File → Open Recent lists it) — not a script on its own\nOpen that session’s student script from the scripts/ folder\nRun that session’s test:\n\n\n\n\n\n\n\n\n\n\nSession\nBring / have ready\nTest (copy into the Console)\n✅ Ready if it prints\n\n\n\n\n1\nThe one-time setup above\nSee above\n[1] 1215\n\n\n2\nYour measles problem list from Session 1\nnrow(rio::import(here::here(\"raw_data\", \"linelist_raw.xlsx\")))\n[1] 6604\n\n\n3\n—\nnrow(rio::import(here::here(\"processed_data\", \"linelist_clean.rds\"), trust = TRUE))\n[1] 6604\n\n\n4\n—\nnrow(rio::import(here::here(\"processed_data\", \"combined_linelist.rds\"), trust = TRUE))\n[1] 6451\n\n\n5\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n6\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n7\n—\ndir.exists(here::here(\"outputs\"))\n[1] TRUE\n\n\n8\n—\npurrr::map_dbl(1:3, ~ .x * 2)\n[1] 2 4 6\n\n\n\n\n\n\n\n\n\nNoteMissed a session, or did your saved file break?\n\n\n\nEvery file a session starts from is already in the processed_data/ folder. When you save your own version in class, it replaces that copy. If yours stops working, download the workshop folder again and copy the file back into processed_data/.\n\n\n\n\n\n\n\n\nNoteBringing your own data?\n\n\n\nPut the file in the raw_data/ folder before the session. Every lesson ends with a ⭐ BONUS for your own data."
+    "text": "Before every session (2 minutes)\n\nOpen the workshop folder in Positron (File → Open Recent lists it) — not a script on its own\nOpen that session’s student script from the student_scripts/ folder\nRun that session’s test:\n\n\n\n\n\n\n\n\n\n\nSession\nBring / have ready\nTest (copy into the Console)\n✅ Ready if it prints\n\n\n\n\n1\nThe one-time setup above\nSee above\n[1] 1215\n\n\n2\nYour measles problem list from Session 1\nnrow(rio::import(here::here(\"raw_data\", \"linelist_raw.xlsx\")))\n[1] 6604\n\n\n3\n—\nnrow(rio::import(here::here(\"processed_data\", \"linelist_clean.rds\"), trust = TRUE))\n[1] 6604\n\n\n4\n—\nnrow(rio::import(here::here(\"processed_data\", \"combined_linelist.rds\"), trust = TRUE))\n[1] 6451\n\n\n5\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n6\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n7\n—\ndir.exists(here::here(\"outputs\"))\n[1] TRUE\n\n\n8\n—\npurrr::map_dbl(1:3, ~ .x * 2)\n[1] 2 4 6\n\n\n\n\n\n\n\n\n\nNoteMissed a session, or did your saved file break?\n\n\n\nEvery file a session starts from is already in the processed_data/ folder. When you save your own version in class, it replaces that copy. If yours stops working, download the workshop folder again and copy the file back into processed_data/.\n\n\n\n\n\n\n\n\nNoteBringing your own data?\n\n\n\nPut the file in the raw_data/ folder before the session. Every lesson ends with a ⭐ BONUS for your own data."
   },
   {
     "objectID": "pages/setup.html#whats-in-the-workshop-folder",
     "href": "pages/setup.html#whats-in-the-workshop-folder",
     "title": "Setup",
     "section": "What’s in the workshop folder",
-    "text": "What’s in the workshop folder\nCWML-R-Hands-on-Workshop-Series/\n├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio\n├── scripts/          # student scripts, one per session\n├── solutions/        # the student scripts with every answer filled in\n├── raw_data/         # the original data files (never edit these!)\n├── processed_data/   # cleaned data saved during the sessions\n└── outputs/          # plots and tables you save"
+    "text": "What’s in the workshop folder\nCWML-R-Hands-on-Workshop-Series/\n├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio\n├── student_scripts/  # student scripts, one per session\n├── solutions/        # the student scripts with every answer filled in\n├── raw_data/         # the original data files (never edit these!)\n├── processed_data/   # cleaned data saved during the sessions\n└── outputs/          # plots and tables you save"
   }
 ]

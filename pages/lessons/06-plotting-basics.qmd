@@ -4,7 +4,7 @@ subtitle: "The grammar of graphics, histograms, mapping vs setting, scatter plot
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/scripts/Session%206%20-%20Plotting%20Basics_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%206%20-%20Plotting%20Basics_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%206%20-%20Plotting%20Basics_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%206%20-%20Plotting%20Basics_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -15,7 +15,7 @@ subtitle: "The grammar of graphics, histograms, mapping vs setting, scatter plot
 3.  Tell the difference between **mapping** a variable to color and **setting** a fixed color
 4.  Add titles, axis labels, and a theme
 
-**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `scripts/Session 6 - Plotting Basics_STUDENT.R`. This session starts from `combined_linelist.rds` and `measles_final.rds`, the files you saved in Session 3. If you missed it, ready-made copies are already in the `processed_data/` folder.
+**Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 6 - Plotting Basics_STUDENT.R`. This session starts from `combined_linelist.rds` and `measles_final.rds`, the files you saved in Session 3. If you missed it, ready-made copies are already in the `processed_data/` folder.
 :::
 
 # Part 1: Set up

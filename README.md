@@ -32,7 +32,7 @@ file is already in `processed_data/`, so you can start any session.
 Each session is split into short parts. Every part follows the same rhythm:
 
 1. **👀 Follow along:** the instructor live-codes a new skill on the workshop
-   dataset, and you type the same code into your student script in `scripts/`.
+   dataset, and you type the same code into your student script in `student_scripts/`.
 2. **✏️ TRY IT:** straight away, you do the same thing yourself on the practice
    dataset (`raw_data/measles_raw.csv`, a measles outbreak). Each TRY IT takes
    1–5 minutes and has a ✅ **Check** line so you can tell whether you got it right.
@@ -89,7 +89,7 @@ checklist ends with a test: if the test prints the expected answer, you're ready
 
 - [ ] Open the workshop **folder** in Positron (**File → Open Recent** lists it),
       not a script on its own
-- [ ] Open that session's student script from the `scripts/` folder
+- [ ] Open that session's student script from the `student_scripts/` folder
 - [ ] Run that session's test below
 
 | Session | Bring / have ready | Test (copy into the Console) | ✅ Ready if it prints |
@@ -117,7 +117,7 @@ session ends with a ⭐ BONUS for your own data.
 CWML-R-Hands-on-Workshop-Series/
 ├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio
 ├── README.md                               # this file
-├── scripts/                                # student scripts, one per session
+├── student_scripts/                        # student scripts, one per session
 ├── solutions/                              # the student scripts with the code filled in
 ├── pages/, index.qmd, _quarto.yml          # source of the course website (Quarto)
 ├── docs/                                   # the built website (published by GitHub Pages)

@@ -43,7 +43,7 @@ That works too. Install the packages the same way, and open the workshop by doub
 ## Before every session (2 minutes)
 
 -   Open the workshop **folder** in Positron (**File → Open Recent** lists it) — not a script on its own
--   Open that session's student script from the `scripts/` folder
+-   Open that session's student script from the `student_scripts/` folder
 -   Run that session's test:
 
 | Session | Bring / have ready | Test (copy into the Console) | ✅ Ready if it prints |
@@ -74,7 +74,7 @@ Put the file in the `raw_data/` folder before the session. Every lesson ends wit
 ```
 CWML-R-Hands-on-Workshop-Series/
 ├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio
-├── scripts/          # student scripts, one per session
+├── student_scripts/  # student scripts, one per session
 ├── solutions/        # the student scripts with every answer filled in
 ├── raw_data/         # the original data files (never edit these!)
 ├── processed_data/   # cleaned data saved during the sessions
