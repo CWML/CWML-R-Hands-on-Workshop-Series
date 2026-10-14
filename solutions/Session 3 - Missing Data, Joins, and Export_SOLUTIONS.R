@@ -120,6 +120,13 @@ inner_join(patients, labs, by = "id")   # only ids 2 and 3
 full_join(patients, labs, by = "id")    # ids 1–4
 anti_join(patients, labs, by = "id")    # Ana: no lab result
 
+# 🔁 Follow along: the base R way
+merge(patients, labs, by = "id")                # inner join (the default!)
+merge(patients, labs, by = "id", all.x = TRUE)  # left join
+merge(patients, labs, by = "id", all = TRUE)    # full join
+patients$id %in% labs$id                        # FALSE TRUE TRUE
+patients[!patients$id %in% labs$id, ]           # Ana: the same as anti_join()
+
 # 👀 Follow along: create combined_linelist
 combined_linelist <- linelist_final %>%
   left_join(case_info, by = "case_id")
@@ -128,6 +135,7 @@ combined_linelist <- linelist_final %>%
 nrow(linelist_final)      # 6451
 nrow(combined_linelist)   # 6451: no rows added
 anti_join(linelist_final, case_info, by = "case_id") %>% nrow()   # 0: every case matched
+sum(!linelist_final$case_id %in% case_info$case_id)               # 0: the same check in base R
 
 # ✏️ TRY IT: add district_info to measles_final
 measles_final <- measles_final %>%

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -79,14 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -324,6 +321,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../pages/resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -383,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/lessons/04-data-structures.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Session 4: Data Structures — Vectors, Subsetting, and Reshaping</span></a>
+ <span class="menu-text">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -644,6 +645,32 @@ Note
 </ul>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔁 The base R way: <code>factor()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In other people’s code you will see <code>factor(x, levels = c(...))</code>. It sets the order too, but a misspelled level is <strong>not</strong> ignored with a warning: every value that doesn’t match becomes <code>NA</code>, silently.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Recover"</span>, <span class="st">"Death"</span>, <span class="st">"Death"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Recover"</span>, <span class="st">"Death"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Recover Death   Death  
+Levels: Recover Death</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Recover"</span>, <span class="st">"Death"</span>, <span class="st">"Death"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Recover"</span>, <span class="st">"death"</span>))   <span class="co"># oops: NA, no warning</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Recover &lt;NA&gt;    &lt;NA&gt;   
+Levels: Recover death</code></pre>
+</div>
+</div>
+<p><code>levels(x)</code> shows the order of any factor. The forcats functions are safer for day-to-day work; <code>factor()</code> is what you need to read.</p>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -662,7 +689,7 @@ Note
 </ul>
 <p>✅ <strong>Check:</strong> <code>count(age_cat)</code> now starts with “Under 5”</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -671,17 +698,17 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_cat    =</span> <span class="fu">fct_relevel</span>(age_cat, <span class="st">"Under 5"</span>, <span class="st">"5-9"</span>, <span class="st">"10-14"</span>, <span class="st">"15+"</span>, <span class="st">"Unknown"</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">vaccinated =</span> <span class="fu">fct_relevel</span>(vaccinated, <span class="st">"Yes"</span>, <span class="st">"No"</span>, <span class="st">"Unknown"</span>),</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">outcome    =</span> <span class="fu">fct_relevel</span>(outcome, <span class="st">"Recovered"</span>, <span class="st">"Died"</span>, <span class="st">"Unknown"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span> <span class="fu">count</span>(age_cat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_cat    =</span> <span class="fu">fct_relevel</span>(age_cat, <span class="st">"Under 5"</span>, <span class="st">"5-9"</span>, <span class="st">"10-14"</span>, <span class="st">"15+"</span>, <span class="st">"Unknown"</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">vaccinated =</span> <span class="fu">fct_relevel</span>(vaccinated, <span class="st">"Yes"</span>, <span class="st">"No"</span>, <span class="st">"Unknown"</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">outcome    =</span> <span class="fu">fct_relevel</span>(outcome, <span class="st">"Recovered"</span>, <span class="st">"Died"</span>, <span class="st">"Unknown"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span> <span class="fu">count</span>(age_cat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  age_cat   n
 1 Under 5 369
@@ -703,15 +730,15 @@ Note
 <section id="counts-and-cross-tabs" class="level2">
 <h2 class="anchored" data-anchor-id="counts-and-cross-tabs">Counts and cross-tabs</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  outcome    n
 1 Recover 2158
 2   Death 2840
 3 Unknown 1453</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two columns: every combination</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(age_cat, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two columns: every combination</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(age_cat, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    age_cat outcome    n
 1  Under 18 Recover 1322
@@ -745,9 +772,9 @@ Note
 <h2 class="anchored" data-anchor-id="percentages">Percentages</h2>
 <p><code>count()</code> makes a column called <code>n</code>. Divide by the total to get a proportion, and use <code>scales::percent()</code> to show it nicely:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  outcome    n percent
 1 Recover 2158   33.5%
@@ -760,11 +787,11 @@ Note
 <h2 class="anchored" data-anchor-id="percentages-within-groups-group_by">Percentages within groups: <code>group_by()</code></h2>
 <p><code>group_by()</code> makes the next steps happen <strong>separately for each group</strong>. Here, <code>sum(n)</code> becomes the total <em>within each age group</em>, so each age group adds up to 100%:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_cat) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_cat) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 4
    age_cat  outcome     n percent
@@ -783,7 +810,7 @@ Note
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -792,7 +819,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Without grouping, the percentages are out of all 6,451 cases, so all the rows together add up to 100%. With <code>group_by(age_cat)</code>, each age group adds up to 100% on its own.</p>
 </div>
@@ -811,6 +838,51 @@ Note
 <p>A grouped data frame stays grouped. End with <code>ungroup()</code> so later steps don’t surprise you.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔁 The base R way: <code>table()</code> and <code>prop.table()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Base R makes a cross-table with <code>table()</code> (from Session 1), and turns it into proportions with <code>prop.table()</code>. <code>margin = 1</code> makes each <strong>row</strong> add up to 1, like <code>group_by(age_cat)</code> above:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>age_outcome <span class="ot">&lt;-</span> <span class="fu">table</span>(linelist<span class="sc">$</span>age_cat, linelist<span class="sc">$</span>outcome)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>age_outcome</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          
+           Recover Death Unknown
+  Under 18    1322  1755     885
+  18-29        498   648     309
+  30-39        179   256     147
+  40-49         85   105      55
+  50-59         24    29      24
+  60-69         16     8       3
+  70-79          3     3       0
+  80+            1     0       0
+  Unknown       30    36      30</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(age_outcome, <span class="at">margin =</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          
+           Recover Death Unknown
+  Under 18    33.4  44.3    22.3
+  18-29       34.2  44.5    21.2
+  30-39       30.8  44.0    25.3
+  40-49       34.7  42.9    22.4
+  50-59       31.2  37.7    31.2
+  60-69       59.3  29.6    11.1
+  70-79       50.0  50.0     0.0
+  80+        100.0   0.0     0.0
+  Unknown     31.2  37.5    31.2</code></pre>
+</div>
+</div>
+<p>The result is a <code>table</code>, not a data frame, so it doesn’t work with <code>filter()</code>, <code>mutate()</code>, or ggplot. That is why we use <code>count()</code> in this workshop.</p>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -827,7 +899,7 @@ Note
 </ol>
 <p>✅ <strong>Check:</strong> a) Yes 23.8% b) 10-14 is lowest at 21.2%</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -836,25 +908,25 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(vaccinated) <span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(vaccinated) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  vaccinated   n percent
 1        Yes 277   23.8%
 2         No 709   61.0%
 3    Unknown 177   15.2%</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># b)</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_cat) <span class="sc">%&gt;%</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(vaccinated) <span class="sc">%&gt;%</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># b)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_cat) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(vaccinated) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">accuracy =</span> <span class="fl">0.1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15 × 4
    age_cat vaccinated     n percent
@@ -888,13 +960,13 @@ Note
 <h1>Part 4: Summary statistics with <code>summarise()</code></h1>
 <p><code>summarise()</code> collapses many rows into <strong>one row</strong> of results. You name each new column on the left of <code>=</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">mean</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age     =</span> <span class="fu">sd</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">mean</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age     =</span> <span class="fu">sd</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     n mean_age   sd_age median_age
 1 6451 16.05732 12.64829         13</code></pre>
@@ -905,15 +977,15 @@ Note
 <h2 class="anchored" data-anchor-id="by-group">By group</h2>
 <p>Add <code>group_by()</code> first to get <strong>one row per group</strong>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">mean</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_bmi   =</span> <span class="fu">mean</span>(bmi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_temp  =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">mean</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_bmi   =</span> <span class="fu">mean</span>(bmi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_temp  =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 6
   outcome     n mean_age median_age mean_bmi mean_temp
@@ -941,9 +1013,9 @@ Note
 <h2 class="anchored" data-anchor-id="the-same-calculation-on-many-columns-across">The same calculation on many columns: <code>across()</code></h2>
 <p>You met <code>across()</code> in Session 3. In <code>summarise()</code> it saves a lot of typing:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(age_years, bmi, temp), <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(age_years, bmi, temp), <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
   outcome age_years   bmi  temp
@@ -958,15 +1030,15 @@ Note
 <h2 class="anchored" data-anchor-id="percentages-of-yes">Percentages of “yes”</h2>
 <p><code>fever == "yes"</code> is TRUE or FALSE for each row (vectorization, from Session 4). <code>sum()</code> counts the TRUEs, and <code>mean()</code> gives the proportion that are TRUE:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_cases   =</span> <span class="fu">n</span>(),</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_fever   =</span> <span class="fu">sum</span>(fever <span class="sc">==</span> <span class="st">"yes"</span>),</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_fever =</span> <span class="fu">round</span>(<span class="fu">mean</span>(fever <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_cough =</span> <span class="fu">round</span>(<span class="fu">mean</span>(cough <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_vomit =</span> <span class="fu">round</span>(<span class="fu">mean</span>(vomit <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_cases   =</span> <span class="fu">n</span>(),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_fever   =</span> <span class="fu">sum</span>(fever <span class="sc">==</span> <span class="st">"yes"</span>),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_fever =</span> <span class="fu">round</span>(<span class="fu">mean</span>(fever <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_cough =</span> <span class="fu">round</span>(<span class="fu">mean</span>(cough <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_vomit =</span> <span class="fu">round</span>(<span class="fu">mean</span>(vomit <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 6
   outcome n_cases n_fever pct_fever pct_cough pct_vomit
@@ -974,6 +1046,34 @@ Note
 1 Recover    2158    1708      79.1      82        47.9
 2 Death      2840    2245      79        82.9      48.8
 3 Unknown    1453    1124      77.4      84.2      46.5</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔁 The base R way: <code>tapply()</code> and <code>aggregate()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Two base R functions do what <code>group_by()</code> + <code>summarise()</code> does for <strong>one</strong> statistic:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(linelist<span class="sc">$</span>age_years, linelist<span class="sc">$</span>outcome, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># a named vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Recover   Death Unknown 
+     13      13      14 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(age_years <span class="sc">~</span> outcome, <span class="at">data =</span> linelist, <span class="at">FUN =</span> median)        <span class="co"># a data frame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  outcome age_years
+1 Recover        13
+2   Death        13
+3 Unknown        14</code></pre>
+</div>
+</div>
+<p>Read <code>tapply(X, GROUP, FUNCTION)</code> as “apply FUNCTION to X, split by GROUP”. <code>aggregate()</code> with a formula silently drops rows with a missing value, one reason <code>summarise()</code> (where you choose with <code>na.rm</code>) is clearer.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -1002,7 +1102,7 @@ Note
 <p>For each measles outcome, calculate the number of cases, mean and median age, mean temperature, and mean days in hospital (careful: NAs!).</p>
 <p>✅ <strong>Check:</strong> Recovered n = 1048, median age 7; Died n = 50, median age 5</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1011,18 +1111,18 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">mean</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_temp  =</span> <span class="fu">mean</span>(temp_c),</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_days  =</span> <span class="fu">mean</span>(days_in_hospital, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">mean</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age_years, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_temp  =</span> <span class="fu">mean</span>(temp_c),</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_days  =</span> <span class="fu">mean</span>(days_in_hospital, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 6
   outcome       n mean_age median_age mean_temp mean_days
@@ -1052,7 +1152,7 @@ Note
 <p><strong>Hint:</strong> <code>count(district, population)</code> gives both columns; then <code>mutate()</code> and <code>arrange(desc())</code>.</p>
 <p>✅ <strong>Check:</strong> East has the highest rate (22.8); Central the lowest (5.2)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1061,13 +1161,13 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(district, population) <span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate_per_10k =</span> <span class="fu">round</span>(n <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">10000</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(rate_per_10k))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(district, population) <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate_per_10k =</span> <span class="fu">round</span>(n <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">10000</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(rate_per_10k))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  district population   n rate_per_10k
 1     East      98000 223         22.8
@@ -1090,14 +1190,14 @@ Note
 <h1>Part 5: Quick tables with <code>tabyl()</code></h1>
 <p><code>tabyl()</code> from janitor makes frequency tables with percentages in one step:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">tabyl</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">tabyl</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> outcome    n   percent
  Recover 2158 0.3345218
    Death 2840 0.4402418
  Unknown 1453 0.2252364</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">tabyl</span>(age_cat, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">tabyl</span>(age_cat, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  age_cat Recover Death Unknown
  Under 18    1322  1755     885
@@ -1120,13 +1220,13 @@ Note
 <li><code>adorn_title()</code> — adds a title, last</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(age_cat, outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_title</span>(<span class="st">"combined"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(age_cat, outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_title</span>(<span class="st">"combined"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> age_cat/outcome        Recover         Death       Unknown
         Under 18  33.4% (1,322) 44.3% (1,755) 22.3%   (885)
@@ -1154,7 +1254,7 @@ Note
 <p>Make a <code>tabyl()</code> of <code>vaccinated</code> by <code>outcome</code> in <code>measles</code>, with row percentages and counts. What do you notice about deaths?</p>
 <p>✅ <strong>Check:</strong> 6.3% of unvaccinated cases died, vs 0.7% of vaccinated cases</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1163,14 +1263,14 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(vaccinated, outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(vaccinated, outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> vaccinated   Recovered      Died   Unknown
         Yes 92.1% (255) 0.7%  (2) 7.2% (20)
@@ -1189,29 +1289,29 @@ Note
 <h1>Part 6: Table 1 with <code>gtsummary</code></h1>
 <p>Most papers start with a “Table 1” that describes the study population. <code>tbl_summary()</code> makes one from a data frame: it detects which columns are numbers and which are categories.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span>     <span class="co"># drop the now-empty "Unknown" level</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, age_cat, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span>     <span class="co"># drop the now-empty "Unknown" level</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, age_cat, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="jwkrsfkebc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jwkrsfkebc table {
+<div id="fdjgnenksb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fdjgnenksb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jwkrsfkebc thead, #jwkrsfkebc tbody, #jwkrsfkebc tfoot, #jwkrsfkebc tr, #jwkrsfkebc td, #jwkrsfkebc th {
+#fdjgnenksb thead, #fdjgnenksb tbody, #fdjgnenksb tfoot, #fdjgnenksb tr, #fdjgnenksb td, #fdjgnenksb th {
   border-style: none;
 }
 
-#jwkrsfkebc p {
+#fdjgnenksb p {
   margin: 0;
   padding: 0;
 }
 
-#jwkrsfkebc .gt_table {
+#fdjgnenksb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1237,12 +1337,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_caption {
+#fdjgnenksb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jwkrsfkebc .gt_title {
+#fdjgnenksb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1254,7 +1354,7 @@ Note
   border-bottom-width: 0;
 }
 
-#jwkrsfkebc .gt_subtitle {
+#fdjgnenksb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1266,7 +1366,7 @@ Note
   border-top-width: 0;
 }
 
-#jwkrsfkebc .gt_heading {
+#fdjgnenksb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1278,13 +1378,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_bottom_border {
+#fdjgnenksb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_col_headings {
+#fdjgnenksb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1299,7 +1399,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_col_heading {
+#fdjgnenksb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1319,7 +1419,7 @@ Note
   overflow-x: hidden;
 }
 
-#jwkrsfkebc .gt_column_spanner_outer {
+#fdjgnenksb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1331,15 +1431,15 @@ Note
   padding-right: 4px;
 }
 
-#jwkrsfkebc .gt_column_spanner_outer:first-child {
+#fdjgnenksb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jwkrsfkebc .gt_column_spanner_outer:last-child {
+#fdjgnenksb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jwkrsfkebc .gt_column_spanner {
+#fdjgnenksb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1351,11 +1451,11 @@ Note
   width: 100%;
 }
 
-#jwkrsfkebc .gt_spanner_row {
+#fdjgnenksb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jwkrsfkebc .gt_group_heading {
+#fdjgnenksb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1381,7 +1481,7 @@ Note
   text-align: left;
 }
 
-#jwkrsfkebc .gt_empty_group_heading {
+#fdjgnenksb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1396,15 +1496,15 @@ Note
   vertical-align: middle;
 }
 
-#jwkrsfkebc .gt_from_md > :first-child {
+#fdjgnenksb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jwkrsfkebc .gt_from_md > :last-child {
+#fdjgnenksb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jwkrsfkebc .gt_row {
+#fdjgnenksb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1423,7 +1523,7 @@ Note
   overflow-x: hidden;
 }
 
-#jwkrsfkebc .gt_stub {
+#fdjgnenksb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1436,7 +1536,7 @@ Note
   padding-right: 5px;
 }
 
-#jwkrsfkebc .gt_stub_row_group {
+#fdjgnenksb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1450,15 +1550,15 @@ Note
   vertical-align: top;
 }
 
-#jwkrsfkebc .gt_row_group_first td {
+#fdjgnenksb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jwkrsfkebc .gt_row_group_first th {
+#fdjgnenksb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jwkrsfkebc .gt_summary_row {
+#fdjgnenksb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1468,16 +1568,16 @@ Note
   padding-right: 5px;
 }
 
-#jwkrsfkebc .gt_first_summary_row {
+#fdjgnenksb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_first_summary_row.thick {
+#fdjgnenksb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jwkrsfkebc .gt_last_summary_row {
+#fdjgnenksb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1487,7 +1587,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_grand_summary_row {
+#fdjgnenksb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1497,7 +1597,7 @@ Note
   padding-right: 5px;
 }
 
-#jwkrsfkebc .gt_first_grand_summary_row {
+#fdjgnenksb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1507,7 +1607,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_last_grand_summary_row_top {
+#fdjgnenksb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1517,11 +1617,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_striped {
+#fdjgnenksb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jwkrsfkebc .gt_table_body {
+#fdjgnenksb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1530,7 +1630,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_footnotes {
+#fdjgnenksb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1544,7 +1644,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_footnote {
+#fdjgnenksb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1553,7 +1653,7 @@ Note
   padding-right: 5px;
 }
 
-#jwkrsfkebc .gt_sourcenotes {
+#fdjgnenksb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1567,7 +1667,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jwkrsfkebc .gt_sourcenote {
+#fdjgnenksb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1575,72 +1675,72 @@ Note
   padding-right: 5px;
 }
 
-#jwkrsfkebc .gt_left {
+#fdjgnenksb .gt_left {
   text-align: left;
 }
 
-#jwkrsfkebc .gt_center {
+#fdjgnenksb .gt_center {
   text-align: center;
 }
 
-#jwkrsfkebc .gt_right {
+#fdjgnenksb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jwkrsfkebc .gt_font_normal {
+#fdjgnenksb .gt_font_normal {
   font-weight: normal;
 }
 
-#jwkrsfkebc .gt_font_bold {
+#fdjgnenksb .gt_font_bold {
   font-weight: bold;
 }
 
-#jwkrsfkebc .gt_font_italic {
+#fdjgnenksb .gt_font_italic {
   font-style: italic;
 }
 
-#jwkrsfkebc .gt_super {
+#fdjgnenksb .gt_super {
   font-size: 65%;
 }
 
-#jwkrsfkebc .gt_footnote_marks {
+#fdjgnenksb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jwkrsfkebc .gt_asterisk {
+#fdjgnenksb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jwkrsfkebc .gt_indent_1 {
+#fdjgnenksb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jwkrsfkebc .gt_indent_2 {
+#fdjgnenksb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jwkrsfkebc .gt_indent_3 {
+#fdjgnenksb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jwkrsfkebc .gt_indent_4 {
+#fdjgnenksb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jwkrsfkebc .gt_indent_5 {
+#fdjgnenksb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jwkrsfkebc .katex-display {
+#fdjgnenksb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jwkrsfkebc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fdjgnenksb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1864,30 +1964,30 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 </div>
 <p>“Unknown” shows up as a category. In Session 3 we replaced <code>NA</code> with “Unknown” so missing values show up in counts — but <code>tbl_summary()</code> has its own <strong>Missing</strong> row, so turn “Unknown” back into <code>NA</code> for this table with <code>na_if()</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, age_cat, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, age_cat, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="cyxdgvccma" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cyxdgvccma table {
+<div id="gmomsecnmx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gmomsecnmx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cyxdgvccma thead, #cyxdgvccma tbody, #cyxdgvccma tfoot, #cyxdgvccma tr, #cyxdgvccma td, #cyxdgvccma th {
+#gmomsecnmx thead, #gmomsecnmx tbody, #gmomsecnmx tfoot, #gmomsecnmx tr, #gmomsecnmx td, #gmomsecnmx th {
   border-style: none;
 }
 
-#cyxdgvccma p {
+#gmomsecnmx p {
   margin: 0;
   padding: 0;
 }
 
-#cyxdgvccma .gt_table {
+#gmomsecnmx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1913,12 +2013,12 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-left-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_caption {
+#gmomsecnmx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cyxdgvccma .gt_title {
+#gmomsecnmx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1930,7 +2030,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-width: 0;
 }
 
-#cyxdgvccma .gt_subtitle {
+#gmomsecnmx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1942,7 +2042,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-width: 0;
 }
 
-#cyxdgvccma .gt_heading {
+#gmomsecnmx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1954,13 +2054,13 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_bottom_border {
+#gmomsecnmx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_col_headings {
+#gmomsecnmx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1975,7 +2075,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_col_heading {
+#gmomsecnmx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1995,7 +2095,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#cyxdgvccma .gt_column_spanner_outer {
+#gmomsecnmx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2007,15 +2107,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 4px;
 }
 
-#cyxdgvccma .gt_column_spanner_outer:first-child {
+#gmomsecnmx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cyxdgvccma .gt_column_spanner_outer:last-child {
+#gmomsecnmx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cyxdgvccma .gt_column_spanner {
+#gmomsecnmx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2027,11 +2127,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   width: 100%;
 }
 
-#cyxdgvccma .gt_spanner_row {
+#gmomsecnmx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cyxdgvccma .gt_group_heading {
+#gmomsecnmx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2057,7 +2157,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   text-align: left;
 }
 
-#cyxdgvccma .gt_empty_group_heading {
+#gmomsecnmx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2072,15 +2172,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: middle;
 }
 
-#cyxdgvccma .gt_from_md > :first-child {
+#gmomsecnmx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cyxdgvccma .gt_from_md > :last-child {
+#gmomsecnmx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cyxdgvccma .gt_row {
+#gmomsecnmx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2099,7 +2199,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#cyxdgvccma .gt_stub {
+#gmomsecnmx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2112,7 +2212,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#cyxdgvccma .gt_stub_row_group {
+#gmomsecnmx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2126,15 +2226,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: top;
 }
 
-#cyxdgvccma .gt_row_group_first td {
+#gmomsecnmx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cyxdgvccma .gt_row_group_first th {
+#gmomsecnmx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cyxdgvccma .gt_summary_row {
+#gmomsecnmx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2144,16 +2244,16 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#cyxdgvccma .gt_first_summary_row {
+#gmomsecnmx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_first_summary_row.thick {
+#gmomsecnmx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cyxdgvccma .gt_last_summary_row {
+#gmomsecnmx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2163,7 +2263,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_grand_summary_row {
+#gmomsecnmx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2173,7 +2273,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#cyxdgvccma .gt_first_grand_summary_row {
+#gmomsecnmx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2183,7 +2283,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_last_grand_summary_row_top {
+#gmomsecnmx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2193,11 +2293,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_striped {
+#gmomsecnmx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cyxdgvccma .gt_table_body {
+#gmomsecnmx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2206,7 +2306,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_footnotes {
+#gmomsecnmx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2220,7 +2320,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_footnote {
+#gmomsecnmx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2229,7 +2329,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#cyxdgvccma .gt_sourcenotes {
+#gmomsecnmx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2243,7 +2343,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#cyxdgvccma .gt_sourcenote {
+#gmomsecnmx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2251,72 +2351,72 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#cyxdgvccma .gt_left {
+#gmomsecnmx .gt_left {
   text-align: left;
 }
 
-#cyxdgvccma .gt_center {
+#gmomsecnmx .gt_center {
   text-align: center;
 }
 
-#cyxdgvccma .gt_right {
+#gmomsecnmx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cyxdgvccma .gt_font_normal {
+#gmomsecnmx .gt_font_normal {
   font-weight: normal;
 }
 
-#cyxdgvccma .gt_font_bold {
+#gmomsecnmx .gt_font_bold {
   font-weight: bold;
 }
 
-#cyxdgvccma .gt_font_italic {
+#gmomsecnmx .gt_font_italic {
   font-style: italic;
 }
 
-#cyxdgvccma .gt_super {
+#gmomsecnmx .gt_super {
   font-size: 65%;
 }
 
-#cyxdgvccma .gt_footnote_marks {
+#gmomsecnmx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cyxdgvccma .gt_asterisk {
+#gmomsecnmx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cyxdgvccma .gt_indent_1 {
+#gmomsecnmx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cyxdgvccma .gt_indent_2 {
+#gmomsecnmx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cyxdgvccma .gt_indent_3 {
+#gmomsecnmx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cyxdgvccma .gt_indent_4 {
+#gmomsecnmx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cyxdgvccma .gt_indent_5 {
+#gmomsecnmx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cyxdgvccma .katex-display {
+#gmomsecnmx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cyxdgvccma div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gmomsecnmx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2532,48 +2632,48 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <section id="customize-it" class="level2">
 <h2 class="anchored" data-anchor-id="customize-it">Customize it</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> outcome,</span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(</span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>      gender        <span class="sc">~</span> <span class="st">"Gender"</span>,</span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>      age_years     <span class="sc">~</span> <span class="st">"Age (years)"</span>,</span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>      bmi           <span class="sc">~</span> <span class="st">"BMI"</span>,</span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>      hospital_name <span class="sc">~</span> <span class="st">"Hospital"</span>,</span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>      fever         <span class="sc">~</span> <span class="st">"Fever"</span>,</span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>      cough         <span class="sc">~</span> <span class="st">"Cough"</span>,</span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>      temp          <span class="sc">~</span> <span class="st">"Temperature (°C)"</span></span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{mean} ({sd})"</span>,</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_text =</span> <span class="st">"Missing"</span></span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Table 1. Patient characteristics by outcome**"</span>)</span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> outcome,</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>      gender        <span class="sc">~</span> <span class="st">"Gender"</span>,</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>      age_years     <span class="sc">~</span> <span class="st">"Age (years)"</span>,</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>      bmi           <span class="sc">~</span> <span class="st">"BMI"</span>,</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>      hospital_name <span class="sc">~</span> <span class="st">"Hospital"</span>,</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>      fever         <span class="sc">~</span> <span class="st">"Fever"</span>,</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>      cough         <span class="sc">~</span> <span class="st">"Cough"</span>,</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>      temp          <span class="sc">~</span> <span class="st">"Temperature (°C)"</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{mean} ({sd})"</span>,</span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_text =</span> <span class="st">"Missing"</span></span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Table 1. Patient characteristics by outcome**"</span>)</span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="ekzrryhtrk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ekzrryhtrk table {
+<div id="cnhwnetonw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cnhwnetonw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ekzrryhtrk thead, #ekzrryhtrk tbody, #ekzrryhtrk tfoot, #ekzrryhtrk tr, #ekzrryhtrk td, #ekzrryhtrk th {
+#cnhwnetonw thead, #cnhwnetonw tbody, #cnhwnetonw tfoot, #cnhwnetonw tr, #cnhwnetonw td, #cnhwnetonw th {
   border-style: none;
 }
 
-#ekzrryhtrk p {
+#cnhwnetonw p {
   margin: 0;
   padding: 0;
 }
 
-#ekzrryhtrk .gt_table {
+#cnhwnetonw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2599,12 +2699,12 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-left-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_caption {
+#cnhwnetonw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ekzrryhtrk .gt_title {
+#cnhwnetonw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2616,7 +2716,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-width: 0;
 }
 
-#ekzrryhtrk .gt_subtitle {
+#cnhwnetonw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2628,7 +2728,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-width: 0;
 }
 
-#ekzrryhtrk .gt_heading {
+#cnhwnetonw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2640,13 +2740,13 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_bottom_border {
+#cnhwnetonw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_col_headings {
+#cnhwnetonw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2661,7 +2761,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_col_heading {
+#cnhwnetonw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2681,7 +2781,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#ekzrryhtrk .gt_column_spanner_outer {
+#cnhwnetonw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2693,15 +2793,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 4px;
 }
 
-#ekzrryhtrk .gt_column_spanner_outer:first-child {
+#cnhwnetonw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ekzrryhtrk .gt_column_spanner_outer:last-child {
+#cnhwnetonw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ekzrryhtrk .gt_column_spanner {
+#cnhwnetonw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2713,11 +2813,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   width: 100%;
 }
 
-#ekzrryhtrk .gt_spanner_row {
+#cnhwnetonw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ekzrryhtrk .gt_group_heading {
+#cnhwnetonw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2743,7 +2843,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   text-align: left;
 }
 
-#ekzrryhtrk .gt_empty_group_heading {
+#cnhwnetonw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2758,15 +2858,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: middle;
 }
 
-#ekzrryhtrk .gt_from_md > :first-child {
+#cnhwnetonw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ekzrryhtrk .gt_from_md > :last-child {
+#cnhwnetonw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ekzrryhtrk .gt_row {
+#cnhwnetonw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2785,7 +2885,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#ekzrryhtrk .gt_stub {
+#cnhwnetonw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2798,7 +2898,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#ekzrryhtrk .gt_stub_row_group {
+#cnhwnetonw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2812,15 +2912,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: top;
 }
 
-#ekzrryhtrk .gt_row_group_first td {
+#cnhwnetonw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ekzrryhtrk .gt_row_group_first th {
+#cnhwnetonw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ekzrryhtrk .gt_summary_row {
+#cnhwnetonw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2830,16 +2930,16 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#ekzrryhtrk .gt_first_summary_row {
+#cnhwnetonw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_first_summary_row.thick {
+#cnhwnetonw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ekzrryhtrk .gt_last_summary_row {
+#cnhwnetonw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2849,7 +2949,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_grand_summary_row {
+#cnhwnetonw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2859,7 +2959,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#ekzrryhtrk .gt_first_grand_summary_row {
+#cnhwnetonw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2869,7 +2969,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_last_grand_summary_row_top {
+#cnhwnetonw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2879,11 +2979,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_striped {
+#cnhwnetonw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ekzrryhtrk .gt_table_body {
+#cnhwnetonw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2892,7 +2992,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_footnotes {
+#cnhwnetonw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2906,7 +3006,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_footnote {
+#cnhwnetonw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2915,7 +3015,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#ekzrryhtrk .gt_sourcenotes {
+#cnhwnetonw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2929,7 +3029,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#ekzrryhtrk .gt_sourcenote {
+#cnhwnetonw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2937,72 +3037,72 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#ekzrryhtrk .gt_left {
+#cnhwnetonw .gt_left {
   text-align: left;
 }
 
-#ekzrryhtrk .gt_center {
+#cnhwnetonw .gt_center {
   text-align: center;
 }
 
-#ekzrryhtrk .gt_right {
+#cnhwnetonw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ekzrryhtrk .gt_font_normal {
+#cnhwnetonw .gt_font_normal {
   font-weight: normal;
 }
 
-#ekzrryhtrk .gt_font_bold {
+#cnhwnetonw .gt_font_bold {
   font-weight: bold;
 }
 
-#ekzrryhtrk .gt_font_italic {
+#cnhwnetonw .gt_font_italic {
   font-style: italic;
 }
 
-#ekzrryhtrk .gt_super {
+#cnhwnetonw .gt_super {
   font-size: 65%;
 }
 
-#ekzrryhtrk .gt_footnote_marks {
+#cnhwnetonw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ekzrryhtrk .gt_asterisk {
+#cnhwnetonw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ekzrryhtrk .gt_indent_1 {
+#cnhwnetonw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ekzrryhtrk .gt_indent_2 {
+#cnhwnetonw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ekzrryhtrk .gt_indent_3 {
+#cnhwnetonw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ekzrryhtrk .gt_indent_4 {
+#cnhwnetonw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ekzrryhtrk .gt_indent_5 {
+#cnhwnetonw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ekzrryhtrk .katex-display {
+#cnhwnetonw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ekzrryhtrk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cnhwnetonw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3186,9 +3286,9 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <h2 class="anchored" data-anchor-id="save-it-to-word">Save it to Word</h2>
 <p><code>as_flex_table()</code> turns the table into a <strong>flextable</strong>, and <code>save_as_docx()</code> writes the Word file. The new file appears in the <code>outputs/</code> folder in the <strong>Explorer</strong>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">%&gt;%</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_flex_table</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  flextable<span class="sc">::</span><span class="fu">save_as_docx</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="st">"table1.docx"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_flex_table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  flextable<span class="sc">::</span><span class="fu">save_as_docx</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="st">"table1.docx"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3203,7 +3303,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <p>Make a <code>tbl_summary()</code> of measles cases by outcome (leave out “Unknown” outcomes) with <code>sex</code>, <code>age_years</code>, <code>age_cat</code>, <code>vaccinated</code>, <code>rash</code>, <code>temp_c</code>, and <code>days_in_hospital</code>. Give the rows nice labels and add an overall column.</p>
 <p>✅ <strong>Check:</strong> the column headers say Overall N = 1,098, Recovered N = 1,048, Died N = 50</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -3212,49 +3312,49 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>measles_table1 <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, sex, age_years, age_cat, vaccinated, rash, temp_c, days_in_hospital) <span class="sc">%&gt;%</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> outcome,</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>      sex              <span class="sc">~</span> <span class="st">"Sex"</span>,</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>      age_years        <span class="sc">~</span> <span class="st">"Age (years)"</span>,</span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>      age_cat          <span class="sc">~</span> <span class="st">"Age group"</span>,</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>      vaccinated       <span class="sc">~</span> <span class="st">"Vaccinated"</span>,</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>      rash             <span class="sc">~</span> <span class="st">"Rash"</span>,</span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>      temp_c           <span class="sc">~</span> <span class="st">"Temperature (°C)"</span>,</span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>      days_in_hospital <span class="sc">~</span> <span class="st">"Days in hospital"</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_text =</span> <span class="st">"Missing"</span></span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>measles_table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>measles_table1 <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_drop</span>(outcome)) <span class="sc">%&gt;%</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, sex, age_years, age_cat, vaccinated, rash, temp_c, days_in_hospital) <span class="sc">%&gt;%</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> outcome,</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>      sex              <span class="sc">~</span> <span class="st">"Sex"</span>,</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>      age_years        <span class="sc">~</span> <span class="st">"Age (years)"</span>,</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>      age_cat          <span class="sc">~</span> <span class="st">"Age group"</span>,</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>      vaccinated       <span class="sc">~</span> <span class="st">"Vaccinated"</span>,</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>      rash             <span class="sc">~</span> <span class="st">"Rash"</span>,</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>      temp_c           <span class="sc">~</span> <span class="st">"Temperature (°C)"</span>,</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>      days_in_hospital <span class="sc">~</span> <span class="st">"Days in hospital"</span></span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_text =</span> <span class="st">"Missing"</span></span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>measles_table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="tggxlsqudz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tggxlsqudz table {
+<div id="dbabldpnlv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dbabldpnlv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tggxlsqudz thead, #tggxlsqudz tbody, #tggxlsqudz tfoot, #tggxlsqudz tr, #tggxlsqudz td, #tggxlsqudz th {
+#dbabldpnlv thead, #dbabldpnlv tbody, #dbabldpnlv tfoot, #dbabldpnlv tr, #dbabldpnlv td, #dbabldpnlv th {
   border-style: none;
 }
 
-#tggxlsqudz p {
+#dbabldpnlv p {
   margin: 0;
   padding: 0;
 }
 
-#tggxlsqudz .gt_table {
+#dbabldpnlv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3280,12 +3380,12 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-left-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_caption {
+#dbabldpnlv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tggxlsqudz .gt_title {
+#dbabldpnlv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3297,7 +3397,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-width: 0;
 }
 
-#tggxlsqudz .gt_subtitle {
+#dbabldpnlv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3309,7 +3409,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-width: 0;
 }
 
-#tggxlsqudz .gt_heading {
+#dbabldpnlv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3321,13 +3421,13 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_bottom_border {
+#dbabldpnlv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_col_headings {
+#dbabldpnlv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3342,7 +3442,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_col_heading {
+#dbabldpnlv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3362,7 +3462,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#tggxlsqudz .gt_column_spanner_outer {
+#dbabldpnlv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3374,15 +3474,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 4px;
 }
 
-#tggxlsqudz .gt_column_spanner_outer:first-child {
+#dbabldpnlv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tggxlsqudz .gt_column_spanner_outer:last-child {
+#dbabldpnlv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tggxlsqudz .gt_column_spanner {
+#dbabldpnlv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3394,11 +3494,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   width: 100%;
 }
 
-#tggxlsqudz .gt_spanner_row {
+#dbabldpnlv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tggxlsqudz .gt_group_heading {
+#dbabldpnlv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3424,7 +3524,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   text-align: left;
 }
 
-#tggxlsqudz .gt_empty_group_heading {
+#dbabldpnlv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3439,15 +3539,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: middle;
 }
 
-#tggxlsqudz .gt_from_md > :first-child {
+#dbabldpnlv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tggxlsqudz .gt_from_md > :last-child {
+#dbabldpnlv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tggxlsqudz .gt_row {
+#dbabldpnlv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3466,7 +3566,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#tggxlsqudz .gt_stub {
+#dbabldpnlv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3479,7 +3579,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#tggxlsqudz .gt_stub_row_group {
+#dbabldpnlv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3493,15 +3593,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: top;
 }
 
-#tggxlsqudz .gt_row_group_first td {
+#dbabldpnlv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tggxlsqudz .gt_row_group_first th {
+#dbabldpnlv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tggxlsqudz .gt_summary_row {
+#dbabldpnlv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3511,16 +3611,16 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#tggxlsqudz .gt_first_summary_row {
+#dbabldpnlv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_first_summary_row.thick {
+#dbabldpnlv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tggxlsqudz .gt_last_summary_row {
+#dbabldpnlv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3530,7 +3630,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_grand_summary_row {
+#dbabldpnlv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3540,7 +3640,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#tggxlsqudz .gt_first_grand_summary_row {
+#dbabldpnlv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3550,7 +3650,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_last_grand_summary_row_top {
+#dbabldpnlv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3560,11 +3660,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_striped {
+#dbabldpnlv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tggxlsqudz .gt_table_body {
+#dbabldpnlv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3573,7 +3673,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_footnotes {
+#dbabldpnlv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3587,7 +3687,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_footnote {
+#dbabldpnlv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3596,7 +3696,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#tggxlsqudz .gt_sourcenotes {
+#dbabldpnlv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3610,7 +3710,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#tggxlsqudz .gt_sourcenote {
+#dbabldpnlv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3618,72 +3718,72 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#tggxlsqudz .gt_left {
+#dbabldpnlv .gt_left {
   text-align: left;
 }
 
-#tggxlsqudz .gt_center {
+#dbabldpnlv .gt_center {
   text-align: center;
 }
 
-#tggxlsqudz .gt_right {
+#dbabldpnlv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tggxlsqudz .gt_font_normal {
+#dbabldpnlv .gt_font_normal {
   font-weight: normal;
 }
 
-#tggxlsqudz .gt_font_bold {
+#dbabldpnlv .gt_font_bold {
   font-weight: bold;
 }
 
-#tggxlsqudz .gt_font_italic {
+#dbabldpnlv .gt_font_italic {
   font-style: italic;
 }
 
-#tggxlsqudz .gt_super {
+#dbabldpnlv .gt_super {
   font-size: 65%;
 }
 
-#tggxlsqudz .gt_footnote_marks {
+#dbabldpnlv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tggxlsqudz .gt_asterisk {
+#dbabldpnlv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tggxlsqudz .gt_indent_1 {
+#dbabldpnlv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tggxlsqudz .gt_indent_2 {
+#dbabldpnlv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tggxlsqudz .gt_indent_3 {
+#dbabldpnlv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tggxlsqudz .gt_indent_4 {
+#dbabldpnlv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tggxlsqudz .gt_indent_5 {
+#dbabldpnlv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tggxlsqudz .katex-display {
+#dbabldpnlv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tggxlsqudz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dbabldpnlv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4304,8 +4404,8 @@ N = 50<span class="gt_footnote_marks" style="white-space:nowrap;font-style:itali
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/lessons/04-data-structures.html" class="pagination-link" aria-label="Session 4: Data Structures — Vectors, Subsetting, and Reshaping">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 4: Data Structures — Vectors, Subsetting, and Reshaping</span>
+      <a href="../../pages/lessons/04-data-structures.html" class="pagination-link" aria-label="Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

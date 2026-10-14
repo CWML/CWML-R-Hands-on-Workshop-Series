@@ -10,13 +10,13 @@ subtitle: "Summarizing your data"
 | Part | Topic | Time (incl. TRY IT) |
 |------|-------|---------------------|
 | 1 | Set up | 5 min |
-| 2 | Putting categories in order (factors) | 10 min |
-| 3 | Counting and percentages with `count()` | 17 min |
-| 4 | Summary statistics with `summarise()` (2 TRY ITs) | 25 min |
+| 2 | Putting categories in order (factors, + 🔁 `factor()`) | 12 min |
+| 3 | Counting and percentages with `count()` (+ 🔁 `table()`) | 19 min |
+| 4 | Summary statistics with `summarise()` (2 TRY ITs, + 🔁 `tapply()`) | 27 min |
 | 5 | Quick tables with `tabyl()` | 12 min |
 | 6 | Table 1 with `gtsummary` | 18 min |
 |   | Wrap-up and preview | 5 min |
-|   | **Total** | **92 min** |
+|   | **Total** | **98 min** |
 
 **Short on time?** Make the Part 4 "case rates by district" TRY IT homework (nothing later depends on it). Don't cut the measles Table 1 in Part 6 — it's the payoff of the session.
 
@@ -47,6 +47,8 @@ Stress `ungroup()`: a grouped data frame stays grouped and can surprise them lat
 **Part 6 — Table 1.** Explain why we turn "Unknown" back into `NA` with `na_if()`: in Session 3 we replaced `NA` with "Unknown" so missing values show up in counts, but `tbl_summary()` has its own Missing row. `na_if()` with `where(is.character)` only touches text columns, so factor columns (`age_cat`, `vaccinated`) keep "Unknown" as a category. Mention `add_p()` but only for analyses where a statistical test is planned. The Word export uses `as_flex_table() %>% flextable::save_as_docx()`; have learners find `outputs/table1.docx` in the **Explorer** and open it. For the measles Table 1, point out that "Missing" days in hospital means *not hospitalized*, not lost data.
 
 **Wrap-up.** Recap: `fct_relevel()`, `count()`, `group_by()`, `summarise()`, `across()`, `tabyl()` + `adorn_*()`, `tbl_summary()`. Preview **Session 6 — Plotting basics:** `ggplot2` from the ground up — histograms, scatter plots, and box plots.
+
+**🔁 Base R boxes (about 2 minutes each).** Three short demos: `factor()`, `table()` + `prop.table()`, and `tapply()` / `aggregate()`. The goal is *reading* knowledge: learners will meet these in papers' code, help pages, and AI answers. One point per box: `factor()` turns misspelled levels into `NA` without a warning; a `table` is not a data frame; `aggregate()` drops rows with missing values. If time is short, show them as "here's what this looks like in base R" without asking learners to type along.
 
 ## TRY IT answers at a glance
 

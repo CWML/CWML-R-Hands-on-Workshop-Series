@@ -1,0 +1,79 @@
+---
+title: "Base R ↔ tidyverse"
+subtitle: "A translation table for reading other people's code"
+---
+
+This workshop does data work with the **tidyverse**, but R itself ("base R") is underneath everything, and you will meet base R in help pages, papers' code, Bioconductor packages, and AI answers.
+
+There are two kinds of base R:
+
+1.  **Base R concepts you need to understand:** vectors, types, `NA`, `[ ]` / `$` / `[[ ]]`, `%in%`, factors, lists, and functions. The tidyverse is built on these. They are taught in Sessions 1, 4, and 8.
+2.  **Base R functions that do the same job as a tidyverse function:** you need to *recognize* these, not use them every day. They are in the 🔁 **The base R way** boxes in the lessons, and in the table below.
+
+## Inspecting and counting
+
+| Task | Tidyverse | Base R | Watch out | Session |
+|---|---|---|---|---|
+| Structure of a data frame | `glimpse(df)` | `str(df)` | | 1 |
+| Summary of every column | `skimr::skim(df)` | `summary(df)` | | 1 |
+| Count each value | `count(df, x)` | `table(df$x)` | `table()` hides `NA` unless you add `useNA = "ifany"` | 1 |
+| Cross-table | `count(df, x, y)` | `table(df$x, df$y)` | the result is a `table`, not a data frame | 5 |
+| Row percentages | `group_by(x) %>% count(y) %>% mutate(n / sum(n))` | `prop.table(table(df$x, df$y), margin = 1)` | `margin = 1` rows, `2` columns | 5 |
+
+## Choosing rows and columns
+
+| Task | Tidyverse | Base R | Watch out | Session |
+|---|---|---|---|---|
+| Rows that meet a condition | `filter(df, age > 40)` | `df[df$age > 40, ]` | base R adds a row of `NA`s for every `NA` in the condition | 4 |
+| Some columns | `select(df, a, b)` | `df[, c("a", "b")]` | forgetting the comma: `df[1:3]` picks **columns** | 4 |
+| One column as a vector | `pull(df, a)` | `df$a` or `df[["a"]]` | | 4 |
+| First rows | `slice(df, 1:5)` or `head(df, 5)` | `df[1:5, ]` | | 4 |
+| Sort | `arrange(df, desc(x))` | `df[order(df$x, decreasing = TRUE), ]` | | 1 |
+| Is each value in a set? | `filter(df, x %in% c("a", "b"))` | `df[df$x %in% c("a", "b"), ]` | `%in%` is base R, used in both | 3 |
+| Remove duplicate rows | `distinct(df)` | `unique(df)` or `df[!duplicated(df), ]` | | 3 |
+
+## Changing and creating columns
+
+| Task | Tidyverse | Base R | Watch out | Session |
+|---|---|---|---|---|
+| New or changed column | `mutate(df, bmi = wt / ht^2)` | `df$bmi <- df$wt / df$ht^2` | | 2 |
+| Rename a column | `rename(df, new = old)` | `names(df)[names(df) == "old"] <- "new"` | | 2 |
+| One condition | `if_else(cond, yes, no)` | `ifelse(cond, yes, no)` | `ifelse()` turns dates into numbers | 2 |
+| Many conditions | `case_when(...)` | nested `ifelse()` | | 2 |
+| Numbers into groups | `case_when(age < 18 ~ "Under 18", ...)` | `cut(age, breaks = ..., labels = ..., right = FALSE)` | without `right = FALSE`, 18 goes in "Under 18" | 2 |
+| Does text contain a pattern? | `str_detect(x, "pat")` | `grepl("pat", x)` | the argument order is reversed | 2 |
+| Replace text | `str_replace_all(x, "a", "b")` | `gsub("a", "b", x)` | | 2 |
+| Upper/lower case | `str_to_upper(x)`, `str_to_lower(x)` | `toupper(x)`, `tolower(x)` | | 2 |
+| Replace `NA` | `replace_na(x, "Unknown")` | `x[is.na(x)] <- "Unknown"` | | 3 |
+| Order of categories | `fct_relevel(x, "a", "b")` | `factor(x, levels = c("a", "b"))` | a misspelled level becomes `NA`, with no warning | 5 |
+
+## Combining and reshaping
+
+| Task | Tidyverse | Base R | Watch out | Session |
+|---|---|---|---|---|
+| Left join | `left_join(x, y, by = "id")` | `merge(x, y, by = "id", all.x = TRUE)` | `merge()` is an **inner** join by default, and sorts the rows | 3 |
+| Inner join | `inner_join(x, y, by = "id")` | `merge(x, y, by = "id")` | | 3 |
+| Full join | `full_join(x, y, by = "id")` | `merge(x, y, by = "id", all = TRUE)` | | 3 |
+| Rows with no match | `anti_join(x, y, by = "id")` | `x[!x$id %in% y$id, ]` | | 3 |
+| Stack rows | `bind_rows(a, b)` | `rbind(a, b)` | `rbind()` needs the same columns | |
+| Wide → long, long → wide | `pivot_longer()`, `pivot_wider()` | `reshape()` | `reshape()` is hard to read; use tidyr | 4 |
+
+## Summarizing
+
+| Task | Tidyverse | Base R | Watch out | Session |
+|---|---|---|---|---|
+| One statistic per group | `group_by(g) %>% summarise(m = median(x, na.rm = TRUE))` | `tapply(df$x, df$g, median, na.rm = TRUE)` | `tapply()` returns a named vector | 5 |
+| Statistics per group as a data frame | `group_by(g) %>% summarise(...)` | `aggregate(x ~ g, data = df, FUN = median)` | the formula version drops rows with `NA` | 5 |
+| A test result as a table | `broom::tidy(result)` | `result$p.value`, `result$estimate` | test results are lists | 4 |
+
+## Iteration and pipes
+
+| Task | Tidyverse | Base R | Watch out | Session |
+|---|---|---|---|---|
+| Run a function on each element, get a list | `map(x, f)` | `lapply(x, f)` | | 8 |
+| ... get a number vector | `map_dbl(x, f)` | `sapply(x, f)` or `vapply(x, f, numeric(1))` | `sapply()` guesses the shape (vector, matrix, or list) | 8 |
+| A short function | `~ mean(.x, na.rm = TRUE)` | `\(x) mean(x, na.rm = TRUE)` | | 8 |
+| Read a CSV | `readr::read_csv()` or `rio::import()` | `read.csv()` | | 1 |
+| Save a file | `rio::export()` | `write.csv(df, file, row.names = FALSE)`, `saveRDS()` | `write.csv()` adds a column of row numbers unless `row.names = FALSE` | 3 |
+
+**The pipe:** `%>%` comes from the tidyverse (magrittr). Base R has its own pipe, `|>` (R 4.1 and newer). For everything in this workshop they do the same thing.

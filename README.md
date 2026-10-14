@@ -1,6 +1,9 @@
 # CWML R Hands-on Workshop Series
 
-A hands-on introduction to data analysis in R with the **tidyverse**. Over eight
+A hands-on introduction to data analysis in R with the **tidyverse**, built on the
+**base R** foundations underneath it (vectors, types, subsetting, lists, functions).
+Each session also shows the base R version of key steps, so you can read other
+people's code; see the *Base R ↔ tidyverse* page on the course website. Over eight
 sessions you take a messy real-world-style outbreak dataset from raw file to clean
 data, summary tables, and publication-ready plots, and finish by writing your own
 functions and loops.
@@ -14,14 +17,14 @@ explanations, code, TRY ITs with solutions, setup instructions, and the instruct
 
 | \# | Session | You will learn | Student script |
 |----|---------|----------------|----------------|
-| 1 | Setup and a first look at your data | project folders, `here()`, packages, R basics, the pipe, `import()`, inspecting data | `Session 1 - Setup and First Look_STUDENT.R` |
-| 2 | Cleaning | `clean_names()`, `rename()`, `mutate()`, `if_else()`, `case_when()`, fixing types, new variables | `Session 2 - Cleaning_STUDENT.R` |
-| 3 | Missing data, joins, and export | missing values, `distinct()`, `replace_na()`, `select()`, joins, `export()` | `Session 3 - Missing Data, Joins, and Export_STUDENT.R` |
-| 4 | Data structures | vectors and types, vectorization, subsetting with `[ ]` and `$`, tidy data, `pivot_longer()` / `pivot_wider()` | `Session 4 - Data Structures_STUDENT.R` |
-| 5 | Summarizing | factors, `count()`, `group_by()` + `summarise()`, `tabyl()`, a `gtsummary` Table 1 | `Session 5 - Summarizing_STUDENT.R` |
+| 1 | Setup and a first look at your data | project folders, `here()`, packages, R basics, the pipe, `import()`, inspecting data, 🔁 `table()` | `Session 1 - Setup and First Look_STUDENT.R` |
+| 2 | Cleaning | `clean_names()`, `rename()`, `mutate()`, `if_else()`, `case_when()`, fixing types, new variables, 🔁 `ifelse()`, `cut()` | `Session 2 - Cleaning_STUDENT.R` |
+| 3 | Missing data, joins, and export | missing values, `distinct()`, `replace_na()`, `select()`, joins, `export()`, 🔁 `merge()`, `%in%` | `Session 3 - Missing Data, Joins, and Export_STUDENT.R` |
+| 4 | Data structures | vectors and types, vectorization, subsetting with `[ ]` and `$`, **lists** (and test results as lists), tidy data, `pivot_longer()` / `pivot_wider()` | `Session 4 - Data Structures_STUDENT.R` |
+| 5 | Summarizing | factors, `count()`, `group_by()` + `summarise()`, `tabyl()`, a `gtsummary` Table 1, 🔁 `factor()`, `table()`, `tapply()` | `Session 5 - Summarizing_STUDENT.R` |
 | 6 | Plotting basics | `ggplot2`: histograms, scatter plots, box plots, labels, themes | `Session 6 - Plotting Basics_STUDENT.R` |
 | 7 | Plotting further | bar charts, choosing colors, epidemic curves, facets, saving plots | `Session 7 - Plotting Further_STUDENT.R` |
-| 8 | Programming *(optional, advanced)* | writing functions, `if`/`else`, `for` loops, `map()` / `walk()` | `Session 8 - Programming_STUDENT.R` |
+| 8 | Programming *(optional, advanced)* | writing functions, `if`/`else`, `for` loops, `map()` / `walk()`, 🔁 `lapply()` / `sapply()` | `Session 8 - Programming_STUDENT.R` |
 
 Each session builds on the one before: the data you clean in Sessions 2–3 is the data you
 explore, summarize, and plot in Sessions 4–8. Missed a session? A ready-made copy of every in-between
@@ -38,6 +41,9 @@ Each session is split into short parts. Every part follows the same rhythm:
    1–5 minutes and has a ✅ **Check** line so you can tell whether you got it right.
 3. Put up your **green sticky note** when you're done, or your **red** one if
    you're stuck and a helper will come over.
+
+**🔁 The base R way** notes show the base R version of a tidyverse step, so you
+can recognize it in other people's code.
 
 The student scripts also have **📖 What you need to know** notes for each part
 and **⚠️ Common mistakes** to watch for, so they work as a reference after the

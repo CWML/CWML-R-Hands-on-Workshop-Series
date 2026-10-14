@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -42,14 +39,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -287,6 +284,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="../pages/resources.html" aria-current="page"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -320,6 +321,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#getting-help" id="toc-getting-help" class="nav-link active" data-scroll-target="#getting-help">Getting help</a></li>
   <li><a href="#free-books-and-guides" id="toc-free-books-and-guides" class="nav-link" data-scroll-target="#free-books-and-guides">Free books and guides</a></li>
+  <li><a href="#base-r-and-the-tidyverse" id="toc-base-r-and-the-tidyverse" class="nav-link" data-scroll-target="#base-r-and-the-tidyverse">Base R and the tidyverse</a></li>
   <li><a href="#cheat-sheets" id="toc-cheat-sheets" class="nav-link" data-scroll-target="#cheat-sheets">Cheat sheets</a></li>
   <li><a href="#packages-used-in-the-workshop" id="toc-packages-used-in-the-workshop" class="nav-link" data-scroll-target="#packages-used-in-the-workshop">Packages used in the workshop</a></li>
   </ul>
@@ -365,6 +367,13 @@ ul.task-list li input[type="checkbox"] {
 <li><strong><a href="https://datacarpentry.github.io/r-socialsci/">Data Carpentry: R for Social Scientists</a></strong> and <strong><a href="https://datacarpentry.github.io/R-ecology-lesson/">R for Ecologists</a></strong> — other beginner R lessons in the same hands-on style.</li>
 </ul>
 </section>
+<section id="base-r-and-the-tidyverse" class="level2">
+<h2 class="anchored" data-anchor-id="base-r-and-the-tidyverse">Base R and the tidyverse</h2>
+<ul>
+<li><strong><a href="../pages/base-vs-tidyverse.html">Base R ↔︎ tidyverse</a></strong> — this workshop’s translation table: every tidyverse function we use, its base R equivalent, and what to watch out for.</li>
+<li><strong><a href="https://adv-r.hadley.nz/">Advanced R: Subsetting and Vectors</a></strong> — when you want to understand vectors, lists, and <code>[[ ]]</code> in depth.</li>
+</ul>
+</section>
 <section id="cheat-sheets" class="level2">
 <h2 class="anchored" data-anchor-id="cheat-sheets">Cheat sheets</h2>
 <p>Posit’s one-page cheat sheets are great to keep open while you work: <a href="https://posit.co/resources/cheatsheets/">all cheat sheets</a>. The most useful for this workshop:</p>
@@ -374,6 +383,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Data visualization with ggplot2</strong> — Sessions 6–7</li>
 <li><strong>Factors with forcats</strong>, <strong>Strings with stringr</strong>, <strong>Dates and times with lubridate</strong></li>
 <li><strong>Apply functions with purrr</strong> — Session 8</li>
+<li><strong>Base R</strong> — vectors, lists, indexing, and the apply family (in the “Contributed” section of the cheat sheet page)</li>
 </ul>
 </section>
 <section id="packages-used-in-the-workshop" class="level2">

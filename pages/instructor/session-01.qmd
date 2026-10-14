@@ -43,6 +43,8 @@ subtitle: "Setup and a first look at your data"
 
 After `skim()`, point at the `n_missing` column, the negative minimum of `wt_kg`, and the near-300 cm maximum of `ht_cm`.
 
+The **🔁 base R `table()`** box takes 2 minutes. The point is not to learn a second counting function but to *recognize* it in other people's code, and to know its trap: it hides `NA` unless you add `useNA = "ifany"`. TRY IT (b) lets learners find this themselves.
+
 **Part 7 — The problem list.** Build the list **with the class** — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2's TRY ITs work through it.
 
 ## TRY IT answers at a glance
@@ -54,7 +56,7 @@ After `skim()`, point at the `n_missing` column, the negative minimum of `wt_kg`
 | The pipe | `my_temps %>% mean() %>% round(0)` is 38 |
 | Import | 1215 rows, 11 columns |
 | Size and structure | `Age (years)` is text; six names need backticks |
-| Categories | District has 18 values; "North" and "No" are each written 4 ways |
+| Categories | a) District has 18 values; "North" and "No" are each written 4 ways b) `table()` drops the 34 `NA` districts |
 | Zooming in | Highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
 | Missing values and duplicates | 37 missing IDs, 15 duplicates; `Days in Hospital` has 766 NAs (not hospitalized) |
 | Problem list | At least 8 problems — see the lesson's solution |

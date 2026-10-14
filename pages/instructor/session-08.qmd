@@ -14,9 +14,9 @@ subtitle: "Programming — Functions, if/else, Loops, and Iteration"
 | 3 | Functions that use data | 15 min |
 | 4 | `if` / `else` | 14 min |
 | 5 | `for` loops | 18 min |
-| 6 | Iteration the tidyverse way: `map()` and `walk()` | 13 min |
+| 6 | Iteration the tidyverse way: `map()` and `walk()` (+ 🔁 `lapply()` / `sapply()`) | 17 min |
 |   | Wrap-up | 5 min |
-|   | **Total** | **85 min** |
+|   | **Total** | **89 min** |
 
 **Short on time?** Demo `walk()` but make the Part 6 TRY IT homework — part (b) just repeats the Part 5 district loop. Don't cut the Part 5 loop: it is the payoff of the session.
 
@@ -40,6 +40,8 @@ subtitle: "Programming — Functions, if/else, Loops, and Iteration"
 **Part 5 — `for` loops.** Stress that inside a loop nothing prints automatically (`print()`), and that results need a container created **before** the loop. In the payoff loop, point out `make_clean_names()` turning "St. Mark's Maternity Hospital" into `st_marks_maternity_hospital` and `paste0()` building the file name: six files, one loop — and next week you just re-run it. Have learners check the **Explorer** for the new files in `outputs/`. Remind them that `mutate()`, `group_by()` + `summarise()`, and `across()` already loop for them; a `for` loop is for repeating a **whole task**.
 
 **Part 6 — `map()` and `walk()`.** Point out that a data frame is a list of columns, so `map_dbl()` runs once per column, and that `~ .x` is the same shorthand they used with `across()` in Session 3. Loop or `map()`? Both are fine — tell learners to use the one they can read.
+
+**🔁 `lapply()` / `sapply()` (4 min).** Learners who go on to bioinformatics will meet these constantly: Bioconductor code and vignettes use the apply family far more than purrr. Show the translation table, then let the class predict what `sapply(three_cols, range, na.rm = TRUE)` returns before running it: the matrix is the teaching moment for why `map_dbl()` exists.
 
 **Wrap-up.** Today: `function()`, arguments and defaults, `if`/`else`, `stop()`, `if_else()`, `for` loops, `map()`, `map_dbl()`, `walk()`. The big idea: write it once, run it many times — a function plus a loop (or `walk()`) turns an hour of copy-paste into one line you can re-run every week. Where to go next: [R for Data Science](https://r4ds.hadley.nz/) (functions and iteration chapters) and [The Epidemiologist R Handbook](https://epirhandbook.com/).
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -78,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -323,6 +320,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../pages/resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -382,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/lessons/04-data-structures.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Session 4: Data Structures — Vectors, Subsetting, and Reshaping</span></a>
+ <span class="menu-text">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1169,6 +1170,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Both are fine! Loops are easier to read when you’re starting out; <code>map()</code> is shorter and is what you’ll see in modern R code. Choose the one you can read.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔁 The base R way: <code>lapply()</code> and <code>sapply()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Base R’s apply family does the same job, and you will see it <strong>everywhere</strong> in older code, help pages, and bioinformatics packages (Bioconductor):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>purrr</th>
+<th>base R</th>
+<th>returns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>map(x, f)</code></td>
+<td><code>lapply(x, f)</code></td>
+<td>a list</td>
+</tr>
+<tr class="even">
+<td><code>map_dbl(x, f)</code></td>
+<td><code>sapply(x, f)</code> (or <code>vapply(x, f, numeric(1))</code>)</td>
+<td>a vector, <em>usually</em></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>three_cols <span class="ot">&lt;-</span> linelist[, <span class="fu">c</span>(<span class="st">"age_years"</span>, <span class="st">"bmi"</span>, <span class="st">"temp"</span>)]</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(three_cols, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># like map_dbl()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>age_years       bmi      temp 
+ 16.05732  30.59385  38.58784 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(three_cols, range, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># like map(): a list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$age_years
+[1]  0 84
+
+$bmi
+[1] 10.9 60.0
+
+$temp
+[1] 35.2 40.8</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(three_cols, range, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># surprise: a matrix!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     age_years  bmi temp
+[1,]         0 10.9 35.2
+[2,]        84 60.0 40.8</code></pre>
+</div>
+</div>
+<p>Extra arguments (<code>na.rm = TRUE</code>) go after the function name. <code>sapply()</code> <em>guesses</em> the shape of the result: a vector, a matrix, or a list. That guessing is why purrr has <code>map_dbl()</code>, <code>map_chr()</code>, and friends, which always return the type their name says. For your own functions, the base R shorthand is <code>\(x) mean(x, na.rm = TRUE)</code>, the same idea as <code>~ mean(.x, na.rm = TRUE)</code>.</p>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1185,7 +1252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>✅ <strong>Check:</strong> a) 8.75, 38.82, 4.94 b) the same five .png files</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1194,24 +1261,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age_years, temp_c, days_in_hospital) <span class="sc">%&gt;%</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dbl</span>(<span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age_years, temp_c, days_in_hospital) <span class="sc">%&gt;%</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dbl</span>(<span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       age_years           temp_c days_in_hospital 
         8.749559        38.818659         4.936768 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># b)</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">walk</span>(districts, <span class="sc">~</span> <span class="fu">ggsave</span>(</span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="fu">paste0</span>(<span class="st">"measles_"</span>, <span class="fu">make_clean_names</span>(.x), <span class="st">".png"</span>)),</span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> <span class="fu">make_measles_epicurve</span>(measles, .x), <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">dpi =</span> <span class="dv">300</span></span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># b)</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">walk</span>(districts, <span class="sc">~</span> <span class="fu">ggsave</span>(</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="fu">paste0</span>(<span class="st">"measles_"</span>, <span class="fu">make_clean_names</span>(.x), <span class="st">".png"</span>)),</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> <span class="fu">make_measles_epicurve</span>(measles, .x), <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">dpi =</span> <span class="dv">300</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="a">
 <li>The mean age is 8.75 years, the mean temperature 38.82 °C, and the mean hospital stay 4.94 days (<code>na.rm = TRUE</code> skips patients who were never hospitalized). b) <code>walk()</code> saves the same five files as your loop: <code>measles_central.png</code>, <code>measles_east.png</code>, <code>measles_north.png</code>, <code>measles_south.png</code>, and <code>measles_west.png</code>.</li>
@@ -1249,7 +1316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Never give an argument the same name as a column — use <code>district_name</code>, not <code>district</code>.</li>
 <li><code>if</code> / <code>else</code> works on <strong>one</strong> value (great for input checks with <code>stop()</code>); <code>if_else()</code> works on a whole column.</li>
 <li>A <code>for</code> loop repeats a <strong>whole task</strong> for each value; create an empty container before the loop to keep results.</li>
-<li><code>map()</code> returns a list, <code>map_dbl()</code> a number vector, and <code>walk()</code> just does something (like saving files) for each element.</li>
+<li><code>map()</code> returns a list, <code>map_dbl()</code> a number vector, and <code>walk()</code> just does something (like saving files) for each element. In base R code you will see <code>lapply()</code> (always a list) and <code>sapply()</code> (it guesses the shape).</li>
 </ul>
 <p><strong>Where to go next:</strong> <a href="https://r4ds.hadley.nz/">R for Data Science</a> (free online) — chapters on functions and iteration; <a href="https://epirhandbook.com/">The Epidemiologist R Handbook</a> — applied examples for public health.</p>
 

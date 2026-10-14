@@ -1,6 +1,6 @@
 ---
 title: "Instructor notes: Session 4"
-subtitle: "Data Structures — Vectors, Subsetting, and Reshaping"
+subtitle: "Data Structures — Vectors, Lists, Subsetting, and Reshaping"
 ---
 
 [→ Open the Session 4 lesson](../lessons/04-data-structures.qmd)
@@ -13,12 +13,13 @@ subtitle: "Data Structures — Vectors, Subsetting, and Reshaping"
 | 2 | Vectors and types | 12 min |
 | 3 | Vectorization | 14 min |
 | 4 | Subsetting with base R | 20 min |
-| 5 | Tidy data and `pivot_longer()` | 18 min |
-| 6 | `pivot_wider()` | 12 min |
+| 5 | Lists | 15 min |
+| 6 | Tidy data and `pivot_longer()` | 18 min |
+| 7 | `pivot_wider()` | 12 min |
 |   | Wrap-up and preview | 5 min |
-|   | **Total** | **86 min** |
+|   | **Total** | **101 min** |
 
-**Short on time?** Do the Part 6 TRY IT (district × vaccination table) together as a live demo instead of a solo exercise, and leave the ⭐ Bonus as homework. Don't cut the Part 4 TRY IT — the base-R NA trap is the key lesson of the session.
+**Short on time?** Do the Part 7 TRY IT (district × vaccination table) together as a live demo instead of a solo exercise, and leave the ⭐ Bonus as homework. Don't cut the Part 4 TRY IT — the base-R NA trap is the key lesson of the session.
 
 ## Before you start
 
@@ -36,11 +37,13 @@ subtitle: "Data Structures — Vectors, Subsetting, and Reshaping"
 
 **Part 4 — Subsetting with base R.** Rows first, then columns — have learners say it out loud. A common slip is forgetting the comma (`df[1:3]` picks columns). Spend time on the NA warning box: `nrow(linelist[linelist$temp > 40, ])` gives **244**, `nrow(filter(linelist, temp > 40))` gives **93** — base R adds a row of NAs for each of the 151 missing temperatures. The Part 4 TRY IT (c) repeats this trap on the measles data (225 vs 196, 29 missing ages), so let learners discover it before you explain.
 
-**Part 5 — Tidy data and `pivot_longer()`.** Point out that "observation" depends on the question: wide symptoms are fine for one symptom at a time, but long format lets one `count()` handle all five. `nrow(symptoms_long)` is 32255 = 6451 patients × 5 symptoms. The plot is a preview of Session 6 — don't explain ggplot yet.
+**Part 5 — Lists.** The one data structure the tidyverse sessions never show, and the one learners hit first in real analyses: every test and model result is a list, and so is every Bioconductor object. Use the box analogy: `[[ ]]` takes the item out of the box, `[ ]` gives a smaller box. Show `is.list(linelist)` — the "aha" that a data frame is a list of columns explains `$`, `[[ ]]`, and (in Session 8) why `map()` runs once per column. For `t.test()`, say explicitly that the statistics come later; the point here is the *shape* of the result. Expect the "exactly 2 levels" error if someone forgets to filter out "Unknown" — it's a useful mistake.
 
-**Part 6 — `pivot_wider()`.** Emphasize the rule of thumb: long for R, wide for people. Mention `values_fill = 0` (the hospital × outcome table has no empty combinations, so it isn't needed here).
+**Part 6 — Tidy data and `pivot_longer()`.** Point out that "observation" depends on the question: wide symptoms are fine for one symptom at a time, but long format lets one `count()` handle all five. `nrow(symptoms_long)` is 32255 = 6451 patients × 5 symptoms. The plot is a preview of Session 6 — don't explain ggplot yet.
 
-**Wrap-up.** Today: vectors and types, `c()`, `class()`, vectorized maths and comparisons, `sum()`/`mean()` of TRUE/FALSE, `[ ]`, `$`, `[[ ]]`, tidy data, `pivot_longer()`, `pivot_wider()`. Next is Session 5 (Summarizing: `count()`, `group_by()` + `summarise()`, `tabyl()`, Table 1); Session 8 returns to vectors and subsetting when writing functions and loops.
+**Part 7 — `pivot_wider()`.** Emphasize the rule of thumb: long for R, wide for people. Mention `values_fill = 0` (the hospital × outcome table has no empty combinations, so it isn't needed here).
+
+**Wrap-up.** Today: vectors and types, `c()`, `class()`, vectorized maths and comparisons, `sum()`/`mean()` of TRUE/FALSE, `[ ]`, `$`, `[[ ]]`, lists and `str()`, test results as lists, tidy data, `pivot_longer()`, `pivot_wider()`. Next is Session 5 (Summarizing: `count()`, `group_by()` + `summarise()`, `tabyl()`, Table 1); Session 8 returns to vectors and subsetting when writing functions and loops.
 
 ## TRY IT answers at a glance
 
@@ -50,5 +53,6 @@ subtitle: "Data Structures — Vectors, Subsetting, and Reshaping"
 | Types in the measles data | `"numeric"`, `"character"`, `"Date"`; length 1163 |
 | Vectorized calculations | a) starts 100.94, 101.12; b) 565 cases ≥ 39 °C; c) 0.238 (23.8%) vaccinated |
 | Subsetting the measles data | a) first ID MS-0931; b) 38.75; c) base R 225 vs `filter()` 196 — 29 NA rows from missing ages; fix with `& !is.na(measles$age_years)` |
+| A test result is a list | `t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))`; p-value 0.565; means 38.80 (No) and 38.84 (Yes) |
 | Measles symptoms long | 2326 rows (1163 × 2); fever yes 1064, rash yes 976 |
 | District × vaccination table | 6 rows (5 districts + Unknown), columns No / Unknown / Yes; North 205 / 49 / 88 |

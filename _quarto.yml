@@ -9,7 +9,7 @@ project:
 
 website:
   title: "R Hands-on Workshop Series"
-  description: "A hands-on introduction to data analysis in R with the tidyverse, from the Yale Cushing/Whitney Medical Library"
+  description: "A hands-on introduction to data analysis in R with the tidyverse and base R foundations, from the Yale Cushing/Whitney Medical Library"
   site-url: https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/
   repo-url: https://github.com/CWML/CWML-R-Hands-on-Workshop-Series
   search: true
@@ -25,6 +25,8 @@ website:
         href: pages/lessons/01-setup-and-first-look.qmd
       - text: "Data"
         href: pages/data.qmd
+      - text: "Base R ↔ tidyverse"
+        href: pages/base-vs-tidyverse.qmd
       - text: "Resources"
         href: pages/resources.qmd
       - text: "Instructor Guide"

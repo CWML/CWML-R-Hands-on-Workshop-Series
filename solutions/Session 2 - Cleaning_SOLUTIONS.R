@@ -86,6 +86,11 @@ linelist_clean <- linelist_clean %>%
 linelist_clean <- linelist_clean %>%
   mutate(wt_kg = if_else(wt_kg <= 0, NA, wt_kg))
 
+# 🔁 Follow along: estimated onset with if_else() and ifelse()
+if_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
+ifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
+# ifelse() returns numbers (days since 1970-01-01): the Date type is lost
+
 # ✏️ TRY IT: a) 999 -> NA, b) Fahrenheit -> Celsius
 measles_clean <- measles_clean %>%
   mutate(
@@ -184,6 +189,13 @@ linelist_clean <- linelist_clean %>%
   ))
 
 linelist_clean %>% count(age_cat)
+
+# 🔁 Follow along: the same groups with cut()
+cut(linelist_clean$age_years,
+    breaks = c(0, 18, 30, 40, 50, 60, 70, 80, Inf),
+    labels = c("Under 18", "18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80+"),
+    right  = FALSE) %>%
+  table(useNA = "ifany")   # same counts, already in order
 
 # ✏️ TRY IT: a) outcome with str_to_title(), b) age_cat for measles
 measles_clean <- measles_clean %>%

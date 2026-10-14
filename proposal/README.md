@@ -18,6 +18,39 @@ audiences with one dataset type:
 
 Also, base R appears almost only in Session 4, and programming (Session 8) is marked *optional*.
 
+## Principle: how much base R?
+
+Agreed approach (Sofia), and already **applied to the current series on this branch**:
+
+1. **Base R *concepts* are essential and taught properly:** vectors, types, `NA`, `[ ]` / `$` /
+   `[[ ]]`, `%in%`, factors, **lists**, functions. The tidyverse is built on them, and statistics
+   and Bioconductor are expressed in them.
+2. **Base R *alternatives* to tidyverse verbs are reading knowledge only:** a short
+   "🔁 The base R way" box where it matters, plus a translation page. Learners should *recognize*
+   `merge()`, `tapply()`, `ifelse()`, not master two ways of doing everything.
+3. Boxes are chosen where base R and the tidyverse **differ in an instructive way**: `table()` hides
+   `NA`, `ifelse()` strips dates, `merge()` is an inner join by default, `factor()` turns typos into
+   `NA` silently, `sapply()` guesses the result shape.
+
+### What was changed in the current series
+
+| Where | Change |
+|---|---|
+| Session 1 | 🔁 `table()` box (hides `NA`); categories TRY IT gets part (b) comparing `table()` with `count()` |
+| Session 2 | 🔁 `ifelse()` demo (turns dates into numbers); 🔁 `cut()` box for age groups |
+| Session 3 | 🔁 `merge()` and `%in%` box; `%in%` added to the join check |
+| Session 4 | **New Part 5: Lists** (`list()`, `$` / `[[ ]]` / `[ ]`, `str()`, a data frame is a list, `t.test()` results are lists) with a TRY IT; old Parts 5–6 renumbered to 6–7 |
+| Session 5 | 🔁 `factor()`, `table()` + `prop.table()`, `tapply()` / `aggregate()` boxes |
+| Session 8 | 🔁 `lapply()` / `sapply()` box |
+| New page | `pages/base-vs-tidyverse.qmd`: full translation table, linked in the navbar and Resources |
+| Everywhere | Student scripts, solutions, instructor guides (timing + notes + answers), README, home page |
+
+Added time: about 6 min (S2), 4 min (S3), 15 min (S4), 6 min (S5), 4 min (S8), 2 min (S1).
+Session 4 is now about 101 minutes; the instructor guide suggests what to shorten.
+
+Not changed (still open for discussion below): session order, Session 8 being optional,
+the new lab data and matrices lesson, the pipe.
+
 ## The core idea
 
 > Both groups work with observations × variables, and both run the **same analysis over many

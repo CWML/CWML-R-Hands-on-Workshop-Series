@@ -195,6 +195,11 @@
 #      current element (the same ~ .x you used with across() in Session 3).
 #    - A data frame is a list of columns, so map_dbl(DATA, ...) runs once per column.
 #    - Loop or map()? Both are fine. Use the one you can read!
+#
+# 🔁 Base R: lapply(X, FUNCTION) is like map() (always returns a list).
+#    sapply(X, FUNCTION) is like map_dbl(), but it GUESSES the shape of the
+#    result (a vector, a matrix, or a list). Extra arguments go after the
+#    function: sapply(DATA, mean, na.rm = TRUE)
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along: map_dbl() for the mean of age_years, bmi, and temp
@@ -204,6 +209,10 @@
 
 
 # 👀 Follow along: walk() to save them all (the same as the Part 5 loop)
+
+
+# 🔁 Follow along: the base R way. sapply() and lapply() on age_years, bmi, and temp
+#    with mean and with range. Which one returns a matrix?
 
 
 # ✏️ TRY IT (5 min):

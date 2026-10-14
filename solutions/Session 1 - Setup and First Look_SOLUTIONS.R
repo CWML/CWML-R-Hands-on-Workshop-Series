@@ -126,10 +126,18 @@ linelist_raw %>% count(Gender)
 linelist_raw %>% count(OUTCOME)
 linelist_raw %>% count(age_unit)
 
-# ✏️ TRY IT: count() District, SEX, and `Vaccinated?` in measles_raw
+# 🔁 Follow along: the base R way. table() OUTCOME, with and without useNA = "ifany"
+table(linelist_raw$OUTCOME)                    # no NA shown
+table(linelist_raw$OUTCOME, useNA = "ifany")   # 1493 missing outcomes
+
+# ✏️ TRY IT: a) count() District, SEX, and `Vaccinated?` in measles_raw
 measles_raw %>% count(District)        # North: "North", "north", "Nroth", "North District" = 4 ways
 measles_raw %>% count(SEX)             # Male / male / M and Female / female / F
 measles_raw %>% count(`Vaccinated?`)   # No: "No", "no", "N", "NO" = 4 ways
+
+# b) table() drops the 34 cases with no district
+table(measles_raw$District)
+table(measles_raw$District, useNA = "ifany")
 
 # 👀 Follow along: use filter(), select(), and arrange() to find
 #    - patients whose ages are in months

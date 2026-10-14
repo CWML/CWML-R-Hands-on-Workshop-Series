@@ -345,12 +345,26 @@ linelist_raw %>% count(OUTCOME)
 linelist_raw %>% count(age_unit)
 ```
 
+::: callout-note
+## 🔁 The base R way: `table()`
+
+You will often see base R's `table()` in other people's code. It counts too, but **it hides missing values** unless you ask for them:
+
+```{r}
+table(linelist_raw$OUTCOME)                   # where are the missing outcomes?
+table(linelist_raw$OUTCOME, useNA = "ifany")  # there they are: 1493
+```
+
+`count()` always shows `NA`. With `table()`, add `useNA = "ifany"`. See [Base R ↔ tidyverse](../base-vs-tidyverse.qmd) for more translations.
+:::
+
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT (3 min): categories
 
-`count()` District, SEX, and `` `Vaccinated?` `` in `measles_raw`. How many different ways is "North" written? How many ways is "No" written?
+a)  `count()` District, SEX, and `` `Vaccinated?` `` in `measles_raw`. How many different ways is "North" written? How many ways is "No" written?
+b)  Now try `table(measles_raw$District)`. What is missing compared with `count()`?
 
-✅ **Check:** `count(District)` shows 18 rows (including NA)
+✅ **Check:** a) `count(District)` shows 18 rows (including NA) b) `table()` has no `NA`: 34 cases disappear
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
@@ -359,9 +373,12 @@ linelist_raw %>% count(age_unit)
 measles_raw %>% count(District)
 measles_raw %>% count(SEX)
 measles_raw %>% count(`Vaccinated?`)
+
+table(measles_raw$District)                   # b) no NA!
+table(measles_raw$District, useNA = "ifany")
 ```
 
-"North" is written 4 ways ("North", "north", "Nroth", "North District"), and so is "No" ("No", "no", "N", "NO").
+"North" is written 4 ways ("North", "north", "Nroth", "North District"), and so is "No" ("No", "no", "N", "NO"). `table()` silently drops the 34 cases with no district; `useNA = "ifany"` brings them back. It also sorts lower-case values first, so "central" and "Central" are listed apart.
 :::
 :::
 

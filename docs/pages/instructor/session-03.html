@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -79,14 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -324,6 +321,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../pages/resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -496,8 +497,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>6</td>
-<td>Joining datasets</td>
-<td>20 min</td>
+<td>Joining datasets (+ 🔁 <code>merge()</code> / <code>%in%</code>)</td>
+<td>24 min</td>
 </tr>
 <tr class="odd">
 <td>7</td>
@@ -512,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>87 min</strong></td>
+<td><strong>91 min</strong></td>
 </tr>
 </tbody>
 </table>
@@ -535,6 +536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Part 4 — Duplicates.</strong> After <code>distinct()</code>, <code>get_dupes(case_id)</code> still finds 1106 rows whose ID appears more than once. These rows are <strong>not</strong> exact copies, so <code>distinct()</code> keeps them. In a real project you would ask the data owner which record is correct. We keep them for this workshop, but it’s a good discussion point: cleaning often needs people, not just code.</p>
 <p><strong>Part 5 — Replacing missing values.</strong> Point out that <code>where(is.character)</code> skips number and date columns, so they keep their <code>NA</code>s — which is what we want.</p>
 <p><strong>Part 6 — Joining datasets.</strong> Draw the tiny <code>patients</code>/<code>labs</code> example on the board if you can. The old version of this workshop ran <code>distinct()</code> <strong>after</strong> the join. Removing duplicates <strong>before</strong> joining (Part 4) is the better habit: duplicates are easier to spot in the original data, and they can’t multiply during the join. Stress the row-count check: 6451 rows before and after.</p>
+<p><strong>🔁 <code>merge()</code> and <code>%in%</code> (4 min).</strong> Use the tiny example. Two points: <code>merge()</code> is an <strong>inner</strong> join unless you add <code>all.x = TRUE</code> (a common source of silently lost rows in older code), and <code>%in%</code> is a base R tool learners will use constantly, including inside <code>filter()</code>. Learners need to recognize <code>merge()</code>, but they should be able to <em>write</em> <code>%in%</code>.</p>
 <p><strong>Part 7 — Exporting: live demo of the <code>.csv</code> problem.</strong> Save <code>linelist_clean</code> as a <code>.csv</code>, read it back, and look for the missing IDs:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(linelist_clean, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"test.csv"</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"test.csv"</span>)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()   <span class="co"># 0, not 130!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

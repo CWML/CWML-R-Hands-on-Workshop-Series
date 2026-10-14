@@ -2,23 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Session 4: Data Structures — Vectors, Subsetting, and Reshaping – R Hands-on Workshop Series</title>
+<title>Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping – R Hands-on Workshop Series</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -79,14 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -324,6 +321,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../pages/resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -350,7 +351,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/lessons/04-data-structures.html">Session 4: Data Structures — Vectors, Subsetting, and Reshaping</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/lessons/04-data-structures.html">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -383,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/lessons/04-data-structures.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Session 4: Data Structures — Vectors, Subsetting, and Reshaping</span></a>
+ <span class="menu-text">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -439,12 +440,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conditions" id="toc-conditions" class="nav-link" data-scroll-target="#conditions">Conditions</a></li>
   <li><a href="#base-r-vs-tidyverse" id="toc-base-r-vs-tidyverse" class="nav-link" data-scroll-target="#base-r-vs-tidyverse">Base R vs tidyverse</a></li>
   </ul></li>
-  <li><a href="#part-5-tidy-data-and-pivot_longer" id="toc-part-5-tidy-data-and-pivot_longer" class="nav-link" data-scroll-target="#part-5-tidy-data-and-pivot_longer">Part 5: Tidy data and <code>pivot_longer()</code></a>
+  <li><a href="#part-5-lists" id="toc-part-5-lists" class="nav-link" data-scroll-target="#part-5-lists">Part 5: Lists</a>
+  <ul class="collapse">
+  <li><a href="#pulling-things-out" id="toc-pulling-things-out" class="nav-link" data-scroll-target="#pulling-things-out">Pulling things out</a></li>
+  <li><a href="#a-data-frame-is-a-list" id="toc-a-data-frame-is-a-list" class="nav-link" data-scroll-target="#a-data-frame-is-a-list">A data frame is a list</a></li>
+  <li><a href="#results-are-lists" id="toc-results-are-lists" class="nav-link" data-scroll-target="#results-are-lists">Results are lists</a></li>
+  </ul></li>
+  <li><a href="#part-6-tidy-data-and-pivot_longer" id="toc-part-6-tidy-data-and-pivot_longer" class="nav-link" data-scroll-target="#part-6-tidy-data-and-pivot_longer">Part 6: Tidy data and <code>pivot_longer()</code></a>
   <ul class="collapse">
   <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data">Tidy data</a></li>
   <li><a href="#pivot_longer-wide-long" id="toc-pivot_longer-wide-long" class="nav-link" data-scroll-target="#pivot_longer-wide-long"><code>pivot_longer()</code>: wide → long</a></li>
   </ul></li>
-  <li><a href="#part-6-pivot_wider" id="toc-part-6-pivot_wider" class="nav-link" data-scroll-target="#part-6-pivot_wider">Part 6: <code>pivot_wider()</code></a></li>
+  <li><a href="#part-7-pivot_wider" id="toc-part-7-pivot_wider" class="nav-link" data-scroll-target="#part-7-pivot_wider">Part 7: <code>pivot_wider()</code></a></li>
   <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
   </ul>
 </nav>
@@ -455,8 +462,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Session 4: Data Structures — Vectors, Subsetting, and Reshaping</h1>
-<p class="subtitle lead">Vectors and types, vectorized calculations, base-R subsetting, tidy data, and pivoting</p>
+<h1 class="title">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</h1>
+<p class="subtitle lead">Vectors and types, vectorized calculations, base-R subsetting, lists, tidy data, and pivoting</p>
 </div>
 
 
@@ -490,12 +497,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Explain that every column of a data frame is a <strong>vector</strong> with one type</li>
 <li>Use <strong>vectorized</strong> calculations and comparisons (and explain why <code>mutate()</code> needs no loop)</li>
 <li><strong>Subset</strong> vectors and data frames with base R (<code>[ ]</code>, <code>$</code>, <code>[[ ]]</code>) and compare it with <code>filter()</code>/<code>select()</code></li>
+<li>Explain what a <strong>list</strong> is, and pull results out of one (including the result of a statistical test)</li>
 <li>Describe <strong>tidy data</strong>, and reshape between wide and long with <code>pivot_longer()</code> and <code>pivot_wider()</code></li>
 </ol>
 <p><strong>Before you start:</strong> open the workshop folder in Positron (<strong>File → Open Folder…</strong>) and open <code>student_scripts/Session 4 - Data Structures_STUDENT.R</code>. This session starts from the finished data of Session 3: <code>processed_data/combined_linelist.rds</code> and <code>processed_data/measles_final.rds</code>. Missed Session 3? Ready-made copies of both files are already in <code>processed_data/</code>.</p>
 </div>
 </div>
-<p>Sessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain <em>why</em> <code>mutate()</code> works on a whole column at once, base-R subsetting is everywhere in help pages and other people’s code (and you will need it to write functions in Session 8), and reshaping is needed for many summaries and plots.</p>
+<p>Sessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain <em>why</em> <code>mutate()</code> works on a whole column at once, base-R subsetting is everywhere in help pages and other people’s code (and you will need it to write functions in Session 8), lists are how R stores test and model results, and reshaping is needed for many summaries and plots.</p>
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
 <div class="cell">
@@ -1001,8 +1009,181 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="part-5-tidy-data-and-pivot_longer" class="level1">
-<h1>Part 5: Tidy data and <code>pivot_longer()</code></h1>
+<section id="part-5-lists" class="level1">
+<h1>Part 5: Lists</h1>
+<p>A vector holds values of <strong>one type</strong>. A <strong>list</strong> can hold <strong>anything</strong>: numbers, text, dates, whole data frames, even other lists, and each element can have a different length.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>patient <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id       =</span> <span class="st">"5fe599"</span>,</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">age      =</span> <span class="dv">2</span>,</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">symptoms =</span> <span class="fu">c</span>(<span class="st">"fever"</span>, <span class="st">"cough"</span>),</span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">visits   =</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"2014-05-13"</span>, <span class="st">"2014-05-15"</span>))</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>patient</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$id
+[1] "5fe599"
+
+$age
+[1] 2
+
+$symptoms
+[1] "fever" "cough"
+
+$visits
+[1] "2014-05-13" "2014-05-15"</code></pre>
+</div>
+</div>
+<section id="pulling-things-out" class="level2">
+<h2 class="anchored" data-anchor-id="pulling-things-out">Pulling things out</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>patient<span class="sc">$</span>symptoms     <span class="co"># $ with a name you type</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "fever" "cough"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>patient[[<span class="st">"age"</span>]]     <span class="co"># [[ ]] with a name in quotes (or a position)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>patient[<span class="st">"age"</span>]       <span class="co"># [ ] gives back a smaller LIST, not the value</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$age
+[1] 2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(patient)      <span class="co"># 4 elements</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(patient)         <span class="co"># the structure: what is in each element</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 4
+ $ id      : chr "5fe599"
+ $ age     : num 2
+ $ symptoms: chr [1:2] "fever" "cough"
+ $ visits  : Date[1:2], format: "2014-05-13" "2014-05-15"</code></pre>
+</div>
+</div>
+<p>Think of a list as a box of items: <code>[[ ]]</code> takes <strong>an item out of the box</strong>; <code>[ ]</code> gives you <strong>a smaller box</strong>.</p>
+</section>
+<section id="a-data-frame-is-a-list" class="level2">
+<h2 class="anchored" data-anchor-id="a-data-frame-is-a-list">A data frame is a list</h2>
+<p>A data frame is a list of columns that all have the same length:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.list</span>(linelist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(linelist)     <span class="co"># the number of columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19</code></pre>
+</div>
+</div>
+<p>That is why <code>$</code> and <code>[[ ]]</code> work on data frames too, and why <code>map()</code> in Session 8 runs once for each column.</p>
+</section>
+<section id="results-are-lists" class="level2">
+<h2 class="anchored" data-anchor-id="results-are-lists">Results are lists</h2>
+<p>Statistical tests and models return lists. You don’t need to know the statistics yet; look at the <strong>shape</strong> of the result:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>age_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(age_years <span class="sc">~</span> gender, <span class="at">data =</span> <span class="fu">filter</span>(linelist, gender <span class="sc">!=</span> <span class="st">"Unknown"</span>))</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>age_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  age_years by gender
+t = -21.98, df = 5390.7, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group female and group male is not equal to 0
+95 percent confidence interval:
+ -7.441575 -6.222858
+sample estimates:
+mean in group female   mean in group male 
+            12.68343             19.51564 </code></pre>
+</div>
+</div>
+<p>The printout is a friendly view for people. Underneath, it is a list your code can use:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(age_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"   
+ [6] "null.value"  "stderr"      "alternative" "method"      "data.name"  </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>age_test<span class="sc">$</span>p.value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.271186e-102</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>age_test<span class="sc">$</span>estimate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mean in group female   mean in group male 
+            12.68343             19.51564 </code></pre>
+</div>
+</div>
+<p>Every test and model in R works this way (<code>chisq.test()</code>, <code>lm()</code>, <code>glm()</code>, survival models, Bioconductor objects), so this is how you get <em>one number</em> out of an analysis and into a table or a report.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>patient["age"] + 1</code> gives an error: <code>[ ]</code> returns a list. Use <code>patient[["age"]]</code> or <code>patient$age</code>.</li>
+<li><code>t.test()</code> compares exactly <strong>two</strong> groups. <em>“grouping factor must have exactly 2 levels”</em> means there is a third group (like “Unknown”): <code>filter()</code> it out first.</li>
+</ul>
+</div>
+</div>
+<div class="tryit callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): a test result is a list
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>Run <code>t.test()</code> on <code>temp_c</code> by <code>vaccinated</code> in <code>measles</code>, leaving out the “Unknown” vaccination status. Save it as <code>temp_test</code>.</li>
+<li>Pull out the p-value and the two group means with <code>$</code>.</li>
+</ol>
+<p>✅ <strong>Check:</strong> p-value 0.565; means 38.80 (No) and 38.84 (Yes)</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>temp_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(temp_c <span class="sc">~</span> vaccinated, <span class="at">data =</span> <span class="fu">filter</span>(measles, vaccinated <span class="sc">!=</span> <span class="st">"Unknown"</span>))   <span class="co"># a)</span></span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>temp_test<span class="sc">$</span>p.value    <span class="co"># b)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5645313</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>temp_test<span class="sc">$</span>estimate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> mean in group No mean in group Yes 
+         38.80480          38.83682 </code></pre>
+</div>
+</div>
+<p>Vaccinated and unvaccinated children had almost the same temperature (38.80 vs 38.84 °C), and a p-value of 0.565 means the small difference is easily explained by chance.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-6-tidy-data-and-pivot_longer" class="level1">
+<h1>Part 6: Tidy data and <code>pivot_longer()</code></h1>
 <section id="tidy-data" class="level2">
 <h2 class="anchored" data-anchor-id="tidy-data">Tidy data</h2>
 <p>Data is <strong>tidy</strong> when:</p>
@@ -1013,7 +1194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>The tidyverse works best on tidy data. But “observation” depends on your question. Our symptoms are in <strong>wide</strong> format — one column per symptom:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">select</span>(case_id, fever<span class="sc">:</span>vomit) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">select</span>(case_id, fever<span class="sc">:</span>vomit) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  case_id   fever  chills   cough   aches   vomit
 1  5fe599      no      no     yes      no     yes
@@ -1026,15 +1207,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pivot_longer-wide-long" class="level2">
 <h2 class="anchored" data-anchor-id="pivot_longer-wide-long"><code>pivot_longer()</code>: wide → long</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>symptoms_long <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, fever<span class="sc">:</span>vomit) <span class="sc">%&gt;%</span></span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols      =</span> fever<span class="sc">:</span>vomit,   <span class="co"># the columns to stack</span></span>
-<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to  =</span> <span class="st">"symptom"</span>,     <span class="co"># new column for the old column NAMES</span></span>
-<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"present"</span>      <span class="co"># new column for the VALUES</span></span>
-<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(symptoms_long)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>symptoms_long <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, fever<span class="sc">:</span>vomit) <span class="sc">%&gt;%</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols      =</span> fever<span class="sc">:</span>vomit,   <span class="co"># the columns to stack</span></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to  =</span> <span class="st">"symptom"</span>,     <span class="co"># new column for the old column NAMES</span></span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"present"</span>      <span class="co"># new column for the VALUES</span></span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(symptoms_long)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   case_id symptom present
@@ -1046,7 +1227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 5fe599  vomit   yes    
 6 8689b7  fever   Unknown</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(symptoms_long)   <span class="co"># 6451 patients × 5 symptoms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(symptoms_long)   <span class="co"># 6451 patients × 5 symptoms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 32255</code></pre>
 </div>
@@ -1054,11 +1235,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>fever:vomit</code> means “every column from fever to vomit”.</p>
 <p>Now one <code>count()</code> answers “how many patients had each symptom?”:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>symptom_counts <span class="ot">&lt;-</span> symptoms_long <span class="sc">%&gt;%</span></span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(present <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(symptom)</span>
-<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>symptom_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>symptom_counts <span class="ot">&lt;-</span> symptoms_long <span class="sc">%&gt;%</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(present <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(symptom)</span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>symptom_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   symptom     n
@@ -1072,14 +1253,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>And it’s ready to plot (a preview of Session 6):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(symptom_counts, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> <span class="fu">fct_reorder</span>(symptom, n))) <span class="sc">+</span></span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2a78d6"</span>) <span class="sc">+</span></span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Patients reporting each symptom"</span>, <span class="at">x =</span> <span class="st">"Number of patients"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(symptom_counts, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> <span class="fu">fct_reorder</span>(symptom, n))) <span class="sc">+</span></span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2a78d6"</span>) <span class="sc">+</span></span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Patients reporting each symptom"</span>, <span class="at">x =</span> <span class="st">"Number of patients"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-data-structures_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04-data-structures_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1098,7 +1279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Pattern: <code>pivot_longer(cols = c(COLUMN_1, COLUMN_2), names_to = "symptom", values_to = "present")</code></p>
 <p>✅ <strong>Check:</strong> 2326 rows (1163 × 2); fever yes 1064, rash yes 976</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1107,22 +1288,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>measles_symptoms <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(patient_id, fever, rash) <span class="sc">%&gt;%</span></span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols      =</span> <span class="fu">c</span>(fever, rash),</span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to  =</span> <span class="st">"symptom"</span>,</span>
-<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"present"</span></span>
-<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_symptoms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>measles_symptoms <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(patient_id, fever, rash) <span class="sc">%&gt;%</span></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols      =</span> <span class="fu">c</span>(fever, rash),</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to  =</span> <span class="st">"symptom"</span>,</span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"present"</span></span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb118-8"><a href="#cb118-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-9"><a href="#cb118-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_symptoms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2326</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>measles_symptoms <span class="sc">%&gt;%</span> <span class="fu">count</span>(symptom, present)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>measles_symptoms <span class="sc">%&gt;%</span> <span class="fu">count</span>(symptom, present)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
   symptom present     n
@@ -1141,11 +1322,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="part-6-pivot_wider" class="level1">
-<h1>Part 6: <code>pivot_wider()</code></h1>
+<section id="part-7-pivot_wider" class="level1">
+<h1>Part 7: <code>pivot_wider()</code></h1>
 <p>The opposite: long → wide. Most useful for <strong>tables people read</strong>. <code>count()</code> gives long output:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(hospital_name, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(hospital_name, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   hospital_name outcome    n
 1               Central Hospital   Death  193
@@ -1173,12 +1354,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><code>pivot_wider()</code> spreads it into a cross-table:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(hospital_name, outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> outcome,   <span class="co"># values that become the new column NAMES</span></span>
-<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> n          <span class="co"># values that fill the cells</span></span>
-<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(hospital_name, outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> outcome,   <span class="co"># values that become the new column NAMES</span></span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> n          <span class="co"># values that fill the cells</span></span>
+<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 4
   hospital_name                 Death Recover Unknown
@@ -1219,7 +1400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>count()</code> <code>district</code> and <code>vaccinated</code> in <code>measles</code>, then <code>pivot_wider()</code> so each vaccination status is a column.</p>
 <p>✅ <strong>Check:</strong> 6 rows (5 districts + Unknown); North has No 205, Unknown 49, Yes 88</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1228,15 +1409,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(district, vaccinated) <span class="sc">%&gt;%</span></span>
-<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> vaccinated,</span>
-<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> n</span>
-<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(district, vaccinated) <span class="sc">%&gt;%</span></span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> vaccinated,</span>
+<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> n</span>
+<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   district    No Unknown   Yes
@@ -1282,6 +1463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Calculations and comparisons are <strong>vectorized</strong>: they run on every element at once, which is why <code>mutate()</code> needs no loop.</li>
 <li><code>sum()</code> of a comparison <strong>counts</strong> the TRUEs; <code>mean()</code> gives the <strong>proportion</strong>.</li>
 <li>Base R subsets with <code>x[ ]</code>, <code>df[rows, columns]</code>, <code>df$col</code>, and <code>df[["col"]]</code> — but watch out for the extra NA rows that <code>filter()</code> would drop.</li>
+<li>A <strong>list</strong> holds anything. <code>[[ ]]</code> and <code>$</code> take one element out; <code>[ ]</code> returns a smaller list. A data frame is a list of columns, and test and model results are lists: <code>result$p.value</code>.</li>
 <li>Tidy data has one variable per column and one observation per row. <code>pivot_longer()</code> makes data long (for analysis and plots); <code>pivot_wider()</code> makes it wide (for tables people read).</li>
 </ul>
 <p><strong>Next: Session 5 — Summarizing.</strong> We summarize data with <code>count()</code>, <code>group_by()</code> + <code>summarise()</code>, and <code>tabyl()</code>, and build a publication-ready Table 1.</p>

@@ -104,7 +104,40 @@ nrow(filter(measles, age_years >= 15))            # 196
 nrow(measles[measles$age_years >= 15 & !is.na(measles$age_years), ])   # 196: fixed
 
 
-# ── PART 5: Tidy data and pivot_longer() ───────────────────────────────────
+# ── PART 5: Lists ──────────────────────────────────────────────────────────
+
+# 👀 Follow along: a list
+patient <- list(
+  id       = "5fe599",
+  age      = 2,
+  symptoms = c("fever", "cough"),
+  visits   = as.Date(c("2014-05-13", "2014-05-15"))
+)
+patient
+patient$symptoms     # one element
+patient[["age"]]     # one element
+patient["age"]       # a smaller list
+length(patient)      # 4
+str(patient)
+
+# 👀 Follow along: a data frame is a list
+is.list(linelist)    # TRUE
+length(linelist)     # 19 columns
+
+# 👀 Follow along: a test result is a list
+age_test <- t.test(age_years ~ gender, data = filter(linelist, gender != "Unknown"))
+age_test
+names(age_test)
+age_test$p.value
+age_test$estimate
+
+# ✏️ TRY IT: a test result is a list
+temp_test <- t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))   # a)
+temp_test$p.value    # b) 0.565
+temp_test$estimate   #    38.80 (No) and 38.84 (Yes): almost no difference
+
+
+# ── PART 6: Tidy data and pivot_longer() ───────────────────────────────────
 
 # 👀 Follow along: look at the symptom columns
 linelist %>% select(case_id, fever:vomit) %>% head(3)
@@ -146,7 +179,7 @@ nrow(measles_symptoms)                    # 2326 = 1163 × 2
 measles_symptoms %>% count(symptom, present)   # fever yes 1064, rash yes 976
 
 
-# ── PART 6: pivot_wider() ──────────────────────────────────────────────────
+# ── PART 7: pivot_wider() ──────────────────────────────────────────────────
 
 # 👀 Follow along: count(hospital_name, outcome), then pivot_wider()
 linelist %>% count(hospital_name, outcome)
