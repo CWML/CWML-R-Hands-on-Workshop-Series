@@ -186,6 +186,8 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    Categories
 #      count()     every distinct value in a column and how often it appears.
 #                  The fastest way to find misspellings!
+#      🔁 Base R:  table(data$COLUMN) counts too, but HIDES missing values.
+#                  Add useNA = "ifany" to see them.
 #
 #    Zooming in
 #      filter()    keeps ROWS that meet a condition:  filter(age_unit == "months")
@@ -223,9 +225,15 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    Pattern: DATA %>% count(COLUMN)
 
 
-# ✏️ TRY IT (3 min): count() District, SEX, and `Vaccinated?` in measles_raw
-#    How many different ways is "North" written? How many ways is "No" written?
-#    ✅ Check: count(District) shows 18 rows (including NA)
+# 🔁 Follow along: the base R way. table() OUTCOME, with and without useNA = "ifany"
+
+
+# ✏️ TRY IT (3 min):
+#    a) count() District, SEX, and `Vaccinated?` in measles_raw
+#       How many different ways is "North" written? How many ways is "No" written?
+#    b) Now try table(measles_raw$District). What is missing compared with count()?
+#    ✅ Check: a) count(District) shows 18 rows (including NA)
+#              b) table() has no NA: 34 cases disappear
 
 
 

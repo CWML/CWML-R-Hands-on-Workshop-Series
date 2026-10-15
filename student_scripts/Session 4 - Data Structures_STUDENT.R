@@ -1,4 +1,4 @@
-# Session 4: Data Structures — Vectors, Subsetting, and Reshaping
+# Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping
 # R Hands-on Workshop Series — STUDENT VERSION
 #________________________________________________________________________________
 #
@@ -156,7 +156,46 @@
 
 
 
-# ── PART 5: Tidy data and pivot_longer() ───────────────────────────────────
+# ── PART 5: Lists ──────────────────────────────────────────────────────────
+# 🎯 Goal: Store different kinds of things together, and pull results out of a list.
+#
+# 📖 What you need to know
+#    - A vector holds ONE type. A list holds ANYTHING, each element any length:
+#        list(id = "5fe599", age = 2, symptoms = c("fever", "cough"))
+#    - Pulling things out:
+#        x$name  or  x[["name"]]   one element (takes the item OUT of the box)
+#        x["name"]                 a smaller LIST (a smaller box)
+#        str(x)                    what is in each element
+#    - A data frame is a list of columns with the same length.
+#    - Test and model results are lists:
+#        result <- t.test(NUMBER_COLUMN ~ GROUP_COLUMN, data = DATA)
+#        result$p.value     result$estimate     names(result)
+#
+# ⚠️ Common mistakes
+#    - x["age"] + 1 gives an error: [ ] returns a list. Use x[["age"]] or x$age.
+#    - t.test() needs exactly TWO groups. "grouping factor must have exactly
+#      2 levels" means there is a third group (like "Unknown"): filter() it out.
+# ────────────────────────────────────────────────────────────────────────────
+
+# 👀 Follow along: make a list called patient with id, age, symptoms, and visits
+#    (two dates). Print it, then use $, [[ ]], [ ], length(), and str() on it.
+
+
+# 👀 Follow along: is.list(linelist) and length(linelist). A data frame is a list!
+
+
+# 👀 Follow along: t.test() of age_years by gender (leave out "Unknown"), saved as age_test.
+#    Then names(age_test), age_test$p.value, age_test$estimate
+
+
+# ✏️ TRY IT (5 min):
+#    a) t.test() temp_c by vaccinated in measles, leaving out "Unknown". Save it as temp_test.
+#    b) pull out the p-value and the two group means with $
+#    ✅ Check: p-value 0.565; means 38.80 (No) and 38.84 (Yes)
+
+
+
+# ── PART 6: Tidy data and pivot_longer() ───────────────────────────────────
 # 🎯 Goal: Reshape wide data into long data.
 #
 # 📖 What you need to know
@@ -189,7 +228,7 @@
 
 
 
-# ── PART 6: pivot_wider() ──────────────────────────────────────────────────
+# ── PART 7: pivot_wider() ──────────────────────────────────────────────────
 # 🎯 Goal: Reshape long data into a wide table people can read.
 #
 # 📖 What you need to know

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -44,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -289,6 +286,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../pages/resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -426,6 +427,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 20%">
+<col style="width: 61%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Part</th>
@@ -441,18 +447,18 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>2</td>
-<td>Putting categories in order (factors)</td>
-<td>10 min</td>
+<td>Putting categories in order (factors, + 🔁 <code>factor()</code>)</td>
+<td>12 min</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Counting and percentages with <code>count()</code></td>
-<td>17 min</td>
+<td>Counting and percentages with <code>count()</code> (+ 🔁 <code>table()</code>)</td>
+<td>19 min</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Summary statistics with <code>summarise()</code> (2 TRY ITs)</td>
-<td>25 min</td>
+<td>Summary statistics with <code>summarise()</code> (2 TRY ITs, + 🔁 <code>tapply()</code>)</td>
+<td>27 min</td>
 </tr>
 <tr class="odd">
 <td>5</td>
@@ -472,7 +478,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>92 min</strong></td>
+<td><strong>98 min</strong></td>
 </tr>
 </tbody>
 </table>
@@ -500,6 +506,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Part 5 — <code>tabyl()</code>.</strong> Spend a moment on the order of the <code>adorn_</code> functions — totals must come before percentages because they need the raw counts. The vaccination-and-death TRY IT (6.3% vs 0.7%) is a good moment to discuss what this data does and doesn’t show: it’s fictional practice data, the numbers of deaths are small (2 vaccinated deaths), and a crude cross-tab doesn’t adjust for anything (e.g.&nbsp;age).</p>
 <p><strong>Part 6 — Table 1.</strong> Explain why we turn “Unknown” back into <code>NA</code> with <code>na_if()</code>: in Session 3 we replaced <code>NA</code> with “Unknown” so missing values show up in counts, but <code>tbl_summary()</code> has its own Missing row. <code>na_if()</code> with <code>where(is.character)</code> only touches text columns, so factor columns (<code>age_cat</code>, <code>vaccinated</code>) keep “Unknown” as a category. Mention <code>add_p()</code> but only for analyses where a statistical test is planned. The Word export uses <code>as_flex_table() %&gt;% flextable::save_as_docx()</code>; have learners find <code>outputs/table1.docx</code> in the <strong>Explorer</strong> and open it. For the measles Table 1, point out that “Missing” days in hospital means <em>not hospitalized</em>, not lost data.</p>
 <p><strong>Wrap-up.</strong> Recap: <code>fct_relevel()</code>, <code>count()</code>, <code>group_by()</code>, <code>summarise()</code>, <code>across()</code>, <code>tabyl()</code> + <code>adorn_*()</code>, <code>tbl_summary()</code>. Preview <strong>Session 6 — Plotting basics:</strong> <code>ggplot2</code> from the ground up — histograms, scatter plots, and box plots.</p>
+<p><strong>🔁 Base R boxes (about 2 minutes each).</strong> Three short demos: <code>factor()</code>, <code>table()</code> + <code>prop.table()</code>, and <code>tapply()</code> / <code>aggregate()</code>. The goal is <em>reading</em> knowledge: learners will meet these in papers’ code, help pages, and AI answers. One point per box: <code>factor()</code> turns misspelled levels into <code>NA</code> without a warning; a <code>table</code> is not a data frame; <code>aggregate()</code> drops rows with missing values. If time is short, show them as “here’s what this looks like in base R” without asking learners to type along.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>

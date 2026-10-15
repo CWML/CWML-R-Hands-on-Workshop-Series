@@ -263,6 +263,12 @@ walk(hospitals, ~ ggsave(
   plot = make_epicurve(linelist, .x), width = 8, height = 5, dpi = 300
 ))
 
+# 🔁 Follow along: the base R way
+three_cols <- linelist[, c("age_years", "bmi", "temp")]
+sapply(three_cols, mean, na.rm = TRUE)    # like map_dbl()
+lapply(three_cols, range, na.rm = TRUE)   # like map(): a list
+sapply(three_cols, range, na.rm = TRUE)   # a matrix: sapply() guesses the shape
+
 # ✏️ TRY IT:
 # a)
 measles %>%

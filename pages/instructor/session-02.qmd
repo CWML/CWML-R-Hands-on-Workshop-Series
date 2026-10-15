@@ -12,12 +12,12 @@ subtitle: "Cleaning your data"
 | 1 | Set up and recall the problem list | 8 min |
 | 2 | Column names: `clean_names()` and `rename()` | 10 min |
 | 3 | Fixing types with `mutate()` | 11 min |
-| 4 | Fixing values with `if_else()` | 12 min |
+| 4 | Fixing values with `if_else()` (+ 🔁 `ifelse()` demo) | 15 min |
 | 5 | Recoding categories with `case_when()` (2 TRY ITs) | 22 min |
-| 6 | Creating new variables | 12 min |
+| 6 | Creating new variables (+ 🔁 `cut()` demo) | 15 min |
 | 7 | One pipeline and saving your work | 10 min |
 |   | Wrap-up and preview | 5 min |
-|   | **Total** | **90 min** |
+|   | **Total** | **96 min** |
 
 **Short on time?** Do the district TRY IT (Part 5) together as a live-coded demo instead of solo work, or assign it as homework. Do **not** cut the final TRY IT (saving `measles_clean.rds`) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in `processed_data/`.
 
@@ -43,6 +43,8 @@ subtitle: "Cleaning your data"
 
 Explain why we replace impossible weights with `NA` rather than deleting the row: we keep the patient's age, outcome, and dates.
 
+**🔁 `ifelse()` demo (3 min).** Run both lines and let the class react to the numbers `ifelse()` returns. The message: base R `ifelse()` is everywhere in other people's code, but it strips the Date type; `if_else()` is strict about types, which is why we use it. Learners only need to *recognize* `ifelse()`, not switch to it.
+
 **Part 5 — `case_when()`.** Point out that rows matching no condition become `NA` (gender), and that `.default` catches everything else (hospital). Show `count(hospital, hospital_name)` as the way to check every recode. Common errors: `=` instead of `~`, a missing or extra comma. The district TRY IT is the hardest of the session — expect red sticky notes; a hint is to run `str_to_title()` first so each `str_detect()` only needs to catch misspellings.
 
 **Part 6 — New variables.** Ask the class (a "Think about it" on the lesson page):
@@ -51,7 +53,9 @@ Explain why we replace impossible weights with `NA` rather than deleting the row
 
 About 1,400 BMIs (1,382) end up `NA` because the height and weight values in this teaching dataset are unrealistic. The old version of this workshop **filtered out** those rows, which removed about 20% of the cases from every later analysis. Setting only the bad value to `NA` keeps everything else about the patient.
 
-For `age_cat`, point out that `case_when()` stops at the first TRUE line, and warn against ending with `TRUE ~ "80+"` / `.default = "80+"` — it puts missing ages into the oldest group. `count()` shows the groups in alphabetical order; that is fixed with factors in Session 4.
+For `age_cat`, point out that `case_when()` stops at the first TRUE line, and warn against ending with `TRUE ~ "80+"` / `.default = "80+"` — it puts missing ages into the oldest group. `count()` shows the groups in alphabetical order; that is fixed with factors in Session 5.
+
+**🔁 `cut()` demo (3 min).** `cut()` is very common in epidemiology and clinical code for age groups. Show that the counts match `case_when()` and that the groups come out in order (a factor, a preview of Session 5). Point out `right = FALSE`: without it, an 18-year-old goes into "Under 18".
 
 **Part 7 — One pipeline and saving.** Point out that inside one `mutate()`, later lines can use columns made on earlier lines (`bmi` is created, then fixed). Make sure everyone saves `measles_clean.rds` — they need it in Session 3. Early finishers: the ⭐ Bonus asks them to rewrite all their measles steps as one pipeline.
 

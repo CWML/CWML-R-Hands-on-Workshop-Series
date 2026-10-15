@@ -238,6 +238,19 @@ linelist_clean <- linelist_clean %>%
 summary(linelist_clean$wt_kg)
 ```
 
+::: callout-note
+## 🔁 The base R way: `ifelse()` (one letter shorter, one big difference)
+
+Base R has `ifelse()`, and you will see it everywhere. It works the same way **until you use it on dates**. Say we want an "estimated onset" that uses the hospital date when the onset date is missing:
+
+```{r}
+if_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
+ifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
+```
+
+`ifelse()` silently turned the dates into **numbers** (days since 1 January 1970). `if_else()` keeps the type, and gives an error instead of a surprise when the two values have different types. That strictness is why we use `if_else()` in this workshop.
+:::
+
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT (4 min): 999 and Fahrenheit
 
@@ -452,6 +465,22 @@ linelist_clean %>% count(age_cat)
 Because `case_when()` stops at the first TRUE line, `age_years < 30` only catches ages 18–29 (younger ages were already caught by the line above).
 
 `count()` lists the groups in alphabetical order ("18-29" before "Under 18"). In Session 5 you will learn how to put them in a sensible order with factors.
+
+::: callout-note
+## 🔁 The base R way: `cut()`
+
+Base R's `cut()` makes groups from numbers by giving the **break points**. `right = FALSE` means each group includes its lower limit (18 goes into "18-29"):
+
+```{r}
+cut(linelist_clean$age_years,
+    breaks = c(0, 18, 30, 40, 50, 60, 70, 80, Inf),
+    labels = c("Under 18", "18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80+"),
+    right  = FALSE) %>%
+  table(useNA = "ifany")
+```
+
+The same counts as `case_when()`, and already in the right order, because `cut()` returns a **factor** (Session 5). Forgetting `right = FALSE` is the classic mistake: then an 18-year-old lands in "Under 18".
+:::
 
 ::: callout-warning
 ## Common mistakes

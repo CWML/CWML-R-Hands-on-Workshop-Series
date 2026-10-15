@@ -37,6 +37,10 @@ linelist <- linelist %>%
 
 linelist %>% count(age_cat)
 
+# 🔁 Follow along: the base R way
+factor(c("Recover", "Death", "Death"), levels = c("Recover", "Death"))
+factor(c("Recover", "Death", "Death"), levels = c("Recover", "death"))   # NA, no warning!
+
 # ✏️ TRY IT: fct_relevel() age_cat, vaccinated, and outcome in measles
 measles <- measles %>%
   mutate(
@@ -65,6 +69,11 @@ linelist %>%
   count(outcome) %>%
   mutate(percent = scales::percent(n / sum(n), accuracy = 0.1)) %>%
   ungroup()
+
+# 🔁 Follow along: the base R way
+age_outcome <- table(linelist$age_cat, linelist$outcome)
+age_outcome
+round(prop.table(age_outcome, margin = 1) * 100, 1)   # each row adds up to 100
 
 # ✏️ TRY IT:
 # a)
@@ -117,6 +126,10 @@ linelist %>%
     pct_cough = round(mean(cough == "yes") * 100, 1),
     pct_vomit = round(mean(vomit == "yes") * 100, 1)
   )
+
+# 🔁 Follow along: the base R way
+tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)   # 13, 13, 14
+aggregate(age_years ~ outcome, data = linelist, FUN = median)
 
 # ✏️ TRY IT: summary statistics by measles outcome
 measles %>%

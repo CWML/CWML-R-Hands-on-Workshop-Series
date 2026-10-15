@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -44,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ca9b2201628fc86bb467812d21859389.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8eea7049e357ae24479653f175673917.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -289,6 +286,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../pages/base-vs-tidyverse.html"> 
+<span class="menu-text">Base R ↔︎ tidyverse</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../pages/resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -405,7 +406,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Instructor notes: Session 4</h1>
-<p class="subtitle lead">Data Structures — Vectors, Subsetting, and Reshaping</p>
+<p class="subtitle lead">Data Structures — Vectors, Lists, Subsetting, and Reshaping</p>
 </div>
 
 
@@ -456,27 +457,32 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>Tidy data and <code>pivot_longer()</code></td>
-<td>18 min</td>
+<td>Lists</td>
+<td>15 min</td>
 </tr>
 <tr class="even">
 <td>6</td>
+<td>Tidy data and <code>pivot_longer()</code></td>
+<td>18 min</td>
+</tr>
+<tr class="odd">
+<td>7</td>
 <td><code>pivot_wider()</code></td>
 <td>12 min</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td>Wrap-up and preview</td>
 <td>5 min</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>86 min</strong></td>
+<td><strong>101 min</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Do the Part 6 TRY IT (district × vaccination table) together as a live demo instead of a solo exercise, and leave the ⭐ Bonus as homework. Don’t cut the Part 4 TRY IT — the base-R NA trap is the key lesson of the session.</p>
+<p><strong>Short on time?</strong> Do the Part 7 TRY IT (district × vaccination table) together as a live demo instead of a solo exercise, and leave the ⭐ Bonus as homework. Don’t cut the Part 4 TRY IT — the base-R NA trap is the key lesson of the session.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -492,9 +498,10 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Part 2 — Vectors and types.</strong> Point out that <code>c(1, 2, "unknown")</code> is exactly why one “unknown” turned the whole <code>age</code> column into text in Session 1. Show that <code>ages</code> and the other objects appear in the <strong>Variables</strong> pane, which also shows each vector’s type and length.</p>
 <p><strong>Part 3 — Vectorization.</strong> Stress that <code>mutate()</code> is just a vectorized calculation on a column — no loop needed. Point out that <code>sum()</code>/<code>mean()</code> of a comparison counts/gives proportions; they will use <code>mean(fever == "yes") * 100</code> inside <code>summarise()</code> in Session 5.</p>
 <p><strong>Part 4 — Subsetting with base R.</strong> Rows first, then columns — have learners say it out loud. A common slip is forgetting the comma (<code>df[1:3]</code> picks columns). Spend time on the NA warning box: <code>nrow(linelist[linelist$temp &gt; 40, ])</code> gives <strong>244</strong>, <code>nrow(filter(linelist, temp &gt; 40))</code> gives <strong>93</strong> — base R adds a row of NAs for each of the 151 missing temperatures. The Part 4 TRY IT (c) repeats this trap on the measles data (225 vs 196, 29 missing ages), so let learners discover it before you explain.</p>
-<p><strong>Part 5 — Tidy data and <code>pivot_longer()</code>.</strong> Point out that “observation” depends on the question: wide symptoms are fine for one symptom at a time, but long format lets one <code>count()</code> handle all five. <code>nrow(symptoms_long)</code> is 32255 = 6451 patients × 5 symptoms. The plot is a preview of Session 6 — don’t explain ggplot yet.</p>
-<p><strong>Part 6 — <code>pivot_wider()</code>.</strong> Emphasize the rule of thumb: long for R, wide for people. Mention <code>values_fill = 0</code> (the hospital × outcome table has no empty combinations, so it isn’t needed here).</p>
-<p><strong>Wrap-up.</strong> Today: vectors and types, <code>c()</code>, <code>class()</code>, vectorized maths and comparisons, <code>sum()</code>/<code>mean()</code> of TRUE/FALSE, <code>[ ]</code>, <code>$</code>, <code>[[ ]]</code>, tidy data, <code>pivot_longer()</code>, <code>pivot_wider()</code>. Next is Session 5 (Summarizing: <code>count()</code>, <code>group_by()</code> + <code>summarise()</code>, <code>tabyl()</code>, Table 1); Session 8 returns to vectors and subsetting when writing functions and loops.</p>
+<p><strong>Part 5 — Lists.</strong> The one data structure the tidyverse sessions never show, and the one learners hit first in real analyses: every test and model result is a list, and so is every Bioconductor object. Use the box analogy: <code>[[ ]]</code> takes the item out of the box, <code>[ ]</code> gives a smaller box. Show <code>is.list(linelist)</code> — the “aha” that a data frame is a list of columns explains <code>$</code>, <code>[[ ]]</code>, and (in Session 8) why <code>map()</code> runs once per column. For <code>t.test()</code>, say explicitly that the statistics come later; the point here is the <em>shape</em> of the result. Expect the “exactly 2 levels” error if someone forgets to filter out “Unknown” — it’s a useful mistake.</p>
+<p><strong>Part 6 — Tidy data and <code>pivot_longer()</code>.</strong> Point out that “observation” depends on the question: wide symptoms are fine for one symptom at a time, but long format lets one <code>count()</code> handle all five. <code>nrow(symptoms_long)</code> is 32255 = 6451 patients × 5 symptoms. The plot is a preview of Session 6 — don’t explain ggplot yet.</p>
+<p><strong>Part 7 — <code>pivot_wider()</code>.</strong> Emphasize the rule of thumb: long for R, wide for people. Mention <code>values_fill = 0</code> (the hospital × outcome table has no empty combinations, so it isn’t needed here).</p>
+<p><strong>Wrap-up.</strong> Today: vectors and types, <code>c()</code>, <code>class()</code>, vectorized maths and comparisons, <code>sum()</code>/<code>mean()</code> of TRUE/FALSE, <code>[ ]</code>, <code>$</code>, <code>[[ ]]</code>, lists and <code>str()</code>, test results as lists, tidy data, <code>pivot_longer()</code>, <code>pivot_wider()</code>. Next is Session 5 (Summarizing: <code>count()</code>, <code>group_by()</code> + <code>summarise()</code>, <code>tabyl()</code>, Table 1); Session 8 returns to vectors and subsetting when writing functions and loops.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -527,10 +534,14 @@ ul.task-list li input[type="checkbox"] {
 <td>a) first ID MS-0931; b) 38.75; c) base R 225 vs <code>filter()</code> 196 — 29 NA rows from missing ages; fix with <code>&amp; !is.na(measles$age_years)</code></td>
 </tr>
 <tr class="odd">
+<td>A test result is a list</td>
+<td><code>t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))</code>; p-value 0.565; means 38.80 (No) and 38.84 (Yes)</td>
+</tr>
+<tr class="even">
 <td>Measles symptoms long</td>
 <td>2326 rows (1163 × 2); fever yes 1064, rash yes 976</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>District × vaccination table</td>
 <td>6 rows (5 districts + Unknown), columns No / Unknown / Yes; North 205 / 49 / 88</td>
 </tr>

@@ -159,10 +159,17 @@
 #      add information to it.
 #    - Always check the number of rows. A left join should NOT add rows. If it
 #      does, the key appears more than once in B.
+#    - 🔁 Base R: merge(A, B, by = "id") is an INNER join by default.
+#      all.x = TRUE makes it a left join, all = TRUE a full join.
+#      A$id %in% B$id gives TRUE/FALSE for each id: is it found in B?
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along: a tiny example. Make patients (id 1, 2, 3) and labs (id 2, 3, 4)
 #    with tibble(), then try all four joins on them.
+
+
+# 🔁 Follow along: the base R way. merge() with and without all.x = TRUE,
+#    then find patients with no lab result with %in%
 
 
 # 👀 Follow along: create combined_linelist by left_join()-ing case_info to linelist_final

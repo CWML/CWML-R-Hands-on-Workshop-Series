@@ -14,10 +14,10 @@ subtitle: "Missing data, joins, and export"
 | 3 | Rows with no ID | 10 min |
 | 4 | Duplicates | 12 min |
 | 5 | Replacing missing values and choosing columns | 15 min |
-| 6 | Joining datasets | 20 min |
+| 6 | Joining datasets (+ 🔁 `merge()` / `%in%`) | 24 min |
 | 7 | Exporting | 8 min |
 |   | Wrap-up and preview | 5 min |
-|   | **Total** | **87 min** |
+|   | **Total** | **91 min** |
 
 **Short on time?** Shorten Part 5 by skipping the step-by-step `select()` and showing only "the whole thing as one pipeline". Do **not** cut the Part 7 TRY IT: every later session starts from `measles_final.rds` (ready-made copies are in `processed_data/` for anyone who doesn't finish).
 
@@ -41,6 +41,8 @@ subtitle: "Missing data, joins, and export"
 **Part 5 — Replacing missing values.** Point out that `where(is.character)` skips number and date columns, so they keep their `NA`s — which is what we want.
 
 **Part 6 — Joining datasets.** Draw the tiny `patients`/`labs` example on the board if you can. The old version of this workshop ran `distinct()` **after** the join. Removing duplicates **before** joining (Part 4) is the better habit: duplicates are easier to spot in the original data, and they can't multiply during the join. Stress the row-count check: 6451 rows before and after.
+
+**🔁 `merge()` and `%in%` (4 min).** Use the tiny example. Two points: `merge()` is an **inner** join unless you add `all.x = TRUE` (a common source of silently lost rows in older code), and `%in%` is a base R tool learners will use constantly, including inside `filter()`. Learners need to recognize `merge()`, but they should be able to *write* `%in%`.
 
 **Part 7 — Exporting: live demo of the `.csv` problem.** Save `linelist_clean` as a `.csv`, read it back, and look for the missing IDs:
 

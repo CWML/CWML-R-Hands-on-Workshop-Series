@@ -477,6 +477,27 @@ walk(hospitals, ~ ggsave(
 Both are fine! Loops are easier to read when you're starting out; `map()` is shorter and is what you'll see in modern R code. Choose the one you can read.
 :::
 
+::: callout-note
+## 🔁 The base R way: `lapply()` and `sapply()`
+
+Base R's apply family does the same job, and you will see it **everywhere** in older code, help pages, and bioinformatics packages (Bioconductor):
+
+| purrr | base R | returns |
+|---|---|---|
+| `map(x, f)` | `lapply(x, f)` | a list |
+| `map_dbl(x, f)` | `sapply(x, f)` (or `vapply(x, f, numeric(1))`) | a vector, *usually* |
+
+```{r}
+three_cols <- linelist[, c("age_years", "bmi", "temp")]
+
+sapply(three_cols, mean, na.rm = TRUE)    # like map_dbl()
+lapply(three_cols, range, na.rm = TRUE)   # like map(): a list
+sapply(three_cols, range, na.rm = TRUE)   # surprise: a matrix!
+```
+
+Extra arguments (`na.rm = TRUE`) go after the function name. `sapply()` *guesses* the shape of the result: a vector, a matrix, or a list. That guessing is why purrr has `map_dbl()`, `map_chr()`, and friends, which always return the type their name says. For your own functions, the base R shorthand is `\(x) mean(x, na.rm = TRUE)`, the same idea as `~ mean(.x, na.rm = TRUE)`.
+:::
+
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT (5 min): map and walk
 
@@ -526,6 +547,6 @@ See the solutions file for answers.
 -   Never give an argument the same name as a column — use `district_name`, not `district`.
 -   `if` / `else` works on **one** value (great for input checks with `stop()`); `if_else()` works on a whole column.
 -   A `for` loop repeats a **whole task** for each value; create an empty container before the loop to keep results.
--   `map()` returns a list, `map_dbl()` a number vector, and `walk()` just does something (like saving files) for each element.
+-   `map()` returns a list, `map_dbl()` a number vector, and `walk()` just does something (like saving files) for each element. In base R code you will see `lapply()` (always a list) and `sapply()` (it guesses the shape).
 
 **Where to go next:** [R for Data Science](https://r4ds.hadley.nz/) (free online) — chapters on functions and iteration; [The Epidemiologist R Handbook](https://epirhandbook.com/) — applied examples for public health.

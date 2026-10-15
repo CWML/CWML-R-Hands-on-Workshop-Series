@@ -15,6 +15,11 @@ subtitle: "Where to go next, and where to get help"
 -   **[The Epidemiologist R Handbook](https://epirhandbook.com/)** — hundreds of applied examples for public health, using the same packages as this workshop. The workshop's outbreak dataset is based on its example linelist.
 -   **[Data Carpentry: R for Social Scientists](https://datacarpentry.github.io/r-socialsci/)** and **[R for Ecologists](https://datacarpentry.github.io/R-ecology-lesson/)** — other beginner R lessons in the same hands-on style.
 
+## Base R and the tidyverse
+
+-   **[Base R ↔ tidyverse](base-vs-tidyverse.qmd)** — this workshop's translation table: every tidyverse function we use, its base R equivalent, and what to watch out for.
+-   **[Advanced R: Subsetting and Vectors](https://adv-r.hadley.nz/)** — when you want to understand vectors, lists, and `[[ ]]` in depth.
+
 ## Cheat sheets
 
 Posit's one-page cheat sheets are great to keep open while you work: [all cheat sheets](https://posit.co/resources/cheatsheets/). The most useful for this workshop:
@@ -24,6 +29,7 @@ Posit's one-page cheat sheets are great to keep open while you work: [all cheat 
 -   **Data visualization with ggplot2** — Sessions 6–7
 -   **Factors with forcats**, **Strings with stringr**, **Dates and times with lubridate**
 -   **Apply functions with purrr** — Session 8
+-   **Base R** — vectors, lists, indexing, and the apply family (in the "Contributed" section of the cheat sheet page)
 
 ## Packages used in the workshop
 

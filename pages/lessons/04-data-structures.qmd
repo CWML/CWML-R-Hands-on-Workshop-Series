@@ -1,6 +1,6 @@
 ---
-title: "Session 4: Data Structures — Vectors, Subsetting, and Reshaping"
-subtitle: "Vectors and types, vectorized calculations, base-R subsetting, tidy data, and pivoting"
+title: "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
+subtitle: "Vectors and types, vectorized calculations, base-R subsetting, lists, tidy data, and pivoting"
 ---
 
 ::: downloads
@@ -13,12 +13,13 @@ subtitle: "Vectors and types, vectorized calculations, base-R subsetting, tidy d
 1.  Explain that every column of a data frame is a **vector** with one type
 2.  Use **vectorized** calculations and comparisons (and explain why `mutate()` needs no loop)
 3.  **Subset** vectors and data frames with base R (`[ ]`, `$`, `[[ ]]`) and compare it with `filter()`/`select()`
-4.  Describe **tidy data**, and reshape between wide and long with `pivot_longer()` and `pivot_wider()`
+4.  Explain what a **list** is, and pull results out of one (including the result of a statistical test)
+5.  Describe **tidy data**, and reshape between wide and long with `pivot_longer()` and `pivot_wider()`
 
 **Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 4 - Data Structures_STUDENT.R`. This session starts from the finished data of Session 3: `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`. Missed Session 3? Ready-made copies of both files are already in `processed_data/`.
 :::
 
-Sessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain *why* `mutate()` works on a whole column at once, base-R subsetting is everywhere in help pages and other people's code (and you will need it to write functions in Session 8), and reshaping is needed for many summaries and plots.
+Sessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain *why* `mutate()` works on a whole column at once, base-R subsetting is everywhere in help pages and other people's code (and you will need it to write functions in Session 8), lists are how R stores test and model results, and reshaping is needed for many summaries and plots.
 
 # Part 1: Set up
 
@@ -279,7 +280,92 @@ Base R gives 225 rows because it adds a row of NAs for each of the 29 cases with
 :::
 :::
 
-# Part 5: Tidy data and `pivot_longer()`
+# Part 5: Lists
+
+A vector holds values of **one type**. A **list** can hold **anything**: numbers, text, dates, whole data frames, even other lists, and each element can have a different length.
+
+```{r}
+patient <- list(
+  id       = "5fe599",
+  age      = 2,
+  symptoms = c("fever", "cough"),
+  visits   = as.Date(c("2014-05-13", "2014-05-15"))
+)
+patient
+```
+
+## Pulling things out
+
+```{r}
+patient$symptoms     # $ with a name you type
+patient[["age"]]     # [[ ]] with a name in quotes (or a position)
+patient["age"]       # [ ] gives back a smaller LIST, not the value
+length(patient)      # 4 elements
+str(patient)         # the structure: what is in each element
+```
+
+Think of a list as a box of items: `[[ ]]` takes **an item out of the box**; `[ ]` gives you **a smaller box**.
+
+## A data frame is a list
+
+A data frame is a list of columns that all have the same length:
+
+```{r}
+is.list(linelist)
+length(linelist)     # the number of columns
+```
+
+That is why `$` and `[[ ]]` work on data frames too, and why `map()` in Session 8 runs once for each column.
+
+## Results are lists
+
+Statistical tests and models return lists. You don't need to know the statistics yet; look at the **shape** of the result:
+
+```{r}
+age_test <- t.test(age_years ~ gender, data = filter(linelist, gender != "Unknown"))
+age_test
+```
+
+The printout is a friendly view for people. Underneath, it is a list your code can use:
+
+```{r}
+names(age_test)
+age_test$p.value
+age_test$estimate
+```
+
+Every test and model in R works this way (`chisq.test()`, `lm()`, `glm()`, survival models, Bioconductor objects), so this is how you get *one number* out of an analysis and into a table or a report.
+
+::: callout-warning
+## Common mistakes
+
+-   `patient["age"] + 1` gives an error: `[ ]` returns a list. Use `patient[["age"]]` or `patient$age`.
+-   `t.test()` compares exactly **two** groups. *"grouping factor must have exactly 2 levels"* means there is a third group (like "Unknown"): `filter()` it out first.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): a test result is a list
+
+a)  Run `t.test()` on `temp_c` by `vaccinated` in `measles`, leaving out the "Unknown" vaccination status. Save it as `temp_test`.
+b)  Pull out the p-value and the two group means with `$`.
+
+✅ **Check:** p-value 0.565; means 38.80 (No) and 38.84 (Yes)
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+temp_test <- t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))   # a)
+
+temp_test$p.value    # b)
+temp_test$estimate
+```
+
+Vaccinated and unvaccinated children had almost the same temperature (38.80 vs 38.84 °C), and a p-value of 0.565 means the small difference is easily explained by chance.
+:::
+:::
+
+# Part 6: Tidy data and `pivot_longer()`
 
 ## Tidy data
 
@@ -362,7 +448,7 @@ Each of the 1163 cases now has two rows, one for fever and one for rash, so ther
 :::
 :::
 
-# Part 6: `pivot_wider()`
+# Part 7: `pivot_wider()`
 
 The opposite: long → wide. Most useful for **tables people read**. `count()` gives long output:
 
@@ -429,6 +515,7 @@ The code for 1 and 2 is in the solutions file.
 -   Calculations and comparisons are **vectorized**: they run on every element at once, which is why `mutate()` needs no loop.
 -   `sum()` of a comparison **counts** the TRUEs; `mean()` gives the **proportion**.
 -   Base R subsets with `x[ ]`, `df[rows, columns]`, `df$col`, and `df[["col"]]` — but watch out for the extra NA rows that `filter()` would drop.
+-   A **list** holds anything. `[[ ]]` and `$` take one element out; `[ ]` returns a smaller list. A data frame is a list of columns, and test and model results are lists: `result$p.value`.
 -   Tidy data has one variable per column and one observation per row. `pivot_longer()` makes data long (for analysis and plots); `pivot_wider()` makes it wide (for tables people read).
 
 **Next: Session 5 — Summarizing.** We summarize data with `count()`, `group_by()` + `summarise()`, and `tabyl()`, and build a publication-ready Table 1.

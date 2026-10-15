@@ -46,6 +46,9 @@
 #
 # ⚠️ Common mistakes
 #    - Misspelling a level: fct_relevel() warns "Unknown levels" and ignores it.
+#
+# 🔁 Base R: factor(COLUMN, levels = c("FIRST", "SECOND", ...)) sets the order too,
+#    but a misspelled level turns those values into NA, with no warning.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along: count(age_cat). What order are the groups in?
@@ -54,6 +57,9 @@
 # 👀 Follow along: fct_relevel() age_cat: "Under 18", "18-29", "30-39", "40-49", "50-59",
 #    "60-69", "70-79", "80+", "Unknown"; then outcome: "Recover", "Death", "Unknown"
 #    Pattern: DATA <- DATA %>% mutate(COLUMN = fct_relevel(COLUMN, "LEVEL_1", "LEVEL_2", ...))
+
+
+# 🔁 Follow along: the base R way. factor() with the right levels, then with "death" misspelled
 
 
 # ✏️ TRY IT (3 min): in measles, fct_relevel()
@@ -76,6 +82,10 @@
 #      group_by(age_cat) %>% count(outcome) %>% mutate(...) gives percentages
 #      WITHIN each age group (each group adds up to 100%).
 #    - End with ungroup() when you're done with the groups.
+#
+# 🔁 Base R: table(data$A, data$B) makes a cross-table, and
+#    prop.table(TABLE, margin = 1) turns it into row proportions.
+#    The result is a table, not a data frame (it won't work with mutate() or ggplot).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along: count(outcome), then count(age_cat, outcome)
@@ -85,6 +95,9 @@
 
 
 # 👀 Follow along: percentages within each age group with group_by()
+
+
+# 🔁 Follow along: the base R way. table(age_cat, outcome), then prop.table(margin = 1)
 
 
 # ✏️ TRY IT (5 min):
@@ -109,6 +122,10 @@
 #    - across() does the same calculation on many columns:
 #        summarise(across(c(age_years, bmi), ~ mean(.x, na.rm = TRUE)))
 #    - Remember from Session 4: mean(fever == "yes") is the PROPORTION with fever.
+#
+# 🔁 Base R, for ONE statistic by group:
+#      tapply(data$X, data$GROUP, median, na.rm = TRUE)       a named vector
+#      aggregate(X ~ GROUP, data = data, FUN = median)        a data frame
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along: summarise() n, mean, sd, and median of age_years for everyone
@@ -122,6 +139,9 @@
 
 # 👀 Follow along: percentage with fever, cough, and vomiting by outcome:
 #    round(mean(fever == "yes") * 100, 1)
+
+
+# 🔁 Follow along: the base R way. Median age by outcome with tapply() and aggregate()
 
 
 # ✏️ TRY IT (4 min): for each measles outcome, calculate the number of cases, mean and

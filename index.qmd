@@ -1,10 +1,10 @@
 ---
 title: "R Hands-on Workshop Series"
-subtitle: "Data analysis in R with the tidyverse — from messy raw data to tables and plots"
+subtitle: "Data analysis in R with the tidyverse, built on base R foundations — from messy raw data to tables and plots"
 toc: false
 ---
 
-Welcome! This hands-on workshop teaches you to analyze data in **R** using the **tidyverse**. You will take a realistic, messy outbreak dataset all the way from the raw file to clean data, summary tables, and publication-ready plots — and finish by writing your own functions and loops.
+Welcome! This hands-on workshop teaches you to analyze data in **R** using the **tidyverse**, and the **base R** foundations underneath it: vectors, types, subsetting, lists, and functions. Each lesson also shows the base R version of key tidyverse steps, so you can read other people's code (see [Base R ↔ tidyverse](pages/base-vs-tidyverse.qmd)). You will take a realistic, messy outbreak dataset all the way from the raw file to clean data, summary tables, and publication-ready plots — and finish by writing your own functions and loops.
 
 No experience with R or programming is needed.
 
@@ -14,7 +14,8 @@ No experience with R or programming is needed.
 -   Inspect a dataset and find its problems before you analyze it
 -   Clean messy data: fix column names, types, misspellings, impossible values, and duplicates
 -   Handle missing values and join datasets together
--   Understand how R stores data, and reshape it between wide and long
+-   Understand how R stores data (vectors, lists, data frames), and reshape it between wide and long
+-   Read base R code and translate it to the tidyverse (and back)
 -   Summarize data and make a publication-ready "Table 1"
 -   Make histograms, scatter plots, box plots, bar charts, and epidemic curves with **ggplot2**
 -   Write your own functions and loops to automate repeated work
@@ -30,7 +31,7 @@ No experience with R or programming is needed.
 | 1     | [Setup and a first look at your data](pages/lessons/01-setup-and-first-look.qmd) | R Projects, packages, R basics, the pipe, importing and inspecting data |
 | 2     | [Cleaning](pages/lessons/02-cleaning.qmd)                                                 | `clean_names()`, `mutate()`, `if_else()`, `case_when()`                          |
 | 3     | [Missing data, joins, and export](pages/lessons/03-missing-data-joins-export.qmd)                          | missing values, duplicates, joins, `export()`                                   |
-| 4     | [Data structures](pages/lessons/04-data-structures.qmd)                                          | vectors, subsetting, `pivot_longer()` / `pivot_wider()`                         |
+| 4     | [Data structures](pages/lessons/04-data-structures.qmd)                                          | vectors, subsetting, lists, `pivot_longer()` / `pivot_wider()`                  |
 | 5     | [Summarizing](pages/lessons/05-summarizing.qmd)                                              | `count()`, `summarise()`, `tabyl()`, a `gtsummary` Table 1                      |
 | 6     | [Plotting basics](pages/lessons/06-plotting-basics.qmd)                                          | histograms, scatter plots, box plots                                            |
 | 7     | [Plotting further](pages/lessons/07-plotting-further.qmd)                                         | bar charts, colors, epidemic curves, facets                                     |

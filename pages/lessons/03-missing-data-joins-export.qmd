@@ -315,6 +315,27 @@ anti_join(patients, labs, by = "id")    # patients with NO lab result
 
 **`left_join()` is the one you will use most:** start with your main dataset and add information to it.
 
+::: callout-note
+## 🔁 The base R way: `merge()` and `%in%`
+
+Base R joins with one function, `merge()`. The `all` arguments choose the type of join:
+
+```{r}
+merge(patients, labs, by = "id")                # inner join (the default!)
+merge(patients, labs, by = "id", all.x = TRUE)  # left join
+merge(patients, labs, by = "id", all = TRUE)    # full join
+```
+
+Watch out: `merge()` keeps only matching rows **unless you say otherwise**, and it sorts the result by the key. `%in%` asks "is each value found in the other vector?", and gives one TRUE/FALSE per value. It is the base R way to find rows with no match:
+
+```{r}
+patients$id %in% labs$id
+patients[!patients$id %in% labs$id, ]   # the same as anti_join()
+```
+
+`%in%` is worth learning well: you will use it inside `filter()` too, for example `filter(district %in% c("North", "South"))`.
+:::
+
 ## Join the case information
 
 ```{r}
@@ -336,6 +357,7 @@ nrow(combined_linelist)
 
 # Cases with no matching case_info (should be 0)
 anti_join(linelist_final, case_info, by = "case_id") %>% nrow()
+sum(!linelist_final$case_id %in% case_info$case_id)   # the same check in base R
 
 # Is case_id unique in case_info?
 case_info %>% get_dupes(case_id) %>% nrow()

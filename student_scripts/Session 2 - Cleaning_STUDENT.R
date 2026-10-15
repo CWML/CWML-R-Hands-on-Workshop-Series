@@ -115,12 +115,18 @@
 #    - Use NA as the value to blank out impossible values:
 #        if_else(wt_kg <= 0, NA, wt_kg)
 #      Better than deleting the row: we keep the patient's other information.
+#    - 🔁 Base R: ifelse() does the same, but silently turns DATES into numbers.
+#      if_else() keeps the type (and gives an error instead of a surprise).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along: create age_years (ages in months divided by 12)
 
 
 # 👀 Follow along: replace weights of 0 or below with NA
+
+
+# 🔁 Follow along: estimated onset (hospital_date when onset_date is missing)
+#    with if_else() and with ifelse(). Compare the first 3 values.
 
 
 # ✏️ TRY IT (4 min): in measles_clean,
@@ -187,6 +193,8 @@
 #        mutate(bmi = round(wt_kg / (ht_cm / 100)^2, 1))
 #    - Use case_when() with < to make groups. Because case_when() stops at the
 #      first TRUE line, age_years < 30 on the second line only catches 18–29.
+#    - 🔁 Base R: cut(x, breaks = c(...), labels = c(...), right = FALSE) makes
+#      the same groups from break points, and returns them in order (a factor).
 #
 # ⚠️ Common mistakes
 #    - Ending with .default = "80+" (or TRUE ~ "80+") puts every patient with a
@@ -198,6 +206,9 @@
 
 
 # 👀 Follow along: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
+
+
+# 🔁 Follow along: the same groups with cut(). Check with table(useNA = "ifany").
 
 
 # ✏️ TRY IT (4 min): in measles_clean,
