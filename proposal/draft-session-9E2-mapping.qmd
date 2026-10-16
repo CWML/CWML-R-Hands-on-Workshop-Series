@@ -1,0 +1,406 @@
+---
+title: "DRAFT Session 9E-2: Mapping an Outbreak"
+subtitle: "Boundary files, choropleth maps of counts and incidence, point maps, and interactive maps"
+---
+
+::: callout-caution
+## Draft for discussion
+
+This lesson is a **proposal** for the Epi track (see `proposal/README.md`, "The Epi track (9E) in detail"). It lives outside `pages/`, so it is not part of the website. It uses the Connecticut files made by `data-raw/make_epi_data.R` and adapts Max's Yale–Sudan Session 3 ("Plots, Epi-Curves and Maps") to US data.
+
+**The outbreak is fictional.** The Connecticut town boundaries and populations are real (US Census), but the measles cases are invented for teaching. No town in this lesson had a real outbreak.
+:::
+
+::: callout-note
+## In this session you will learn to
+
+1.  Read a **boundary file** and explain what an `sf` object is
+2.  Make a **choropleth map** of case counts by joining cases to polygons
+3.  Map **incidence per 100,000** and explain why counts and rates can tell different stories
+4.  Turn GPS coordinates into **points** and map them
+5.  Make a map **interactive** with `plotly`
+
+**Before you start:** open the workshop folder in Positron. This session uses `raw_data/ct_towns.rds`, `raw_data/ct_town_population.csv`, and `raw_data/ct_measles_outbreak.csv` (the same fictional outbreak as Session 9E-1). The TRY ITs use **real** North Carolina data that comes with the `sf` package.
+:::
+
+**Why maps?** An epidemic curve shows *when* cases happen; a map shows *where*. A map helps you spot clusters and areas with no cases, and it is often the clearest way to brief decision-makers.
+
+# Part 1: Boundary files and `sf`
+
+## Set up
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(rio)
+library(sf)       # simple features: spatial data in data frames
+library(plotly)   # interactive plots
+
+towns      <- readRDS(here("raw_data", "ct_towns.rds"))
+population <- import(here("raw_data", "ct_town_population.csv"))
+outbreak   <- import(here("raw_data", "ct_measles_outbreak.csv"))
+```
+
+`ct_towns.rds` holds the boundaries of Connecticut's 169 towns. We read it with `readRDS()` rather than `import()` so that it keeps its spatial class.
+
+## What is an `sf` object?
+
+```{r}
+towns
+```
+
+An `sf` object is a **data frame with a `geometry` column**. Each row is a town; the geometry column holds the town's boundary as a polygon. Everything you know about data frames still works: `filter()`, `mutate()`, `left_join()`, `count()`.
+
+-   **Geometry type:** `MULTIPOLYGON` (areas). Points and lines are other types.
+-   **CRS** (coordinate reference system): how the coordinates map onto the Earth. `WGS 84` (EPSG code 4326) means plain longitude and latitude, the same system as GPS.
+
+## A first map
+
+`geom_sf()` draws whatever is in the geometry column. You don't need `aes(x, y)`:
+
+```{r}
+#| fig-alt: "Outline map of Connecticut's 169 towns in light gray, with thin borders between towns."
+ggplot(towns) +
+  geom_sf(fill = "grey95", color = "grey60", linewidth = 0.2) +
+  theme_void()
+```
+
+`theme_void()` removes the axes and grid, which most maps don't need.
+
+::: callout-tip
+## Where do boundary files come from?
+
+-   **US:** the `tigris` package downloads official US Census boundaries (states, counties, towns, census tracts). That's how `ct_towns.rds` was made (see `data-raw/make_epi_data.R`).
+-   **Other countries:** national mapping agencies, ministries of health, or GADM (gadm.org).
+-   They come as shapefiles (`.shp` plus several companion files), GeoPackages (`.gpkg`), or GeoJSON. `st_read()` reads all of them.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): North Carolina counties
+
+The `sf` package comes with a real dataset: North Carolina's 100 counties, with the number of births (`BIR74`) and sudden infant deaths (`SID74`) in 1974–1978. Read it and draw an outline map:
+
+``` r
+nc <- st_read(system.file("shape/nc.shp", package = "sf"))
+```
+
+✅ **Check:** `nrow(nc)` is 100, and the map shows the shape of North Carolina
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| fig-alt: "Outline map of North Carolina's 100 counties in light gray."
+nc <- st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+nrow(nc)
+
+ggplot(nc) +
+  geom_sf(fill = "grey95", color = "grey60", linewidth = 0.2) +
+  theme_void()
+```
+
+`quiet = TRUE` hides the message `st_read()` prints about the file.
+:::
+:::
+
+# Part 2: A choropleth map of case counts
+
+A **choropleth** map colors each area by a number. To make one, you need the number **in the same table as the polygons**.
+
+## Count, then join
+
+```{r}
+case_counts <- outbreak %>% count(town, name = "cases")
+
+towns_cases <- towns %>%                       # start from the sf object ...
+  left_join(case_counts, by = "town") %>%      # ... and add the counts to it
+  mutate(cases = replace_na(cases, 0))         # towns with no cases: 0, not NA
+
+towns_cases %>% arrange(desc(cases)) %>% head(3)
+```
+
+```{r}
+#| fig-alt: "Map of Connecticut towns shaded by number of measles cases, from very light blue for zero to dark blue for the most. New Haven, on the south-central coast, is darkest with 40 cases; nearby towns and a few towns elsewhere have smaller numbers, and most towns have none."
+ggplot(towns_cases) +
+  geom_sf(aes(fill = cases), color = "grey60", linewidth = 0.2) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  labs(title = "Measles cases by town", subtitle = "Fictional outbreak, data as of 18 April 2025",
+       fill = "Cases") +
+  theme_void()
+```
+
+-   `scale_fill_distiller(palette = "Blues", direction = 1)` uses **one color, light to dark**. That reads naturally ("darker = more") and works for people with color-vision deficiency.
+
+::: callout-warning
+## Common mistakes
+
+-   **Join in the right direction.** Start from the `sf` object: `towns %>% left_join(case_counts)`. If you start from the counts, the result is a plain data frame without the map, **and** towns with no cases disappear.
+-   **Names must match exactly.** Check before you join; this should return 0 rows:
+    `anti_join(case_counts, st_drop_geometry(towns), by = "town")`
+-   A town with no cases should be **0**, not `NA`. `NA` towns appear gray, as if there were no data.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): map the North Carolina counts
+
+Make a choropleth map of `SID74` (the number of sudden infant deaths) by county, with a light-to-dark blue scale. The counts are already in `nc`, so you don't need a join.
+
+✅ **Check:** the darkest county, Mecklenburg (around Charlotte), has 44 deaths
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| fig-alt: "Map of North Carolina counties shaded by number of sudden infant deaths, 1974 to 1978. The darkest counties are Mecklenburg, with 44, and Cumberland, with 38, both counties with large cities."
+ggplot(nc) +
+  geom_sf(aes(fill = SID74), color = "grey60", linewidth = 0.2) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  labs(title = "Sudden infant deaths, 1974–1978", fill = "Deaths") +
+  theme_void()
+
+nc %>% st_drop_geometry() %>% arrange(desc(SID74)) %>% select(NAME, SID74) %>% head(3)
+```
+
+`st_drop_geometry()` turns the `sf` object back into a plain table, which prints and sorts faster.
+:::
+:::
+
+# Part 3: Mapping incidence (counts vs risk)
+
+Big towns usually have the most cases simply because more people live there. To show where people are **at higher risk**, map an **incidence rate**: cases per 100,000 residents.
+
+```{r}
+towns_rates <- towns_cases %>%
+  left_join(select(population, town, population), by = "town") %>%
+  mutate(per_100k = cases / population * 100000)
+
+towns_rates %>%
+  st_drop_geometry() %>%
+  arrange(desc(per_100k)) %>%
+  select(town, cases, population, per_100k) %>%
+  head(3)
+```
+
+::: callout-tip
+## Joining on codes: watch the leading zeros
+
+Official codes (FIPS codes, ZIP codes) are often safer to join on than names, because they have no spelling differences. But `import()` reads a code like `"01080"` as the **number** 1080, and the join then fails. Keep codes as text, for example `mutate(town_fips = sprintf("%05d", town_fips))` to put the zeros back. Here the town names match exactly, so we join on `town`.
+:::
+
+```{r}
+#| fig-alt: "Map of Connecticut towns shaded by measles cases per 100,000 residents. Burlington, a small town west of Hartford, is darkest at about 214 per 100,000; New Haven, which had the most cases, is only light blue at about 29 per 100,000."
+ggplot(towns_rates) +
+  geom_sf(aes(fill = per_100k), color = "grey60", linewidth = 0.2) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  labs(title = "Measles incidence by town", subtitle = "Cases per 100,000 residents",
+       fill = "Per 100,000") +
+  theme_void()
+```
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: why do the two maps look so different?
+
+The count map highlights **New Haven** (40 cases), a city of about 138,000. The incidence map highlights **Burlington** (21 cases), a town of about 9,800, where measles reached a much larger share of residents. Counts show where the **work** is (most patients to care for); rates show where the **risk** is (where a resident is most likely to get sick).
+
+Be careful with small towns, though: in a town of 5,000, a single case adds 20 per 100,000. Show the count alongside the rate.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): North Carolina rates
+
+a)  Add a column `per_1000 = SID74 / BIR74 * 1000` (deaths per 1,000 births) to `nc`
+b)  Map it. Which county has the highest rate? Is it the county with the most deaths?
+
+✅ **Check:** Anson County has the highest rate (about 9.6 per 1,000 births), with only 15 deaths
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| fig-alt: "Map of North Carolina counties shaded by sudden infant deaths per 1,000 births. The darkest county is Anson, in the south, at about 9.6 per 1,000; Mecklenburg, which had the most deaths, is only lightly shaded at about 2 per 1,000."
+nc <- nc %>% mutate(per_1000 = SID74 / BIR74 * 1000)
+
+ggplot(nc) +
+  geom_sf(aes(fill = per_1000), color = "grey60", linewidth = 0.2) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  labs(title = "Sudden infant deaths per 1,000 births, 1974–1978", fill = "Per 1,000") +
+  theme_void()
+
+nc %>% st_drop_geometry() %>% arrange(desc(per_1000)) %>% select(NAME, SID74, BIR74, per_1000) %>% head(3)
+```
+
+No: Mecklenburg had the most deaths (44), but with 21,588 births its rate is only about 2 per 1,000. Anson had 15 deaths among 1,570 births. This is real data, and a classic example of why rates matter.
+:::
+:::
+
+# Part 4: Point maps
+
+A choropleth shows **which towns** are affected, but hides **where inside the towns** the cases are. If the linelist has GPS coordinates, you can plot each case as a point.
+
+`st_as_sf()` turns the `longitude` and `latitude` columns into point geometry. `crs = 4326` says they are ordinary GPS coordinates:
+
+```{r}
+cases_sf <- outbreak %>%
+  filter(!is.na(longitude), !is.na(latitude)) %>%
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+cases_sf %>% select(case_id, town, vaccinated) %>% head(3)
+```
+
+```{r}
+#| fig-alt: "Map of Connecticut town outlines with one point per measles case, colored by vaccination status. Most points are orange (unvaccinated) and cluster in and around New Haven, with smaller clusters to the west of Hartford, near New London, and in the southwest."
+vacc_colors <- c("Yes" = "#2a78d6", "No" = "#eb6834", "Unknown" = "#9a9a95")
+
+ggplot() +
+  geom_sf(data = towns, fill = "grey95", color = "grey70", linewidth = 0.2) +
+  geom_sf(data = cases_sf, aes(color = vaccinated), size = 1.5, alpha = 0.7) +
+  scale_color_manual(values = vacc_colors) +
+  labs(title = "Measles cases by vaccination status", color = "Vaccinated") +
+  theme_void()
+```
+
+## Zoom in
+
+`coord_sf()` sets the area to show, in longitude and latitude:
+
+```{r}
+#| fig-alt: "Zoomed-in map of the New Haven area showing town outlines and individual case points, most of them orange (unvaccinated), concentrated in New Haven and the neighboring towns of North Haven, Hamden, and Orange."
+ggplot() +
+  geom_sf(data = towns, fill = "grey95", color = "grey70", linewidth = 0.3) +
+  geom_sf(data = cases_sf, aes(color = vaccinated), size = 2, alpha = 0.7) +
+  scale_color_manual(values = vacc_colors) +
+  coord_sf(xlim = c(-73.10, -72.75), ylim = c(41.22, 41.45)) +
+  labs(title = "New Haven area", color = "Vaccinated") +
+  theme_void()
+```
+
+::: callout-warning
+## Protect privacy
+
+Real GPS points can identify a household. Before you share a point map, **aggregate** to areas, **jitter** points (move each by a small random amount), or show only a large area. The points in this lesson are random locations inside each town, generated for teaching.
+:::
+
+::: callout-tip
+## Two layers, one CRS
+
+Layers on the same map must use the same coordinate reference system. Check with `st_crs(towns)` and convert with `st_transform(x, 4326)`. (ggplot can convert on the fly, but it's safer to match them.)
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): where were the hospitalized cases?
+
+Make a point map of only the **hospitalized** cases (`hospitalized == "Yes"`) on top of the town outlines, colored by whether the case was under 5 years old.
+
+✅ **Check:** 68 points
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| fig-alt: "Map of Connecticut town outlines with points for the 68 hospitalized measles cases, colored by whether the case was under 5 years old. The points follow the same clusters as all cases, mostly around New Haven."
+hosp_sf <- cases_sf %>%
+  filter(hospitalized == "Yes") %>%
+  mutate(under_5 = if_else(age_years < 5, "Under 5", "5 and older"))
+
+nrow(hosp_sf)
+
+ggplot() +
+  geom_sf(data = towns, fill = "grey95", color = "grey70", linewidth = 0.2) +
+  geom_sf(data = hosp_sf, aes(color = under_5), size = 1.8, alpha = 0.8) +
+  scale_color_manual(values = c("Under 5" = "#eb6834", "5 and older" = "#2a78d6")) +
+  labs(title = "Hospitalized measles cases", color = "Age") +
+  theme_void()
+```
+:::
+:::
+
+# Part 5: Interactive maps with `plotly`
+
+A static map is right for a printed report. For exploring, an **interactive** map lets you zoom, pan, and hover to see the numbers. `ggplotly()` turns a finished ggplot into one.
+
+Add a `text` aesthetic to say what the tooltip should show:
+
+```{r}
+rate_map <- ggplot(towns_rates) +
+  geom_sf(aes(fill = per_100k,
+              text = paste0(town, "<br>Cases: ", cases,
+                            "<br>Per 100,000: ", round(per_100k, 1))),
+          color = "grey60", linewidth = 0.2) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  labs(fill = "Per 100,000") +
+  theme_void()
+
+ggplotly(rate_map, tooltip = "text")
+```
+
+The interactive map above shows the same incidence map as Part 3; hover over a town to see its name, cases, and rate. ggplot warns that it doesn't know the `text` aesthetic; you can ignore that, because `ggplotly()` uses it.
+
+-   `"<br>"` starts a new line in the tooltip
+-   `tooltip = "text"` shows only your text, not every aesthetic
+
+::: callout-tip
+## If `ggplotly()` gives an error about the geometry
+
+Some boundary files mix polygon types. Converting them all to one type fixes it (this was needed for the Sudan map):
+`towns_rates <- st_cast(towns_rates, "MULTIPOLYGON")`
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (4 min): an interactive North Carolina map
+
+Make the North Carolina rate map from Part 3 interactive, with a tooltip showing the county name, the number of deaths, and the rate per 1,000 births.
+
+✅ **Check:** hovering over Anson County shows 15 deaths and about 9.6 per 1,000
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+nc_map <- ggplot(nc) +
+  geom_sf(aes(fill = per_1000,
+              text = paste0(NAME, " County<br>Deaths: ", SID74,
+                            "<br>Per 1,000 births: ", round(per_1000, 1))),
+          color = "grey60", linewidth = 0.2) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  labs(fill = "Per 1,000") +
+  theme_void()
+
+ggplotly(nc_map, tooltip = "text")
+```
+:::
+:::
+
+::: callout-tip
+## ⭐ Bonus: how the outbreak spread
+
+`facet_wrap()` works on maps too. Count cases by town **and month**, join to the towns, and facet by month to watch the outbreak spread. (Hint: use `complete()` so every town appears in every month.)
+
+```{r}
+#| fig-alt: "Four small maps of Connecticut, one per month from January to April 2025, shaded by measles cases per town. In January there are a few cases in New Haven, North Haven, and Burlington; by March the outbreak has reached 30 towns; April has fewer cases because the data is as of 18 April."
+monthly <- outbreak %>%
+  mutate(month = format(onset_date, "%B")) %>%
+  count(town, month, name = "cases") %>%
+  complete(town = towns$town, month, fill = list(cases = 0)) %>%
+  mutate(month = factor(month, levels = month.name[1:4]))
+
+towns %>%
+  left_join(monthly, by = "town", relationship = "one-to-many") %>%
+  ggplot() +
+  geom_sf(aes(fill = cases), color = "grey70", linewidth = 0.1) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  facet_wrap(~ month) +
+  labs(fill = "Cases") +
+  theme_void()
+```
+:::
+
+# Key points
+
+-   An **`sf` object** is a data frame with a geometry column; `geom_sf()` draws it.
+-   For a choropleth, **start from the polygons** and `left_join()` the numbers, then set towns with no cases to **0**.
+-   **Counts** show where the work is; **rates** show where the risk is. Map both, and watch out for small populations.
+-   `st_as_sf(coords = c("longitude", "latitude"), crs = 4326)` turns GPS columns into points. Protect privacy before sharing point maps.
+-   `ggplotly()` makes any ggplot map interactive; the `text` aesthetic controls the tooltip.
+
+**Where to go next:** *Geocomputation with R* (free online, r.geocompx.org) for spatial data in depth, and the mapping chapters of *The Epidemiologist R Handbook*.

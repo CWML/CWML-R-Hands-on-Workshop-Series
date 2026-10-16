@@ -1,0 +1,455 @@
+---
+title: "DRAFT Session 9E-1: Outbreak Epidemiology"
+subtitle: "Epi measures from a linelist, epidemic curves, and measures of association"
+---
+
+::: callout-caution
+## Draft for discussion
+
+This lesson is a **proposal** for the Epi track (see `proposal/README.md`, "The Epi track (9E) in detail"). It lives outside `pages/`, so it is not part of the website. It uses the new Connecticut files made by `data-raw/make_epi_data.R`.
+
+**The outbreak is fictional.** The Connecticut towns and their populations are real (US Census), but the measles cases are invented for teaching. No town in this lesson had a real outbreak.
+:::
+
+::: callout-note
+## In this session you will learn to
+
+1.  Calculate the **case fatality ratio** and explain why cases with an unknown outcome change it
+2.  Calculate **incidence per 100,000** with population denominators, and **proportional morbidity**
+3.  Make **daily and weekly epidemic curves**, add a **7-day rolling average**, and read the shape of a curve
+4.  Build a **2 × 2 table**, calculate an **odds ratio**, and estimate odds ratios with **logistic regression**
+
+**Before you start:** open the workshop folder in Positron. This session uses `raw_data/ct_measles_outbreak.csv` and `raw_data/ct_town_population.csv` for the Follow along, and `processed_data/measles_final.rds` (from Session 3) for the TRY ITs. It repeats a little from Sessions 5 and 7 on purpose, so the epi tools are all in one place.
+:::
+
+# Part 1: Set up
+
+The story: in early 2025, a **fictional** measles outbreak starts in New Haven and spreads person to person to nearby towns. The health department keeps a **linelist**: one row per case. You are looking at the linelist **as of 18 April 2025**, while the outbreak is still going, which is how outbreak data usually arrives.
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+library(slider)   # rolling averages
+library(broom)    # tidy model results (installed with the tidyverse)
+
+outbreak   <- import(here("raw_data", "ct_measles_outbreak.csv"))
+population <- import(here("raw_data", "ct_town_population.csv"))
+
+glimpse(outbreak)
+```
+
+`import()` reads the two date columns as dates already. Check with `class(outbreak$onset_date)`.
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (1 min): the practice data
+
+Import `processed_data/measles_final.rds` (with `trust = TRUE`) and call it `measles`.
+
+✅ **Check:** 1163 rows and 14 columns
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE)
+dim(measles)
+```
+:::
+:::
+
+# Part 2: Epi measures from a linelist
+
+## Case fatality ratio (CFR)
+
+The **case fatality ratio** is the proportion of cases who die. It tells you how severe the disease is in this outbreak, and how well care is working.
+
+**CFR (%) = deaths ÷ cases × 100**
+
+The question is: *which cases go in the denominator?*
+
+```{r}
+outbreak %>% count(outcome)
+
+outbreak %>%
+  summarise(
+    cases       = n(),
+    deaths      = sum(outcome == "Died"),
+    known       = sum(outcome != "Unknown"),
+    cfr_all     = round(deaths / cases * 100, 2),
+    cfr_known   = round(deaths / known * 100, 2)
+  )
+```
+
+-   `cfr_all` divides by **every** case. If some of the "Unknown" cases later die, this **underestimates** the CFR.
+-   `cfr_known` divides only by cases whose outcome is **known**. This is usually closer to the truth during an outbreak, but it assumes the unknown cases are like the known ones.
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: which cases are most likely to have an unknown outcome?
+
+The **most recent** ones: their illness isn't over yet, so no outcome has been recorded. Compare the onset dates:
+
+```{r}
+outbreak %>%
+  group_by(outcome == "Unknown") %>%
+  summarise(median_onset = median(onset_date))
+```
+
+This is called **right-censoring**. Report both versions of the CFR, and say which denominator you used.
+:::
+
+The same idea works for any proportion of cases, for example the **hospitalization** proportion:
+
+```{r}
+outbreak %>%
+  summarise(pct_hospitalized = round(mean(hospitalized == "Yes") * 100, 1))
+```
+
+## Incidence per 100,000
+
+A count of cases says *how many*; an **incidence** (or attack rate) says *how many per person at risk*. You need a **denominator**: the population.
+
+**Incidence per 100,000 = cases ÷ population × 100,000**
+
+```{r}
+# Statewide
+nrow(outbreak) / sum(population$population) * 100000
+```
+
+By town: count the cases, join the populations, and divide.
+
+```{r}
+town_rates <- outbreak %>%
+  count(town, name = "cases") %>%
+  left_join(population, by = "town") %>%
+  mutate(per_100k = round(cases / population * 100000, 1)) %>%
+  arrange(desc(cases))
+
+head(town_rates, 6)
+```
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: which town has the most cases? Which has the highest incidence?
+
+```{r}
+town_rates %>% arrange(desc(per_100k)) %>% head(3)
+```
+
+New Haven has the most cases (40), but it is a large city. **Burlington** has fewer cases (21), but only about 9,800 residents, so its incidence is more than 7 times higher. Counts tell you where the *work* is; rates tell you where the *risk* is. Session 9E-2 puts both on a map.
+:::
+
+::: callout-warning
+## Common mistakes
+
+-   The town names must match exactly in both tables before you join. Check with `anti_join(cases_table, population, by = "town")`: it should return 0 rows.
+-   Rates from **small populations** jump around: one extra case in a town of 1,000 adds 100 per 100,000. Look at the count next to the rate.
+:::
+
+## Proportional morbidity
+
+When you don't know the population at risk for an exposure, you can still describe **how common each exposure is among the cases**. This is **proportional morbidity**.
+
+```{r}
+outbreak %>%
+  tabyl(exposure_setting) %>%
+  adorn_pct_formatting(digits = 1) %>%
+  arrange(desc(n))
+```
+
+Tracking it **over time** shows whether the main route of spread is changing, for example from households to schools:
+
+```{r}
+outbreak %>%
+  mutate(month = floor_date(onset_date, "month")) %>%
+  tabyl(month, exposure_setting) %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 0)
+```
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): epi measures for the measles practice data
+
+In `measles`:
+
+a)  Calculate the CFR two ways: out of all cases, and out of cases with a known outcome
+b)  What percentage of cases were vaccinated, by month of report? (HINT: `floor_date(report_date, "month")`, then `tabyl()` with row percentages)
+
+✅ **Check:** a) 4.3% of all cases; 4.55% of cases with a known outcome
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+# a)
+measles %>%
+  summarise(
+    cases     = n(),
+    deaths    = sum(outcome == "Died"),
+    known     = sum(outcome != "Unknown"),
+    cfr_all   = round(deaths / cases * 100, 2),
+    cfr_known = round(deaths / known * 100, 2)
+  )
+
+# b)
+measles %>%
+  mutate(month = floor_date(report_date, "month")) %>%
+  tabyl(month, vaccinated) %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 0)
+```
+
+The share of vaccinated cases stays around a quarter every month. The few rows at the bottom with `NA` for month are cases with no report date.
+:::
+:::
+
+# Part 3: Epidemic curves
+
+An **epidemic curve** shows new cases over time. Its shape tells you how the disease is spreading:
+
+| Shape | What it looks like | Typical cause |
+|---|---|---|
+| **Point source** | One sharp peak, rising and falling within about one incubation period | Everyone exposed at one time and place (a contaminated meal) |
+| **Continuous common source** | A rise, then a plateau while the source stays active | A contaminated water supply that isn't fixed |
+| **Propagated** | Successive waves about one serial interval apart, growing larger | Person-to-person spread (measles, influenza) |
+
+## Daily vs weekly
+
+```{r}
+#| fig-alt: "Daily epidemic curve of the fictional Connecticut measles outbreak from January to mid-April 2025. Daily counts are small and jumpy, between 0 and 9 cases, with most cases from late February to late March."
+ggplot(outbreak, aes(x = onset_date)) +
+  geom_histogram(binwidth = 1, fill = "#2a78d6") +
+  labs(title = "Daily cases by date of onset", x = "Date of onset", y = "Cases") +
+  theme_minimal()
+```
+
+Daily bars are good for spotting a sudden spike, but they are noisy. **Weekly** bars show the overall shape:
+
+```{r}
+#| fig-alt: "Weekly epidemic curve of the same outbreak. Cases rise from a few per week in January to a peak of about 35 per week in early March, then fall; the last week, in mid-April, has only a few cases because reporting is not complete."
+ggplot(outbreak, aes(x = onset_date)) +
+  geom_histogram(binwidth = 7, fill = "#2a78d6", color = "white") +
+  labs(title = "Weekly cases by date of onset", x = "Week of onset", y = "Cases") +
+  theme_minimal()
+```
+
+## Counting by week yourself
+
+`geom_histogram()` counts for you. To **use** the weekly numbers (in a table, or for a rolling average), count them yourself with `floor_date()`, which rounds each date down to the start of its week:
+
+```{r}
+weekly <- outbreak %>%
+  mutate(week = floor_date(onset_date, "week", week_start = 1)) %>%   # weeks start on Monday
+  count(week)
+
+head(weekly)
+```
+
+## A 7-day rolling average
+
+A **rolling average** smooths day-to-day noise: each day's value is the average of that day and the 6 days before it. First make sure **every** day appears, including days with 0 cases, with `complete()`:
+
+```{r}
+daily <- outbreak %>%
+  count(onset_date) %>%
+  complete(onset_date = seq(min(onset_date), max(onset_date), by = "day"),
+           fill = list(n = 0)) %>%
+  mutate(avg_7day = slide_dbl(n, mean, .before = 6, .complete = TRUE))
+
+tail(daily)
+```
+
+```{r}
+#| fig-alt: "Daily case counts as light blue bars with an orange 7-day rolling average line on top. The line smooths the noisy daily counts into a single wave that peaks at about 6 cases per day in mid-March."
+ggplot(daily, aes(x = onset_date)) +
+  geom_col(aes(y = n), fill = "#2a78d6", alpha = 0.4) +
+  geom_line(aes(y = avg_7day), color = "#eb6834", linewidth = 1) +
+  labs(title = "Daily cases with a 7-day rolling average",
+       x = "Date of onset", y = "Cases") +
+  theme_minimal()
+```
+
+::: callout-important
+## The last weeks are always incomplete
+
+Cases appear in the linelist only once they are **reported**, a few days after onset. In data "as of" a date, the most recent week or two look lower than they really are. Don't read a drop at the very end of a curve as the outbreak ending: wait, or mark the last weeks as incomplete.
+:::
+
+::: callout-warning
+## Common mistakes
+
+-   Forgetting `complete()`: days with no cases are missing from `count()`, so the rolling average skips them and comes out too high.
+-   `.complete = TRUE` leaves the first 6 days as `NA`, because there aren't 7 days to average yet. That's correct, and ggplot warns that it removed them.
+:::
+
+## Stratified curves
+
+Fill by a second variable to see **who** is getting sick over time:
+
+```{r}
+#| fig-alt: "Weekly epidemic curve with each bar split by vaccination status: blue for vaccinated, orange for unvaccinated, gray for unknown. Unvaccinated cases make up most of every week."
+vacc_colors <- c("Yes" = "#2a78d6", "No" = "#eb6834", "Unknown" = "#9a9a95")
+
+ggplot(outbreak, aes(x = onset_date, fill = vaccinated)) +
+  geom_histogram(binwidth = 7, color = "white") +
+  scale_fill_manual(values = vacc_colors) +
+  labs(title = "Weekly cases by vaccination status",
+       x = "Week of onset", y = "Cases", fill = "Vaccinated") +
+  theme_minimal()
+```
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: which shape is this curve?
+
+**Propagated.** It grows over several weeks rather than peaking all at once, as you'd expect from person-to-person spread with a serial interval of about 12 days for measles. It then falls as vaccination clinics and isolation slow transmission.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): weekly counts and a rolling average for the practice data
+
+For `measles`, using `report_date` (drop the rows with no report date first):
+
+a)  Count cases by week with `floor_date()`. Which week had the most cases?
+b)  Make a daily count with `complete()`, add a 7-day rolling average, and plot both
+
+✅ **Check:** a) the week starting Sunday 24 March 2024 has the most cases: 111
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+#| fig-alt: "Daily measles case counts in 2024 as light blue bars with an orange 7-day rolling average line, rising from February to a peak of about 17 cases per day in late March, then falling through June."
+measles_dated <- measles %>% filter(!is.na(report_date))
+
+# a)
+measles_dated %>%
+  count(week = floor_date(report_date, "week")) %>%
+  arrange(desc(n)) %>%
+  head(3)
+
+# b)
+measles_daily <- measles_dated %>%
+  count(report_date) %>%
+  complete(report_date = seq(min(report_date), max(report_date), by = "day"),
+           fill = list(n = 0)) %>%
+  mutate(avg_7day = slide_dbl(n, mean, .before = 6, .complete = TRUE))
+
+ggplot(measles_daily, aes(x = report_date)) +
+  geom_col(aes(y = n), fill = "#2a78d6", alpha = 0.4) +
+  geom_line(aes(y = avg_7day), color = "#eb6834", linewidth = 1) +
+  labs(x = "Date of report", y = "Cases") +
+  theme_minimal()
+```
+
+`floor_date()` starts weeks on **Sunday** by default; add `week_start = 1` for Monday.
+:::
+:::
+
+# Part 4: Measures of association
+
+Are some cases more likely to be **hospitalized**? A **2 × 2 table** compares an exposure (here, vaccination) with an outcome (hospitalization).
+
+```{r}
+two_by_two <- outbreak %>%
+  filter(vaccinated != "Unknown") %>%
+  tabyl(vaccinated, hospitalized)
+
+two_by_two
+```
+
+## The odds ratio by hand
+
+The **odds** of hospitalization = hospitalized ÷ not hospitalized. The **odds ratio** compares the odds in two groups:
+
+**OR = (odds in vaccinated) ÷ (odds in unvaccinated)**
+
+```{r}
+odds_vacc   <- 4 / 16     # vaccinated: 4 hospitalized, 16 not
+odds_unvacc <- 59 / 95    # unvaccinated: 59 hospitalized, 95 not
+odds_vacc / odds_unvacc
+```
+
+An OR **below 1** means lower odds in the vaccinated group; **above 1** means higher odds; **1** means no difference.
+
+## Logistic regression with `glm()`
+
+`glm()` with `family = binomial` estimates odds ratios, gives confidence intervals, and can **adjust** for other variables at the same time, here age under 5:
+
+```{r}
+model_data <- outbreak %>%
+  filter(vaccinated != "Unknown") %>%
+  mutate(
+    hospitalized = hospitalized == "Yes",   # TRUE / FALSE outcome
+    under_5      = age_years < 5
+  )
+
+hosp_model <- glm(hospitalized ~ vaccinated + under_5, data = model_data, family = binomial)
+
+tidy(hosp_model, exponentiate = TRUE, conf.int = TRUE)
+```
+
+-   `exponentiate = TRUE` turns the coefficients into **odds ratios**
+-   `vaccinatedYes` is the OR for vaccinated vs unvaccinated (the first level alphabetically, "No", is the reference), adjusted for age
+-   `under_5TRUE` is the OR for children under 5 vs older cases, adjusted for vaccination
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: vaccinated cases had lower odds of hospitalization (OR about 0.45). Is that a real difference?
+
+Look at the **confidence interval**: it runs from about 0.12 to 1.3, which **includes 1**. Only 20 cases were vaccinated, so the estimate is very uncertain. Children under 5, on the other hand, had about twice the odds of hospitalization, and their interval (about 1.05 to 3.8) stays above 1, though only just.
+
+Small groups give wide intervals. Report the interval, not just the estimate.
+:::
+
+::: callout-warning
+## What this does **not** tell you
+
+These are **cases only**. The OR compares hospitalization among people who already have measles; it is **not** the vaccine's effectiveness at preventing measles. For that you need non-cases too (a cohort or case-control design).
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (5 min): vaccination and death in the practice data
+
+In `measles` (leave out "Unknown" vaccination status and "Unknown" outcome):
+
+a)  Make a 2 × 2 table of `vaccinated` by `outcome` with `tabyl()`
+b)  Fit `glm(died ~ vaccinated, family = binomial)`, where `died` is `outcome == "Died"`, and show the odds ratio with `tidy(exponentiate = TRUE, conf.int = TRUE)`
+
+✅ **Check:** the odds ratio for vaccinated vs unvaccinated is about 0.11
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+death_data <- measles %>%
+  filter(vaccinated != "Unknown", outcome != "Unknown") %>%
+  mutate(died = outcome == "Died")
+
+# a)
+death_data %>% tabyl(vaccinated, outcome)
+
+# b)
+glm(died ~ vaccinated, data = death_data, family = binomial) %>%
+  tidy(exponentiate = TRUE, conf.int = TRUE)
+```
+
+Vaccinated cases had about one-tenth the odds of dying, and the whole confidence interval is below 1. (The practice data is fictional.)
+:::
+:::
+
+::: callout-tip
+## ⭐ Extra: survival analysis (to be drafted)
+
+Sofia's 9E outline includes a **survival preview**: time from onset to an event (for example recovery or death), with Kaplan–Meier curves from the `survival` package, which comes with R. To be added once the outline is agreed.
+:::
+
+# Key points
+
+-   Always say which **denominator** you used. Unknown outcomes are often recent cases, so the CFR can change as follow-up finishes.
+-   **Incidence** needs a population denominator; **counts** and **rates** answer different questions.
+-   **Proportional morbidity** describes exposures among cases when the population at risk is unknown.
+-   Weekly bars and a **7-day rolling average** show the shape of an epidemic curve; the shape suggests how the disease spreads.
+-   A **2 × 2 table** gives an odds ratio by hand; `glm(family = binomial)` gives adjusted odds ratios with confidence intervals.
+-   Look at the **confidence interval**, and remember what case-only data can and cannot tell you.
+
+**Next: Session 9E-2 — Mapping an outbreak.** The same Connecticut outbreak on a map: counts, incidence, case locations, and an interactive map.

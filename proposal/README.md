@@ -1,8 +1,15 @@
 # Proposal: one R foundations course for epidemiology *and* biomedical/bioinformatics researchers
 
-**Status:** draft for discussion (Sofia + Max). Nothing in the current course, website, or
-student scripts has been changed. Everything is on the local branch
-`proposal/epi-biomed-redesign`.
+**Status:** draft for discussion (Sofia + Max).
+
+- **Already done and live:** the base R foundations ("🔁 The base R way" boxes, the lists part of
+  Session 4, and the Base R ↔ tidyverse page) were merged into the course in October 2026
+  (pull request #1).
+- **Still a proposal:** everything else in this document — the restructured outline, the lab
+  substudy, the matrices lesson, and the track sessions. Nothing below has been built yet.
+- **Added by Max (October 2026):** a detailed plan for the Epi track (9E), with mapping, in
+  [The Epi track (9E) in detail](#the-epi-track-9e-in-detail), and new discussion points
+  (questions 7–12).
 
 ## The problem
 
@@ -102,7 +109,7 @@ Built-in signals students can find:
 | 6 | Summaries and tests | `tapply()`, `aggregate()`, `t.test()`, `chisq.test()`, `lm()` | `group_by()`/`summarise()`, `tabyl()`, `broom::tidy()` | Table 1, attack rates | gene by vaccination |
 | 7 | ggplot2 core | quick `plot()`/`hist()` | grammar, box + jitter, bars, facets, saving | — | — |
 | 8 | **Programming** (core, no longer optional) | `function`, `if`, `for`, `lapply()`/`sapply()` | `map()`, `walk()` | one function × every district | one test × every gene |
-| 9E | Epi track | — | epidemic curves, rates per 10k, `glm()` odds ratios, survival preview | ✓ | |
+| 9E | **Epi track: outbreak epidemiology and mapping** *(planned in detail below)* | `glm()`, `table()` for 2 × 2 tables | epi measures (CFR, incidence, proportional morbidity), epidemic curves, odds ratios with `broom`, maps with `sf` (choropleth, incidence, point, interactive), survival preview | ✓ | |
 | 9B | Omics track | `prcomp()`, `scale()`, `p.adjust()` | PCA, volcano, heatmap, `SummarizedExperiment` preview | | ✓ |
 
 Sessions 1–8 run once with everyone together. 9E and 9B are electives (parallel, or attend both).
@@ -139,6 +146,81 @@ Sessions 1–8 run once with everyone together. 9E and 9B are electives (paralle
 | `proposal/draft-session-05-matrices-and-lists.qmd` | A full draft lesson in the course style. Every code chunk has been run and every ✅ Check value is real. It sits outside `pages/`, so it doesn't appear on the website. |
 | `data-raw/make_lab_data.R` | Generates the three new lab files |
 | `raw_data/measles_lab_samples.csv`, `measles_immune_panel.csv`, `gene_annotation.csv` | The generated lab data |
+| `proposal/draft-session-9E1-outbreak-epidemiology.qmd` | **Draft Epi track lesson 1** (Max): CFR, incidence, proportional morbidity, epidemic curves with a rolling average, 2 × 2 tables, odds ratios with `glm()`. TRY ITs use the measles practice data. |
+| `proposal/draft-session-9E2-mapping.qmd` | **Draft Epi track lesson 2** (Max): `sf` boundary files, choropleth maps of counts and incidence, point maps, interactive maps with `plotly`. TRY ITs use the real North Carolina SIDS data included with `sf`. |
+| `data-raw/make_epi_data.R` | Builds the three Connecticut files below |
+| `raw_data/ct_towns.rds`, `ct_town_population.csv`, `ct_measles_outbreak.csv` | Real Connecticut town boundaries and populations, and the fictional measles outbreak |
+
+## The Epi track (9E) in detail
+
+*Added by Max, October 2026. Combines Sofia's 9E outline with material adapted from Max's
+Yale–Sudan training series (Session 2 "Summaries and Measures" and Session 3 "Plots,
+Epi-Curves and Maps"), using US data instead of Sudan data.*
+
+### Decisions so far (Max)
+
+- **One optional epidemiology session**, separate from the core. Repeating a little from
+  other sessions (for example epi-curve basics) is fine, so epi learners get everything in
+  one place and others can skip it.
+- **Maps are part of the epi session**, not a separate session.
+- **US data**, not Sudan data: a **fictional outbreak on a real Connecticut map**
+  (Option 2 below). Connecticut is local to Yale and familiar to learners.
+- **Coordinate with Sofia's 9E**: her odds ratios and survival preview plus Max's epi measures
+  and mapping become one session.
+
+### Proposed content
+
+| Part | Topic | From | About |
+|---|---|---|---|
+| 1 | Set up: the outbreak linelist, the town map, and populations | — | 5 min |
+| 2 | **Epi measures from a linelist:** case fatality ratio (and why unknown outcomes change it), incidence per 100,000 with population denominators, proportional morbidity (exposures among cases) over time | Max (Sudan S2) | 20 min |
+| 3 | **Epidemic curves:** daily vs weekly bars, stratified and faceted curves, a 7-day rolling average with `slider`, and reading curve shapes (point-source vs propagated) | Max (Sudan S3), Sofia | 20 min |
+| 4 | **Measures of association:** a 2 × 2 table, risk and odds ratios, logistic regression with `glm()` and `broom::tidy(exponentiate = TRUE)` | Sofia | 15 min |
+| 5 | **Maps with `sf`:** reading a boundary file, a choropleth of case counts, the same map as incidence per 100,000 (counts vs risk), a point map of cases, and an interactive map with `plotly` | Max (Sudan S3) | 30 min |
+| ⭐ | **Survival preview** (time from onset to outcome, Kaplan–Meier) as an optional extra | Sofia | — |
+
+This is about 90–100 minutes, so Max chose **two sessions** (9E-1 measures, curves, and
+association; 9E-2 maps), with **measles** as the disease and **`plotly`** for interactive maps.
+Both are drafted in `proposal/` (see the file table above); every code chunk runs and every
+✅ Check value is real.
+
+### Data plan (Option 2: a fictional outbreak on a real Connecticut map)
+
+| File | What it is | Where it comes from |
+|---|---|---|
+| `raw_data/ct_towns.rds` | Boundaries of Connecticut's 169 towns (an `sf` object) | US Census TIGER files via `tigris`, saved once |
+| `raw_data/ct_town_population.csv` | Town populations, 2024 estimates (the denominators for incidence) | US Census Bureau population estimates (a public CSV file, no API key needed), saved once |
+| `raw_data/ct_measles_outbreak.csv` | **Fictional** measles linelist "as of 18 April 2025": 194 cases in 33 towns, with onset and report dates, town, latitude/longitude, age, sex, vaccination, exposure setting, hospitalization, and outcome (including unknown) | Generated by `data-raw/make_epi_data.R` (fixed seed) |
+| `data-raw/make_epi_data.R` | Recreates all three files | New |
+
+- Like the Sudan series' `data_spatial/sudan_adm1.rds`, learners load **saved files** from
+  `raw_data/`, so they don't need internet access or a Census API key.
+- GPS points are placed inside each case's town with `sf::st_sample()`, so point maps show
+  realistic clusters.
+- The outbreak can be built with teaching signals, for example a point-source cluster around
+  one location, an exposure that drives the odds ratio, and enough unknown outcomes to
+  show how they change the CFR.
+- **Side example, real data:** the `sf` package includes North Carolina county data on births
+  and sudden infant deaths (1974–1979). It's a quick, real demonstration that the counties
+  with the most cases are not the ones with the highest rates.
+- **Connecticut gotcha:** since 2022, Census data for Connecticut uses 9 "planning regions"
+  instead of the 8 counties. Using **towns** avoids the problem (and gives better detail).
+
+### Packages
+
+- **For learners:** `sf`, `plotly`, `slider`, plus `broom` (installed with the tidyverse)
+  and `survival` (comes with R). `sf` installs easily on Mac and Windows; on Linux it needs
+  system libraries (GDAL, GEOS, PROJ).
+- **Only for building the data:** `tigris` (boundaries). The populations come from a public Census CSV file, so no API key is needed.
+
+### Adapting the Sudan material: fixes needed
+
+- `t.test()` runs **Welch's** t-test by default, not Student's.
+- The chi-square test is listed under "Non-Parametric Comparisons", and the "median (IQR)"
+  note is repeated under it, where it doesn't apply.
+- With large samples, a Shapiro–Wilk normality test is almost always "significant"; teach
+  histograms and Q–Q plots instead of relying on it.
+- Typos ("Calucalte", "bse R"); Sudan-specific populations and shapefile name fixes don't carry over.
 
 ## Questions for discussion
 
@@ -151,6 +233,29 @@ Sessions 1–8 run once with everyone together. 9E and 9B are electives (paralle
 4. **Time:** is 9 sessions realistic, or should the tracks be self-paced pages?
 5. **Pipe:** switch to `|>` (base R) throughout, or keep `%>%`?
 6. **Session 8:** make programming core rather than optional?
+
+**Added by Max (October 2026), about the Epi track:**
+
+7. **Disease for the fictional outbreak:** foodborne illness (for example *Salmonella* from
+   one event: a point-source curve, a clear 2 × 2 exposure for odds ratios), measles (a
+   propagated curve, vaccination as the exposure, consistent with the practice data), or
+   Legionnaires' disease (a point source such as a cooling tower: a strong spatial cluster
+   for the point map)?
+   **Decided (Max): measles**, as a propagated outbreak with vaccination status, so it links to the practice data.
+8. **Real places, fictional disease:** using real Connecticut towns for a made-up outbreak is
+   realistic, but every page should say clearly that the outbreak is fictional, so no town is
+   associated with a real event. Pick towns or a cluster location with that in mind?
+9. **One session or two?** The Epi track content is about 90–100 minutes. Split it into
+   9E-1 (measures, curves, association) and 9E-2 (maps)?
+   **Decided (Max): two sessions**, drafted in `proposal/`.
+10. **Statistical tests:** keep the tests (t-test, Wilcoxon, chi-square, Kruskal-Wallis,
+    `add_p()`) in the core Session 6, as Sofia proposes, so the Epi track can focus on
+    epi measures? Max's Sudan material on choosing a test could feed into Session 6.
+11. **Interactive maps:** `plotly` (used in the Sudan series, one line from a ggplot) or
+    `leaflet` (real basemaps and zoom, but a new syntax)?
+    **Decided (Max): `plotly`**, as in the Sudan series.
+12. **Order of work:** build the Epi track on top of the current 8 sessions first, or wait
+    until the full restructure is decided?
 
 ## Estimated work if we go ahead
 
