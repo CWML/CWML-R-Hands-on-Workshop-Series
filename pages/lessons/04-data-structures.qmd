@@ -413,6 +413,7 @@ symptom_counts
 And it's ready to plot (a preview of Session 6):
 
 ```{r}
+#| fig-alt: "Horizontal bar chart of the number of patients reporting each symptom, longest at the top: cough (about 5,300), fever (about 5,100), vomiting (about 3,100), chills (about 1,200), and aches (about 600)."
 ggplot(symptom_counts, aes(x = n, y = fct_reorder(symptom, n))) +
   geom_col(fill = "#2a78d6") +
   labs(title = "Patients reporting each symptom", x = "Number of patients", y = NULL) +

@@ -13,3 +13,18 @@
 .lesson-list li {
   margin-bottom: 0.35rem;
 }
+
+/* Dark mode: the dark theme gives inline code a light background (#f8f9fa).
+   Body text overrides it, but headings and callout titles did not, which made
+   white text on a near-white box. Give all inline code a dark background. */
+body.quarto-dark code:not(.sourceCode) {
+  background-color: rgba(255, 255, 255, 0.10);
+}
+body.quarto-dark h1 code,
+body.quarto-dark h2 code,
+body.quarto-dark h3 code,
+body.quarto-dark h4 code,
+body.quarto-dark .callout-title-container code,
+body.quarto-dark .callout-header code {
+  color: inherit;
+}

@@ -32,8 +32,13 @@ website:
       - text: "Instructor Guide"
         href: pages/instructor/index.qmd
     right:
+      - text: "Feedback"
+        icon: envelope
+        href: "mailto:maximilian.wegener@yale.edu?subject=Feedback%3A%20R%20Hands-on%20Workshop%20Series"
+        aria-label: "Send feedback by email"
       - icon: github
         href: https://github.com/CWML/CWML-R-Hands-on-Workshop-Series
+        aria-label: "GitHub repository"
 
   sidebar:
     - id: lessons
@@ -64,6 +69,7 @@ website:
 
   page-footer:
     left: "Cushing/Whitney Medical Library, Yale School of Medicine"
+    center: "Questions or feedback? [Email Max Wegener](mailto:maximilian.wegener@yale.edu?subject=Feedback%3A%20R%20Hands-on%20Workshop%20Series)"
     right: "Built with [Quarto](https://quarto.org)"
 
 format:

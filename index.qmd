@@ -58,3 +58,5 @@ You can! Each lesson page has everything you need: the explanations, the code wi
 Created by Max Wegener at the [Cushing/Whitney Medical Library](https://library.medicine.yale.edu/), Yale School of Medicine. All datasets are fictional and made for teaching.
 
 The materials are on [GitHub](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series).
+
+**Questions, suggestions, or found a mistake?** [Send us feedback by email](mailto:maximilian.wegener@yale.edu?subject=Feedback%3A%20R%20Hands-on%20Workshop%20Series) — we'd love to hear from you.

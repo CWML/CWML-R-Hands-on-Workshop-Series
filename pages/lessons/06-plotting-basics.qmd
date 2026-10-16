@@ -75,16 +75,19 @@ Every ggplot is built from the same parts, added together with `+`:
 Build it up one piece at a time, and run the code after every `+` so you can see what each layer adds:
 
 ```{r}
+#| fig-alt: "An empty gray plot panel. ggplot() with only data draws a blank canvas."
 # 1. Data only: an empty canvas
 ggplot(data = linelist)
 ```
 
 ```{r}
+#| fig-alt: "An empty plot with an x-axis labeled age_years from 0 to about 85 but no bars. The aesthetics set the axes, but nothing is drawn yet."
 # 2. Add aesthetics: the axes appear, but nothing is drawn yet
 ggplot(data = linelist, mapping = aes(x = age_years))
 ```
 
 ```{r}
+#| fig-alt: "Histogram of patient ages with 30 default bins. Most patients are under 25, and the counts fall off steadily, with very few patients over 60."
 # 3. Add a geometry: now we have a plot
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram()
@@ -107,6 +110,7 @@ Build a histogram of `measles` `temp_c` in the same three steps: data, then `aes
 ## Show solution
 
 ```{r}
+#| fig-alt: ["An empty gray plot panel made by ggplot(data = measles).", "An empty plot with an x-axis for temp_c from 36 to 41 but no bars.", "Histogram of measles temperatures with default bins: a small group around 37 degrees C and a large peak around 39 degrees C."]
 ggplot(data = measles)
 
 ggplot(data = measles, mapping = aes(x = temp_c))
@@ -126,6 +130,7 @@ A histogram shows the **distribution** of one number: the values are grouped int
 R warned us above that it picked 30 bins. Choose the bin width yourself:
 
 ```{r}
+#| fig-alt: "Histogram of patient ages in 5-year bins. The tallest bar is around age 5 (about 1,200 patients), and the counts decrease steadily with age."
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5)
 ```
@@ -137,6 +142,7 @@ Each bar is now 5 years wide. Try `binwidth = 1` and `binwidth = 10` — what ch
 Inside `geom_histogram()`, `fill` is the inside color and `color` is the outline. A white outline separates the bars.
 
 ```{r}
+#| fig-alt: "The same 5-year age histogram with blue bars and white outlines between them."
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 ```
@@ -158,6 +164,7 @@ Make a histogram of `measles` `age_years` with `binwidth = 1`, a fill color, and
 ## Show solution
 
 ```{r}
+#| fig-alt: "Histogram of measles case ages in 1-year bins, in blue. Most cases are young children: the tallest bar is age 2 (about 100 cases), and few cases are older than 20."
 ggplot(data = measles, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 1, fill = "#2a78d6", color = "white")
 ```
@@ -174,12 +181,14 @@ This is the key idea of ggplot:
 -   **Setting** — *outside* `aes()`: one **fixed** color for everything.
 
 ```{r}
+#| fig-alt: "Age histogram in 5-year bins with each bar split by outcome (Recover, Death, Unknown) in ggplot's default colors. All three outcomes follow the same age pattern."
 # Mapping: fill depends on the outcome column
 ggplot(data = linelist, mapping = aes(x = age_years, fill = outcome)) +
   geom_histogram(binwidth = 5, color = "white")
 ```
 
 ```{r}
+#| fig-alt: "Age histogram in 5-year bins with every bar the same blue, set with a fixed fill color."
 # Setting: every bar is blue
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
@@ -189,6 +198,7 @@ ggplot(data = linelist, mapping = aes(x = age_years)) +
 ## 🤔 Think about it: what happens if you put `fill = "blue"` *inside* `aes()`? Try it!
 
 ```{r}
+#| fig-alt: "Age histogram where every bar is the same pink-red color, with a legend showing one entry labeled blue. Putting fill = 'blue' inside aes() treats 'blue' as data, not as a color."
 ggplot(data = linelist, mapping = aes(x = age_years, fill = "blue")) +
   geom_histogram(binwidth = 5)
 ```
@@ -213,6 +223,7 @@ Make a histogram of `measles` `temp_c` with `binwidth = 0.2`, then map `fill = f
 ## Show solution
 
 ```{r}
+#| fig-alt: ["Histogram of measles temperatures in 0.2-degree bins: a small hump near 37 degrees C and a large hump near 39 degrees C.", "The same temperature histogram with bars colored by fever: the small hump near 37 degrees C is patients without fever, and the large hump near 39 degrees C is patients with fever."]
 ggplot(data = measles, mapping = aes(x = temp_c)) +
   geom_histogram(binwidth = 0.2, color = "white")
 
@@ -229,6 +240,7 @@ The small hump near 37 °C is the 99 patients without fever; the big hump near 3
 A scatter plot shows the **relationship** between two numbers: one point per row.
 
 ```{r}
+#| fig-alt: "Scatter plot of weight in kg against age in years for every patient. Weight rises steeply through childhood and more slowly in adults; the points overlap into a dense black mass."
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point()
 ```
@@ -236,6 +248,7 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
 With 6,000+ points, many sit on top of each other. Make them smaller and see-through with `size` and `alpha` (0 = invisible, 1 = solid):
 
 ```{r}
+#| fig-alt: "The same weight-by-age scatter plot with smaller, semi-transparent points, so crowded areas look darker and individual points are easier to see."
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point(size = 1, alpha = 0.3)
 ```
@@ -243,6 +256,7 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
 ## Map a third variable to color
 
 ```{r}
+#| fig-alt: "Weight-by-age scatter plot with points colored by gender (female, male, Unknown). Males tend to be heavier at older ages; the groups overlap at younger ages."
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg, color = gender)) +
   geom_point(size = 1, alpha = 0.4)
 ```
@@ -252,6 +266,7 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg, color = gender))
 `geom_smooth()` adds a trend line on top of the points. `method = "lm"` draws a straight line (linear model); `se = FALSE` hides the confidence band.
 
 ```{r}
+#| fig-alt: "Weight-by-age scatter plot with semi-transparent points and an orange straight trend line rising from about 33 kg at age 0 to about 130 kg at age 85. The straight line misses the curved shape of the points."
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point(size = 1, alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
@@ -262,6 +277,7 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
 You can pipe data into `ggplot()`, so you can `filter()` first without making a new object:
 
 ```{r}
+#| fig-alt: "Weight-by-age scatter plot for patients with fever only, showing the same curved pattern as for all patients."
 linelist %>%
   filter(fever == "yes") %>%
   ggplot(mapping = aes(x = age_years, y = wt_kg)) +
@@ -281,6 +297,7 @@ For hospitalized patients only (`filter(!is.na(days_in_hospital))`), plot `age_y
 ## Show solution
 
 ```{r}
+#| fig-alt: "Scatter plot of days in hospital (1 to 11) against age for 427 hospitalized measles cases, with an almost flat orange trend line near 5 days: no relationship between age and length of stay."
 measles %>%
   filter(!is.na(days_in_hospital)) %>%
   ggplot(mapping = aes(x = age_years, y = days_in_hospital)) +
@@ -302,6 +319,7 @@ A box plot compares the **distribution of a number across groups**:
 -   Points beyond the whiskers are possible **outliers**
 
 ```{r}
+#| fig-alt: "Box plots of age for each gender (female, male, Unknown). Males have a higher median age (17) than females (11), and every group has high outliers."
 ggplot(data = linelist, mapping = aes(x = gender, y = age_years)) +
   geom_boxplot()
 ```
@@ -311,6 +329,7 @@ ggplot(data = linelist, mapping = aes(x = gender, y = age_years)) +
 Remove the "Unknown" group, color the boxes, and drop the legend (the x-axis already names the groups):
 
 ```{r}
+#| fig-alt: "Box plots of age for female (red) and male (teal) patients, without a legend. The male box sits higher, with a median of 17 versus 11."
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
@@ -323,6 +342,7 @@ linelist %>%
 `stat_summary()` calculates a statistic for each group and draws it. Here, the mean as a diamond:
 
 ```{r}
+#| fig-alt: "Box plots of age for female and male patients with a white diamond marking each mean. The means (about 13 and 20) sit slightly above the medians (11 and 17) because ages are right-skewed."
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
@@ -352,6 +372,7 @@ Make a box plot of `days_in_hospital` by `vaccinated` (hospitalized patients onl
 ## Show solution
 
 ```{r}
+#| fig-alt: "Box plots of days in hospital by vaccination status (Yes, No, Unknown) for hospitalized measles cases, with white diamonds for the means. All three groups have medians of 4 to 5 days and means near 5."
 measles %>%
   filter(!is.na(days_in_hospital)) %>%
   ggplot(mapping = aes(x = vaccinated, y = days_in_hospital, fill = vaccinated)) +
@@ -369,6 +390,7 @@ The medians are 4 days (Yes) and 5 days (No, Unknown), and the means are all abo
 ## `labs()`
 
 ```{r}
+#| fig-alt: "Box plots of age by gender titled Age distribution by gender, with the subtitle Cases with known gender, axis labels Gender and Age (years), and a source caption."
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
@@ -388,6 +410,7 @@ linelist %>%
 A theme changes the look of everything that isn't data: background, grid lines, fonts. Try `theme_minimal()`, `theme_classic()`, `theme_bw()`, and `theme_light()`.
 
 ```{r}
+#| fig-alt: "Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme with larger text."
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white") +
   labs(
@@ -411,6 +434,7 @@ A complete theme like `theme_minimal()` resets everything, so put it **before** 
 A plot can be saved with `<-` and built on later:
 
 ```{r}
+#| fig-alt: "Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme."
 age_plot <- ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 
@@ -430,6 +454,7 @@ Finish one of your measles plots with a title, subtitle, axis labels, a caption,
 ## Show solution
 
 ```{r}
+#| fig-alt: "Histogram of measles temperatures colored by fever, titled Temperature of measles cases with the subtitle Patients with fever cluster around 39 degrees C. Patients without fever cluster near 37 degrees C."
 my_plot <- ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +
   geom_histogram(binwidth = 0.2, color = "white") +
   labs(

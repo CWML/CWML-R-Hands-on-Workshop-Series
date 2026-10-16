@@ -78,6 +78,7 @@ The same import pipeline as Session 6, plus a named color vector: each name (`"Y
 `geom_bar()` **counts the rows** in each category for you — you only give it `x`.
 
 ```{r}
+#| fig-alt: "Vertical bar chart of cases by hospital in gray. The hospital names on the x-axis overlap and are hard to read. Other/Unknown has the most cases (about 2,350), then Regional Medical center (about 1,800)."
 ggplot(data = linelist, mapping = aes(x = hospital_name)) +
   geom_bar()
 ```
@@ -85,6 +86,7 @@ ggplot(data = linelist, mapping = aes(x = hospital_name)) +
 The labels overlap. Put the categories on the **y-axis** instead to get horizontal bars:
 
 ```{r}
+#| fig-alt: "Horizontal bar chart of cases by hospital in gray. The hospital names on the y-axis are now easy to read, but the bars are in alphabetical order."
 ggplot(data = linelist, mapping = aes(y = hospital_name)) +
   geom_bar()
 ```
@@ -94,6 +96,7 @@ ggplot(data = linelist, mapping = aes(y = hospital_name)) +
 Alphabetical order rarely helps. `fct_infreq()` orders by count (most common first), and `fct_rev()` flips it so the longest bar is at the top:
 
 ```{r}
+#| fig-alt: "Horizontal bar chart titled Cases by hospital in blue, sorted from most to fewest cases: Other/Unknown, Regional Medical center, Military Hospital, Central Hospital, St. Mark's Maternity Hospital, HMO Health, and Premiere Health."
 ggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) +
   geom_bar(fill = "#2a78d6") +
   labs(title = "Cases by hospital", x = "Number of cases", y = NULL) +
@@ -107,18 +110,21 @@ ggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) +
 Map `fill` to split each bar. The `position` argument controls how the pieces are arranged:
 
 ```{r}
+#| fig-alt: "Stacked bar chart of case counts by age group, split by outcome. The Under 18 group is by far the largest (about 4,000 cases), so outcomes in the older groups are hard to compare."
 # "stack" (the default): counts, stacked
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "stack")
 ```
 
 ```{r}
+#| fig-alt: "100% stacked bar chart of outcome by age group: each bar is split into Recover, Death, and Unknown and reaches the same height, so proportions can be compared. The small older groups vary the most."
 # "fill": every bar is 100% — compares PROPORTIONS across groups
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "fill")
 ```
 
 ```{r}
+#| fig-alt: "Bar chart with side-by-side bars for Recover, Death, and Unknown in each age group. Under 18 has the tallest bars, and deaths outnumber recoveries in most age groups."
 # "dodge": side by side — compares COUNTS within each group
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "dodge")
@@ -141,6 +147,7 @@ Make a horizontal bar chart of measles cases by district, longest bar on top.
 ## Show solution
 
 ```{r}
+#| fig-alt: "Horizontal bar chart of measles cases by district in blue, longest at the top: North (342), South (284), East (223), West (170), Central (110), and Unknown (34)."
 ggplot(data = measles, mapping = aes(y = fct_rev(fct_infreq(district)))) +
   geom_bar(fill = "#2a78d6") +
   labs(title = "Measles cases by district", x = "Number of cases", y = NULL) +
@@ -156,6 +163,7 @@ ggplot(data = measles, mapping = aes(y = fct_rev(fct_infreq(district)))) +
 When **you** have already calculated the numbers (with `count()` or `summarise()` from Session 5), use `geom_col()` and give it both `x` and `y`:
 
 ```{r}
+#| fig-alt: "Bar chart of the percentage of cases who died in each age group: 55 to 59% for every group under 60, 33% for 60 to 69, 50% for 70 to 79 (only 6 patients), and 0% for 80 and over (1 patient)."
 death_by_age <- linelist %>%
   filter(outcome != "Unknown", age_cat != "Unknown") %>%
   group_by(age_cat) %>%
@@ -198,6 +206,7 @@ b)  Plot it with `geom_col()`, using `x = fct_reorder(district, rate_per_10k)`.
 ## Show solution
 
 ```{r}
+#| fig-alt: "Bar chart of measles cases per 10,000 people by district, sorted from lowest to highest: Central 5.2, North 18.5, South 20.0, West 22.2, and East 22.8."
 # a)
 district_rates <- measles %>%
   filter(district != "Unknown") %>%
@@ -232,6 +241,7 @@ ggplot's default colors are fine for exploring, but for a report choose colors *
 `scale_fill_manual()` (for `fill`) and `scale_color_manual()` (for `color`) set the colors by name:
 
 ```{r}
+#| fig-alt: "100% stacked bar chart of outcome by age group with chosen colors: blue for Recover, orange for Death, and gray for Unknown, with a percent y-axis and a minimal theme."
 outcome_colors <- c("Recover" = "#2a78d6", "Death" = "#eb6834", "Unknown" = "#9a9a95")
 
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
@@ -262,6 +272,7 @@ The **viridis** scales are built into ggplot2 and are colorblind-friendly: try `
 If you keep labels on the x-axis, rotate them so they don't overlap:
 
 ```{r}
+#| fig-alt: "Vertical bar chart of cases by hospital in blue, with the hospital names rotated 45 degrees so they no longer overlap."
 ggplot(data = linelist, mapping = aes(x = hospital_name)) +
   geom_bar(fill = "#2a78d6") +
   theme_minimal() +
@@ -279,6 +290,7 @@ Make a 100% bar chart of `vaccinated` by `age_cat`, with `vacc_colors`, a percen
 ## Show solution
 
 ```{r}
+#| fig-alt: "100% stacked bar chart of measles vaccination status by age group. In every age group most cases were unvaccinated (orange), and about a quarter were vaccinated (blue); gray shows unknown status."
 ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
   geom_bar(position = "fill", color = "white") +
   scale_fill_manual(values = vacc_colors) +
@@ -301,6 +313,7 @@ ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
 An **epidemic curve** (epicurve) shows the number of new cases over time — the most important plot in outbreak investigation. It is a histogram of a **date** column:
 
 ```{r}
+#| fig-alt: "Weekly epidemic curve of all onset dates: a small cluster in late 2012 and early 2013, a gap, then the main outbreak from mid-2014 that peaks at about 300 cases per week in September 2014."
 ggplot(data = linelist, mapping = aes(x = onset_date)) +
   geom_histogram(binwidth = 7, fill = "#2a78d6", color = "white")
 ```
@@ -316,6 +329,7 @@ ggplot(data = linelist, mapping = aes(x = onset_date)) +
 Zoom in on the outbreak and format the date axis:
 
 ```{r}
+#| fig-alt: "Epidemic curve of weekly cases from 2014 onward. Cases rise from May 2014 to a peak of about 300 per week in September 2014, then decline slowly through April 2015."
 linelist %>%
   filter(onset_date >= as.Date("2014-01-01")) %>%
   ggplot(mapping = aes(x = onset_date)) +
@@ -336,6 +350,7 @@ linelist %>%
 ## Epicurve by outcome
 
 ```{r}
+#| fig-alt: "Epidemic curve of weekly cases from 2014 onward with each bar split by outcome: blue for Recover, orange for Death, gray for Unknown. All three outcomes rise and fall with the outbreak."
 linelist %>%
   filter(onset_date >= as.Date("2014-01-01")) %>%
   ggplot(mapping = aes(x = onset_date, fill = outcome)) +
@@ -357,6 +372,7 @@ Make a weekly epicurve of measles `report_date`, filled by `vaccinated`, with `v
 ## Show solution
 
 ```{r}
+#| fig-alt: "Weekly epidemic curve of measles cases in 2024 by week of report, split by vaccination status. Cases rise from February, peak in the second half of March at about 115 cases in one week, and fall through June. Most cases each week were unvaccinated (orange)."
 measles_epicurve <- measles %>%
   filter(!is.na(report_date)) %>%
   ggplot(mapping = aes(x = report_date, fill = vaccinated)) +
@@ -383,6 +399,7 @@ The outbreak peaked in the second half of March 2024, with 117 cases in the peak
 `facet_wrap()` splits one plot into **small multiples** — one panel per category, all with the same axes so they are easy to compare:
 
 ```{r}
+#| fig-alt: "Four small epidemic curves on the same axes, one per hospital: Central Hospital, Military Hospital, Regional Medical center, and St. Mark's Maternity Hospital. Regional Medical center has the largest outbreak, peaking at about 90 cases per week in September 2014."
 #| fig-height: 6
 linelist %>%
   filter(onset_date >= as.Date("2014-01-01"), hospital_name != "Other/Unknown") %>%
@@ -397,6 +414,7 @@ linelist %>%
 Facets work with any plot:
 
 ```{r}
+#| fig-alt: "Two age histograms side by side, for female and male patients. Female patients are mostly under 25, while male ages are spread more widely, up to about 75."
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = age_years)) +
@@ -423,6 +441,7 @@ Facet your measles epicurve by district (leave out "Unknown"). Did every distric
 ## Show solution
 
 ```{r}
+#| fig-alt: "Five small weekly epidemic curves of measles cases, one per district, with bars colored by vaccination status. Every district peaks in March 2024, and North has the most cases."
 measles %>%
   filter(!is.na(report_date), district != "Unknown") %>%
   ggplot(mapping = aes(x = report_date, fill = vaccinated)) +
@@ -503,6 +522,7 @@ See the solutions file for the code.
 This optional, advanced example calculates the median and quartiles for each group with `summarise()`, turns them into text, and adds them to the plot with `geom_text()` — combining Sessions 4, 5, and 6.
 
 ```{r}
+#| fig-alt: "Box plots of age by gender in two panels, Recover and Death, each labeled with its median and quartiles. Females have a median of 11 (Q1 5, Q3 18 to 19) and males a median of 17 (Q1 8, Q3 28 to 29), nearly the same for both outcomes."
 # 1. Summary statistics for each gender and outcome
 box_stats <- linelist %>%
   filter(gender != "Unknown", outcome != "Unknown") %>%

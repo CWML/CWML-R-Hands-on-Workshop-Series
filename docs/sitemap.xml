@@ -2,94 +2,94 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/troubleshooting.html</loc>
-    <lastmod>2026-10-14T18:51:09.890Z</lastmod>
+    <lastmod>2026-10-13T15:34:47.717Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/resources.html</loc>
-    <lastmod>2026-10-14T19:31:31.726Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.497Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/07-plotting-further.html</loc>
-    <lastmod>2026-10-14T18:51:09.890Z</lastmod>
+    <lastmod>2026-10-15T20:21:23.607Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/05-summarizing.html</loc>
-    <lastmod>2026-10-14T19:30:25.140Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.495Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/03-missing-data-joins-export.html</loc>
-    <lastmod>2026-10-14T19:28:54.034Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.494Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/01-setup-and-first-look.html</loc>
-    <lastmod>2026-10-14T19:28:02.878Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.493Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-07.html</loc>
-    <lastmod>2026-10-14T18:51:09.889Z</lastmod>
+    <lastmod>2026-10-14T14:24:46.643Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-05.html</loc>
-    <lastmod>2026-10-14T19:30:25.144Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.491Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-03.html</loc>
-    <lastmod>2026-10-14T19:28:54.037Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.490Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-01.html</loc>
-    <lastmod>2026-10-14T19:28:02.881Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.488Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/data.html</loc>
-    <lastmod>2026-10-14T18:51:09.888Z</lastmod>
+    <lastmod>2026-10-13T15:24:17.610Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/index.html</loc>
-    <lastmod>2026-10-14T19:31:31.726Z</lastmod>
+    <lastmod>2026-10-15T20:18:13.995Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/base-vs-tidyverse.html</loc>
-    <lastmod>2026-10-14T19:31:51.560Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.488Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/index.html</loc>
-    <lastmod>2026-10-14T18:51:09.888Z</lastmod>
+    <lastmod>2026-10-14T14:24:46.642Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-02.html</loc>
-    <lastmod>2026-10-14T19:28:33.972Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.489Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-04.html</loc>
-    <lastmod>2026-10-14T19:29:47.440Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.491Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-06.html</loc>
-    <lastmod>2026-10-14T18:51:09.889Z</lastmod>
+    <lastmod>2026-10-14T14:24:46.642Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/instructor/session-08.html</loc>
-    <lastmod>2026-10-14T19:30:50.439Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.492Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/02-cleaning.html</loc>
-    <lastmod>2026-10-14T19:28:33.969Z</lastmod>
+    <lastmod>2026-10-15T14:27:46.493Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/04-data-structures.html</loc>
-    <lastmod>2026-10-14T19:29:47.438Z</lastmod>
+    <lastmod>2026-10-15T20:21:23.606Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/06-plotting-basics.html</loc>
-    <lastmod>2026-10-14T18:51:09.890Z</lastmod>
+    <lastmod>2026-10-15T20:21:23.607Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/lessons/08-programming.html</loc>
-    <lastmod>2026-10-14T19:30:50.436Z</lastmod>
+    <lastmod>2026-10-15T20:21:23.608Z</lastmod>
   </url>
   <url>
     <loc>https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/setup.html</loc>
-    <lastmod>2026-10-14T18:51:09.890Z</lastmod>
+    <lastmod>2026-10-14T14:24:46.636Z</lastmod>
   </url>
 </urlset>
