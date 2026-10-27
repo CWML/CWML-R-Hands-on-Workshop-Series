@@ -31,3 +31,6 @@ processed_data/OLD/
 !docs/
 !docs/**
 /.quarto/
+
+# Student ZIP built by tools/build_student_zip.sh
+/dist/

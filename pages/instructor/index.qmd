@@ -36,7 +36,7 @@ This is the approach used by [The Carpentries](https://carpentries.org/): short 
 
 -   **One week before:** send learners the link to the [Setup](../setup.qmd) page and ask them to run the test at the end. Ask anyone who sees an error to contact you before the first session.
 -   **Before each session:** remind learners to open the workshop **folder** in Positron (File → Open Recent) and to run that session's test (on the Setup page).
--   Have a few copies of the workshop folder on a USB stick, in case of network problems.
+-   Have a few copies of the workshop folder (`cwml-r-workshop.zip`, from the [Setup](../setup.qmd) page) on a USB stick, in case of network problems.
 
 ## Session overview
 
@@ -63,4 +63,5 @@ Every session starts from a file that is already in the repository, so learners 
 | `student_scripts/` | Student scripts: notes, Pattern lines, and TRY ITs with space to type |
 | `solutions/` | The student scripts with every answer filled in |
 | `raw_data/` | The workshop and practice datasets |
+| `tools/build_student_zip.sh` | Builds `cwml-r-workshop.zip`, the **student download**: only the student scripts, solutions, the data Sessions 1–8 use, an empty `outputs/`, and the `.here` file. A GitHub Action rebuilds and republishes it automatically whenever those files change, so the Setup page's link always has the latest version. |
 | `instructor scripts/make_practice_data.R` | Recreates the measles practice data exactly (kept out of the public repository) |

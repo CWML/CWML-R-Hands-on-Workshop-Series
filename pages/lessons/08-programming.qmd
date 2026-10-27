@@ -4,7 +4,7 @@ subtitle: "Writing functions, if/else and if_else(), for loops, and iteration wi
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%208%20-%20Programming_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%208%20-%20Programming_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%208%20-%20Programming_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%208%20-%20Programming_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note

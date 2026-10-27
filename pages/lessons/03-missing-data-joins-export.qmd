@@ -4,7 +4,7 @@ subtitle: "Missing values, rows with no ID, duplicates, replace_na() and across(
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%203%20-%20Missing%20Data%2C%20Joins%2C%20and%20Export_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note

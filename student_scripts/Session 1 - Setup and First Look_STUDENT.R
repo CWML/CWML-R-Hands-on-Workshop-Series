@@ -99,7 +99,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #
 # 📖 What you need to know
 #    - Keep everything for a project in ONE folder, and open that folder in Positron:
-#      File -> Open Folder... -> CWML-R-Hands-on-Workshop-Series -> Open.
+#      File -> Open Folder... -> cwml-r-workshop -> Open.
 #      The workshop files then appear in the Explorer on the left.
 #    - here() builds a file path that starts at the project folder, so the same
 #      code works on every computer. here("raw_data", "file.csv") means

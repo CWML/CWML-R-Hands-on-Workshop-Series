@@ -67,7 +67,7 @@
     "href": "pages/lessons/07-plotting-further.html",
     "title": "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)",
     "crumbs": [
       "Setup",
       "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
@@ -122,7 +122,7 @@
     "href": "pages/lessons/05-summarizing.html",
     "title": "Session 5: Summarizing Your Data",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nThere are many packages for summary tables. This session uses three that cover almost every need: dplyr (count()/summarise()) for flexible summaries you can plot, janitor (tabyl()) for quick cross-tabs, and gtsummary for tables you publish.",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)\nThere are many packages for summary tables. This session uses three that cover almost every need: dplyr (count()/summarise()) for flexible summaries you can plot, janitor (tabyl()) for quick cross-tabs, and gtsummary for tables you publish.",
     "crumbs": [
       "Setup",
       "Session 5: Summarizing Your Data"
@@ -221,7 +221,7 @@
     "href": "pages/lessons/03-missing-data-joins-export.html",
     "title": "Session 3: Missing Data, Joins, and Export",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nToday you finish two datasets side by side, so they are ready for analysis:",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)\nToday you finish two datasets side by side, so they are ready for analysis:",
     "crumbs": [
       "Setup",
       "Session 3: Missing Data, Joins, and Export"
@@ -298,7 +298,7 @@
     "href": "pages/lessons/01-setup-and-first-look.html",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)",
     "crumbs": [
       "Setup",
       "Session 1: Setup and a First Look at Your Data"
@@ -364,7 +364,7 @@
     "href": "pages/lessons/01-setup-and-first-look.html#open-the-project-folder-for-this-class",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "Open the project folder for this class",
-    "text": "Open the project folder for this class\n\nDownload the workshop folder and save it somewhere you can find it (not your Downloads folder)\nIn Positron, choose File → Open Folder…, select the CWML-R-Hands-on-Workshop-Series folder, and click Open. Positron uses that folder as the working directory\nCheck the Explorer on the left: it should list the workshop files (raw_data, student_scripts, …)\n\n\n\n\n\n\n\nTipYour own projects later\n\n\n\nMake a new folder for each project (with subfolders like raw_data/ and scripts/), and open it in Positron with File → Open Folder…. Add an empty file called .here at the top so here() always finds it.",
+    "text": "Open the project folder for this class\n\nDownload the workshop folder and save it somewhere you can find it (not your Downloads folder)\nIn Positron, choose File → Open Folder…, select the cwml-r-workshop folder, and click Open. Positron uses that folder as the working directory\nCheck the Explorer on the left: it should list the workshop files (raw_data, student_scripts, …)\n\n\n\n\n\n\n\nTipYour own projects later\n\n\n\nMake a new folder for each project (with subfolders like raw_data/ and scripts/), and open it in Positron with File → Open Folder…. Add an empty file called .here at the top so here() always finds it.",
     "crumbs": [
       "Setup",
       "Session 1: Setup and a First Look at Your Data"
@@ -842,7 +842,7 @@
     "href": "pages/instructor/index.html#before-the-workshop",
     "title": "Instructor Guide",
     "section": "Before the workshop",
-    "text": "Before the workshop\n\nOne week before: send learners the link to the Setup page and ask them to run the test at the end. Ask anyone who sees an error to contact you before the first session.\nBefore each session: remind learners to open the workshop folder in Positron (File → Open Recent) and to run that session’s test (on the Setup page).\nHave a few copies of the workshop folder on a USB stick, in case of network problems.",
+    "text": "Before the workshop\n\nOne week before: send learners the link to the Setup page and ask them to run the test at the end. Ask anyone who sees an error to contact you before the first session.\nBefore each session: remind learners to open the workshop folder in Positron (File → Open Recent) and to run that session’s test (on the Setup page).\nHave a few copies of the workshop folder (cwml-r-workshop.zip, from the Setup page) on a USB stick, in case of network problems.",
     "crumbs": [
       "Instructor Guide"
     ]
@@ -862,7 +862,7 @@
     "href": "pages/instructor/index.html#the-materials",
     "title": "Instructor Guide",
     "section": "The materials",
-    "text": "The materials\n\n\n\n\n\n\n\nFolder\nWhat’s in it\n\n\n\n\npages/lessons/\nThe lesson pages on this website (the source .qmd files)\n\n\nstudent_scripts/\nStudent scripts: notes, Pattern lines, and TRY ITs with space to type\n\n\nsolutions/\nThe student scripts with every answer filled in\n\n\nraw_data/\nThe workshop and practice datasets\n\n\ninstructor scripts/make_practice_data.R\nRecreates the measles practice data exactly (kept out of the public repository)",
+    "text": "The materials\n\n\n\n\n\n\n\nFolder\nWhat’s in it\n\n\n\n\npages/lessons/\nThe lesson pages on this website (the source .qmd files)\n\n\nstudent_scripts/\nStudent scripts: notes, Pattern lines, and TRY ITs with space to type\n\n\nsolutions/\nThe student scripts with every answer filled in\n\n\nraw_data/\nThe workshop and practice datasets\n\n\ntools/build_student_zip.sh\nBuilds cwml-r-workshop.zip, the student download: only the student scripts, solutions, the data Sessions 1–8 use, an empty outputs/, and the .here file. A GitHub Action rebuilds and republishes it automatically whenever those files change, so the Setup page’s link always has the latest version.\n\n\ninstructor scripts/make_practice_data.R\nRecreates the measles practice data exactly (kept out of the public repository)",
     "crumbs": [
       "Instructor Guide"
     ]
@@ -1092,7 +1092,7 @@
     "href": "pages/lessons/02-cleaning.html",
     "title": "Session 2: Cleaning Your Data",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nYou will build two cleaned datasets side by side: linelist_clean in the Follow along code, and measles_clean in the TRY ITs.",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)\nYou will build two cleaned datasets side by side: linelist_clean in the Follow along code, and measles_clean in the TRY ITs.",
     "crumbs": [
       "Setup",
       "Session 2: Cleaning Your Data"
@@ -1235,7 +1235,7 @@
     "href": "pages/lessons/04-data-structures.html",
     "title": "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nSessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain why mutate() works on a whole column at once, base-R subsetting is everywhere in help pages and other people’s code (and you will need it to write functions in Session 8), lists are how R stores test and model results, and reshaping is needed for many summaries and plots.",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)\nSessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain why mutate() works on a whole column at once, base-R subsetting is everywhere in help pages and other people’s code (and you will need it to write functions in Session 8), lists are how R stores test and model results, and reshaping is needed for many summaries and plots.",
     "crumbs": [
       "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
@@ -1400,7 +1400,7 @@
     "href": "pages/lessons/06-plotting-basics.html",
     "title": "Session 6: Plotting Basics with ggplot2",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)",
     "crumbs": [
       "Setup",
       "Session 6: Plotting Basics with ggplot2"
@@ -1510,7 +1510,7 @@
     "href": "pages/lessons/08-programming.html",
     "title": "Session 8: Programming — Functions, if/else, Loops, and Iteration",
     "section": "",
-    "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
+    "text": "⬇ Student script ⬇ Solutions ⬇ Workshop folder (ZIP)",
     "crumbs": [
       "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
@@ -1652,7 +1652,7 @@
     "href": "pages/setup.html#before-session-1-one-time-setup",
     "title": "Setup",
     "section": "Before Session 1 (one-time setup)",
-    "text": "Before Session 1 (one-time setup)\n\nInstall R (version 4.2 or newer) from CRAN.\nInstall Positron (free) from Posit. Positron is the program you write and run R code in. Install R first (step 1), then Positron.\nDownload the workshop folder from GitHub. All the workshop files (data, student scripts, and solutions) live in a GitHub repository, not on this website. This one download has everything for all eight sessions.\n\nGo to the workshop’s GitHub page: github.com/CWML/CWML-R-Hands-on-Workshop-Series\nClick the green Code button, then Download ZIP. (Or use this direct link: download the ZIP from GitHub.) You don’t need a GitHub account.\nUnzip the file somewhere easy to find (Documents, not Downloads). The unzipped folder may be called CWML-R-Hands-on-Workshop-Series-main; that’s fine.\n\nOpen the workshop folder in Positron: open Positron, choose File → Open Folder…, select the unzipped CWML-R-Hands-on-Workshop-Series folder, and click Open. If Positron asks whether you trust the authors of the files, click Yes.\n\nThe workshop files appear in the Explorer on the left.\nAn R Console starts at the bottom. If it doesn’t, click the interpreter button in the top-right corner and choose R.\n\nInstall the packages. Copy this into the Console (bottom) and press Enter:\ninstall.packages(c(\"tidyverse\", \"here\", \"rio\", \"janitor\", \"skimr\", \"gtsummary\", \"flextable\", \"scales\"))\nIt can take 5–10 minutes. If you see errors about compilers, see Troubleshooting.\nTest it. Copy this into the Console and press Enter:\nlibrary(tidyverse); library(here); library(rio); library(janitor); library(skimr); library(gtsummary); library(flextable)\nnrow(import(here(\"raw_data\", \"measles_raw.csv\")))\n\n\n\n\n\n\n\nTip✅ You’re ready if it prints [1] 1215\n\n\n\nRed messages that don’t start with “Error” are normal. If you see an error, contact the instructor before the session.",
+    "text": "Before Session 1 (one-time setup)\n\nInstall R (version 4.2 or newer) from CRAN.\nInstall Positron (free) from Posit. Positron is the program you write and run R code in. Install R first (step 1), then Positron.\nDownload the workshop folder from GitHub. The files you’ll work with (student scripts, solutions, and data) are stored on GitHub, not on this website. This one download has everything for all eight sessions (under 1 MB).\n⬇ Download the workshop folder (cwml-r-workshop.zip)\n\nThe download comes from the workshop’s GitHub page. You don’t need a GitHub account.\nUnzip the file somewhere easy to find (Documents, not Downloads). You get a folder called cwml-r-workshop.\n\nOpen the workshop folder in Positron: open Positron, choose File → Open Folder…, select the unzipped cwml-r-workshop folder, and click Open. If Positron asks whether you trust the authors of the files, click Yes.\n\nThe workshop files appear in the Explorer on the left.\nAn R Console starts at the bottom. If it doesn’t, click the interpreter button in the top-right corner and choose R.\n\nInstall the packages. Copy this into the Console (bottom) and press Enter:\ninstall.packages(c(\"tidyverse\", \"here\", \"rio\", \"janitor\", \"skimr\", \"gtsummary\", \"flextable\", \"scales\"))\nIt can take 5–10 minutes. If you see errors about compilers, see Troubleshooting.\nTest it. Copy this into the Console and press Enter:\nlibrary(tidyverse); library(here); library(rio); library(janitor); library(skimr); library(gtsummary); library(flextable)\nnrow(import(here(\"raw_data\", \"measles_raw.csv\")))\n\n\n\n\n\n\n\nTip✅ You’re ready if it prints [1] 1215\n\n\n\nRed messages that don’t start with “Error” are normal. If you see an error, contact the instructor before the session.",
     "crumbs": [
       "Setup"
     ]
@@ -1672,7 +1672,7 @@
     "href": "pages/setup.html#whats-in-the-workshop-folder",
     "title": "Setup",
     "section": "What’s in the workshop folder",
-    "text": "What’s in the workshop folder\nCWML-R-Hands-on-Workshop-Series/\n├── student_scripts/  # student scripts, one per session\n├── solutions/        # the student scripts with every answer filled in\n├── raw_data/         # the original data files (never edit these!)\n├── processed_data/   # cleaned data saved during the sessions\n└── outputs/          # plots and tables you save",
+    "text": "What’s in the workshop folder\ncwml-r-workshop/\n├── student_scripts/  # student scripts, one per session\n├── solutions/        # the student scripts with every answer filled in\n├── raw_data/         # the original data files (never edit these!)\n├── processed_data/   # cleaned data saved during the sessions\n├── outputs/          # plots and tables you save\n└── README.md         # how to open the folder",
     "crumbs": [
       "Setup"
     ]

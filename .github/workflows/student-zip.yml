@@ -1,0 +1,41 @@
+# Builds the student download (cwml-r-workshop.zip) and publishes it to the
+# "student-files" release, so the Setup page's link always has the latest version:
+# https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip
+
+name: Build student ZIP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "student_scripts/**"
+      - "solutions/**"
+      - "raw_data/**"
+      - "processed_data/**"
+      - "tools/**"
+      - ".github/workflows/student-zip.yml"
+  workflow_dispatch:   # also lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the ZIP
+        run: bash tools/build_student_zip.sh
+
+      - name: Publish to the student-files release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view student-files > /dev/null 2>&1; then
+            gh release create student-files \
+              --title "Student files" \
+              --notes "The workshop folder for learners: scripts, solutions, and data. Rebuilt automatically on every change. Setup instructions: https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/setup.html" \
+              --latest
+          fi
+          gh release upload student-files dist/cwml-r-workshop.zip --clobber

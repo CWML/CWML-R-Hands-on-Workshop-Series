@@ -4,7 +4,7 @@ subtitle: "R basics, packages, project folders, and importing and inspecting dat
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%201%20-%20Setup%20and%20First%20Look_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20Setup%20and%20First%20Look_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Whole workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%201%20-%20Setup%20and%20First%20Look_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20Setup%20and%20First%20Look_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -144,7 +144,7 @@ library(janitor)     # get_dupes() today; clean_names() in Session 2
 ## Open the project folder for this class
 
 1.  Download the workshop folder and save it somewhere you can find it (not your Downloads folder)
-2.  In Positron, choose **File → Open Folder...**, select the `CWML-R-Hands-on-Workshop-Series` folder, and click **Open**. Positron uses that folder as the working directory
+2.  In Positron, choose **File → Open Folder...**, select the `cwml-r-workshop` folder, and click **Open**. Positron uses that folder as the working directory
 3.  Check the **Explorer** on the left: it should list the workshop files (`raw_data`, `student_scripts`, ...)
 
 ::: callout-tip

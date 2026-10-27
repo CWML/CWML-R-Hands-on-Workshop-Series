@@ -63,13 +63,13 @@ checklist ends with a test: if the test prints the expected answer, you're ready
 - [ ] **Install R** from [CRAN](https://cran.r-project.org/) (version 4.2 or newer)
 - [ ] **Install Positron** (free) from [Posit](https://positron.posit.co/download.html)
       (install R first). Positron is the program you write and run R code in.
-- [ ] **Download the workshop folder from GitHub:** on the
-      [GitHub page](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series), click the
-      green **Code** button → **Download ZIP** (no GitHub account needed). Unzip it
-      somewhere easy to find (Documents, not Downloads). This one download has everything
-      for all eight sessions.
+- [ ] **Download the workshop folder from GitHub:**
+      [**cwml-r-workshop.zip**](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip)
+      (no GitHub account needed). It has only what learners need: student scripts,
+      solutions, and data for all eight sessions. Unzip it somewhere easy to find
+      (Documents, not Downloads).
 - [ ] **Open the workshop folder in Positron:** **File → Open Folder...**, select the
-      unzipped `CWML-R-Hands-on-Workshop-Series` folder, and click **Open** (click **Yes** if
+      unzipped `cwml-r-workshop` folder, and click **Open** (click **Yes** if
       asked whether you trust the authors). An R **Console** starts at the bottom.
 - [ ] **Install the packages.** Copy this into the Console (bottom) and press Enter:
 
@@ -116,6 +116,10 @@ the file from GitHub and put it back in `processed_data/`.
 session ends with a ⭐ BONUS for your own data.
 
 ## Folder structure
+
+This is the full repository (course materials **and** website). Learners download only
+the `cwml-r-workshop.zip` student folder, which `tools/build_student_zip.sh` builds and a
+GitHub Action (`.github/workflows/student-zip.yml`) publishes on every push.
 
 ```
 CWML-R-Hands-on-Workshop-Series/

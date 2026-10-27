@@ -471,7 +471,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>One week before:</strong> send learners the link to the <a href="../../pages/setup.html">Setup</a> page and ask them to run the test at the end. Ask anyone who sees an error to contact you before the first session.</li>
 <li><strong>Before each session:</strong> remind learners to open the workshop <strong>folder</strong> in Positron (File → Open Recent) and to run that session’s test (on the Setup page).</li>
-<li>Have a few copies of the workshop folder on a USB stick, in case of network problems.</li>
+<li>Have a few copies of the workshop folder (<code>cwml-r-workshop.zip</code>, from the <a href="../../pages/setup.html">Setup</a> page) on a USB stick, in case of network problems.</li>
 </ul>
 </section>
 <section id="session-overview" class="level2">
@@ -570,6 +570,10 @@ ul.task-list li input[type="checkbox"] {
 <td>The workshop and practice datasets</td>
 </tr>
 <tr class="odd">
+<td><code>tools/build_student_zip.sh</code></td>
+<td>Builds <code>cwml-r-workshop.zip</code>, the <strong>student download</strong>: only the student scripts, solutions, the data Sessions 1–8 use, an empty <code>outputs/</code>, and the <code>.here</code> file. A GitHub Action rebuilds and republishes it automatically whenever those files change, so the Setup page’s link always has the latest version.</td>
+</tr>
+<tr class="even">
 <td><code>instructor scripts/make_practice_data.R</code></td>
 <td>Recreates the measles practice data exactly (kept out of the public repository)</td>
 </tr>

@@ -14,6 +14,7 @@ https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/
 | `raw_data/` | Workshop data (`linelist_raw.xlsx`, `case_info.csv`, `hosp_info.txt`), measles practice data (`measles_raw.csv`, `district_info.csv`), and lab substudy data |
 | `processed_data/` | Ready-made files passed between sessions (`.rds`), so learners can join any session |
 | `outputs/` | Where learners save plots and tables |
+| `tools/build_student_zip.sh`, `.github/workflows/student-zip.yml` | Build and publish the **student download** `cwml-r-workshop.zip` (student scripts, solutions, the raw/processed data Sessions 1–8 use, `outputs/`, `.here`, `tools/student-README.md`) to the `student-files` GitHub release on every push. If a session starts using a new data file, add it to the script's file lists |
 | `data-raw/make_lab_data.R` | Regenerates the lab substudy files (fixed seed) |
 | `proposal/` | Draft redesign proposal and draft lesson — not on the website |
 | `docs/`, `_freeze/` | **Generated** by `quarto render`. Never edit by hand; commit both |
