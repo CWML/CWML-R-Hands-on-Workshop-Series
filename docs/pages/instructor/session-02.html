@@ -495,7 +495,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> This session is now the longest of the series. Do the district TRY IT (Part 6) together as a live-coded demo instead of solo work, or assign it as homework. Do <strong>not</strong> cut the final TRY IT (saving <code>measles_clean.rds</code>) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in <code>processed_data/</code>. The two 🔁 base R demos (<code>ifelse()</code>, <code>cut()</code>) can also be skipped and left for learners to read.</p>
+<p><strong>Short on time?</strong> This session is now the longest of the series. Do TRY IT 7 (district) together together as a live-coded demo instead of solo work, or assign it as homework. Do <strong>not</strong> cut TRY IT 9 (saving <code>measles_clean.rds</code>) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in <code>processed_data/</code>. The two 🔁 base R demos (<code>ifelse()</code>, <code>cut()</code>) can also be skipped and left for learners to read.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -518,7 +518,7 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>Explain why we replace impossible weights with <code>NA</code> rather than deleting the row: we keep the patient’s age, outcome, and dates.</p>
 <p><strong>🔁 <code>ifelse()</code> demo (3 min).</strong> Run both lines and let the class react to the numbers <code>ifelse()</code> returns. The message: base R <code>ifelse()</code> is everywhere in other people’s code, but it strips the Date type; <code>if_else()</code> is strict about types, which is why we use it. Learners only need to <em>recognize</em> <code>ifelse()</code>, not switch to it.</p>
-<p><strong>Part 6 — <code>case_when()</code>.</strong> Point out that rows matching no condition become <code>NA</code> (gender), and that <code>.default</code> catches everything else (hospital). Show <code>count(hospital, hospital_name)</code> as the way to check every recode. Common errors: <code>=</code> instead of <code>~</code>, a missing or extra comma. The district TRY IT is the hardest of the session — expect red sticky notes; a hint is to run <code>str_to_title()</code> first so each <code>str_detect()</code> only needs to catch misspellings.</p>
+<p><strong>Part 6 — <code>case_when()</code>.</strong> Point out that rows matching no condition become <code>NA</code> (gender), and that <code>.default</code> catches everything else (hospital). Show <code>count(hospital, hospital_name)</code> as the way to check every recode. Common errors: <code>=</code> instead of <code>~</code>, a missing or extra comma. TRY IT 7 (district) is the hardest of the session — expect red sticky notes; a hint is to run <code>str_to_title()</code> first so each <code>str_detect()</code> only needs to catch misspellings.</p>
 <p><strong>Part 7 — New variables.</strong> Ask the class (a “Think about it” on the lesson page):</p>
 <ul>
 <li><em>A BMI of 1,250?</em> — The heights and weights don’t fit together. Set BMIs outside 10–60 to <code>NA</code>.</li>
@@ -531,6 +531,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
+<p>The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.3 = Part 5, third prompt).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -544,39 +545,39 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Import the practice data</td>
+<td>1. Import the practice data</td>
 <td><code>measles_raw &lt;- import(here("raw_data", "measles_raw.csv"))</code> — 1215 rows, 11 columns</td>
 </tr>
 <tr class="even">
-<td>The pipe</td>
+<td>2. The pipe</td>
 <td><code>measles_raw %&gt;% select(...) %&gt;% arrange(desc(...)) %&gt;% head(10)</code> — two columns, top temperature 104.7</td>
 </tr>
 <tr class="odd">
-<td>Clean the measles column names</td>
+<td>3. Clean the measles column names</td>
 <td><code>measles_raw %&gt;% clean_names()</code> — <code>temp_c</code> and <code>vaccinated</code></td>
 </tr>
 <tr class="even">
-<td>Fix the measles types</td>
+<td>4. Fix the measles types</td>
 <td><code>as.Date(report_date)</code>, <code>as.numeric(age_years)</code>; 27 “unknown” become NA; max age 999</td>
 </tr>
 <tr class="odd">
-<td>999 and Fahrenheit</td>
+<td>5. 999 and Fahrenheit</td>
 <td><code>if_else(age_years == 999, NA, age_years)</code>; <code>if_else(temp_c &gt; 45, round((temp_c - 32) * 5 / 9, 1), temp_c)</code> — max age 52 (31 NA), max temp 40.9</td>
 </tr>
 <tr class="even">
-<td>Sex and vaccinated</td>
+<td>6. Sex and vaccinated</td>
 <td><code>case_when()</code> + <code>%in%</code> — sex: female 533, male 642, NA 40; vaccinated: No 741, Unknown 183, Yes 291</td>
 </tr>
 <tr class="odd">
-<td>District</td>
+<td>7. District</td>
 <td><code>str_to_title()</code> then <code>case_when()</code> + <code>str_detect()</code> — Central 113, East 233, North 356, South 297, West 182, NA 34</td>
 </tr>
 <tr class="even">
-<td>Outcome and age groups</td>
+<td>8. Outcome and age groups</td>
 <td><code>str_to_title(outcome)</code> — Died 52, Recovered 1095, NA 68; <code>age_cat</code> — Under 5 379, 5-9 368, 10-14 232, 15+ 205, NA 31</td>
 </tr>
 <tr class="odd">
-<td>Save the measles data</td>
+<td>9. Save the measles data</td>
 <td><code>export(measles_clean, here("processed_data", "measles_clean.rds"))</code></td>
 </tr>
 </tbody>

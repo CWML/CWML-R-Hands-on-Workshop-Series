@@ -20,7 +20,7 @@ subtitle: "Cleaning your data"
 |   | Wrap-up and preview | 5 min |
 |   | **Total** | **104 min** |
 
-**Short on time?** This session is now the longest of the series. Do the district TRY IT (Part 6) together as a live-coded demo instead of solo work, or assign it as homework. Do **not** cut the final TRY IT (saving `measles_clean.rds`) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in `processed_data/`. The two 🔁 base R demos (`ifelse()`, `cut()`) can also be skipped and left for learners to read.
+**Short on time?** This session is now the longest of the series. Do TRY IT 7 (district) together together as a live-coded demo instead of solo work, or assign it as homework. Do **not** cut TRY IT 9 (saving `measles_clean.rds`) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in `processed_data/`. The two 🔁 base R demos (`ifelse()`, `cut()`) can also be skipped and left for learners to read.
 
 ## Before you start
 
@@ -48,7 +48,7 @@ Explain why we replace impossible weights with `NA` rather than deleting the row
 
 **🔁 `ifelse()` demo (3 min).** Run both lines and let the class react to the numbers `ifelse()` returns. The message: base R `ifelse()` is everywhere in other people's code, but it strips the Date type; `if_else()` is strict about types, which is why we use it. Learners only need to *recognize* `ifelse()`, not switch to it.
 
-**Part 6 — `case_when()`.** Point out that rows matching no condition become `NA` (gender), and that `.default` catches everything else (hospital). Show `count(hospital, hospital_name)` as the way to check every recode. Common errors: `=` instead of `~`, a missing or extra comma. The district TRY IT is the hardest of the session — expect red sticky notes; a hint is to run `str_to_title()` first so each `str_detect()` only needs to catch misspellings.
+**Part 6 — `case_when()`.** Point out that rows matching no condition become `NA` (gender), and that `.default` catches everything else (hospital). Show `count(hospital, hospital_name)` as the way to check every recode. Common errors: `=` instead of `~`, a missing or extra comma. TRY IT 7 (district) is the hardest of the session — expect red sticky notes; a hint is to run `str_to_title()` first so each `str_detect()` only needs to catch misspellings.
 
 **Part 7 — New variables.** Ask the class (a "Think about it" on the lesson page):
 
@@ -66,14 +66,16 @@ For `age_cat`, point out that `case_when()` stops at the first TRUE line, and wa
 
 ## TRY IT answers at a glance
 
+The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.3 = Part 5, third prompt).
+
 | TRY IT | Answer |
 |---|---|
-| Import the practice data | `measles_raw <- import(here("raw_data", "measles_raw.csv"))` — 1215 rows, 11 columns |
-| The pipe | `measles_raw %>% select(...) %>% arrange(desc(...)) %>% head(10)` — two columns, top temperature 104.7 |
-| Clean the measles column names | `measles_raw %>% clean_names()` — `temp_c` and `vaccinated` |
-| Fix the measles types | `as.Date(report_date)`, `as.numeric(age_years)`; 27 "unknown" become NA; max age 999 |
-| 999 and Fahrenheit | `if_else(age_years == 999, NA, age_years)`; `if_else(temp_c > 45, round((temp_c - 32) * 5 / 9, 1), temp_c)` — max age 52 (31 NA), max temp 40.9 |
-| Sex and vaccinated | `case_when()` + `%in%` — sex: female 533, male 642, NA 40; vaccinated: No 741, Unknown 183, Yes 291 |
-| District | `str_to_title()` then `case_when()` + `str_detect()` — Central 113, East 233, North 356, South 297, West 182, NA 34 |
-| Outcome and age groups | `str_to_title(outcome)` — Died 52, Recovered 1095, NA 68; `age_cat` — Under 5 379, 5-9 368, 10-14 232, 15+ 205, NA 31 |
-| Save the measles data | `export(measles_clean, here("processed_data", "measles_clean.rds"))` |
+| 1. Import the practice data | `measles_raw <- import(here("raw_data", "measles_raw.csv"))` — 1215 rows, 11 columns |
+| 2. The pipe | `measles_raw %>% select(...) %>% arrange(desc(...)) %>% head(10)` — two columns, top temperature 104.7 |
+| 3. Clean the measles column names | `measles_raw %>% clean_names()` — `temp_c` and `vaccinated` |
+| 4. Fix the measles types | `as.Date(report_date)`, `as.numeric(age_years)`; 27 "unknown" become NA; max age 999 |
+| 5. 999 and Fahrenheit | `if_else(age_years == 999, NA, age_years)`; `if_else(temp_c > 45, round((temp_c - 32) * 5 / 9, 1), temp_c)` — max age 52 (31 NA), max temp 40.9 |
+| 6. Sex and vaccinated | `case_when()` + `%in%` — sex: female 533, male 642, NA 40; vaccinated: No 741, Unknown 183, Yes 291 |
+| 7. District | `str_to_title()` then `case_when()` + `str_detect()` — Central 113, East 233, North 356, South 297, West 182, NA 34 |
+| 8. Outcome and age groups | `str_to_title(outcome)` — Died 52, Recovered 1095, NA 68; `age_cat` — Under 5 379, 5-9 368, 10-14 232, 15+ 205, NA 31 |
+| 9. Save the measles data | `export(measles_clean, here("processed_data", "measles_clean.rds"))` |

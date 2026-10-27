@@ -91,3 +91,4 @@ body.quarto-dark .downloads .btn-outline-secondary:hover {
   border-top: 1px solid var(--bs-border-color, #dee2e6);
   text-align: right;
 }
+.follow-along p + p { margin-top: 0.3rem; font-size: 0.9rem; }

@@ -26,6 +26,9 @@ You will build **two** cleaned datasets side by side: `linelist_clean` in the Fo
 
 Every session starts the same way: open the project, load packages, import data.
 
+::: follow-along
+**👀 Follow along 1.1** — Load today's packages: tidyverse, here, rio, janitor, and skimr.
+:::
 ```{r}
 #| message: false
 library(tidyverse)
@@ -33,7 +36,12 @@ library(here)
 library(rio)
 library(janitor)
 library(skimr)
+```
 
+::: follow-along
+**👀 Follow along 1.2** — Import `raw_data/linelist_raw.xlsx` (`linelist_raw`) and `raw_data/hosp_info.txt` (`hosp_info`).
+:::
+```{r}
 linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
 hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 ```
@@ -58,7 +66,7 @@ All fixes happen in code. The raw file stays exactly as it arrived, so anyone ca
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (1 min): import the practice data
+## ✏️ TRY IT 1 (1 min): import the practice data
 
 Import `raw_data/measles_raw.csv` and call it `measles_raw`.
 
@@ -76,6 +84,12 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 # Part 2: The pipe `%>%`
 
 In Session 1, doing two things at once meant putting one function inside another:
+
+::: follow-along
+**👀 Follow along 2.1** — Sort by weight and show 3 rows: first with one function inside another, then with the pipe (the next two code blocks).
+
+Pattern: `DATA %>% STEP_1() %>% STEP_2()`
+:::
 
 ```{r}
 head(arrange(linelist_raw, wt_kg), 3)
@@ -95,6 +109,10 @@ The pipe takes the result on its left and passes it in as the **first argument**
 ## Longer pipelines
 
 Put each step on its own line, with the `%>%` at the **end** of the line. `select()` keeps only the **columns** you name:
+
+::: follow-along
+**👀 Follow along 2.2** — A longer pipeline, one step per line: `select()` `Case ID`, `wt_kg`, and `ht_cm`, then `arrange()` by `wt_kg`, then `head(5)`.
+:::
 
 ```{r}
 linelist_raw %>%
@@ -117,7 +135,7 @@ You may also see `|>`, the pipe built into R itself. For this workshop they do t
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): the pipe
+## ✏️ TRY IT 2 (3 min): the pipe
 
 In Session 1 you wrote `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``. Rewrite it with the pipe, and add a `select()` step so you only see `` `Patient ID` `` and `` `Temp (C)` ``.
 
@@ -143,6 +161,12 @@ Same answer as in Session 1, but now you can read it in order. From here on, alm
 
 One function (from janitor) makes every name lower case, replaces spaces and dots with `_`, and removes symbols. `"Case ID"` becomes `case_id` — after this, you never need backticks again!
 
+::: follow-along
+**👀 Follow along 3.1** — Create `linelist_clean` from `linelist_raw` with `clean_names()`. Compare `names()` before and after.
+
+Pattern: `NEW_DATA <- OLD_DATA %>% clean_names()`
+:::
+
 ```{r}
 names(linelist_raw)
 
@@ -155,6 +179,12 @@ names(linelist_clean)
 ## `rename()`
 
 `rename(new_name = old_name)` — the **new** name goes on the left.
+
+::: follow-along
+**👀 Follow along 3.2** — Rename `infection_date` → `date_of_infection`, `date_onset` → `onset_date`, and `hosp_date` → `hospital_date`.
+
+Pattern: `DATA <- DATA %>% rename(NEW_NAME = OLD_NAME, NEW_NAME = OLD_NAME)`
+:::
 
 ```{r}
 linelist_clean <- linelist_clean %>%
@@ -178,7 +208,7 @@ If your object gets into a bad state, re-run from the first step (`linelist_clea
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (2 min): clean the measles column names
+## ✏️ TRY IT 3 (2 min): clean the measles column names
 
 Create `measles_clean` from `measles_raw` with `clean_names()`. What did `` `Temp (C)` `` and `` `Vaccinated?` `` turn into?
 
@@ -206,6 +236,12 @@ names(measles_clean)
 
 `as.Date()` converts text or date-times to dates.
 
+::: follow-along
+**👀 Follow along 4.1** — Turn `date_of_infection`, `onset_date`, `hospital_date`, and `date_of_outcome` into dates with `as.Date()`.
+
+Pattern: `DATA <- DATA %>% mutate(COLUMN = as.Date(COLUMN), COLUMN = as.Date(COLUMN))`
+:::
+
 ```{r}
 linelist_clean <- linelist_clean %>%
   mutate(
@@ -228,6 +264,10 @@ linelist_clean %>% select(date_of_infection:date_of_outcome) %>% glimpse()
 
 `as.numeric()` turns text like `"56"` into the number 56. Text that isn't a number (like `"unknown"`) becomes `NA`, and R warns you: *"NAs introduced by coercion"*. That warning is fine **if** you expected it.
 
+::: follow-along
+**👀 Follow along 4.2** — Turn `age` into a number with `as.numeric()`.
+:::
+
 ```{r}
 linelist_clean <- linelist_clean %>%
   mutate(age = as.numeric(age))
@@ -242,7 +282,7 @@ class(linelist_clean$age)
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): fix the measles types
+## ✏️ TRY IT 4 (3 min): fix the measles types
 
 In `measles_clean`:
 
@@ -276,6 +316,10 @@ The 27 `"unknown"` ages became `NA` — that is what the warning is about. A max
 
 "If the unit is months, divide by 12; otherwise keep the age."
 
+::: follow-along
+**👀 Follow along 5.1** — Create `age_years` (ages in months divided by 12).
+:::
+
 ```{r}
 linelist_clean <- linelist_clean %>%
   mutate(age_years = if_else(age_unit == "months", age / 12, age))
@@ -296,6 +340,10 @@ A 6-month-old baby would be counted as 6 years old. All 37 ages recorded in mont
 
 Weights of zero or below are impossible. Instead of deleting the whole row (and losing the patient's age, outcome, and dates), we replace only the bad value with `NA`.
 
+::: follow-along
+**👀 Follow along 5.2** — Replace weights of 0 or below with `NA`.
+:::
+
 ```{r}
 linelist_clean <- linelist_clean %>%
   mutate(wt_kg = if_else(wt_kg <= 0, NA, wt_kg))
@@ -308,6 +356,10 @@ summary(linelist_clean$wt_kg)
 
 Base R has `ifelse()`, and you will see it everywhere. It works the same way **until you use it on dates**. Say we want an "estimated onset" that uses the hospital date when the onset date is missing:
 
+::: follow-along
+**🔁 Follow along 5.3** — Estimated onset (`hospital_date` when `onset_date` is missing) with `if_else()` and with `ifelse()`. Compare the first 3 values.
+:::
+
 ```{r}
 if_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
 ifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
@@ -317,7 +369,7 @@ ifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): 999 and Fahrenheit
+## ✏️ TRY IT 5 (4 min): 999 and Fahrenheit
 
 In `measles_clean`:
 
@@ -358,6 +410,10 @@ case_when(
 
 ## Gender
 
+::: follow-along
+**👀 Follow along 6.1** — Recode gender `"m"` → `"male"` and `"f"` → `"female"`. Check with `count()`.
+:::
+
 ```{r}
 linelist_clean <- linelist_clean %>%
   mutate(gender = case_when(
@@ -371,6 +427,10 @@ linelist_clean %>% count(gender)
 Any row that matches no condition becomes `NA` — here, that is the rows that were already missing.
 
 ## Hospital names (using the look-up table)
+
+::: follow-along
+**👀 Follow along 6.2** — Look at `hosp_info` and `count(hospital)`, then create `hospital_name` with `case_when()` + `str_detect()`. Check with `count(hospital, hospital_name)` (the next two code blocks).
+:::
 
 ```{r}
 hosp_info
@@ -412,7 +472,7 @@ To check for any of several exact values, use `%in%`: `sex %in% c("Male", "male"
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): sex and vaccinated
+## ✏️ TRY IT 6 (4 min): sex and vaccinated
 
 In `measles_clean`, recode
 
@@ -449,7 +509,7 @@ Six spellings of sex became two values (the 40 missing stay `NA`), and eight spe
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (5 min): district
+## ✏️ TRY IT 7 (5 min): district
 
 Make `district` one of North, South, East, West, Central.
 
@@ -487,6 +547,10 @@ measles_clean %>% count(district)
 
 `mutate()` can calculate a new column from other columns.
 
+::: follow-along
+**👀 Follow along 7.1** — Calculate `bmi`, then set BMIs below 10 or above 60 to `NA` (the next two code blocks).
+:::
+
 ```{r}
 linelist_clean <- linelist_clean %>%
   mutate(bmi = round(wt_kg / (ht_cm / 100)^2, 1))
@@ -510,6 +574,10 @@ summary(linelist_clean$bmi)
 About 1,400 BMIs are now `NA`, because many height and weight values in this teaching dataset are unrealistic. Setting only the bad value to `NA` (instead of filtering out those rows) keeps everything else we know about each patient.
 
 ## Age groups
+
+::: follow-along
+**👀 Follow along 7.2** — Create `age_cat`: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+.
+:::
 
 ```{r}
 linelist_clean <- linelist_clean %>%
@@ -536,6 +604,10 @@ Because `case_when()` stops at the first TRUE line, `age_years < 30` only catche
 
 Base R's `cut()` makes groups from numbers by giving the **break points**. `right = FALSE` means each group includes its lower limit (18 goes into "18-29"):
 
+::: follow-along
+**🔁 Follow along 7.3** — The same groups with `cut()`. Check with `table(useNA = "ifany")`.
+:::
+
 ```{r}
 cut(linelist_clean$age_years,
     breaks = c(0, 18, 30, 40, 50, 60, 70, 80, Inf),
@@ -554,7 +626,7 @@ Ending with `TRUE ~ "80+"` (or `.default = "80+"`) puts every patient with a **m
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): outcome and age groups
+## ✏️ TRY IT 8 (4 min): outcome and age groups
 
 In `measles_clean`:
 
@@ -589,6 +661,12 @@ measles_clean %>% count(age_cat)
 # Part 8: One pipeline and saving your work
 
 Here is every step as **one** pipeline. This is the version to keep in a real project: one block that goes from raw data to clean data, so anyone can re-run it and get exactly the same result.
+
+::: follow-along
+**👀 Follow along 8.1** — One pipeline from `linelist_raw` to `linelist_clean`.
+
+Pattern: `linelist_clean <- linelist_raw %>% clean_names() %>% rename(...) %>% mutate(...)`
+:::
 
 ```{r}
 linelist_clean <- linelist_raw %>%
@@ -645,6 +723,12 @@ Inside one `mutate()`, later lines can use columns made on earlier lines (`bmi` 
 
 `export()` is the opposite of `import()`. Save cleaned data to `processed_data/` — never over the raw file.
 
+::: follow-along
+**👀 Follow along 8.2** — Save `linelist_clean` as `processed_data/linelist_clean.rds`.
+
+Pattern: `export(DATA, here("FOLDER", "FILE_NAME.rds"))`
+:::
+
 ```{r}
 export(linelist_clean, here("processed_data", "linelist_clean.rds"))
 ```
@@ -654,7 +738,7 @@ export(linelist_clean, here("processed_data", "linelist_clean.rds"))
 Session 3 starts from this file.
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (2 min): save the measles data
+## ✏️ TRY IT 9 (2 min): save the measles data
 
 Save `measles_clean` as `processed_data/measles_clean.rds`. You need this file in Session 3!
 

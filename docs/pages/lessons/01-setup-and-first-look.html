@@ -514,6 +514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>&lt;-</code> stores a value in an <strong>object</strong> so you can use it later. Read it as “gets”. The object appears in the <strong>Variables</strong> pane.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 1.1</strong> — Store a number in an object called <code>my_age</code>, then add 5 to it.</p>
+<p>Pattern: <code>OBJECT_NAME &lt;- VALUE</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_age <span class="ot">&lt;-</span> <span class="dv">35</span></span>
@@ -586,6 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A <strong>data frame</strong> is a table: each <strong>column</strong> is a variable (a vector), each <strong>row</strong> is an observation. (Later you’ll also see <strong>tibbles</strong>: the tidyverse version of a data frame, which prints more neatly.)</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 1.5</strong> — Make a small data frame with <code>data.frame()</code>, then pull out one column with <code>$</code>.</p>
+<p>Pattern: <code>data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -700,6 +702,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Load only what you need today:</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 2.1</strong> — Load today’s packages, one <code>library()</code> line each. ✅ You should see no line that starts with “Error”.</p>
+<p>Pattern: <code>library(PACKAGE_NAME)</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># data wrangling (dplyr) and plotting (ggplot2)</span></span>
@@ -765,12 +768,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>here()</code> finds the top of the project folder (it looks for a <code>.here</code> file, which the workshop folder has) and builds the path from there.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 3.1</strong> — Find the top of the project folder.</p>
+<p>Pattern: <code>here::here()</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()                                   <span class="co"># where is the top of my project?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="follow-along">
 <p><strong>👀 Follow along 3.2</strong> — Build the path to <code>raw_data/linelist_raw.xlsx</code>.</p>
+<p>Pattern: <code>here::here("FOLDER", "FILE_NAME.EXTENSION")</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>)    <span class="co"># full path to a file inside it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -817,6 +822,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>rio::import()</code> reads almost any file type (<code>.csv</code>, <code>.xlsx</code>, <code>.txt</code>, SPSS, Stata, SAS, …). It works out the type from the file extension, so you only need to learn one function. Save the result with <code>&lt;-</code>, or it only prints to the Console and is gone.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 4.1</strong> — Import <code>raw_data/linelist_raw.xlsx</code> and call it <code>linelist_raw</code>.</p>
+<p>Pattern: <code>NEW_NAME &lt;- import(here("FOLDER", "FILE_NAME.EXTENSION"))</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1324,6 +1330,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <p>The data goes first, then the column: <code>count(DATA, COLUMN)</code>.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 5.3</strong> — <code>count()</code> the hospital, Gender, OUTCOME, and age_unit columns.</p>
+<p>Pattern: <code>count(DATA, COLUMN)</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(linelist_raw, hospital)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1641,7 +1648,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 <div class="callout-body-container callout-body">
 <p>Sort <code>measles_raw</code> by <code>`Temp (C)`</code>, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?</p>
-<p>HINT: <code>head(arrange(DATA, desc(COLUMN)), 10)</code></p>
+<p>Pattern: <code>head(arrange(DATA, desc(COLUMN)), 10)</code></p>
 <p>✅ <strong>Check:</strong> the top value is 104.7</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">

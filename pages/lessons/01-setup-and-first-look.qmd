@@ -29,6 +29,8 @@ Before we open any data, a few building blocks you'll use in every line of R. Ty
 
 ::: follow-along
 **👀 Follow along 1.1** — Store a number in an object called `my_age`, then add 5 to it.
+
+Pattern: `OBJECT_NAME <- VALUE`
 :::
 
 ```{r}
@@ -84,6 +86,8 @@ A **data frame** is a table: each **column** is a variable (a vector), each **ro
 
 ::: follow-along
 **👀 Follow along 1.5** — Make a small data frame with `data.frame()`, then pull out one column with `$`.
+
+Pattern: `data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))`
 :::
 
 ```{r}
@@ -142,6 +146,8 @@ Load only what you need today:
 
 ::: follow-along
 **👀 Follow along 2.1** — Load today's packages, one `library()` line each. ✅ You should see no line that starts with "Error".
+
+Pattern: `library(PACKAGE_NAME)`
 :::
 
 ```{r}
@@ -188,6 +194,8 @@ Make a new folder for each project (with subfolders like `raw_data/` and `script
 
 ::: follow-along
 **👀 Follow along 3.1** — Find the top of the project folder.
+
+Pattern: `here::here()`
 :::
 
 ```{r}
@@ -197,6 +205,8 @@ here::here()                                   # where is the top of my project?
 
 ::: follow-along
 **👀 Follow along 3.2** — Build the path to `raw_data/linelist_raw.xlsx`.
+
+Pattern: `here::here("FOLDER", "FILE_NAME.EXTENSION")`
 :::
 
 ```{r}
@@ -231,6 +241,8 @@ here::here("raw_data", "measles_raw.csv")
 
 ::: follow-along
 **👀 Follow along 4.1** — Import `raw_data/linelist_raw.xlsx` and call it `linelist_raw`.
+
+Pattern: `NEW_NAME <- import(here("FOLDER", "FILE_NAME.EXTENSION"))`
 :::
 
 ```{r}
@@ -364,6 +376,8 @@ The data goes first, then the column: `count(DATA, COLUMN)`.
 
 ::: follow-along
 **👀 Follow along 5.3** — `count()` the hospital, Gender, OUTCOME, and age_unit columns.
+
+Pattern: `count(DATA, COLUMN)`
 :::
 
 ```{r}
@@ -462,7 +476,7 @@ Use `==` (two equals signs) to compare. One `=` is for naming arguments.
 
 Sort `measles_raw` by `` `Temp (C)` ``, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?
 
-HINT: `head(arrange(DATA, desc(COLUMN)), 10)`
+Pattern: `head(arrange(DATA, desc(COLUMN)), 10)`
 
 ✅ **Check:** the top value is 104.7
 

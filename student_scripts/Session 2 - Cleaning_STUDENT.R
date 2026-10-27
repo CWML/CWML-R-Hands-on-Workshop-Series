@@ -12,6 +12,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Insert a pipe:   Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
@@ -33,13 +35,13 @@
 #      re-run your script and get the same result.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio, janitor, skimr
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr
 
 
-# 👀 Follow along: import raw_data/linelist_raw.xlsx (linelist_raw) and raw_data/hosp_info.txt (hosp_info)
+# 👀 Follow along 1.2: import raw_data/linelist_raw.xlsx (linelist_raw) and raw_data/hosp_info.txt (hosp_info)
 
 
-# ✏️ TRY IT (1 min): import raw_data/measles_raw.csv and call it measles_raw
+# ✏️ TRY IT 1 (1 min): import raw_data/measles_raw.csv and call it measles_raw
 #    ✅ Check: in the Variables pane, measles_raw shows 1215 rows and 11 columns
 
 
@@ -66,15 +68,15 @@
 #      Console). Press Esc and remove it.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: head(arrange(linelist_raw, wt_kg), 3), then the same with the pipe
+# 👀 Follow along 2.1: head(arrange(linelist_raw, wt_kg), 3), then the same with the pipe
 #    Pattern: DATA %>% STEP_1() %>% STEP_2()
 
 
-# 👀 Follow along: a longer pipeline, one step per line:
+# 👀 Follow along 2.2: a longer pipeline, one step per line:
 #    select() Case ID, wt_kg, and ht_cm, then arrange() by wt_kg, then head(5)
 
 
-# ✏️ TRY IT (3 min): in Session 1 you wrote
+# ✏️ TRY IT 2 (3 min): in Session 1 you wrote
 #      head(arrange(measles_raw, desc(`Temp (C)`)), 10)
 #    Rewrite it with the pipe, and add a select() step so you only see
 #    `Patient ID` and `Temp (C)`.
@@ -96,17 +98,17 @@
 #      If something goes wrong, re-run from the first step.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: create linelist_clean from linelist_raw with clean_names().
+# 👀 Follow along 3.1: create linelist_clean from linelist_raw with clean_names().
 #    Compare names() before and after.
 #    Pattern: NEW_DATA <- OLD_DATA %>% clean_names()
 
 
-# 👀 Follow along: rename infection_date -> date_of_infection, date_onset -> onset_date,
+# 👀 Follow along 3.2: rename infection_date -> date_of_infection, date_onset -> onset_date,
 #    hosp_date -> hospital_date
 #    Pattern: DATA <- DATA %>% rename(NEW_NAME = OLD_NAME, NEW_NAME = OLD_NAME)
 
 
-# ✏️ TRY IT (2 min): create measles_clean from measles_raw with clean_names()
+# ✏️ TRY IT 3 (2 min): create measles_clean from measles_raw with clean_names()
 #    What did `Temp (C)` and `Vaccinated?` turn into?
 #    ✅ Check: names(measles_clean) includes "temp_c" and "vaccinated"
 
@@ -129,14 +131,14 @@
 #    - Forgetting the <- at the start: the result prints but isn't saved.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: as.Date() on date_of_infection, onset_date, hospital_date, date_of_outcome
+# 👀 Follow along 4.1: as.Date() on date_of_infection, onset_date, hospital_date, date_of_outcome
 #    Pattern: DATA <- DATA %>% mutate(COLUMN = as.Date(COLUMN), COLUMN = as.Date(COLUMN))
 
 
-# 👀 Follow along: as.numeric() on age
+# 👀 Follow along 4.2: as.numeric() on age
 
 
-# ✏️ TRY IT (3 min): in measles_clean,
+# ✏️ TRY IT 4 (3 min): in measles_clean,
 #    a) make report_date a date with as.Date()
 #    b) make age_years a number with as.numeric(). Which values became NA?
 #    ✅ Check: summary(measles_clean$age_years) shows a maximum of 999. Suspicious!
@@ -157,17 +159,17 @@
 #      if_else() keeps the type (and gives an error instead of a surprise).
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: create age_years (ages in months divided by 12)
+# 👀 Follow along 5.1: create age_years (ages in months divided by 12)
 
 
-# 👀 Follow along: replace weights of 0 or below with NA
+# 👀 Follow along 5.2: replace weights of 0 or below with NA
 
 
-# 🔁 Follow along: estimated onset (hospital_date when onset_date is missing)
+# 🔁 Follow along 5.3: estimated onset (hospital_date when onset_date is missing)
 #    with if_else() and with ifelse(). Compare the first 3 values.
 
 
-# ✏️ TRY IT (4 min): in measles_clean,
+# ✏️ TRY IT 5 (4 min): in measles_clean,
 #    a) 999 is a code for "unknown": replace age_years of 999 with NA
 #    b) temperatures above 45 were entered in Fahrenheit. Convert them:
 #       Celsius = (Fahrenheit - 32) * 5 / 9, rounded to 1 decimal with round(..., 1)
@@ -199,14 +201,14 @@
 #    - Check every recode with count(OLD_COLUMN, NEW_COLUMN)
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: recode gender "m" -> "male", "f" -> "female". Check with count().
+# 👀 Follow along 6.1: recode gender "m" -> "male", "f" -> "female". Check with count().
 
 
-# 👀 Follow along: look at hosp_info and count(hospital), then create hospital_name
+# 👀 Follow along 6.2: look at hosp_info and count(hospital), then create hospital_name
 #    with case_when() + str_detect(). Check with count(hospital, hospital_name).
 
 
-# ✏️ TRY IT (4 min): in measles_clean, recode
+# ✏️ TRY IT 6 (4 min): in measles_clean, recode
 #    sex:        Male / male / M -> "male",  Female / female / F -> "female"
 #    vaccinated: Yes / yes / Y -> "Yes",  No / no / N / NO -> "No",  Unknown -> "Unknown"
 #    Pattern: COLUMN %in% c("VALUE_1", "VALUE_2") ~ "NEW_VALUE"
@@ -215,7 +217,7 @@
 
 
 
-# ✏️ TRY IT (5 min): make district one of North, South, East, West, Central
+# ✏️ TRY IT 7 (5 min): make district one of North, South, East, West, Central
 #    Step 1: district = str_to_title(district)   fixes the capitals
 #    Step 2: case_when() + str_detect() fixes the misspellings ("Nroth", "Cetnral")
 #            and the "... District" versions. Keep NA as NA (no .default).
@@ -240,16 +242,16 @@
 #        age_years >= 80 ~ "80+"
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: calculate bmi, then set BMIs below 10 or above 60 to NA
+# 👀 Follow along 7.1: calculate bmi, then set BMIs below 10 or above 60 to NA
 
 
-# 👀 Follow along: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
+# 👀 Follow along 7.2: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
 
 
-# 🔁 Follow along: the same groups with cut(). Check with table(useNA = "ifany").
+# 🔁 Follow along 7.3: the same groups with cut(). Check with table(useNA = "ifany").
 
 
-# ✏️ TRY IT (4 min): in measles_clean,
+# ✏️ TRY IT 8 (4 min): in measles_clean,
 #    a) make outcome consistent with str_to_title()
 #    b) create age_cat: "Under 5", "5-9", "10-14", "15+"
 #    ✅ Check: count(outcome) shows only Died, Recovered, NA
@@ -270,15 +272,15 @@
 #      so it's the best choice for files you will open in R again.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: one pipeline from linelist_raw to linelist_clean
+# 👀 Follow along 8.1: one pipeline from linelist_raw to linelist_clean
 #    Pattern: linelist_clean <- linelist_raw %>% clean_names() %>% rename(...) %>% mutate(...)
 
 
-# 👀 Follow along: save linelist_clean as processed_data/linelist_clean.rds
+# 👀 Follow along 8.2: save linelist_clean as processed_data/linelist_clean.rds
 #    Pattern: export(DATA, here("FOLDER", "FILE_NAME.rds"))
 
 
-# ✏️ TRY IT (2 min): save measles_clean as processed_data/measles_clean.rds
+# ✏️ TRY IT 9 (2 min): save measles_clean as processed_data/measles_clean.rds
 #    ✅ Check: the file appears in the processed_data folder (Explorer, on the left)
 #    You need this file in Session 3!
 
