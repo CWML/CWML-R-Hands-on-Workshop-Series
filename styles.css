@@ -28,3 +28,29 @@ body.quarto-dark .callout-title-container code,
 body.quarto-dark .callout-header code {
   color: inherit;
 }
+
+/* Previous / next lesson links at the bottom of each page, shown as buttons */
+.page-navigation {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--bs-border-color, #dee2e6);
+  gap: 1rem;
+}
+.page-navigation .pagination-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--bs-primary, #2780e3);
+  border-radius: 0.4rem;
+  color: var(--bs-primary, #2780e3);
+  font-weight: 500;
+  text-decoration: none;
+}
+.page-navigation .pagination-link:hover,
+.page-navigation .pagination-link:focus-visible {
+  background-color: var(--bs-primary, #2780e3);
+  color: #fff;
+}
+.page-navigation .nav-page-previous .pagination-link::before { content: "Previous: "; font-weight: 400; }
+.page-navigation .nav-page-next .pagination-link::before { content: "Next: "; font-weight: 400; order: 0; }

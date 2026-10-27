@@ -401,6 +401,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#timing" id="toc-timing" class="nav-link active" data-scroll-target="#timing">Timing</a></li>
+  <li><a href="#why-this-order" id="toc-why-this-order" class="nav-link" data-scroll-target="#why-this-order">Why this order</a></li>
   <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start">Before you start</a></li>
   <li><a href="#teaching-notes-by-part" id="toc-teaching-notes-by-part" class="nav-link" data-scroll-target="#teaching-notes-by-part">Teaching notes by part</a></li>
   <li><a href="#try-it-answers-at-a-glance" id="toc-try-it-answers-at-a-glance" class="nav-link" data-scroll-target="#try-it-answers-at-a-glance">TRY IT answers at a glance</a></li>
@@ -445,8 +446,8 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>R Projects and <code>here()</code></td>
-<td>10 min</td>
+<td>R basics</td>
+<td>12 min</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -455,64 +456,64 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>R basics</td>
-<td>12 min</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>The pipe <code>%&gt;%</code></td>
-<td>5 min</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Importing data</td>
+<td>Project folders and <code>here()</code></td>
 <td>10 min</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td>4</td>
+<td>Importing data</td>
+<td>10 min</td>
+</tr>
+<tr class="odd">
+<td>5</td>
 <td>Inspecting data (4 TRY ITs)</td>
 <td>30 min</td>
 </tr>
-<tr class="odd">
-<td>7</td>
+<tr class="even">
+<td>6</td>
 <td>The problem list (class + TRY IT)</td>
 <td>15 min</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td>Wrap-up and preview</td>
 <td>5 min</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>95 min</strong></td>
+<td><strong>90 min</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Make the Part 7 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.</p>
+<p><strong>Short on time?</strong> Make the Part 6 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.</p>
+</section>
+<section id="why-this-order" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-order">Why this order</h2>
+<p>The session starts with the <strong>basics of the language</strong> (objects, vectors, functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. The <strong>pipe</strong> <code>%&gt;%</code> is taught at the start of Session 2, together with the tidyverse cleaning it is used for, so Session 1 calls one function at a time.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
 <ul>
-<li>Check that everyone ran the <a href="../../pages/setup.html">Setup</a> test. Anyone who didn’t should start <code>install.packages()</code> <strong>at the very beginning</strong> of class — it can take several minutes. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools (<a href="../../pages/troubleshooting.html">Troubleshooting</a>).</li>
+<li>Check that everyone ran the <a href="../../pages/setup.html">Setup</a> test. Anyone who didn’t should start <code>install.packages()</code> <strong>at the very beginning</strong> of class — it can take several minutes, and Part 1 (R basics) needs no packages, so they can follow along while it installs. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools (<a href="../../pages/troubleshooting.html">Troubleshooting</a>).</li>
 <li>Hand out the green and red sticky notes and explain them.</li>
 </ul>
 </section>
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
-<p><strong>Part 1 — Project folders and <code>here()</code>.</strong> Show that <code>here::here()</code> points at the workshop folder because it’s open in Positron (and has a <code>.here</code> file). Learners using RStudio should open the <code>.Rproj</code> file instead; everything else is the same.</p>
+<p><strong>Part 1 — R basics.</strong> Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (<code>Mean(ages)</code>) to show that R is case-sensitive. The data frame example uses base R’s <code>data.frame()</code>, because no packages are loaded yet; mention that the tidyverse version, the <strong>tibble</strong>, shows up later.</p>
+<p><strong>Part 2 — Packages.</strong> Learners who did the setup only need the <code>library()</code> lines.</p>
+<p><strong>Part 3 — Project folders and <code>here()</code>.</strong> Show that <code>here::here()</code> points at the workshop folder because it’s open in Positron (and has a <code>.here</code> file). The workshop uses Positron for everyone, so the setup and pane names are the same on every laptop.</p>
 <p><strong>Positron vs RStudio names:</strong> if learners follow older tutorials, Positron’s <strong>Variables</strong> pane is RStudio’s <strong>Environment</strong> pane, and the <strong>Explorer</strong> is the <strong>Files</strong> pane.</p>
-<p><strong>Part 3 — R basics.</strong> Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (<code>Mean(ages)</code>) to show that R is case-sensitive.</p>
-<p><strong>Part 4 — The pipe.</strong> If anyone asks why <code>round(38.5)</code> gives 38 rather than 39: R rounds a 5 to the nearest <strong>even</strong> number, which avoids bias when rounding many values.</p>
-<p><strong>Part 6 — Inspecting.</strong> This is the longest part. The “Think about it” questions on the lesson page are prompts to ask the class:</p>
+<p><strong>Part 5 — Inspecting.</strong> This is the longest part. The “Think about it” questions on the lesson page are prompts to ask the class:</p>
 <ul>
 <li><em>What is wrong with these column names?</em> — spaces, dots, capitals, mixed styles.</li>
 <li><em>Which column types look wrong?</em> — <code>date.onset</code> is text, <code>age</code> is text, and <code>age_unit</code> hints that some ages aren’t in years.</li>
 </ul>
 <p>After <code>skim()</code>, point at the <code>n_missing</code> column, the negative minimum of <code>wt_kg</code>, and the near-300 cm maximum of <code>ht_cm</code>.</p>
 <p>The <strong>🔁 base R <code>table()</code></strong> box takes 2 minutes. The point is not to learn a second counting function but to <em>recognize</em> it in other people’s code, and to know its trap: it hides <code>NA</code> unless you add <code>useNA = "ifany"</code>. TRY IT (b) lets learners find this themselves.</p>
-<p><strong>Part 7 — The problem list.</strong> Build the list <strong>with the class</strong> — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2’s TRY ITs work through it.</p>
+<p><strong>Zooming in</strong> uses one function inside another, such as <code>head(arrange(linelist_raw, wt_kg), 10)</code>. Read it aloud from the inside out (“arrange the data, <em>then</em> take the head”). Let learners feel that the brackets get awkward: it sets up the pipe at the start of Session 2.</p>
+<p><strong>Part 6 — The problem list.</strong> Build the list <strong>with the class</strong> — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2’s TRY ITs work through it.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -529,38 +530,34 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Path to the practice data</td>
-<td><code>here::here("raw_data", "measles_raw.csv")</code></td>
-</tr>
-<tr class="even">
 <td>Objects and functions</td>
 <td><code>mean(my_temps)</code> is 38.5</td>
 </tr>
-<tr class="odd">
-<td>The pipe</td>
-<td><code>my_temps %&gt;% mean() %&gt;% round(0)</code> is 38</td>
-</tr>
 <tr class="even">
+<td>Path to the practice data</td>
+<td><code>here::here("raw_data", "measles_raw.csv")</code></td>
+</tr>
+<tr class="odd">
 <td>Import</td>
 <td>1215 rows, 11 columns</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Size and structure</td>
 <td><code>Age (years)</code> is text; six names need backticks</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Categories</td>
 <td>a) District has 18 values; “North” and “No” are each written 4 ways b) <code>table()</code> drops the 34 <code>NA</code> districts</td>
 </tr>
-<tr class="odd">
-<td>Zooming in</td>
-<td>Highest temperature 104.7 — Fahrenheit (27 temperatures in °F)</td>
-</tr>
 <tr class="even">
+<td>Zooming in</td>
+<td><code>head(arrange(measles_raw, desc(`Temp (C)`)), 10)</code>: highest temperature 104.7 — Fahrenheit (27 temperatures in °F)</td>
+</tr>
+<tr class="odd">
 <td>Missing values and duplicates</td>
 <td>37 missing IDs, 15 duplicates; <code>Days in Hospital</code> has 766 NAs (not hospitalized)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Problem list</td>
 <td>At least 8 problems — see the lesson’s solution</td>
 </tr>

@@ -69,7 +69,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
     ]
   },
@@ -80,7 +80,7 @@
     "section": "Order the bars",
     "text": "Order the bars\nAlphabetical order rarely helps. fct_infreq() orders by count (most common first), and fct_rev() flips it so the longest bar is at the top:\n\nggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) +\n  geom_bar(fill = \"#2a78d6\") +\n  labs(title = \"Cases by hospital\", x = \"Number of cases\", y = NULL) +\n  theme_minimal()\n\n\n\n\n\n\n\n\ny = NULL removes an axis title the reader doesn’t need.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
     ]
   },
@@ -91,7 +91,7 @@
     "section": "Fill by a second variable",
     "text": "Fill by a second variable\nMap fill to split each bar. The position argument controls how the pieces are arranged:\n\n# \"stack\" (the default): counts, stacked\nggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +\n  geom_bar(position = \"stack\")\n\n\n\n\n\n\n\n\n\n# \"fill\": every bar is 100% — compares PROPORTIONS across groups\nggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +\n  geom_bar(position = \"fill\")\n\n\n\n\n\n\n\n\n\n# \"dodge\": side by side — compares COUNTS within each group\nggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +\n  geom_bar(position = \"dodge\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote🤔 Think about it: which version answers “do older patients die more often?”\n\n\n\n\n\nThe 100% \"fill\" version. The stacked version mostly shows that there are many more young patients than old ones, so the small bars for older groups are hard to compare.\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): cases by district\n\n\n\nMake a horizontal bar chart of measles cases by district, longest bar on top.\n✅ Check: North is at the top; Unknown is at the bottom\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nggplot(data = measles, mapping = aes(y = fct_rev(fct_infreq(district)))) +\n  geom_bar(fill = \"#2a78d6\") +\n  labs(title = \"Measles cases by district\", x = \"Number of cases\", y = NULL) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nfct_infreq() puts North (342 cases) first, and fct_rev() moves it to the top. Unknown (34 cases) ends up at the bottom.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
     ]
   },
@@ -102,7 +102,7 @@
     "section": "Rotate long labels",
     "text": "Rotate long labels\nIf you keep labels on the x-axis, rotate them so they don’t overlap:\n\nggplot(data = linelist, mapping = aes(x = hospital_name)) +\n  geom_bar(fill = \"#2a78d6\") +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): vaccination by age group\n\n\n\nMake a 100% bar chart of vaccinated by age_cat, with vacc_colors, a percent y-axis, labels, and theme_minimal().\n✅ Check: every bar reaches 100%; “Yes” is blue in every bar\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +\n  geom_bar(position = \"fill\", color = \"white\") +\n  scale_fill_manual(values = vacc_colors) +\n  scale_y_continuous(labels = scales::percent) +\n  labs(\n    title = \"Vaccination status of measles cases by age group\",\n    x     = \"Age group\",\n    y     = \"Percent of cases\",\n    fill  = \"Vaccinated\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nposition = \"fill\" makes every bar 100%, and because vacc_colors is a named vector, “Yes” is always blue, “No” orange, and “Unknown” gray.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
     ]
   },
@@ -113,7 +113,7 @@
     "section": "Epicurve by outcome",
     "text": "Epicurve by outcome\n\nlinelist %&gt;%\n  filter(onset_date &gt;= as.Date(\"2014-01-01\")) %&gt;%\n  ggplot(mapping = aes(x = onset_date, fill = outcome)) +\n  geom_histogram(binwidth = 7, color = \"white\") +\n  scale_fill_manual(values = outcome_colors) +\n  scale_x_date(date_breaks = \"2 months\", date_labels = \"%b\\n%Y\") +\n  labs(x = \"Week of onset\", y = \"Number of cases\", fill = \"Outcome\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): the measles epicurve\n\n\n\nMake a weekly epicurve of measles report_date, filled by vaccinated, with vacc_colors and scale_x_date(date_breaks = \"1 month\", date_labels = \"%b\"). Save it as measles_epicurve — you will need it in Part 7. Hint: filter(!is.na(report_date)) first. When did the outbreak peak?\n✅ Check: the peak is in the second half of March (about 115 cases in one week)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_epicurve &lt;- measles %&gt;%\n  filter(!is.na(report_date)) %&gt;%\n  ggplot(mapping = aes(x = report_date, fill = vaccinated)) +\n  geom_histogram(binwidth = 7, color = \"white\") +\n  scale_fill_manual(values = vacc_colors) +\n  scale_x_date(date_breaks = \"1 month\", date_labels = \"%b\") +\n  labs(\n    title = \"Measles cases by week of report, 2024\",\n    x     = \"Week of report\",\n    y     = \"Number of cases\",\n    fill  = \"Vaccinated\"\n  ) +\n  theme_minimal()\n\nmeasles_epicurve\n\n\n\n\n\n\n\n\nThe outbreak peaked in the second half of March 2024, with 117 cases in the peak week. Saving the plot as an object means it only appears when you print it (the last line).",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets"
     ]
   },
@@ -124,7 +124,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nThere are many packages for summary tables. This session uses three that cover almost every need: dplyr (count()/summarise()) for flexible summaries you can plot, janitor (tabyl()) for quick cross-tabs, and gtsummary for tables you publish.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -135,7 +135,7 @@
     "section": "Counts and cross-tabs",
     "text": "Counts and cross-tabs\n\nlinelist %&gt;% count(outcome)\n\n  outcome    n\n1 Recover 2158\n2   Death 2840\n3 Unknown 1453\n\n# Two columns: every combination\nlinelist %&gt;% count(age_cat, outcome)\n\n    age_cat outcome    n\n1  Under 18 Recover 1322\n2  Under 18   Death 1755\n3  Under 18 Unknown  885\n4     18-29 Recover  498\n5     18-29   Death  648\n6     18-29 Unknown  309\n7     30-39 Recover  179\n8     30-39   Death  256\n9     30-39 Unknown  147\n10    40-49 Recover   85\n11    40-49   Death  105\n12    40-49 Unknown   55\n13    50-59 Recover   24\n14    50-59   Death   29\n15    50-59 Unknown   24\n16    60-69 Recover   16\n17    60-69   Death    8\n18    60-69 Unknown    3\n19    70-79 Recover    3\n20    70-79   Death    3\n21      80+ Recover    1\n22  Unknown Recover   30\n23  Unknown   Death   36\n24  Unknown Unknown   30",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -146,7 +146,7 @@
     "section": "Percentages",
     "text": "Percentages\ncount() makes a column called n. Divide by the total to get a proportion, and use scales::percent() to show it nicely:\n\nlinelist %&gt;%\n  count(outcome) %&gt;%\n  mutate(percent = scales::percent(n / sum(n), accuracy = 0.1))\n\n  outcome    n percent\n1 Recover 2158   33.5%\n2   Death 2840   44.0%\n3 Unknown 1453   22.5%",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -157,7 +157,7 @@
     "section": "Percentages within groups: group_by()",
     "text": "Percentages within groups: group_by()\ngroup_by() makes the next steps happen separately for each group. Here, sum(n) becomes the total within each age group, so each age group adds up to 100%:\n\nlinelist %&gt;%\n  group_by(age_cat) %&gt;%\n  count(outcome) %&gt;%\n  mutate(percent = scales::percent(n / sum(n), accuracy = 0.1)) %&gt;%\n  ungroup()\n\n# A tibble: 24 × 4\n   age_cat  outcome     n percent\n   &lt;fct&gt;    &lt;fct&gt;   &lt;int&gt; &lt;chr&gt;  \n 1 Under 18 Recover  1322 33.4%  \n 2 Under 18 Death    1755 44.3%  \n 3 Under 18 Unknown   885 22.3%  \n 4 18-29    Recover   498 34.2%  \n 5 18-29    Death     648 44.5%  \n 6 18-29    Unknown   309 21.2%  \n 7 30-39    Recover   179 30.8%  \n 8 30-39    Death     256 44.0%  \n 9 30-39    Unknown   147 25.3%  \n10 40-49    Recover    85 34.7%  \n# ℹ 14 more rows\n\n\n\n\n\n\n\n\nNote🤔 Think about it: how is this different from count(age_cat, outcome) without group_by()?\n\n\n\n\n\nWithout grouping, the percentages are out of all 6,451 cases, so all the rows together add up to 100%. With group_by(age_cat), each age group adds up to 100% on its own.\n\n\n\n\n\n\n\n\n\nTipungroup() when you’re done\n\n\n\nA grouped data frame stays grouped. End with ungroup() so later steps don’t surprise you.\n\n\n\n\n\n\n\n\nNote🔁 The base R way: table() and prop.table()\n\n\n\nBase R makes a cross-table with table() (from Session 1), and turns it into proportions with prop.table(). margin = 1 makes each row add up to 1, like group_by(age_cat) above:\n\nage_outcome &lt;- table(linelist$age_cat, linelist$outcome)\nage_outcome\n\n          \n           Recover Death Unknown\n  Under 18    1322  1755     885\n  18-29        498   648     309\n  30-39        179   256     147\n  40-49         85   105      55\n  50-59         24    29      24\n  60-69         16     8       3\n  70-79          3     3       0\n  80+            1     0       0\n  Unknown       30    36      30\n\nround(prop.table(age_outcome, margin = 1) * 100, 1)\n\n          \n           Recover Death Unknown\n  Under 18    33.4  44.3    22.3\n  18-29       34.2  44.5    21.2\n  30-39       30.8  44.0    25.3\n  40-49       34.7  42.9    22.4\n  50-59       31.2  37.7    31.2\n  60-69       59.3  29.6    11.1\n  70-79       50.0  50.0     0.0\n  80+        100.0   0.0     0.0\n  Unknown     31.2  37.5    31.2\n\n\nThe result is a table, not a data frame, so it doesn’t work with filter(), mutate(), or ggplot. That is why we use count() in this workshop.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): vaccination coverage\n\n\n\n\nWhat percentage of measles cases were vaccinated?\nWithin each age group, what percentage were vaccinated? Which age group has the lowest percentage?\n\n✅ Check: a) Yes 23.8% b) 10-14 is lowest at 21.2%\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\n# a)\nmeasles %&gt;%\n  count(vaccinated) %&gt;%\n  mutate(percent = scales::percent(n / sum(n), accuracy = 0.1))\n\n  vaccinated   n percent\n1        Yes 277   23.8%\n2         No 709   61.0%\n3    Unknown 177   15.2%\n\n# b)\nmeasles %&gt;%\n  group_by(age_cat) %&gt;%\n  count(vaccinated) %&gt;%\n  mutate(percent = scales::percent(n / sum(n), accuracy = 0.1)) %&gt;%\n  ungroup()\n\n# A tibble: 15 × 4\n   age_cat vaccinated     n percent\n   &lt;fct&gt;   &lt;fct&gt;      &lt;int&gt; &lt;chr&gt;  \n 1 Under 5 Yes           83 22.5%  \n 2 Under 5 No           235 63.7%  \n 3 Under 5 Unknown       51 13.8%  \n 4 5-9     Yes           83 23.6%  \n 5 5-9     No           210 59.7%  \n 6 5-9     Unknown       59 16.8%  \n 7 10-14   Yes           46 21.2%  \n 8 10-14   No           138 63.6%  \n 9 10-14   Unknown       33 15.2%  \n10 15+     Yes           54 27.6%  \n11 15+     No           113 57.7%  \n12 15+     Unknown       29 14.8%  \n13 Unknown Yes           11 37.9%  \n14 Unknown No            13 44.8%  \n15 Unknown Unknown        5 17.2%  \n\n\nFewer than a quarter of all cases were vaccinated. In b), each age group adds up to 100%, so you can compare groups: 10-14 year olds have the lowest coverage, at 21.2%.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -168,7 +168,7 @@
     "section": "By group",
     "text": "By group\nAdd group_by() first to get one row per group:\n\nlinelist %&gt;%\n  group_by(outcome) %&gt;%\n  summarise(\n    n          = n(),\n    mean_age   = mean(age_years, na.rm = TRUE),\n    median_age = median(age_years, na.rm = TRUE),\n    mean_bmi   = mean(bmi, na.rm = TRUE),\n    mean_temp  = mean(temp, na.rm = TRUE)\n  )\n\n# A tibble: 3 × 6\n  outcome     n mean_age median_age mean_bmi mean_temp\n  &lt;fct&gt;   &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n1 Recover  2158     16.1         13     30.6      38.6\n2 Death    2840     15.9         13     30.7      38.6\n3 Unknown  1453     16.2         14     30.4      38.6\n\n\n\n\n\n\n\n\nNoteUseful summary functions\n\n\n\nCentre: mean(), median() · Spread: sd(), IQR(), min(), max(), quantile(x, 0.25) · Counts: n(), n_distinct(), sum(is.na(x))",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -179,7 +179,7 @@
     "section": "The same calculation on many columns: across()",
     "text": "The same calculation on many columns: across()\nYou met across() in Session 3. In summarise() it saves a lot of typing:\n\nlinelist %&gt;%\n  group_by(outcome) %&gt;%\n  summarise(across(c(age_years, bmi, temp), ~ mean(.x, na.rm = TRUE)))\n\n# A tibble: 3 × 4\n  outcome age_years   bmi  temp\n  &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 Recover      16.1  30.6  38.6\n2 Death        15.9  30.7  38.6\n3 Unknown      16.2  30.4  38.6",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -190,7 +190,7 @@
     "section": "Percentages of “yes”",
     "text": "Percentages of “yes”\nfever == \"yes\" is TRUE or FALSE for each row (vectorization, from Session 4). sum() counts the TRUEs, and mean() gives the proportion that are TRUE:\n\nlinelist %&gt;%\n  group_by(outcome) %&gt;%\n  summarise(\n    n_cases   = n(),\n    n_fever   = sum(fever == \"yes\"),\n    pct_fever = round(mean(fever == \"yes\") * 100, 1),\n    pct_cough = round(mean(cough == \"yes\") * 100, 1),\n    pct_vomit = round(mean(vomit == \"yes\") * 100, 1)\n  )\n\n# A tibble: 3 × 6\n  outcome n_cases n_fever pct_fever pct_cough pct_vomit\n  &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 Recover    2158    1708      79.1      82        47.9\n2 Death      2840    2245      79        82.9      48.8\n3 Unknown    1453    1124      77.4      84.2      46.5\n\n\n\n\n\n\n\n\nNote🔁 The base R way: tapply() and aggregate()\n\n\n\nTwo base R functions do what group_by() + summarise() does for one statistic:\n\ntapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)   # a named vector\n\nRecover   Death Unknown \n     13      13      14 \n\naggregate(age_years ~ outcome, data = linelist, FUN = median)        # a data frame\n\n  outcome age_years\n1 Recover        13\n2   Death        13\n3 Unknown        14\n\n\nRead tapply(X, GROUP, FUNCTION) as “apply FUNCTION to X, split by GROUP”. aggregate() with a formula silently drops rows with a missing value, one reason summarise() (where you choose with na.rm) is clearer.\n\n\n\n\n\n\n\n\nTipSave summaries as objects\n\n\n\nEvery result here is a data frame. Save it with &lt;- and you can plot it (Sessions 6 and 7), join it, or export it like any other data.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): statistics by outcome\n\n\n\nFor each measles outcome, calculate the number of cases, mean and median age, mean temperature, and mean days in hospital (careful: NAs!).\n✅ Check: Recovered n = 1048, median age 7; Died n = 50, median age 5\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles %&gt;%\n  group_by(outcome) %&gt;%\n  summarise(\n    n          = n(),\n    mean_age   = mean(age_years, na.rm = TRUE),\n    median_age = median(age_years, na.rm = TRUE),\n    mean_temp  = mean(temp_c),\n    mean_days  = mean(days_in_hospital, na.rm = TRUE)\n  )\n\n# A tibble: 3 × 6\n  outcome       n mean_age median_age mean_temp mean_days\n  &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 Recovered  1048     8.92          7      38.8      4.94\n2 Died         50     6.80          5      38.8      4.55\n3 Unknown      65     7.47          5      38.7      5.12\n\n\nChildren who died were younger than children who recovered (median age 5 vs 7). days_in_hospital is missing for patients who were never hospitalized, so it needs na.rm = TRUE.\n\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): case rates by district\n\n\n\nCalculate cases per 10,000 people by district (number of cases / population * 10000), sorted highest first.\nHint: count(district, population) gives both columns; then mutate() and arrange(desc()).\n✅ Check: East has the highest rate (22.8); Central the lowest (5.2)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles %&gt;%\n  count(district, population) %&gt;%\n  mutate(rate_per_10k = round(n / population * 10000, 1)) %&gt;%\n  arrange(desc(rate_per_10k))\n\n  district population   n rate_per_10k\n1     East      98000 223         22.8\n2     West      76500 170         22.2\n3    South     142000 284         20.0\n4    North     185000 342         18.5\n5  Central     210000 110          5.2\n6  Unknown         NA  34           NA\n\n\nCentral has the most people but the lowest rate: raw counts and rates can tell different stories. The “Unknown” district has no population, so it gets no rate.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -201,7 +201,7 @@
     "section": "Customize it",
     "text": "Customize it\n\ntable1 &lt;- linelist %&gt;%\n  filter(outcome != \"Unknown\") %&gt;%\n  mutate(outcome = fct_drop(outcome)) %&gt;%\n  select(outcome, gender, age_years, bmi, hospital_name, fever, cough, temp) %&gt;%\n  mutate(across(where(is.character), ~ na_if(.x, \"Unknown\"))) %&gt;%\n  tbl_summary(\n    by = outcome,\n    label = list(\n      gender        ~ \"Gender\",\n      age_years     ~ \"Age (years)\",\n      bmi           ~ \"BMI\",\n      hospital_name ~ \"Hospital\",\n      fever         ~ \"Fever\",\n      cough         ~ \"Cough\",\n      temp          ~ \"Temperature (°C)\"\n    ),\n    statistic = all_continuous() ~ \"{mean} ({sd})\",\n    missing_text = \"Missing\"\n  ) %&gt;%\n  add_overall() %&gt;%\n  bold_labels() %&gt;%\n  modify_caption(\"**Table 1. Patient characteristics by outcome**\")\n\ntable1\n\n\n\n\n\nTable 1. Patient characteristics by outcome\n\n\n\n\n\n\n\n\nCharacteristic\nOverall\nN = 4,9981\nRecover\nN = 2,1581\nDeath\nN = 2,8401\n\n\n\n\nGender\n\n\n\n\n\n\n\n\n    female\n2,378 (50%)\n1,041 (50%)\n1,337 (50%)\n\n\n    male\n2,395 (50%)\n1,031 (50%)\n1,364 (50%)\n\n\n    Missing\n225\n86\n139\n\n\nAge (years)\n16 (13)\n16 (13)\n16 (12)\n\n\n    Missing\n66\n30\n36\n\n\nBMI\n31 (10)\n31 (10)\n31 (10)\n\n\n    Missing\n1,028\n450\n578\n\n\nHospital\n\n\n\n\n\n\n\n\n    Central Hospital\n358 (7.2%)\n165 (7.6%)\n193 (6.8%)\n\n\n    HMO Health\n218 (4.4%)\n94 (4.4%)\n124 (4.4%)\n\n\n    Military Hospital\n708 (14%)\n309 (14%)\n399 (14%)\n\n\n    Other/Unknown\n1,810 (36%)\n804 (37%)\n1,006 (35%)\n\n\n    Premiere Health\n210 (4.2%)\n81 (3.8%)\n129 (4.5%)\n\n\n    Regional Medical center\n1,369 (27%)\n579 (27%)\n790 (28%)\n\n\n    St. Mark's Maternity Hospital\n325 (6.5%)\n126 (5.8%)\n199 (7.0%)\n\n\nFever\n3,953 (82%)\n1,708 (82%)\n2,245 (83%)\n\n\n    Missing\n202\n79\n123\n\n\nCough\n4,124 (86%)\n1,769 (85%)\n2,355 (87%)\n\n\n    Missing\n202\n79\n123\n\n\nTemperature (°C)\n38.59 (0.96)\n38.59 (0.98)\n38.59 (0.95)\n\n\n    Missing\n116\n55\n61\n\n\n\n1 n (%); Mean (SD)\n\n\n\n\n\n\n\n\n\nstatistic: \"{median} ({p25}, {p75})\" is the default for numbers; we switched to mean (SD)\nadd_overall() adds a column for all patients\nadd_p() would add p-values comparing the groups — only use it if a statistical test is part of your analysis plan",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -212,7 +212,7 @@
     "section": "Save it to Word",
     "text": "Save it to Word\nas_flex_table() turns the table into a flextable, and save_as_docx() writes the Word file. The new file appears in the outputs/ folder in the Explorer.\n\ntable1 %&gt;%\n  as_flex_table() %&gt;%\n  flextable::save_as_docx(path = here(\"outputs\", \"table1.docx\"))\n\n\n\n\n\n\n\nImportant✏️ TRY IT (6 min): a measles Table 1\n\n\n\nMake a tbl_summary() of measles cases by outcome (leave out “Unknown” outcomes) with sex, age_years, age_cat, vaccinated, rash, temp_c, and days_in_hospital. Give the rows nice labels and add an overall column.\n✅ Check: the column headers say Overall N = 1,098, Recovered N = 1,048, Died N = 50\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_table1 &lt;- measles %&gt;%\n  filter(outcome != \"Unknown\") %&gt;%\n  mutate(outcome = fct_drop(outcome)) %&gt;%\n  select(outcome, sex, age_years, age_cat, vaccinated, rash, temp_c, days_in_hospital) %&gt;%\n  mutate(across(where(is.character), ~ na_if(.x, \"Unknown\"))) %&gt;%\n  tbl_summary(\n    by = outcome,\n    label = list(\n      sex              ~ \"Sex\",\n      age_years        ~ \"Age (years)\",\n      age_cat          ~ \"Age group\",\n      vaccinated       ~ \"Vaccinated\",\n      rash             ~ \"Rash\",\n      temp_c           ~ \"Temperature (°C)\",\n      days_in_hospital ~ \"Days in hospital\"\n    ),\n    missing_text = \"Missing\"\n  ) %&gt;%\n  add_overall() %&gt;%\n  bold_labels()\n\nmeasles_table1\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nOverall\nN = 1,0981\nRecovered\nN = 1,0481\nDied\nN = 501\n\n\n\n\nSex\n\n\n\n\n\n\n\n\n    female\n483 (46%)\n456 (45%)\n27 (55%)\n\n\n    male\n577 (54%)\n555 (55%)\n22 (45%)\n\n\n    Missing\n38\n37\n1\n\n\nAge (years)\n7 (4, 12)\n7 (4, 12)\n5 (2, 10)\n\n\n    Missing\n28\n27\n1\n\n\nAge group\n\n\n\n\n\n\n\n\n    Under 5\n343 (31%)\n319 (30%)\n24 (48%)\n\n\n    5-9\n333 (30%)\n321 (31%)\n12 (24%)\n\n\n    10-14\n205 (19%)\n198 (19%)\n7 (14%)\n\n\n    15+\n189 (17%)\n183 (17%)\n6 (12%)\n\n\n    Unknown\n28 (2.6%)\n27 (2.6%)\n1 (2.0%)\n\n\nVaccinated\n\n\n\n\n\n\n\n\n    Yes\n257 (23%)\n255 (24%)\n2 (4.0%)\n\n\n    No\n674 (61%)\n629 (60%)\n45 (90%)\n\n\n    Unknown\n167 (15%)\n164 (16%)\n3 (6.0%)\n\n\nRash\n919 (84%)\n875 (83%)\n44 (88%)\n\n\nTemperature (°C)\n38.90 (38.40, 39.40)\n38.90 (38.40, 39.40)\n38.90 (38.00, 39.50)\n\n\nDays in hospital\n5 (3, 6)\n5 (3, 6)\n5 (3, 5)\n\n\n    Missing\n697\n658\n39\n\n\n\n1 n (%); Median (Q1, Q3)\n\n\n\n\n\n\n\n\n“Missing” for days in hospital doesn’t mean the data were lost: those patients were never hospitalized. age_cat and vaccinated are factors, so na_if() (which only touches text columns here) leaves their “Unknown” level as a category.\n\n\n\n\n\n\n\n\n\n\n\nTip⭐ Bonus\n\n\n\n\nSave your measles table to Word as outputs/measles_table1.docx.\nUse pivot_wider() (Session 4) to turn count(district, outcome) into a district × outcome table.\nBrought your own data? Make a Table 1 of it.\n\nSee the solutions file for the code.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 5: Summarizing Your Data"
     ]
   },
@@ -223,7 +223,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nToday you finish two datasets side by side, so they are ready for analysis:",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -234,7 +234,7 @@
     "section": "replace_na() with across()",
     "text": "replace_na() with across()\nacross() applies the same function to many columns at once. Here: for every text column, replace NA with \"Unknown\".\n\nlinelist_final &lt;- linelist_final %&gt;%\n  mutate(across(where(is.character), ~ replace_na(.x, \"Unknown\")))\n\nlinelist_final %&gt;% count(gender)\n\n   gender    n\n1 Unknown  304\n2  female 3073\n3    male 3074\n\nlinelist_final %&gt;% count(outcome)\n\n  outcome    n\n1   Death 2840\n2 Recover 2158\n3 Unknown 1453\n\n\nRead ~ replace_na(.x, \"Unknown\") as: “for each column (.x), replace its NAs with Unknown”. where(is.character) picks only text columns, so number and date columns keep their NAs.\n\n\n\n\n\n\nNote\n\n\n\nFor a single column: mutate(gender = replace_na(gender, \"Unknown\"))",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -245,7 +245,7 @@
     "section": "select(): choose and order columns",
     "text": "select(): choose and order columns\nWe no longer need the original hospital, age, and age_unit columns — hospital_name and age_years replace them. select() keeps columns in the order you list them.\n\nlinelist_final &lt;- linelist_final %&gt;%\n  select(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,\n         date_of_infection, onset_date, hospital_date, date_of_outcome,\n         hospital_name, outcome)\n\nglimpse(linelist_final)\n\nRows: 6,451\nColumns: 13\n$ case_id           &lt;chr&gt; \"5fe599\", \"8689b7\", \"11f8ea\", \"b8812a\", \"893f25\", \"b…\n$ gender            &lt;chr&gt; \"male\", \"female\", \"male\", \"female\", \"male\", \"female\"…\n$ age_years         &lt;dbl&gt; 2, 3, 56, 18, 3, 16, 16, 0, 61, 27, 12, 42, 19, 7, 7…\n$ age_cat           &lt;chr&gt; \"Under 18\", \"Under 18\", \"50-59\", \"18-29\", \"Under 18\"…\n$ wt_kg             &lt;dbl&gt; 27, 25, 91, 41, 36, 56, 47, NA, 86, 69, 67, 84, 68, …\n$ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112, 18…\n$ bmi               &lt;dbl&gt; NA, NA, 16.1, 22.5, NA, 41.6, NA, NA, 16.8, 22.8, 53…\n$ date_of_infection &lt;date&gt; 2014-05-08, NA, NA, 2014-05-04, 2014-05-18, 2014-05…\n$ onset_date        &lt;date&gt; 2014-05-13, 2014-05-13, 2014-05-16, 2014-05-18, 201…\n$ hospital_date     &lt;date&gt; 2014-05-15, 2014-05-14, 2014-05-18, 2014-05-20, 201…\n$ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 2014-05…\n$ hospital_name     &lt;chr&gt; \"Other/Unknown\", \"Other/Unknown\", \"St. Mark's Matern…\n$ outcome           &lt;chr&gt; \"Unknown\", \"Recover\", \"Recover\", \"Unknown\", \"Recover…\n\n\n\n\n\n\n\n\nNoteOther ways to use select()\n\n\n\nselect(-hospital) drops a column · select(case_id, everything()) moves one column first · select(starts_with(\"date\")) picks columns by name",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -256,7 +256,7 @@
     "section": "The whole thing as one pipeline",
     "text": "The whole thing as one pipeline\n\nlinelist_final &lt;- linelist_clean %&gt;%\n  filter(!is.na(case_id)) %&gt;%\n  distinct() %&gt;%\n  mutate(across(where(is.character), ~ replace_na(.x, \"Unknown\"))) %&gt;%\n  select(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,\n         date_of_infection, onset_date, hospital_date, date_of_outcome,\n         hospital_name, outcome)\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): replace missing text\n\n\n\nReplace NA with “Unknown” in every text column of measles_final. Why does days_in_hospital still have NAs?\n✅ Check: count(district) now shows Unknown (34) instead of NA\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_final &lt;- measles_final %&gt;%\n  mutate(across(where(is.character), ~ replace_na(.x, \"Unknown\")))\n\nmeasles_final %&gt;% count(district)\n\n  district   n\n1  Central 110\n2     East 223\n3    North 342\n4    South 284\n5  Unknown  34\n6     West 170\n\n\ndays_in_hospital is a number, not text, so where(is.character) skips it. That’s what we want: “Unknown” is not a number of days.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -267,7 +267,7 @@
     "section": "How joins work",
     "text": "How joins work\nA join combines two data frames by matching rows on a key column that both share. A tiny example first:\n\npatients &lt;- tibble(id = c(1, 2, 3), name = c(\"Ana\", \"Ben\", \"Cho\"))\nlabs     &lt;- tibble(id = c(2, 3, 4), result = c(\"positive\", \"negative\", \"positive\"))\n\nleft_join(patients, labs, by = \"id\")    # all patients; NA where no lab result\n\n# A tibble: 3 × 3\n     id name  result  \n  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   \n1     1 Ana   &lt;NA&gt;    \n2     2 Ben   positive\n3     3 Cho   negative\n\ninner_join(patients, labs, by = \"id\")   # only ids in BOTH\n\n# A tibble: 2 × 3\n     id name  result  \n  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   \n1     2 Ben   positive\n2     3 Cho   negative\n\nfull_join(patients, labs, by = \"id\")    # everyone from both\n\n# A tibble: 4 × 3\n     id name  result  \n  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   \n1     1 Ana   &lt;NA&gt;    \n2     2 Ben   positive\n3     3 Cho   negative\n4     4 &lt;NA&gt;  positive\n\nanti_join(patients, labs, by = \"id\")    # patients with NO lab result\n\n# A tibble: 1 × 2\n     id name \n  &lt;dbl&gt; &lt;chr&gt;\n1     1 Ana  \n\n\n\n\n\n\n\n\n\nJoin\nKeeps\n\n\n\n\nleft_join()\nevery row of the first data frame\n\n\nright_join()\nevery row of the second data frame\n\n\ninner_join()\nonly rows that match in both\n\n\nfull_join()\nevery row from both\n\n\nanti_join()\nrows of the first with no match — great for checking\n\n\n\nleft_join() is the one you will use most: start with your main dataset and add information to it.\n\n\n\n\n\n\nNote🔁 The base R way: merge() and %in%\n\n\n\nBase R joins with one function, merge(). The all arguments choose the type of join:\n\nmerge(patients, labs, by = \"id\")                # inner join (the default!)\n\n  id name   result\n1  2  Ben positive\n2  3  Cho negative\n\nmerge(patients, labs, by = \"id\", all.x = TRUE)  # left join\n\n  id name   result\n1  1  Ana     &lt;NA&gt;\n2  2  Ben positive\n3  3  Cho negative\n\nmerge(patients, labs, by = \"id\", all = TRUE)    # full join\n\n  id name   result\n1  1  Ana     &lt;NA&gt;\n2  2  Ben positive\n3  3  Cho negative\n4  4 &lt;NA&gt; positive\n\n\nWatch out: merge() keeps only matching rows unless you say otherwise, and it sorts the result by the key. %in% asks “is each value found in the other vector?”, and gives one TRUE/FALSE per value. It is the base R way to find rows with no match:\n\npatients$id %in% labs$id\n\n[1] FALSE  TRUE  TRUE\n\npatients[!patients$id %in% labs$id, ]   # the same as anti_join()\n\n# A tibble: 1 × 2\n     id name \n  &lt;dbl&gt; &lt;chr&gt;\n1     1 Ana  \n\n\n%in% is worth learning well: you will use it inside filter() too, for example filter(district %in% c(\"North\", \"South\")).",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -278,7 +278,7 @@
     "section": "Join the case information",
     "text": "Join the case information\n\nglimpse(case_info)\n\nRows: 5,888\nColumns: 7\n$ case_id &lt;chr&gt; \"5fe599\", \"8689b7\", \"11f8ea\", \"b8812a\", \"893f25\", \"be99c8\", \"0…\n$ fever   &lt;chr&gt; \"no\", \"Unknown\", \"Unknown\", \"no\", \"no\", \"no\", \"Unknown\", \"no\",…\n$ chills  &lt;chr&gt; \"no\", \"Unknown\", \"Unknown\", \"no\", \"no\", \"no\", \"Unknown\", \"no\",…\n$ cough   &lt;chr&gt; \"yes\", \"Unknown\", \"Unknown\", \"no\", \"yes\", \"yes\", \"Unknown\", \"y…\n$ aches   &lt;chr&gt; \"no\", \"Unknown\", \"Unknown\", \"no\", \"no\", \"no\", \"Unknown\", \"no\",…\n$ vomit   &lt;chr&gt; \"yes\", \"Unknown\", \"Unknown\", \"no\", \"yes\", \"yes\", \"Unknown\", \"y…\n$ temp    &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 36.4, 35.9, 36…\n\ncombined_linelist &lt;- linelist_final %&gt;%\n  left_join(case_info, by = \"case_id\")\n\nglimpse(combined_linelist)\n\nRows: 6,451\nColumns: 19\n$ case_id           &lt;chr&gt; \"5fe599\", \"8689b7\", \"11f8ea\", \"b8812a\", \"893f25\", \"b…\n$ gender            &lt;chr&gt; \"male\", \"female\", \"male\", \"female\", \"male\", \"female\"…\n$ age_years         &lt;dbl&gt; 2, 3, 56, 18, 3, 16, 16, 0, 61, 27, 12, 42, 19, 7, 7…\n$ age_cat           &lt;chr&gt; \"Under 18\", \"Under 18\", \"50-59\", \"18-29\", \"Under 18\"…\n$ wt_kg             &lt;dbl&gt; 27, 25, 91, 41, 36, 56, 47, NA, 86, 69, 67, 84, 68, …\n$ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112, 18…\n$ bmi               &lt;dbl&gt; NA, NA, 16.1, 22.5, NA, 41.6, NA, NA, 16.8, 22.8, 53…\n$ date_of_infection &lt;date&gt; 2014-05-08, NA, NA, 2014-05-04, 2014-05-18, 2014-05…\n$ onset_date        &lt;date&gt; 2014-05-13, 2014-05-13, 2014-05-16, 2014-05-18, 201…\n$ hospital_date     &lt;date&gt; 2014-05-15, 2014-05-14, 2014-05-18, 2014-05-20, 201…\n$ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 2014-05…\n$ hospital_name     &lt;chr&gt; \"Other/Unknown\", \"Other/Unknown\", \"St. Mark's Matern…\n$ outcome           &lt;chr&gt; \"Unknown\", \"Recover\", \"Recover\", \"Unknown\", \"Recover…\n$ fever             &lt;chr&gt; \"no\", \"Unknown\", \"Unknown\", \"no\", \"no\", \"no\", \"Unkno…\n$ chills            &lt;chr&gt; \"no\", \"Unknown\", \"Unknown\", \"no\", \"no\", \"no\", \"Unkno…\n$ cough             &lt;chr&gt; \"yes\", \"Unknown\", \"Unknown\", \"no\", \"yes\", \"yes\", \"Un…\n$ aches             &lt;chr&gt; \"no\", \"Unknown\", \"Unknown\", \"no\", \"no\", \"no\", \"Unkno…\n$ vomit             &lt;chr&gt; \"yes\", \"Unknown\", \"Unknown\", \"no\", \"yes\", \"yes\", \"Un…\n$ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 36.4…",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -289,7 +289,7 @@
     "section": "Check the join",
     "text": "Check the join\nAlways check the number of rows. A left join should not add rows — if it does, the key appears more than once in the second data frame.\n\nnrow(linelist_final)\n\n[1] 6451\n\nnrow(combined_linelist)\n\n[1] 6451\n\n# Cases with no matching case_info (should be 0)\nanti_join(linelist_final, case_info, by = \"case_id\") %&gt;% nrow()\n\n[1] 0\n\nsum(!linelist_final$case_id %in% case_info$case_id)   # the same check in base R\n\n[1] 0\n\n# Is case_id unique in case_info?\ncase_info %&gt;% get_dupes(case_id) %&gt;% nrow()\n\n[1] 0\n\n\nSame number of rows before and after, every case matched, and case_id is unique in case_info: the join worked.\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): join the district information\n\n\n\nAdd district_info to measles_final with left_join() (the key is district). Did the number of rows change? Which rows got no population, and why?\nHINT: anti_join(measles_final, district_info, by = \"district\") %&gt;% count(district)\n✅ Check: still 1163 rows; the 34 “Unknown” district rows have no population\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_final &lt;- measles_final %&gt;%\n  left_join(district_info, by = \"district\")\n\nnrow(measles_final)\n\n[1] 1163\n\nanti_join(measles_final, district_info, by = \"district\") %&gt;% count(district)\n\n  district  n\n1  Unknown 34\n\n\nThe number of rows did not change. district_info has no “Unknown” district, so those 34 rows have no match and their population is NA.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 3: Missing Data, Joins, and Export"
     ]
   },
@@ -300,40 +300,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
     "crumbs": [
-      "Lessons",
-      "Session 1: Setup and a First Look at Your Data"
-    ]
-  },
-  {
-    "objectID": "pages/lessons/01-setup-and-first-look.html#why-keep-everything-in-one-project-folder",
-    "href": "pages/lessons/01-setup-and-first-look.html#why-keep-everything-in-one-project-folder",
-    "title": "Session 1: Setup and a First Look at Your Data",
-    "section": "Why keep everything in one project folder?",
-    "text": "Why keep everything in one project folder?\n\nOrganization: data, scripts, and outputs live in one folder with a predictable structure (raw_data/, processed_data/, student_scripts/)\nReproducibility: the project works on any computer — yours, a collaborator’s, future you’s\nShareable: zip the folder and send it, or put it on GitHub",
-    "crumbs": [
-      "Lessons",
-      "Session 1: Setup and a First Look at Your Data"
-    ]
-  },
-  {
-    "objectID": "pages/lessons/01-setup-and-first-look.html#open-the-project-folder-for-this-class",
-    "href": "pages/lessons/01-setup-and-first-look.html#open-the-project-folder-for-this-class",
-    "title": "Session 1: Setup and a First Look at Your Data",
-    "section": "Open the project folder for this class",
-    "text": "Open the project folder for this class\n\nDownload the workshop folder and save it somewhere you can find it (not your Downloads folder)\nIn Positron, choose File → Open Folder…, select the CWML-R-Hands-on-Workshop-Series folder, and click Open. Positron uses that folder as the working directory\nCheck the Explorer on the left: it should list the workshop files (raw_data, student_scripts, …)\n\n\n\n\n\n\n\nTipYour own projects later\n\n\n\nMake a new folder for each project (with subfolders like raw_data/ and scripts/), and open it in Positron with File → Open Folder…. Add an empty file called .here at the top so here() always finds it. (RStudio users: File → New Project does the same thing and creates an .Rproj file.)",
-    "crumbs": [
-      "Lessons",
-      "Session 1: Setup and a First Look at Your Data"
-    ]
-  },
-  {
-    "objectID": "pages/lessons/01-setup-and-first-look.html#relative-vs-absolute-paths",
-    "href": "pages/lessons/01-setup-and-first-look.html#relative-vs-absolute-paths",
-    "title": "Session 1: Setup and a First Look at Your Data",
-    "section": "Relative vs absolute paths",
-    "text": "Relative vs absolute paths\n\nBad (absolute): \"/Users/mwegener/Desktop/maybe_here/data.csv\" — only works on one computer\nGood (relative): here(\"raw_data\", \"data.csv\") — works on any computer that has the project folder\n\nhere() finds the top of the project folder (it looks for a .here file, which the workshop folder has) and builds the path from there.\n\nhere::here()                                   # where is the top of my project?\nhere::here(\"raw_data\", \"linelist_raw.xlsx\")    # full path to a file inside it\n\nhere::here() means “the here() function from the here package”. The :: lets you use a function before loading its package.\n\n\n\n\n\n\nImportant✏️ TRY IT (1 min): a path to the practice data\n\n\n\nBuild the path to the practice data, raw_data/measles_raw.csv.\n✅ Check: the output ends in .../raw_data/measles_raw.csv\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nhere::here(\"raw_data\", \"measles_raw.csv\")",
-    "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -344,7 +311,7 @@
     "section": "Objects and the assignment arrow <-",
     "text": "Objects and the assignment arrow &lt;-\n&lt;- stores a value in an object so you can use it later. Read it as “gets”. The object appears in the Variables pane.\n\nmy_age &lt;- 35\nmy_age\n\n[1] 35\n\nmy_age + 5\n\n[1] 40",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -355,7 +322,7 @@
     "section": "Vectors",
     "text": "Vectors\nc() combines values into a vector. Every value in a vector has the same type.\n\nages &lt;- c(2, 18, 56, 61)\nhospitals &lt;- c(\"Central Hospital\", \"Military Hospital\", \"Other\")\n\nmean(ages)\n\n[1] 34.25\n\nlength(hospitals)\n\n[1] 3",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -366,7 +333,7 @@
     "section": "Functions and arguments",
     "text": "Functions and arguments\nA function does something to its inputs (arguments): function_name(argument1, argument2, ...). Arguments can be named.\n\nround(3.14159)\n\n[1] 3\n\nround(3.14159, digits = 2)\n\n[1] 3.14\n\n\n\n\n\n\n\n\nTipGetting help\n\n\n\nType ?round in the Console to open the help page for any function.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -375,9 +342,42 @@
     "href": "pages/lessons/01-setup-and-first-look.html#data-frames",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "Data frames",
-    "text": "Data frames\nA data frame is a table: each column is a variable (a vector), each row is an observation. The tidyverse version is called a tibble.\n\npatients &lt;- tibble(\n  name = c(\"Ana\", \"Ben\", \"Cho\"),\n  age  = c(34, 51, 27)\n)\npatients\n\n# A tibble: 3 × 2\n  name    age\n  &lt;chr&gt; &lt;dbl&gt;\n1 Ana      34\n2 Ben      51\n3 Cho      27\n\npatients$age        # $ pulls out one column\n\n[1] 34 51 27\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nR is case-sensitive: Age and age are different\nText needs quotes (\"Central Hospital\"); object names do not (my_age)\nEvery ( needs a ) — Positron highlights the matching pair\n# starts a comment; R ignores the rest of the line\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): objects and functions\n\n\n\nStore three temperatures, 38.5, 39.1, and 37.9, in an object called my_temps. Then find their mean().\n✅ Check: the mean is 38.5\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmy_temps &lt;- c(38.5, 39.1, 37.9)\nmean(my_temps)\n\n[1] 38.5",
+    "text": "Data frames\nA data frame is a table: each column is a variable (a vector), each row is an observation. (Later you’ll also see tibbles: the tidyverse version of a data frame, which prints more neatly.)\n\npatients &lt;- data.frame(\n  name = c(\"Ana\", \"Ben\", \"Cho\"),\n  age  = c(34, 51, 27)\n)\npatients\n\n  name age\n1  Ana  34\n2  Ben  51\n3  Cho  27\n\npatients$age        # $ pulls out one column\n\n[1] 34 51 27\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nR is case-sensitive: Age and age are different\nText needs quotes (\"Central Hospital\"); object names do not (my_age)\nEvery ( needs a ) — Positron highlights the matching pair\n# starts a comment; R ignores the rest of the line\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): objects and functions\n\n\n\nStore three temperatures, 38.5, 39.1, and 37.9, in an object called my_temps. Then find their mean().\n✅ Check: the mean is 38.5\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmy_temps &lt;- c(38.5, 39.1, 37.9)\nmean(my_temps)\n\n[1] 38.5",
     "crumbs": [
-      "Lessons",
+      "Setup",
+      "Session 1: Setup and a First Look at Your Data"
+    ]
+  },
+  {
+    "objectID": "pages/lessons/01-setup-and-first-look.html#why-keep-everything-in-one-project-folder",
+    "href": "pages/lessons/01-setup-and-first-look.html#why-keep-everything-in-one-project-folder",
+    "title": "Session 1: Setup and a First Look at Your Data",
+    "section": "Why keep everything in one project folder?",
+    "text": "Why keep everything in one project folder?\n\nOrganization: data, scripts, and outputs live in one folder with a predictable structure (raw_data/, processed_data/, student_scripts/)\nReproducibility: the project works on any computer — yours, a collaborator’s, future you’s\nShareable: zip the folder and send it, or put it on GitHub",
+    "crumbs": [
+      "Setup",
+      "Session 1: Setup and a First Look at Your Data"
+    ]
+  },
+  {
+    "objectID": "pages/lessons/01-setup-and-first-look.html#open-the-project-folder-for-this-class",
+    "href": "pages/lessons/01-setup-and-first-look.html#open-the-project-folder-for-this-class",
+    "title": "Session 1: Setup and a First Look at Your Data",
+    "section": "Open the project folder for this class",
+    "text": "Open the project folder for this class\n\nDownload the workshop folder and save it somewhere you can find it (not your Downloads folder)\nIn Positron, choose File → Open Folder…, select the CWML-R-Hands-on-Workshop-Series folder, and click Open. Positron uses that folder as the working directory\nCheck the Explorer on the left: it should list the workshop files (raw_data, student_scripts, …)\n\n\n\n\n\n\n\nTipYour own projects later\n\n\n\nMake a new folder for each project (with subfolders like raw_data/ and scripts/), and open it in Positron with File → Open Folder…. Add an empty file called .here at the top so here() always finds it.",
+    "crumbs": [
+      "Setup",
+      "Session 1: Setup and a First Look at Your Data"
+    ]
+  },
+  {
+    "objectID": "pages/lessons/01-setup-and-first-look.html#relative-vs-absolute-paths",
+    "href": "pages/lessons/01-setup-and-first-look.html#relative-vs-absolute-paths",
+    "title": "Session 1: Setup and a First Look at Your Data",
+    "section": "Relative vs absolute paths",
+    "text": "Relative vs absolute paths\n\nBad (absolute): \"/Users/mwegener/Desktop/maybe_here/data.csv\" — only works on one computer\nGood (relative): here(\"raw_data\", \"data.csv\") — works on any computer that has the project folder\n\nhere() finds the top of the project folder (it looks for a .here file, which the workshop folder has) and builds the path from there.\n\nhere::here()                                   # where is the top of my project?\nhere::here(\"raw_data\", \"linelist_raw.xlsx\")    # full path to a file inside it\n\nhere::here() means “the here() function from the here package”. The :: lets you use a function before loading its package.\n\n\n\n\n\n\nImportant✏️ TRY IT (1 min): a path to the practice data\n\n\n\nBuild the path to the practice data, raw_data/measles_raw.csv.\n✅ Check: the output ends in .../raw_data/measles_raw.csv\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nhere::here(\"raw_data\", \"measles_raw.csv\")",
+    "crumbs": [
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -388,7 +388,7 @@
     "section": "import() + here()",
     "text": "import() + here()\nrio::import() reads almost any file type (.csv, .xlsx, .txt, SPSS, Stata, SAS, …). It works out the type from the file extension, so you only need to learn one function. Save the result with &lt;-, or it only prints to the Console and is gone.\n\nlinelist_raw &lt;- import(here(\"raw_data\", \"linelist_raw.xlsx\"))\n\nThe same function works for other file types:\n\ncase_info &lt;- import(here(\"raw_data\", \"case_info.csv\"))   # comma-separated\nhosp_info &lt;- import(here(\"raw_data\", \"hosp_info.txt\"))   # tab-separated text\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nFile names must match exactly, including capitals and the extension.\n“Error: No such file” means the folder or file name is misspelled, or the workshop folder isn’t open (check the Explorer on the left).\n\n\n\n\n\n\n\n\n\nTipOther import options you may see\n\n\n\n\nBase R: read.csv() — older, slower, and needs more settings\nreadr: read_csv() — the tidyverse version, fast and returns a tibble\nhaven: read_sav(), read_dta(), read_sas() — SPSS, Stata, SAS files\nExcel files with several sheets: import(here(\"raw_data\", \"file.xlsx\"), which = \"Sheet2\")\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): import the practice data\n\n\n\nImport the practice data raw_data/measles_raw.csv and call it measles_raw.\n✅ Check: in the Variables pane, measles_raw shows 1215 rows and 11 columns\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_raw &lt;- import(here(\"raw_data\", \"measles_raw.csv\"))",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -399,7 +399,7 @@
     "section": "Size and structure",
     "text": "Size and structure\n\nview(linelist_raw)       # opens the Data Explorer (or click the table icon next to it in the Variables pane)\n\n\ndim(linelist_raw)        # rows, columns\n\n[1] 6604   12\n\nnames(linelist_raw)      # column names\n\n [1] \"Case ID\"         \"infection date\"  \"date.onset\"      \"hosp date\"      \n [5] \"date of outcome\" \"OUTCOME\"         \"Gender\"          \"hospital\"       \n [9] \"age\"             \"age_unit\"        \"wt_kg\"           \"ht_cm\"          \n\n\n\n\n\n\n\n\nNote🤔 Think about it: what is wrong with these column names?\n\n\n\n\n\nSpaces, dots, capitals, and a mix of styles (Case ID, date.onset, OUTCOME). They are hard to type and need special handling. We fix all of them in Session 2 with one function.\n\n\n\n\nhead(linelist_raw)       # first 6 rows\n\n  Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender\n1  5fe599     2014-05-08 2014-05-13 2014-05-15            &lt;NA&gt;    &lt;NA&gt;      m\n2  8689b7           &lt;NA&gt; 2014-05-13 2014-05-14      2014-05-18 Recover      f\n3  11f8ea           &lt;NA&gt; 2014-05-16 2014-05-18      2014-05-30 Recover      m\n4  b8812a     2014-05-04 2014-05-18 2014-05-20            &lt;NA&gt;    &lt;NA&gt;      f\n5  893f25     2014-05-18 2014-05-21 2014-05-22      2014-05-29 Recover      m\n6  be99c8     2014-05-03 2014-05-22 2014-05-23      2014-05-24 Recover      f\n                              hospital age age_unit wt_kg ht_cm\n1                                Other   2    years    27    48\n2                                 &lt;NA&gt;   3    years    25    59\n3 St. Mark's Maternity Hospital (SMMH)  56    years    91   238\n4              Regional Medical Center  18    years    41   135\n5                    Military Hospital   3    years    36    71\n6              Regional Medical Center  16    years    56   116\n\nglimpse(linelist_raw)    # every column, its type, and the first few values\n\nRows: 6,604\nColumns: 12\n$ `Case ID`         &lt;chr&gt; \"5fe599\", \"8689b7\", \"11f8ea\", \"b8812a\", \"893f25\", \"b…\n$ `infection date`  &lt;dttm&gt; 2014-05-08, NA, NA, 2014-05-04, 2014-05-18, 2014-05…\n$ date.onset        &lt;chr&gt; \"2014-05-13\", \"2014-05-13\", \"2014-05-16\", \"2014-05-1…\n$ `hosp date`       &lt;dttm&gt; 2014-05-15, 2014-05-14, 2014-05-18, 2014-05-20, 201…\n$ `date of outcome` &lt;dttm&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 2014-05…\n$ OUTCOME           &lt;chr&gt; NA, \"Recover\", \"Recover\", NA, \"Recover\", \"Recover\", …\n$ Gender            &lt;chr&gt; \"m\", \"f\", \"m\", \"f\", \"m\", \"f\", \"f\", \"f\", \"m\", \"f\", \"m…\n$ hospital          &lt;chr&gt; \"Other\", NA, \"St. Mark's Maternity Hospital (SMMH)\",…\n$ age               &lt;chr&gt; \"2\", \"3\", \"56\", \"18\", \"3\", \"16\", \"16\", \"0\", \"61\", \"2…\n$ age_unit          &lt;chr&gt; \"years\", \"years\", \"years\", \"years\", \"years\", \"years\"…\n$ wt_kg             &lt;dbl&gt; 27, 25, 91, 41, 36, 56, 47, 0, 86, 69, 67, 84, 68, 4…\n$ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112, 18…\n\n\nIn glimpse(), the type is shown in angle brackets: &lt;chr&gt; text, &lt;dbl&gt; number, &lt;date&gt; date, &lt;dttm&gt; date-time.\n\n\n\n\n\n\nNote🤔 Think about it: which column types look wrong?\n\n\n\n\n\n\ndate.onset is &lt;chr&gt; (text) but the other dates are &lt;dttm&gt; (date-time)\nage is &lt;chr&gt; — it should be a number\nThere is an age_unit column — are all ages in years?\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): size and structure\n\n\n\nUse dim() and glimpse() on measles_raw.\n\nWhich column should be a number but is stored as text (&lt;chr&gt;)?\nWhich column names will need backticks?\n\n✅ Check: dim() gives 1215 11\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\ndim(measles_raw)\n\n[1] 1215   11\n\nglimpse(measles_raw)\n\nRows: 1,215\nColumns: 11\n$ `Patient ID`       &lt;chr&gt; \"MS-0931\", \"MS-0113\", \"MS-0975\", \"MS-0297\", \"MS-015…\n$ `Report Date`      &lt;IDate&gt; 2024-04-13, 2024-04-28, 2024-03-25, 2024-03-24, 2…\n$ District           &lt;chr&gt; \"West\", \"North\", \"Central\", \"Nroth\", \"South\", \"West…\n$ SEX                &lt;chr&gt; \"Female\", \"Male\", NA, NA, \"Female\", \"F\", \"Male\", \"M…\n$ `Age (years)`      &lt;chr&gt; \"4\", \"5\", \"7\", \"1\", \"10\", \"7\", \"4\", \"2\", \"0\", \"3\", …\n$ `Vaccinated?`      &lt;chr&gt; \"No\", \"Yes\", \"No\", \"No\", \"No\", \"NO\", \"NO\", \"Unknown…\n$ Fever              &lt;chr&gt; \"yes\", \"yes\", \"yes\", \"yes\", \"yes\", \"yes\", \"yes\", \"y…\n$ Rash               &lt;chr&gt; \"yes\", \"no\", \"no\", \"no\", \"yes\", \"yes\", \"yes\", \"no\",…\n$ `Temp (C)`         &lt;dbl&gt; 38.3, 38.4, 39.3, 38.0, 38.9, 38.5, 38.7, 38.5, 39.…\n$ `Days in Hospital` &lt;int&gt; NA, NA, NA, 4, NA, 5, 6, 5, 9, NA, 3, 1, 4, NA, NA,…\n$ Outcome            &lt;chr&gt; \"Died\", \"recovered\", \"Recovered\", \"Recovered\", \"Rec…\n\n\n\nAge (years) is &lt;chr&gt; — it contains “unknown” and the code “999”\nNames with spaces or symbols need backticks: `Patient ID`, `Report Date`, `Age (years)`, `Vaccinated?`, `Temp (C)`, `Days in Hospital`",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -410,7 +410,7 @@
     "section": "Summary of every column",
     "text": "Summary of every column\n\nskim(linelist_raw)\n\n\nData summary\n\n\nName\nlinelist_raw\n\n\nNumber of rows\n6604\n\n\nNumber of columns\n12\n\n\n_______________________\n\n\n\nColumn type frequency:\n\n\n\ncharacter\n7\n\n\nnumeric\n2\n\n\nPOSIXct\n3\n\n\n________________________\n\n\n\nGroup variables\nNone\n\n\n\nVariable type: character\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmin\nmax\nempty\nn_unique\nwhitespace\n\n\n\n\nCase ID\n130\n0.98\n6\n6\n0\n5888\n0\n\n\ndate.onset\n286\n0.96\n10\n10\n0\n580\n0\n\n\nOUTCOME\n1493\n0.77\n5\n7\n0\n2\n0\n\n\nGender\n317\n0.95\n1\n1\n0\n2\n0\n\n\nhospital\n1509\n0.77\n5\n36\n0\n13\n0\n\n\nage\n100\n0.98\n1\n2\n0\n75\n0\n\n\nage_unit\n0\n1.00\n5\n6\n0\n2\n0\n\n\n\nVariable type: numeric\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmean\nsd\np0\np25\np50\np75\np100\nhist\n\n\n\n\nwt_kg\n0\n1\n52.69\n18.59\n-11\n41\n54\n66\n111\n▁▃▇▅▁\n\n\nht_cm\n0\n1\n125.25\n49.57\n4\n91\n130\n159\n295\n▂▅▇▂▁\n\n\n\nVariable type: POSIXct\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmin\nmax\nmedian\nn_unique\n\n\n\n\ninfection date\n2315\n0.65\n2012-04-09\n2015-04-27\n2014-10-04\n538\n\n\nhosp date\n0\n1.00\n2012-04-20\n2015-04-30\n2014-10-15\n570\n\n\ndate of outcome\n1061\n0.84\n2012-05-14\n2015-06-04\n2014-10-26\n575\n\n\n\n\n\nLook at the n_missing column, the minimum of wt_kg (below zero!), and the maximum of ht_cm (almost 3 meters!).",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -419,20 +419,20 @@
     "href": "pages/lessons/01-setup-and-first-look.html#categories-count",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "Categories: count()",
-    "text": "Categories: count()\ncount() shows every distinct value in a column and how often it appears. It’s the fastest way to find misspellings.\n\nlinelist_raw %&gt;% count(hospital)\n\n                               hospital    n\n1                       Central Hopital   11\n2                      Central Hospital  457\n3                            HMO Health  288\n4                      Military Hopital   32\n5                     Military Hospital  800\n6                      Mitylira Hopital    1\n7                     Mitylira Hospital   79\n8                                 Other  907\n9                        Premier Health  288\n10                          Regional MC   48\n11              Regional Medical Center 1756\n12 St. Mark's Maternity Hospital (SMMH)  417\n13   St. Marks Maternity Hopital (SMMH)   11\n14                                 &lt;NA&gt; 1509\n\nlinelist_raw %&gt;% count(Gender)\n\n  Gender    n\n1      f 3140\n2      m 3147\n3   &lt;NA&gt;  317\n\nlinelist_raw %&gt;% count(OUTCOME)\n\n  OUTCOME    n\n1   Death 2898\n2 Recover 2213\n3    &lt;NA&gt; 1493\n\nlinelist_raw %&gt;% count(age_unit)\n\n  age_unit    n\n1   months   37\n2    years 6567\n\n\n\n\n\n\n\n\nNote🔁 The base R way: table()\n\n\n\nYou will often see base R’s table() in other people’s code. It counts too, but it hides missing values unless you ask for them:\n\ntable(linelist_raw$OUTCOME)                   # where are the missing outcomes?\n\n\n  Death Recover \n   2898    2213 \n\ntable(linelist_raw$OUTCOME, useNA = \"ifany\")  # there they are: 1493\n\n\n  Death Recover    &lt;NA&gt; \n   2898    2213    1493 \n\n\ncount() always shows NA. With table(), add useNA = \"ifany\". See Base R ↔︎ tidyverse for more translations.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): categories\n\n\n\n\ncount() District, SEX, and `Vaccinated?` in measles_raw. How many different ways is “North” written? How many ways is “No” written?\nNow try table(measles_raw$District). What is missing compared with count()?\n\n✅ Check: a) count(District) shows 18 rows (including NA) b) table() has no NA: 34 cases disappear\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_raw %&gt;% count(District)\n\n           District   n\n1           Central  95\n2  Central District   6\n3           Cetnral   9\n4              East 215\n5     East District   7\n6             North 318\n7    North District   9\n8             Nroth  19\n9             South 273\n10   South District  11\n11             West 167\n12    West District   6\n13          central   3\n14             east  11\n15            north  10\n16            south  13\n17             west   9\n18             &lt;NA&gt;  34\n\nmeasles_raw %&gt;% count(SEX)\n\n     SEX   n\n1      F  81\n2 Female 415\n3      M  86\n4   Male 509\n5 female  37\n6   male  47\n7   &lt;NA&gt;  40\n\nmeasles_raw %&gt;% count(`Vaccinated?`)\n\n  Vaccinated?   n\n1           N  40\n2          NO  44\n3          No 608\n4     Unknown 183\n5           Y  32\n6         Yes 231\n7          no  49\n8         yes  28\n\ntable(measles_raw$District)                   # b) no NA!\n\n\n         central          Central Central District          Cetnral \n               3               95                6                9 \n            east             East    East District            north \n              11              215                7               10 \n           North   North District            Nroth            south \n             318                9               19               13 \n           South   South District             west             West \n             273               11                9              167 \n   West District \n               6 \n\ntable(measles_raw$District, useNA = \"ifany\")\n\n\n         central          Central Central District          Cetnral \n               3               95                6                9 \n            east             East    East District            north \n              11              215                7               10 \n           North   North District            Nroth            south \n             318                9               19               13 \n           South   South District             west             West \n             273               11                9              167 \n   West District             &lt;NA&gt; \n               6               34 \n\n\n“North” is written 4 ways (“North”, “north”, “Nroth”, “North District”), and so is “No” (“No”, “no”, “N”, “NO”). table() silently drops the 34 cases with no district; useNA = \"ifany\" brings them back. It also sorts lower-case values first, so “central” and “Central” are listed apart.",
+    "text": "Categories: count()\ncount() shows every distinct value in a column and how often it appears. It’s the fastest way to find misspellings.\nThe data goes first, then the column: count(DATA, COLUMN).\n\ncount(linelist_raw, hospital)\n\n                               hospital    n\n1                       Central Hopital   11\n2                      Central Hospital  457\n3                            HMO Health  288\n4                      Military Hopital   32\n5                     Military Hospital  800\n6                      Mitylira Hopital    1\n7                     Mitylira Hospital   79\n8                                 Other  907\n9                        Premier Health  288\n10                          Regional MC   48\n11              Regional Medical Center 1756\n12 St. Mark's Maternity Hospital (SMMH)  417\n13   St. Marks Maternity Hopital (SMMH)   11\n14                                 &lt;NA&gt; 1509\n\ncount(linelist_raw, Gender)\n\n  Gender    n\n1      f 3140\n2      m 3147\n3   &lt;NA&gt;  317\n\ncount(linelist_raw, OUTCOME)\n\n  OUTCOME    n\n1   Death 2898\n2 Recover 2213\n3    &lt;NA&gt; 1493\n\ncount(linelist_raw, age_unit)\n\n  age_unit    n\n1   months   37\n2    years 6567\n\n\n\n\n\n\n\n\nNote🔁 The base R way: table()\n\n\n\nYou will often see base R’s table() in other people’s code. It counts too, but it hides missing values unless you ask for them:\n\ntable(linelist_raw$OUTCOME)                   # where are the missing outcomes?\n\n\n  Death Recover \n   2898    2213 \n\ntable(linelist_raw$OUTCOME, useNA = \"ifany\")  # there they are: 1493\n\n\n  Death Recover    &lt;NA&gt; \n   2898    2213    1493 \n\n\ncount() always shows NA. With table(), add useNA = \"ifany\". See Base R ↔︎ tidyverse for more translations.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): categories\n\n\n\n\ncount() District, SEX, and `Vaccinated?` in measles_raw. How many different ways is “North” written? How many ways is “No” written?\nNow try table(measles_raw$District). What is missing compared with count()?\n\n✅ Check: a) count(District) shows 18 rows (including NA) b) table() has no NA: 34 cases disappear\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\ncount(measles_raw, District)\n\n           District   n\n1           Central  95\n2  Central District   6\n3           Cetnral   9\n4              East 215\n5     East District   7\n6             North 318\n7    North District   9\n8             Nroth  19\n9             South 273\n10   South District  11\n11             West 167\n12    West District   6\n13          central   3\n14             east  11\n15            north  10\n16            south  13\n17             west   9\n18             &lt;NA&gt;  34\n\ncount(measles_raw, SEX)\n\n     SEX   n\n1      F  81\n2 Female 415\n3      M  86\n4   Male 509\n5 female  37\n6   male  47\n7   &lt;NA&gt;  40\n\ncount(measles_raw, `Vaccinated?`)\n\n  Vaccinated?   n\n1           N  40\n2          NO  44\n3          No 608\n4     Unknown 183\n5           Y  32\n6         Yes 231\n7          no  49\n8         yes  28\n\ntable(measles_raw$District)                   # b) no NA!\n\n\n         central          Central Central District          Cetnral \n               3               95                6                9 \n            east             East    East District            north \n              11              215                7               10 \n           North   North District            Nroth            south \n             318                9               19               13 \n           South   South District             west             West \n             273               11                9              167 \n   West District \n               6 \n\ntable(measles_raw$District, useNA = \"ifany\")\n\n\n         central          Central Central District          Cetnral \n               3               95                6                9 \n            east             East    East District            north \n              11              215                7               10 \n           North   North District            Nroth            south \n             318                9               19               13 \n           South   South District             west             West \n             273               11                9              167 \n   West District             &lt;NA&gt; \n               6               34 \n\n\n“North” is written 4 ways (“North”, “north”, “Nroth”, “North District”), and so is “No” (“No”, “no”, “N”, “NO”). table() silently drops the 34 cases with no district; useNA = \"ifany\" brings them back. It also sorts lower-case values first, so “central” and “Central” are listed apart.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
   {
-    "objectID": "pages/lessons/01-setup-and-first-look.html#zooming-in-select-filter-arrange",
-    "href": "pages/lessons/01-setup-and-first-look.html#zooming-in-select-filter-arrange",
+    "objectID": "pages/lessons/01-setup-and-first-look.html#zooming-in-filter-and-arrange",
+    "href": "pages/lessons/01-setup-and-first-look.html#zooming-in-filter-and-arrange",
     "title": "Session 1: Setup and a First Look at Your Data",
-    "section": "Zooming in: select(), filter(), arrange()",
-    "text": "Zooming in: select(), filter(), arrange()\n\nselect() keeps columns\nfilter() keeps rows that meet a condition\narrange() sorts rows (desc() for largest first)\n\nColumn names with spaces need backticks: `Case ID`. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!\n\n# Which patients have ages in months?\nlinelist_raw %&gt;%\n  filter(age_unit == \"months\") %&gt;%\n  select(`Case ID`, age, age_unit)\n\n   Case ID  age age_unit\n1   e1c081   24   months\n2   9d8358 &lt;NA&gt;   months\n3   df9f64    7   months\n4   f76807    7   months\n5   58b05a   24   months\n6   5a2c39   24   months\n7   092cd0    6   months\n8   04a78f   36   months\n9   833a20    4   months\n10  5439ab    4   months\n11  7bb784    9   months\n12  31a7f9    8   months\n13  af82f5   36   months\n14  7f49f5    7   months\n15  b3a86b   18   months\n16  c8ee00    3   months\n17  059b73   11   months\n18  edfa52   24   months\n19  b87c07    6   months\n20  637f72    6   months\n21  ca3045    1   months\n22  39f2c8   10   months\n23  060017    9   months\n24  72febb    4   months\n25  a568bb    5   months\n26  dee16d    8   months\n27  389175    6   months\n28  6a968f    8   months\n29  87be9a   24   months\n30  5439ab    4   months\n31  833a20    4   months\n32  5439ab    4   months\n33  b87c07    6   months\n34  b3a86b   18   months\n35    &lt;NA&gt;    9   months\n36    &lt;NA&gt;    3   months\n37    &lt;NA&gt;    6   months\n\n# Impossible weights: sort smallest first, show the first 10 rows\nlinelist_raw %&gt;%\n  select(`Case ID`, wt_kg, ht_cm) %&gt;%\n  arrange(wt_kg) %&gt;%\n  head(10)\n\n   Case ID wt_kg ht_cm\n1   6056ba   -11    24\n2   6056ba   -11    24\n3   7400b3   -10    13\n4   0fde59   -10    18\n5   fca629    -9    24\n6   eb4d8f    -8    22\n7   4fb46f    -7    13\n8   db9404    -7    16\n9   78b0f7    -6    19\n10  35a38e    -6    23\n\n# Tallest patients\nlinelist_raw %&gt;%\n  select(`Case ID`, ht_cm) %&gt;%\n  arrange(desc(ht_cm)) %&gt;%\n  head(10)\n\n   Case ID ht_cm\n1   ebb14f   295\n2   610c15   287\n3   0b32d8   272\n4   b06109   268\n5   b21b3e   266\n6   9c3a56   266\n7   389175   266\n8     &lt;NA&gt;   266\n9   ae0163   263\n10  4b158a   262\n\n\n\n\n\n\n\n\nTipLong output? Add head()\n\n\n\nlinelist_raw is a regular data frame, so R prints every row — all 6,604 of them! Adding %&gt;% head(10) at the end shows only the first 10.\n\n\n\n\n\n\n\n\nNoteConditions you can use in filter()\n\n\n\n== equal · != not equal · &gt; &lt; &gt;= &lt;= · %in% c(...) one of several values · is.na() missing · & and · | or\nUse == (two equals signs) to compare. One = is for naming arguments.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): zooming in\n\n\n\nSort measles_raw by `Temp (C)`, largest first, showing only `Patient ID` and `Temp (C)`. Add head(10) so you only see the top 10. What is the highest temperature? What do you think happened?\n✅ Check: the top value is 104.7\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_raw %&gt;%\n  select(`Patient ID`, `Temp (C)`) %&gt;%\n  arrange(desc(`Temp (C)`)) %&gt;%\n  head(10)\n\n   Patient ID Temp (C)\n1     MS-0663    104.7\n2     MS-0444    104.0\n3     MS-0908    104.0\n4     MS-0523    104.0\n5     MS-0132    103.5\n6     MS-0052    103.3\n7     MS-1027    103.3\n8     MS-0167    103.3\n9     MS-0110    102.9\n10    MS-0943    102.6\n\n\n104.7 is about 40 °C written in Fahrenheit. A few temperatures were entered in °F instead of °C.",
+    "section": "Zooming in: filter() and arrange()",
+    "text": "Zooming in: filter() and arrange()\n\nfilter() keeps rows that meet a condition\narrange() sorts rows (desc() for largest first)\n\nEach one takes the data first. Column names with spaces need backticks: `Case ID`. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!\nlinelist_raw is a regular data frame, so R prints every row it gets — all 6,604 of them, with 12 columns each! To do two things, such as filtering and then showing only the first 10 rows, put one function inside another. R runs the inside first:\n\n# How many patients have ages in months?\nnrow(filter(linelist_raw, age_unit == \"months\"))\n\n[1] 37\n\n# Show the first 10 of them\nhead(filter(linelist_raw, age_unit == \"months\"), 10)\n\n   Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender\n1   e1c081     2014-10-13 2014-10-14 2014-10-14      2014-10-27   Death      m\n2   9d8358     2014-10-01       &lt;NA&gt; 2014-10-18            &lt;NA&gt; Recover   &lt;NA&gt;\n3   df9f64     2014-10-06 2014-10-26 2014-10-27      2014-11-06   Death      f\n4   f76807           &lt;NA&gt; 2014-10-27 2014-10-28      2014-11-02   Death      f\n5   58b05a           &lt;NA&gt; 2014-12-04 2014-12-05            &lt;NA&gt; Recover   &lt;NA&gt;\n6   5a2c39     2014-12-17 2014-12-25 2014-12-25      2015-01-16 Recover      m\n7   092cd0     2014-12-22 2015-01-02 2015-01-03      2015-01-17   Death      f\n8   04a78f           &lt;NA&gt; 2015-01-15 2015-01-17      2015-01-26 Recover      f\n9   833a20     2014-09-20 2014-09-30 2014-10-02      2014-10-05 Recover      m\n10  5439ab     2014-09-20 2014-10-04 2014-10-05            &lt;NA&gt;    &lt;NA&gt;      f\n                  hospital  age age_unit wt_kg ht_cm\n1  Regional Medical Center   24   months    68   138\n2                     &lt;NA&gt; &lt;NA&gt;   months    22    32\n3  Regional Medical Center    7   months    49    72\n4  Regional Medical Center    7   months    52   120\n5        Military Hospital   24   months    49   123\n6                    Other   24   months    48    74\n7                    Other    6   months    72   223\n8        Military Hospital   36   months    43    65\n9  Regional Medical Center    4   months    40    65\n10                    &lt;NA&gt;    4   months    58   125\n\n\n\n# Impossible weights: sort smallest first, then show the first 10 rows\nhead(arrange(linelist_raw, wt_kg), 10)\n\n   Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender\n1   6056ba           &lt;NA&gt; 2014-10-20 2014-10-21      2014-11-05   Death      f\n2   6056ba           &lt;NA&gt; 2012-10-20 2012-10-21      2012-11-05   Death      f\n3   7400b3     2014-10-07 2014-10-12 2014-10-13      2014-10-18   Death      f\n4   0fde59     2014-09-01 2014-09-04 2014-09-08      2014-09-14 Recover      f\n5   fca629           &lt;NA&gt; 2014-12-04 2014-12-07      2014-12-30 Recover      f\n6   eb4d8f     2014-10-02 2014-10-06 2014-10-07      2014-10-11    &lt;NA&gt;      f\n7   4fb46f     2014-08-12 2014-08-21 2014-08-25      2014-09-01 Recover      f\n8   db9404     2015-01-18 2015-01-21 2015-01-24      2015-01-27   Death      f\n9   78b0f7     2014-10-29 2014-11-05 2014-11-05      2014-11-19 Recover      f\n10  35a38e     2014-09-11 2014-09-16 2014-09-17      2014-09-26 Recover      f\n                  hospital age age_unit wt_kg ht_cm\n1                     &lt;NA&gt;   0    years   -11    24\n2               HMO Health   0    years   -11    24\n3  Regional Medical Center   0    years   -10    13\n4                     &lt;NA&gt;   0    years   -10    18\n5         Central Hospital   0    years    -9    24\n6                    Other   0    years    -8    22\n7  Regional Medical Center   0    years    -7    13\n8  Regional Medical Center   0    years    -7    16\n9                     &lt;NA&gt;   0    years    -6    19\n10 Regional Medical Center   0    years    -6    23\n\n# Tallest patients: desc() sorts largest first\nhead(arrange(linelist_raw, desc(ht_cm)), 10)\n\n   Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender\n1   ebb14f     2014-08-19 2014-09-01 2014-09-07      2014-09-13 Recover      m\n2   610c15           &lt;NA&gt; 2015-02-04 2015-02-06      2015-02-20    &lt;NA&gt;      m\n3   0b32d8     2015-01-07 2015-01-13 2015-01-14      2015-01-15   Death      m\n4   b06109     2014-11-13 2014-11-28 2014-11-30      2014-12-05   Death      m\n5   b21b3e           &lt;NA&gt; 2015-01-11 2015-01-12      2015-01-14   Death      m\n6   9c3a56     2015-01-04 2015-01-20 2015-01-21      2015-01-27   Death   &lt;NA&gt;\n7   389175     2015-03-13 2015-03-24 2015-03-25      2015-04-22 Recover      f\n8     &lt;NA&gt;     2015-03-13 2015-03-24 2015-03-25      2015-04-22 Recover      f\n9   ae0163     2014-08-26 2014-08-29 2014-09-06      2014-09-19    &lt;NA&gt;      m\n10  4b158a           &lt;NA&gt; 2014-11-07 2014-11-09      2014-12-08 Recover   &lt;NA&gt;\n                             hospital age age_unit wt_kg ht_cm\n1  St. Marks Maternity Hopital (SMMH)  84    years   111   295\n2                   Military Hospital  69    years   105   287\n3                   Military Hospital  72    years    94   272\n4             Regional Medical Center  68    years    85   268\n5                                &lt;NA&gt;  49    years    80   266\n6                                &lt;NA&gt;  76    years   101   266\n7                                &lt;NA&gt;   6   months    95   266\n8                                &lt;NA&gt;   6   months    95   266\n9                                &lt;NA&gt;  60    years    94   263\n10                               &lt;NA&gt;  69    years    87   262\n\n\n\n\n\n\n\n\nNoteReading code from the inside out\n\n\n\nhead(arrange(linelist_raw, wt_kg), 10) reads: take linelist_raw, arrange it by weight, then take the head. Two steps are manageable, but with three or four the brackets pile up. In Session 2 you’ll learn the pipe %&gt;%, which writes the same steps in order, from left to right.\n\n\n\n\n\n\n\n\nNoteConditions you can use in filter()\n\n\n\n== equal · != not equal · &gt; &lt; &gt;= &lt;= · %in% c(...) one of several values · is.na() missing · & and · | or\nUse == (two equals signs) to compare. One = is for naming arguments.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): zooming in\n\n\n\nSort measles_raw by `Temp (C)`, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?\nHINT: head(arrange(DATA, desc(COLUMN)), 10)\n✅ Check: the top value is 104.7\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nhead(arrange(measles_raw, desc(`Temp (C)`)), 10)\n\n   Patient ID Report Date District    SEX Age (years) Vaccinated? Fever Rash\n1     MS-0663  2024-03-15    South   Male          14          No   yes  yes\n2     MS-0444  2024-02-26     East   Male           8     Unknown   yes  yes\n3     MS-0908  2024-03-03    Nroth   Male           1         yes   yes  yes\n4     MS-0523  2024-04-21     East Female          13          No   yes  yes\n5     MS-0132  2024-03-18     &lt;NA&gt;   Male           1         Yes   yes  yes\n6     MS-0052  2024-02-01    South   Male           5         Yes   yes  yes\n7     MS-1027  2024-03-21     East   Male           3     Unknown   yes  yes\n8     MS-0167  2024-04-10  Central Female           6          No   yes  yes\n9     MS-0110  2024-04-22    South   Male           4          No   yes  yes\n10    MS-0943  2024-04-11    South Female          23     Unknown   yes  yes\n   Temp (C) Days in Hospital   Outcome\n1     104.7               NA Recovered\n2     104.0               NA Recovered\n3     104.0               NA Recovered\n4     104.0               NA Recovered\n5     103.5               NA Recovered\n6     103.3               NA Recovered\n7     103.3               NA Recovered\n8     103.3               NA Recovered\n9     102.9               NA Recovered\n10    102.6               NA Recovered\n\n\n104.7 is about 40 °C written in Fahrenheit. A few temperatures were entered in °F instead of °C.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -441,9 +441,9 @@
     "href": "pages/lessons/01-setup-and-first-look.html#missing-values-and-duplicates",
     "title": "Session 1: Setup and a First Look at Your Data",
     "section": "Missing values and duplicates",
-    "text": "Missing values and duplicates\n\n# Missing values in each column\ncolSums(is.na(linelist_raw))\n\n        Case ID  infection date      date.onset       hosp date date of outcome \n            130            2315             286               0            1061 \n        OUTCOME          Gender        hospital             age        age_unit \n           1493             317            1509             100               0 \n          wt_kg           ht_cm \n              0               0 \n\n# How many rows have no Case ID?\nlinelist_raw %&gt;% filter(is.na(`Case ID`)) %&gt;% nrow()\n\n[1] 130\n\n# How many rows are exact copies of an earlier row?\nsum(duplicated(linelist_raw))\n\n[1] 25\n\n\n\n# Look at the duplicated rows (shows every copy, plus a dupe_count column)\nget_dupes(linelist_raw)\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): missing values and duplicates\n\n\n\nIn measles_raw:\n\nHow many rows have a missing `Patient ID`?\nHow many rows are exact duplicates?\nWhich column has the most missing values? Is that a mistake, or does it make sense?\n\n✅ Check: a) 37 b) 15\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_raw %&gt;% filter(is.na(`Patient ID`)) %&gt;% nrow()\n\n[1] 37\n\nsum(duplicated(measles_raw))\n\n[1] 15\n\ncolSums(is.na(measles_raw))\n\n      Patient ID      Report Date         District              SEX \n              37               29               34               40 \n     Age (years)      Vaccinated?            Fever             Rash \n               0                0                0                0 \n        Temp (C) Days in Hospital          Outcome \n               0              766               68 \n\n\n\nDays in Hospital has the most (766). That makes sense: patients who were never hospitalized have no hospital days. Missing is not always an error!",
+    "text": "Missing values and duplicates\n\n# Missing values in each column\ncolSums(is.na(linelist_raw))\n\n        Case ID  infection date      date.onset       hosp date date of outcome \n            130            2315             286               0            1061 \n        OUTCOME          Gender        hospital             age        age_unit \n           1493             317            1509             100               0 \n          wt_kg           ht_cm \n              0               0 \n\n# How many rows have no Case ID? Count the rows that filter() keeps\nnrow(filter(linelist_raw, is.na(`Case ID`)))\n\n[1] 130\n\n# How many rows are exact copies of an earlier row?\nsum(duplicated(linelist_raw))\n\n[1] 25\n\n\n\n# Look at the duplicated rows (shows every copy, plus a dupe_count column)\nget_dupes(linelist_raw)\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): missing values and duplicates\n\n\n\nIn measles_raw:\n\nHow many rows have a missing `Patient ID`?\nHow many rows are exact duplicates?\nWhich column has the most missing values? Is that a mistake, or does it make sense?\n\n✅ Check: a) 37 b) 15\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nnrow(filter(measles_raw, is.na(`Patient ID`)))\n\n[1] 37\n\nsum(duplicated(measles_raw))\n\n[1] 15\n\ncolSums(is.na(measles_raw))\n\n      Patient ID      Report Date         District              SEX \n              37               29               34               40 \n     Age (years)      Vaccinated?            Fever             Rash \n               0                0                0                0 \n        Temp (C) Days in Hospital          Outcome \n               0              766               68 \n\n\n\nDays in Hospital has the most (766). That makes sense: patients who were never hospitalized have no hospital days. Missing is not always an error!",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 1: Setup and a First Look at Your Data"
     ]
   },
@@ -628,7 +628,18 @@
     "href": "pages/instructor/session-01.html#timing",
     "title": "Instructor notes: Session 1",
     "section": "Timing",
-    "text": "Timing\n\n\n\nPart\nTopic\nTime (incl. TRY IT)\n\n\n\n\n1\nR Projects and here()\n10 min\n\n\n2\nInstalling and loading packages\n8 min\n\n\n3\nR basics\n12 min\n\n\n4\nThe pipe %&gt;%\n5 min\n\n\n5\nImporting data\n10 min\n\n\n6\nInspecting data (4 TRY ITs)\n30 min\n\n\n7\nThe problem list (class + TRY IT)\n15 min\n\n\n\nWrap-up and preview\n5 min\n\n\n\nTotal\n95 min\n\n\n\nShort on time? Make the Part 7 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.",
+    "text": "Timing\n\n\n\nPart\nTopic\nTime (incl. TRY IT)\n\n\n\n\n1\nR basics\n12 min\n\n\n2\nInstalling and loading packages\n8 min\n\n\n3\nProject folders and here()\n10 min\n\n\n4\nImporting data\n10 min\n\n\n5\nInspecting data (4 TRY ITs)\n30 min\n\n\n6\nThe problem list (class + TRY IT)\n15 min\n\n\n\nWrap-up and preview\n5 min\n\n\n\nTotal\n90 min\n\n\n\nShort on time? Make the Part 6 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.",
+    "crumbs": [
+      "Instructor Guide",
+      "Instructor notes: Session 1"
+    ]
+  },
+  {
+    "objectID": "pages/instructor/session-01.html#why-this-order",
+    "href": "pages/instructor/session-01.html#why-this-order",
+    "title": "Instructor notes: Session 1",
+    "section": "Why this order",
+    "text": "Why this order\nThe session starts with the basics of the language (objects, vectors, functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. The pipe %&gt;% is taught at the start of Session 2, together with the tidyverse cleaning it is used for, so Session 1 calls one function at a time.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 1"
@@ -639,7 +650,7 @@
     "href": "pages/instructor/session-01.html#before-you-start",
     "title": "Instructor notes: Session 1",
     "section": "Before you start",
-    "text": "Before you start\n\nCheck that everyone ran the Setup test. Anyone who didn’t should start install.packages() at the very beginning of class — it can take several minutes. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools (Troubleshooting).\nHand out the green and red sticky notes and explain them.",
+    "text": "Before you start\n\nCheck that everyone ran the Setup test. Anyone who didn’t should start install.packages() at the very beginning of class — it can take several minutes, and Part 1 (R basics) needs no packages, so they can follow along while it installs. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools (Troubleshooting).\nHand out the green and red sticky notes and explain them.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 1"
@@ -650,7 +661,7 @@
     "href": "pages/instructor/session-01.html#teaching-notes-by-part",
     "title": "Instructor notes: Session 1",
     "section": "Teaching notes by part",
-    "text": "Teaching notes by part\nPart 1 — Project folders and here(). Show that here::here() points at the workshop folder because it’s open in Positron (and has a .here file). Learners using RStudio should open the .Rproj file instead; everything else is the same.\nPositron vs RStudio names: if learners follow older tutorials, Positron’s Variables pane is RStudio’s Environment pane, and the Explorer is the Files pane.\nPart 3 — R basics. Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (Mean(ages)) to show that R is case-sensitive.\nPart 4 — The pipe. If anyone asks why round(38.5) gives 38 rather than 39: R rounds a 5 to the nearest even number, which avoids bias when rounding many values.\nPart 6 — Inspecting. This is the longest part. The “Think about it” questions on the lesson page are prompts to ask the class:\n\nWhat is wrong with these column names? — spaces, dots, capitals, mixed styles.\nWhich column types look wrong? — date.onset is text, age is text, and age_unit hints that some ages aren’t in years.\n\nAfter skim(), point at the n_missing column, the negative minimum of wt_kg, and the near-300 cm maximum of ht_cm.\nThe 🔁 base R table() box takes 2 minutes. The point is not to learn a second counting function but to recognize it in other people’s code, and to know its trap: it hides NA unless you add useNA = \"ifany\". TRY IT (b) lets learners find this themselves.\nPart 7 — The problem list. Build the list with the class — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2’s TRY ITs work through it.",
+    "text": "Teaching notes by part\nPart 1 — R basics. Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (Mean(ages)) to show that R is case-sensitive. The data frame example uses base R’s data.frame(), because no packages are loaded yet; mention that the tidyverse version, the tibble, shows up later.\nPart 2 — Packages. Learners who did the setup only need the library() lines.\nPart 3 — Project folders and here(). Show that here::here() points at the workshop folder because it’s open in Positron (and has a .here file). The workshop uses Positron for everyone, so the setup and pane names are the same on every laptop.\nPositron vs RStudio names: if learners follow older tutorials, Positron’s Variables pane is RStudio’s Environment pane, and the Explorer is the Files pane.\nPart 5 — Inspecting. This is the longest part. The “Think about it” questions on the lesson page are prompts to ask the class:\n\nWhat is wrong with these column names? — spaces, dots, capitals, mixed styles.\nWhich column types look wrong? — date.onset is text, age is text, and age_unit hints that some ages aren’t in years.\n\nAfter skim(), point at the n_missing column, the negative minimum of wt_kg, and the near-300 cm maximum of ht_cm.\nThe 🔁 base R table() box takes 2 minutes. The point is not to learn a second counting function but to recognize it in other people’s code, and to know its trap: it hides NA unless you add useNA = \"ifany\". TRY IT (b) lets learners find this themselves.\nZooming in uses one function inside another, such as head(arrange(linelist_raw, wt_kg), 10). Read it aloud from the inside out (“arrange the data, then take the head”). Let learners feel that the brackets get awkward: it sets up the pipe at the start of Session 2.\nPart 6 — The problem list. Build the list with the class — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2’s TRY ITs work through it.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 1"
@@ -661,7 +672,7 @@
     "href": "pages/instructor/session-01.html#try-it-answers-at-a-glance",
     "title": "Instructor notes: Session 1",
     "section": "TRY IT answers at a glance",
-    "text": "TRY IT answers at a glance\n\n\n\n\n\n\n\nTRY IT\nAnswer\n\n\n\n\nPath to the practice data\nhere::here(\"raw_data\", \"measles_raw.csv\")\n\n\nObjects and functions\nmean(my_temps) is 38.5\n\n\nThe pipe\nmy_temps %&gt;% mean() %&gt;% round(0) is 38\n\n\nImport\n1215 rows, 11 columns\n\n\nSize and structure\nAge (years) is text; six names need backticks\n\n\nCategories\na) District has 18 values; “North” and “No” are each written 4 ways b) table() drops the 34 NA districts\n\n\nZooming in\nHighest temperature 104.7 — Fahrenheit (27 temperatures in °F)\n\n\nMissing values and duplicates\n37 missing IDs, 15 duplicates; Days in Hospital has 766 NAs (not hospitalized)\n\n\nProblem list\nAt least 8 problems — see the lesson’s solution",
+    "text": "TRY IT answers at a glance\n\n\n\n\n\n\n\nTRY IT\nAnswer\n\n\n\n\nObjects and functions\nmean(my_temps) is 38.5\n\n\nPath to the practice data\nhere::here(\"raw_data\", \"measles_raw.csv\")\n\n\nImport\n1215 rows, 11 columns\n\n\nSize and structure\nAge (years) is text; six names need backticks\n\n\nCategories\na) District has 18 values; “North” and “No” are each written 4 ways b) table() drops the 34 NA districts\n\n\nZooming in\nhead(arrange(measles_raw, desc(`Temp (C)`)), 10): highest temperature 104.7 — Fahrenheit (27 temperatures in °F)\n\n\nMissing values and duplicates\n37 missing IDs, 15 duplicates; Days in Hospital has 766 NAs (not hospitalized)\n\n\nProblem list\nAt least 8 problems — see the lesson’s solution",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 1"
@@ -721,7 +732,7 @@
     "href": "index.html#start-here",
     "title": "R Hands-on Workshop Series",
     "section": "Start here",
-    "text": "Start here\n\nSetup — install R, Positron, and the packages, and download the workshop folder. Please do this before the first session.\nWork through the lessons in order:\n\n\n\n\n\n#\nLesson\nYou will learn\n\n\n\n\n1\nSetup and a first look at your data\nR Projects, packages, R basics, the pipe, importing and inspecting data\n\n\n2\nCleaning\nclean_names(), mutate(), if_else(), case_when()\n\n\n3\nMissing data, joins, and export\nmissing values, duplicates, joins, export()\n\n\n4\nData structures\nvectors, subsetting, lists, pivot_longer() / pivot_wider()\n\n\n5\nSummarizing\ncount(), summarise(), tabyl(), a gtsummary Table 1\n\n\n6\nPlotting basics\nhistograms, scatter plots, box plots\n\n\n7\nPlotting further\nbar charts, colors, epidemic curves, facets\n\n\n8\nProgramming (optional)\nfunctions, if/else, loops, map()"
+    "text": "Start here\n\nSetup — install R, Positron, and the packages, and download the workshop folder. Please do this before the first session.\nWork through the lessons in order:\n\n\n\n\n\n#\nLesson\nYou will learn\n\n\n\n\n1\nSetup and a first look at your data\nR basics, packages, project folders, importing and inspecting data\n\n\n2\nCleaning\nthe pipe %&gt;%, clean_names(), mutate(), if_else(), case_when()\n\n\n3\nMissing data, joins, and export\nmissing values, duplicates, joins, export()\n\n\n4\nData structures\nvectors, subsetting, lists, pivot_longer() / pivot_wider()\n\n\n5\nSummarizing\ncount(), summarise(), tabyl(), a gtsummary Table 1\n\n\n6\nPlotting basics\nhistograms, scatter plots, box plots\n\n\n7\nPlotting further\nbar charts, colors, epidemic curves, facets\n\n\n8\nProgramming (optional)\nfunctions, if/else, loops, map()"
   },
   {
     "objectID": "index.html#how-each-lesson-works",
@@ -841,7 +852,7 @@
     "href": "pages/instructor/index.html#session-overview",
     "title": "Instructor Guide",
     "section": "Session overview",
-    "text": "Session overview\n\n\n\nSession\nLesson\nTime\nStarts from\n\n\n\n\n1\nSetup and a first look at your data\n95 min\nraw_data/\n\n\n2\nCleaning\n90 min\nraw_data/\n\n\n3\nMissing data, joins, and export\n87 min\nprocessed_data/linelist_clean.rds\n\n\n4\nData structures\n86 min\nprocessed_data/combined_linelist.rds\n\n\n5\nSummarizing\n92 min\nprocessed_data/combined_linelist.rds\n\n\n6\nPlotting basics\n87 min\nprocessed_data/combined_linelist.rds\n\n\n7\nPlotting further\n87 min\nprocessed_data/combined_linelist.rds\n\n\n8\nProgramming (optional)\n85 min\nprocessed_data/combined_linelist.rds\n\n\n\nEach session is planned for about 90 minutes including the TRY ITs. Real sessions with beginners often run long, so each session page lists what to cut if you’re short on time.\nEvery session starts from a file that is already in the repository, so learners who missed the previous session can still join.",
+    "text": "Session overview\n\n\n\nSession\nLesson\nTime\nStarts from\n\n\n\n\n1\nSetup and a first look at your data\n90 min\nraw_data/\n\n\n2\nCleaning\n104 min\nraw_data/\n\n\n3\nMissing data, joins, and export\n87 min\nprocessed_data/linelist_clean.rds\n\n\n4\nData structures\n86 min\nprocessed_data/combined_linelist.rds\n\n\n5\nSummarizing\n92 min\nprocessed_data/combined_linelist.rds\n\n\n6\nPlotting basics\n87 min\nprocessed_data/combined_linelist.rds\n\n\n7\nPlotting further\n87 min\nprocessed_data/combined_linelist.rds\n\n\n8\nProgramming (optional)\n85 min\nprocessed_data/combined_linelist.rds\n\n\n\nEach session is planned for about 90 minutes including the TRY ITs. Real sessions with beginners often run long, so each session page lists what to cut if you’re short on time.\nEvery session starts from a file that is already in the repository, so learners who missed the previous session can still join.",
     "crumbs": [
       "Instructor Guide"
     ]
@@ -872,7 +883,7 @@
     "href": "pages/instructor/session-02.html#timing",
     "title": "Instructor notes: Session 2",
     "section": "Timing",
-    "text": "Timing\n\n\n\nPart\nTopic\nTime (incl. TRY IT)\n\n\n\n\n1\nSet up and recall the problem list\n8 min\n\n\n2\nColumn names: clean_names() and rename()\n10 min\n\n\n3\nFixing types with mutate()\n11 min\n\n\n4\nFixing values with if_else() (+ 🔁 ifelse() demo)\n15 min\n\n\n5\nRecoding categories with case_when() (2 TRY ITs)\n22 min\n\n\n6\nCreating new variables (+ 🔁 cut() demo)\n15 min\n\n\n7\nOne pipeline and saving your work\n10 min\n\n\n\nWrap-up and preview\n5 min\n\n\n\nTotal\n96 min\n\n\n\nShort on time? Do the district TRY IT (Part 5) together as a live-coded demo instead of solo work, or assign it as homework. Do not cut the final TRY IT (saving measles_clean.rds) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in processed_data/.",
+    "text": "Timing\n\n\n\nPart\nTopic\nTime (incl. TRY IT)\n\n\n\n\n1\nSet up and recall the problem list\n8 min\n\n\n2\nThe pipe %&gt;%\n8 min\n\n\n3\nColumn names: clean_names() and rename()\n10 min\n\n\n4\nFixing types with mutate()\n11 min\n\n\n5\nFixing values with if_else() (+ 🔁 ifelse() demo)\n15 min\n\n\n6\nRecoding categories with case_when() (2 TRY ITs)\n22 min\n\n\n7\nCreating new variables (+ 🔁 cut() demo)\n15 min\n\n\n8\nOne pipeline and saving your work\n10 min\n\n\n\nWrap-up and preview\n5 min\n\n\n\nTotal\n104 min\n\n\n\nShort on time? This session is now the longest of the series. Do the district TRY IT (Part 6) together as a live-coded demo instead of solo work, or assign it as homework. Do not cut the final TRY IT (saving measles_clean.rds) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in processed_data/. The two 🔁 base R demos (ifelse(), cut()) can also be skipped and left for learners to read.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 2"
@@ -894,7 +905,7 @@
     "href": "pages/instructor/session-02.html#teaching-notes-by-part",
     "title": "Instructor notes: Session 2",
     "section": "Teaching notes by part",
-    "text": "Teaching notes by part\nOverall rhythm. Learners build two cleaned datasets side by side: linelist_clean with you (Follow along), and measles_clean in the TRY ITs. Both are built one step at a time: each part takes the current object, adds one fix, and saves it back with &lt;-. Part 7 then shows the same linelist steps as one pipeline — the version you would keep in a real project. If a learner’s object gets into a bad state, they can re-run from Part 2 (linelist_clean &lt;- linelist_raw %&gt;% clean_names()). The filled-in script is solutions/Session 2 - Cleaning_SOLUTIONS.R.\nPart 1 — Set up. Briefly put up the Session 1 problem list and the “Fixed in” column; emphasize never edit the raw data file.\nPart 2 — Column names. Show names() before and after clean_names(). Point out that backticks are no longer needed. Stress that in rename() the new name goes on the left.\nPart 3 — Types. Point out the “NAs introduced by coercion” warning when learners convert measles age_years: it is expected (the 27 “unknown” values) — a warning is not an error. The TRY IT’s summary() showing a max of 999 sets up Part 4. A common slip is forgetting the &lt;-, so nothing is saved.\nPart 4 — if_else(). Ask the class (a “Think about it” on the lesson page):\n\nWhat would have happened in later analyses if we had skipped the months → years step? — A 6-month-old baby would be counted as 6 years old (37 ages are in months).\n\nExplain why we replace impossible weights with NA rather than deleting the row: we keep the patient’s age, outcome, and dates.\n🔁 ifelse() demo (3 min). Run both lines and let the class react to the numbers ifelse() returns. The message: base R ifelse() is everywhere in other people’s code, but it strips the Date type; if_else() is strict about types, which is why we use it. Learners only need to recognize ifelse(), not switch to it.\nPart 5 — case_when(). Point out that rows matching no condition become NA (gender), and that .default catches everything else (hospital). Show count(hospital, hospital_name) as the way to check every recode. Common errors: = instead of ~, a missing or extra comma. The district TRY IT is the hardest of the session — expect red sticky notes; a hint is to run str_to_title() first so each str_detect() only needs to catch misspellings.\nPart 6 — New variables. Ask the class (a “Think about it” on the lesson page):\n\nA BMI of 1,250? — The heights and weights don’t fit together. Set BMIs outside 10–60 to NA.\n\nAbout 1,400 BMIs (1,382) end up NA because the height and weight values in this teaching dataset are unrealistic. The old version of this workshop filtered out those rows, which removed about 20% of the cases from every later analysis. Setting only the bad value to NA keeps everything else about the patient.\nFor age_cat, point out that case_when() stops at the first TRUE line, and warn against ending with TRUE ~ \"80+\" / .default = \"80+\" — it puts missing ages into the oldest group. count() shows the groups in alphabetical order; that is fixed with factors in Session 5.\n🔁 cut() demo (3 min). cut() is very common in epidemiology and clinical code for age groups. Show that the counts match case_when() and that the groups come out in order (a factor, a preview of Session 5). Point out right = FALSE: without it, an 18-year-old goes into “Under 18”.\nPart 7 — One pipeline and saving. Point out that inside one mutate(), later lines can use columns made on earlier lines (bmi is created, then fixed). Make sure everyone saves measles_clean.rds — they need it in Session 3. Early finishers: the ⭐ Bonus asks them to rewrite all their measles steps as one pipeline.\nWrap-up. Today: clean_names(), rename(), mutate(), as.Date(), as.numeric(), if_else(), case_when(), str_detect(), export(). Preview Session 3 — Missing data, joins, and export: rows with no Case ID, duplicates, replacing missing values, joining case_info, and saving the final datasets.",
+    "text": "Teaching notes by part\nOverall rhythm. Learners build two cleaned datasets side by side: linelist_clean with you (Follow along), and measles_clean in the TRY ITs. Both are built one step at a time: each part takes the current object, adds one fix, and saves it back with &lt;-. Part 8 then shows the same linelist steps as one pipeline — the version you would keep in a real project. If a learner’s object gets into a bad state, they can re-run from Part 3 (linelist_clean &lt;- linelist_raw %&gt;% clean_names()). The filled-in script is solutions/Session 2 - Cleaning_SOLUTIONS.R.\nPart 1 — Set up. Briefly put up the Session 1 problem list and the “Fixed in” column; emphasize never edit the raw data file.\nPart 2 — The pipe. New to learners today (Session 1 deliberately used one function inside another). Start from the Session 1 code head(arrange(linelist_raw, wt_kg), 3) and read it aloud from the inside out, then type the pipe version and read it as “and then”. Point out that the data no longer goes inside each function: count(linelist_raw, hospital) becomes linelist_raw %&gt;% count(hospital). Show the keyboard shortcut. select() is introduced here too (it was left out of Session 1). The two common slips: %&gt;% at the start of a line, and a trailing %&gt;% on the last line (the Console shows + and waits — press Esc).\nPart 3 — Column names. Show names() before and after clean_names(). Point out that backticks are no longer needed. Stress that in rename() the new name goes on the left.\nPart 4 — Types. Point out the “NAs introduced by coercion” warning when learners convert measles age_years: it is expected (the 27 “unknown” values) — a warning is not an error. The TRY IT’s summary() showing a max of 999 sets up Part 5. A common slip is forgetting the &lt;-, so nothing is saved.\nPart 5 — if_else(). Ask the class (a “Think about it” on the lesson page):\n\nWhat would have happened in later analyses if we had skipped the months → years step? — A 6-month-old baby would be counted as 6 years old (37 ages are in months).\n\nExplain why we replace impossible weights with NA rather than deleting the row: we keep the patient’s age, outcome, and dates.\n🔁 ifelse() demo (3 min). Run both lines and let the class react to the numbers ifelse() returns. The message: base R ifelse() is everywhere in other people’s code, but it strips the Date type; if_else() is strict about types, which is why we use it. Learners only need to recognize ifelse(), not switch to it.\nPart 6 — case_when(). Point out that rows matching no condition become NA (gender), and that .default catches everything else (hospital). Show count(hospital, hospital_name) as the way to check every recode. Common errors: = instead of ~, a missing or extra comma. The district TRY IT is the hardest of the session — expect red sticky notes; a hint is to run str_to_title() first so each str_detect() only needs to catch misspellings.\nPart 7 — New variables. Ask the class (a “Think about it” on the lesson page):\n\nA BMI of 1,250? — The heights and weights don’t fit together. Set BMIs outside 10–60 to NA.\n\nAbout 1,400 BMIs (1,382) end up NA because the height and weight values in this teaching dataset are unrealistic. The old version of this workshop filtered out those rows, which removed about 20% of the cases from every later analysis. Setting only the bad value to NA keeps everything else about the patient.\nFor age_cat, point out that case_when() stops at the first TRUE line, and warn against ending with TRUE ~ \"80+\" / .default = \"80+\" — it puts missing ages into the oldest group. count() shows the groups in alphabetical order; that is fixed with factors in Session 5.\n🔁 cut() demo (3 min). cut() is very common in epidemiology and clinical code for age groups. Show that the counts match case_when() and that the groups come out in order (a factor, a preview of Session 5). Point out right = FALSE: without it, an 18-year-old goes into “Under 18”.\nPart 8 — One pipeline and saving. Point out that inside one mutate(), later lines can use columns made on earlier lines (bmi is created, then fixed). Make sure everyone saves measles_clean.rds — they need it in Session 3. Early finishers: the ⭐ Bonus asks them to rewrite all their measles steps as one pipeline.\nWrap-up. Today: clean_names(), rename(), mutate(), as.Date(), as.numeric(), if_else(), case_when(), str_detect(), export(). Preview Session 3 — Missing data, joins, and export: rows with no Case ID, duplicates, replacing missing values, joining case_info, and saving the final datasets.",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 2"
@@ -905,7 +916,7 @@
     "href": "pages/instructor/session-02.html#try-it-answers-at-a-glance",
     "title": "Instructor notes: Session 2",
     "section": "TRY IT answers at a glance",
-    "text": "TRY IT answers at a glance\n\n\n\n\n\n\n\nTRY IT\nAnswer\n\n\n\n\nImport the practice data\nmeasles_raw &lt;- import(here(\"raw_data\", \"measles_raw.csv\")) — 1215 rows, 11 columns\n\n\nClean the measles column names\nmeasles_raw %&gt;% clean_names() — temp_c and vaccinated\n\n\nFix the measles types\nas.Date(report_date), as.numeric(age_years); 27 “unknown” become NA; max age 999\n\n\n999 and Fahrenheit\nif_else(age_years == 999, NA, age_years); if_else(temp_c &gt; 45, round((temp_c - 32) * 5 / 9, 1), temp_c) — max age 52 (31 NA), max temp 40.9\n\n\nSex and vaccinated\ncase_when() + %in% — sex: female 533, male 642, NA 40; vaccinated: No 741, Unknown 183, Yes 291\n\n\nDistrict\nstr_to_title() then case_when() + str_detect() — Central 113, East 233, North 356, South 297, West 182, NA 34\n\n\nOutcome and age groups\nstr_to_title(outcome) — Died 52, Recovered 1095, NA 68; age_cat — Under 5 379, 5-9 368, 10-14 232, 15+ 205, NA 31\n\n\nSave the measles data\nexport(measles_clean, here(\"processed_data\", \"measles_clean.rds\"))",
+    "text": "TRY IT answers at a glance\n\n\n\n\n\n\n\nTRY IT\nAnswer\n\n\n\n\nImport the practice data\nmeasles_raw &lt;- import(here(\"raw_data\", \"measles_raw.csv\")) — 1215 rows, 11 columns\n\n\nThe pipe\nmeasles_raw %&gt;% select(...) %&gt;% arrange(desc(...)) %&gt;% head(10) — two columns, top temperature 104.7\n\n\nClean the measles column names\nmeasles_raw %&gt;% clean_names() — temp_c and vaccinated\n\n\nFix the measles types\nas.Date(report_date), as.numeric(age_years); 27 “unknown” become NA; max age 999\n\n\n999 and Fahrenheit\nif_else(age_years == 999, NA, age_years); if_else(temp_c &gt; 45, round((temp_c - 32) * 5 / 9, 1), temp_c) — max age 52 (31 NA), max temp 40.9\n\n\nSex and vaccinated\ncase_when() + %in% — sex: female 533, male 642, NA 40; vaccinated: No 741, Unknown 183, Yes 291\n\n\nDistrict\nstr_to_title() then case_when() + str_detect() — Central 113, East 233, North 356, South 297, West 182, NA 34\n\n\nOutcome and age groups\nstr_to_title(outcome) — Died 52, Recovered 1095, NA 68; age_cat — Under 5 379, 5-9 368, 10-14 232, 15+ 205, NA 31\n\n\nSave the measles data\nexport(measles_clean, here(\"processed_data\", \"measles_clean.rds\"))",
     "crumbs": [
       "Instructor Guide",
       "Instructor notes: Session 2"
@@ -1083,7 +1094,18 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nYou will build two cleaned datasets side by side: linelist_clean in the Follow along code, and measles_clean in the TRY ITs.",
     "crumbs": [
-      "Lessons",
+      "Setup",
+      "Session 2: Cleaning Your Data"
+    ]
+  },
+  {
+    "objectID": "pages/lessons/02-cleaning.html#longer-pipelines",
+    "href": "pages/lessons/02-cleaning.html#longer-pipelines",
+    "title": "Session 2: Cleaning Your Data",
+    "section": "Longer pipelines",
+    "text": "Longer pipelines\nPut each step on its own line, with the %&gt;% at the end of the line. select() keeps only the columns you name:\n\nlinelist_raw %&gt;%\n  select(`Case ID`, wt_kg, ht_cm) %&gt;%   # keep three columns\n  arrange(wt_kg) %&gt;%                    # sort by weight\n  head(5)                               # show the first 5 rows\n\n  Case ID wt_kg ht_cm\n1  6056ba   -11    24\n2  6056ba   -11    24\n3  7400b3   -10    13\n4  0fde59   -10    18\n5  fca629    -9    24\n\n\nThat is three steps, readable top to bottom. Written the Session 1 way, it would be head(arrange(select(linelist_raw, ...), wt_kg), 5).\n\n\n\n\n\n\nNote\n\n\n\nYou may also see |&gt;, the pipe built into R itself. For this workshop they do the same thing.\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nPut %&gt;% at the end of a line, not at the start of the next one. R stops at a complete line, so a line starting with %&gt;% gives an error.\nDon’t end the last line with %&gt;%: R then waits for another step (a + appears in the Console). Press Esc and remove it.\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): the pipe\n\n\n\nIn Session 1 you wrote head(arrange(measles_raw, desc(`Temp (C)`)), 10). Rewrite it with the pipe, and add a select() step so you only see `Patient ID` and `Temp (C)`.\n✅ Check: two columns, and the top temperature is 104.7\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_raw %&gt;%\n  select(`Patient ID`, `Temp (C)`) %&gt;%\n  arrange(desc(`Temp (C)`)) %&gt;%\n  head(10)\n\n   Patient ID Temp (C)\n1     MS-0663    104.7\n2     MS-0444    104.0\n3     MS-0908    104.0\n4     MS-0523    104.0\n5     MS-0132    103.5\n6     MS-0052    103.3\n7     MS-1027    103.3\n8     MS-0167    103.3\n9     MS-0110    102.9\n10    MS-0943    102.6\n\n\nSame answer as in Session 1, but now you can read it in order. From here on, almost every piece of code in the workshop uses the pipe.",
+    "crumbs": [
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1094,7 +1116,7 @@
     "section": "clean_names()",
     "text": "clean_names()\nOne function (from janitor) makes every name lower case, replaces spaces and dots with _, and removes symbols. \"Case ID\" becomes case_id — after this, you never need backticks again!\n\nnames(linelist_raw)\n\n [1] \"Case ID\"         \"infection date\"  \"date.onset\"      \"hosp date\"      \n [5] \"date of outcome\" \"OUTCOME\"         \"Gender\"          \"hospital\"       \n [9] \"age\"             \"age_unit\"        \"wt_kg\"           \"ht_cm\"          \n\nlinelist_clean &lt;- linelist_raw %&gt;%\n  clean_names()\n\nnames(linelist_clean)\n\n [1] \"case_id\"         \"infection_date\"  \"date_onset\"      \"hosp_date\"      \n [5] \"date_of_outcome\" \"outcome\"         \"gender\"          \"hospital\"       \n [9] \"age\"             \"age_unit\"        \"wt_kg\"           \"ht_cm\"",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1103,9 +1125,9 @@
     "href": "pages/lessons/02-cleaning.html#rename",
     "title": "Session 2: Cleaning Your Data",
     "section": "rename()",
-    "text": "rename()\nrename(new_name = old_name) — the new name goes on the left.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  rename(\n    date_of_infection = infection_date,\n    onset_date        = date_onset,\n    hospital_date     = hosp_date\n  )\n\nnames(linelist_clean)\n\n [1] \"case_id\"           \"date_of_infection\" \"onset_date\"       \n [4] \"hospital_date\"     \"date_of_outcome\"   \"outcome\"          \n [7] \"gender\"            \"hospital\"          \"age\"              \n[10] \"age_unit\"          \"wt_kg\"             \"ht_cm\"            \n\n\n\n\n\n\n\n\nTipOne step at a time\n\n\n\nWe build the clean data step by step. Each step takes the current version, changes one thing, and saves it back with &lt;-:\nlinelist_clean &lt;- linelist_clean %&gt;% STEP()\nIf your object gets into a bad state, re-run from the first step (linelist_clean &lt;- linelist_raw %&gt;% clean_names()). In Part 7 we put all the steps into one pipeline.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): clean the measles column names\n\n\n\nCreate measles_clean from measles_raw with clean_names(). What did `Temp (C)` and `Vaccinated?` turn into?\n✅ Check: names(measles_clean) includes \"temp_c\" and \"vaccinated\"\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_raw %&gt;%\n  clean_names()\n\nnames(measles_clean)\n\n [1] \"patient_id\"       \"report_date\"      \"district\"         \"sex\"             \n [5] \"age_years\"        \"vaccinated\"       \"fever\"            \"rash\"            \n [9] \"temp_c\"           \"days_in_hospital\" \"outcome\"         \n\n\n`Temp (C)` became temp_c and `Vaccinated?` became vaccinated: the parentheses and the ? are removed, and the space becomes _.",
+    "text": "rename()\nrename(new_name = old_name) — the new name goes on the left.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  rename(\n    date_of_infection = infection_date,\n    onset_date        = date_onset,\n    hospital_date     = hosp_date\n  )\n\nnames(linelist_clean)\n\n [1] \"case_id\"           \"date_of_infection\" \"onset_date\"       \n [4] \"hospital_date\"     \"date_of_outcome\"   \"outcome\"          \n [7] \"gender\"            \"hospital\"          \"age\"              \n[10] \"age_unit\"          \"wt_kg\"             \"ht_cm\"            \n\n\n\n\n\n\n\n\nTipOne step at a time\n\n\n\nWe build the clean data step by step. Each step takes the current version, changes one thing, and saves it back with &lt;-:\nlinelist_clean &lt;- linelist_clean %&gt;% STEP()\nIf your object gets into a bad state, re-run from the first step (linelist_clean &lt;- linelist_raw %&gt;% clean_names()). In Part 8 we put all the steps into one pipeline.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): clean the measles column names\n\n\n\nCreate measles_clean from measles_raw with clean_names(). What did `Temp (C)` and `Vaccinated?` turn into?\n✅ Check: names(measles_clean) includes \"temp_c\" and \"vaccinated\"\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_raw %&gt;%\n  clean_names()\n\nnames(measles_clean)\n\n [1] \"patient_id\"       \"report_date\"      \"district\"         \"sex\"             \n [5] \"age_years\"        \"vaccinated\"       \"fever\"            \"rash\"            \n [9] \"temp_c\"           \"days_in_hospital\" \"outcome\"         \n\n\n`Temp (C)` became temp_c and `Vaccinated?` became vaccinated: the parentheses and the ? are removed, and the space becomes _.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1116,7 +1138,7 @@
     "section": "Dates",
     "text": "Dates\nas.Date() converts text or date-times to dates.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(\n    date_of_infection = as.Date(date_of_infection),\n    onset_date        = as.Date(onset_date),\n    hospital_date     = as.Date(hospital_date),\n    date_of_outcome   = as.Date(date_of_outcome)\n  )\n\nlinelist_clean %&gt;% select(date_of_infection:date_of_outcome) %&gt;% glimpse()\n\nRows: 6,604\nColumns: 4\n$ date_of_infection &lt;date&gt; 2014-05-08, NA, NA, 2014-05-04, 2014-05-18, 2014-05…\n$ onset_date        &lt;date&gt; 2014-05-13, 2014-05-13, 2014-05-16, 2014-05-18, 201…\n$ hospital_date     &lt;date&gt; 2014-05-15, 2014-05-14, 2014-05-18, 2014-05-20, 201…\n$ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 2014-05…\n\n\n\n\n\n\n\n\nNoteDates written in other formats\n\n\n\nas.Date() expects year-month-day (\"2014-05-13\"). For other formats, the lubridate package (part of the tidyverse) has functions named after the order: dmy(\"13/05/2014\"), mdy(\"05/13/2014\"), ymd(\"2014-05-13\").",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1125,9 +1147,9 @@
     "href": "pages/lessons/02-cleaning.html#numbers-stored-as-text",
     "title": "Session 2: Cleaning Your Data",
     "section": "Numbers stored as text",
-    "text": "Numbers stored as text\nas.numeric() turns text like \"56\" into the number 56. Text that isn’t a number (like \"unknown\") becomes NA, and R warns you: “NAs introduced by coercion”. That warning is fine if you expected it.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(age = as.numeric(age))\n\nclass(linelist_clean$age)\n\n[1] \"numeric\"\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nForgetting the &lt;- at the start: the result prints in the Console but isn’t saved.\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): fix the measles types\n\n\n\nIn measles_clean:\n\nmake report_date a date with as.Date()\nmake age_years a number with as.numeric(). Which values became NA?\n\n✅ Check: summary(measles_clean$age_years) shows a maximum of 999. Suspicious!\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    report_date = as.Date(report_date),\n    age_years   = as.numeric(age_years)   # \"unknown\" becomes NA (the warning is expected)\n  )\n\nsummary(measles_clean$age_years)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs \n   0.00    4.00    7.00   12.13   12.00  999.00      27 \n\n\nThe 27 \"unknown\" ages became NA — that is what the warning is about. A maximum age of 999 is not a real age; we fix it in the next part.",
+    "text": "Numbers stored as text\nas.numeric() turns text like \"56\" into the number 56. Text that isn’t a number (like \"unknown\") becomes NA, and R warns you: “NAs introduced by coercion”. That warning is fine if you expected it.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(age = as.numeric(age))\n\nclass(linelist_clean$age)\n\n[1] \"numeric\"\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nForgetting the &lt;- at the start: the result prints in the Console but isn’t saved.\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): fix the measles types\n\n\n\nIn measles_clean:\n\nmake report_date a date with as.Date()\nmake age_years a number with as.numeric(). Which values became NA?\n\n✅ Check: summary(measles_clean$age_years) shows a maximum of 999. Suspicious!\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    report_date = as.Date(report_date),\n    age_years   = as.numeric(age_years)   # \"unknown\" becomes NA (the warning is expected)\n  )\n\nsummary(measles_clean$age_years)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n   0.00    4.00    7.00   12.13   12.00  999.00      27 \n\n\nThe 27 \"unknown\" ages became NA — that is what the warning is about. A maximum age of 999 is not a real age; we fix it in the next part.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1138,7 +1160,7 @@
     "section": "Ages in months → years",
     "text": "Ages in months → years\n“If the unit is months, divide by 12; otherwise keep the age.”\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(age_years = if_else(age_unit == \"months\", age / 12, age))\n\nlinelist_clean %&gt;%\n  filter(age_unit == \"months\") %&gt;%\n  select(age, age_unit, age_years) %&gt;%\n  head()\n\n  age age_unit age_years\n1  24   months 2.0000000\n2  NA   months        NA\n3   7   months 0.5833333\n4   7   months 0.5833333\n5  24   months 2.0000000\n6  24   months 2.0000000\n\n\n\n\n\n\n\n\nNote🤔 Think about it: what would have happened in later analyses if we had skipped this step?\n\n\n\n\n\nA 6-month-old baby would be counted as 6 years old. All 37 ages recorded in months would be too old, which would shift the age groups and the average age.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1147,9 +1169,9 @@
     "href": "pages/lessons/02-cleaning.html#impossible-values-missing",
     "title": "Session 2: Cleaning Your Data",
     "section": "Impossible values → missing",
-    "text": "Impossible values → missing\nWeights of zero or below are impossible. Instead of deleting the whole row (and losing the patient’s age, outcome, and dates), we replace only the bad value with NA.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(wt_kg = if_else(wt_kg &lt;= 0, NA, wt_kg))\n\nsummary(linelist_clean$wt_kg)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs \n   1.00   41.00   55.00   52.99   66.00  111.00      34 \n\n\n\n\n\n\n\n\nNote🔁 The base R way: ifelse() (one letter shorter, one big difference)\n\n\n\nBase R has ifelse(), and you will see it everywhere. It works the same way until you use it on dates. Say we want an “estimated onset” that uses the hospital date when the onset date is missing:\n\nif_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %&gt;% head(3)\n\n[1] \"2014-05-13\" \"2014-05-13\" \"2014-05-16\"\n\nifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %&gt;% head(3)\n\n[1] 16203 16203 16206\n\n\nifelse() silently turned the dates into numbers (days since 1 January 1970). if_else() keeps the type, and gives an error instead of a surprise when the two values have different types. That strictness is why we use if_else() in this workshop.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): 999 and Fahrenheit\n\n\n\nIn measles_clean:\n\n999 is a code for “unknown”: replace age_years of 999 with NA\ntemperatures above 45 were entered in Fahrenheit. Convert them: Celsius = (Fahrenheit − 32) × 5 / 9, rounded to 1 decimal with round(..., 1)\n\n✅ Check: summary() shows age_years max 52 and temp_c max 40.9\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    age_years = if_else(age_years == 999, NA, age_years),\n    temp_c    = if_else(temp_c &gt; 45, round((temp_c - 32) * 5 / 9, 1), temp_c)\n  )\n\nsummary(measles_clean$age_years)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs \n  0.000   4.000   7.000   8.796  12.000  52.000      31 \n\nsummary(measles_clean$temp_c)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  36.00   38.40   38.90   38.82   39.40   40.90 \n\n\nThe four 999s are now NA (31 missing ages in total), and the 27 Fahrenheit temperatures are now in °C, so every temperature is between 36 and 40.9.",
+    "text": "Impossible values → missing\nWeights of zero or below are impossible. Instead of deleting the whole row (and losing the patient’s age, outcome, and dates), we replace only the bad value with NA.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(wt_kg = if_else(wt_kg &lt;= 0, NA, wt_kg))\n\nsummary(linelist_clean$wt_kg)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n   1.00   41.00   55.00   52.99   66.00  111.00      34 \n\n\n\n\n\n\n\n\nNote🔁 The base R way: ifelse() (one letter shorter, one big difference)\n\n\n\nBase R has ifelse(), and you will see it everywhere. It works the same way until you use it on dates. Say we want an “estimated onset” that uses the hospital date when the onset date is missing:\n\nif_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %&gt;% head(3)\n\n[1] \"2014-05-13\" \"2014-05-13\" \"2014-05-16\"\n\nifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %&gt;% head(3)\n\n[1] 16203 16203 16206\n\n\nifelse() silently turned the dates into numbers (days since 1 January 1970). if_else() keeps the type, and gives an error instead of a surprise when the two values have different types. That strictness is why we use if_else() in this workshop.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): 999 and Fahrenheit\n\n\n\nIn measles_clean:\n\n999 is a code for “unknown”: replace age_years of 999 with NA\ntemperatures above 45 were entered in Fahrenheit. Convert them: Celsius = (Fahrenheit − 32) × 5 / 9, rounded to 1 decimal with round(..., 1)\n\n✅ Check: summary() shows age_years max 52 and temp_c max 40.9\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    age_years = if_else(age_years == 999, NA, age_years),\n    temp_c    = if_else(temp_c &gt; 45, round((temp_c - 32) * 5 / 9, 1), temp_c)\n  )\n\nsummary(measles_clean$age_years)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  0.000   4.000   7.000   8.796  12.000  52.000      31 \n\nsummary(measles_clean$temp_c)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  36.00   38.40   38.90   38.82   39.40   40.90 \n\n\nThe four 999s are now NA (31 missing ages in total), and the 27 Fahrenheit temperatures are now in °C, so every temperature is between 36 and 40.9.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1160,7 +1182,7 @@
     "section": "Gender",
     "text": "Gender\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(gender = case_when(\n    gender == \"m\" ~ \"male\",\n    gender == \"f\" ~ \"female\"\n  ))\n\nlinelist_clean %&gt;% count(gender)\n\n  gender    n\n1 female 3140\n2   male 3147\n3   &lt;NA&gt;  317\n\n\nAny row that matches no condition becomes NA — here, that is the rows that were already missing.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1171,7 +1193,7 @@
     "section": "Hospital names (using the look-up table)",
     "text": "Hospital names (using the look-up table)\n\nhosp_info\n\n                      hosp_name catchment_pop     level district beds\n1              Central Hospital       1950280  Tertiary  Central  500\n2             Military Hospital         10000 Secondary    North  100\n3       Regional Medical center         50280 Secondary     West  200\n4 St. Mark's Maternity Hospital         12000 Secondary     East   80\n5                    HMO Health          5000   Primary    South   50\n6               Premiere Health          4200   Primary  Central   40\n  established\n1        1985\n2        1960\n3        1995\n4        2000\n5        2010\n6        2015\n\nlinelist_clean %&gt;% count(hospital)\n\n                               hospital    n\n1                       Central Hopital   11\n2                      Central Hospital  457\n3                            HMO Health  288\n4                      Military Hopital   32\n5                     Military Hospital  800\n6                      Mitylira Hopital    1\n7                     Mitylira Hospital   79\n8                                 Other  907\n9                        Premier Health  288\n10                          Regional MC   48\n11              Regional Medical Center 1756\n12 St. Mark's Maternity Hospital (SMMH)  417\n13   St. Marks Maternity Hopital (SMMH)   11\n14                                 &lt;NA&gt; 1509\n\n\nstr_detect(column, \"pattern\") is TRUE when the text contains the pattern, so one line catches every misspelling. | means “or”.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(hospital_name = case_when(\n    str_detect(hospital, \"Central\")           ~ \"Central Hospital\",\n    str_detect(hospital, \"Military|Mitylira\") ~ \"Military Hospital\",\n    str_detect(hospital, \"Regional\")          ~ \"Regional Medical center\",\n    str_detect(hospital, \"Mark\")              ~ \"St. Mark's Maternity Hospital\",\n    str_detect(hospital, \"HMO\")               ~ \"HMO Health\",\n    str_detect(hospital, \"Premier\")           ~ \"Premiere Health\",\n    .default = \"Other/Unknown\"\n  ))\n\n# Check: every old value next to its new value\nlinelist_clean %&gt;% count(hospital, hospital_name)\n\n                               hospital                 hospital_name    n\n1                       Central Hopital              Central Hospital   11\n2                      Central Hospital              Central Hospital  457\n3                            HMO Health                    HMO Health  288\n4                      Military Hopital             Military Hospital   32\n5                     Military Hospital             Military Hospital  800\n6                      Mitylira Hopital             Military Hospital    1\n7                     Mitylira Hospital             Military Hospital   79\n8                                 Other                 Other/Unknown  907\n9                        Premier Health               Premiere Health  288\n10                          Regional MC       Regional Medical center   48\n11              Regional Medical Center       Regional Medical center 1756\n12 St. Mark's Maternity Hospital (SMMH) St. Mark's Maternity Hospital  417\n13   St. Marks Maternity Hopital (SMMH) St. Mark's Maternity Hospital   11\n14                                 &lt;NA&gt;                 Other/Unknown 1509\n\n\n\n\n\n\n\n\nNoteOther useful text functions (stringr)\n\n\n\nstr_to_lower(), str_to_upper(), str_to_title() change capitalization (str_to_title(\"north\") gives \"North\") · str_trim() removes extra spaces · str_replace(x, \"old\", \"new\") replaces text. You may need these for the TRY ITs!\nTo check for any of several exact values, use %in%: sex %in% c(\"Male\", \"male\", \"M\").\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nUse ~ (tilde), not =, between the condition and the new value\nPut a comma after each line except the last\nCheck every recode with count(old_column, new_column)\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): sex and vaccinated\n\n\n\nIn measles_clean, recode\n\nsex: Male / male / M → \"male\", Female / female / F → \"female\"\nvaccinated: Yes / yes / Y → \"Yes\", No / no / N / NO → \"No\", Unknown → \"Unknown\"\n\nPattern: COLUMN %in% c(\"VALUE_1\", \"VALUE_2\") ~ \"NEW_VALUE\"\n✅ Check: count(sex) shows female 533, male 642, NA 40; count(vaccinated) shows only No, Unknown, Yes\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    sex = case_when(\n      sex %in% c(\"Male\", \"male\", \"M\")     ~ \"male\",\n      sex %in% c(\"Female\", \"female\", \"F\") ~ \"female\"\n    ),\n    vaccinated = case_when(\n      vaccinated %in% c(\"Yes\", \"yes\", \"Y\")     ~ \"Yes\",\n      vaccinated %in% c(\"No\", \"no\", \"N\", \"NO\") ~ \"No\",\n      vaccinated == \"Unknown\"                  ~ \"Unknown\"\n    )\n  )\n\nmeasles_clean %&gt;% count(sex)\n\n     sex   n\n1 female 533\n2   male 642\n3   &lt;NA&gt;  40\n\nmeasles_clean %&gt;% count(vaccinated)\n\n  vaccinated   n\n1         No 741\n2    Unknown 183\n3        Yes 291\n\n\nSix spellings of sex became two values (the 40 missing stay NA), and eight spellings of vaccinated became three: No 741, Unknown 183, Yes 291.\n\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): district\n\n\n\nMake district one of North, South, East, West, Central.\n\nStep 1: district = str_to_title(district) fixes the capitals\nStep 2: case_when() + str_detect() fixes the misspellings (“Nroth”, “Cetnral”) and the “… District” versions. Keep NA as NA (no .default).\n\n✅ Check: count(district) shows exactly 5 districts plus NA (34)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    district = str_to_title(district),\n    district = case_when(\n      str_detect(district, \"North|Nroth\")     ~ \"North\",\n      str_detect(district, \"South\")           ~ \"South\",\n      str_detect(district, \"East\")            ~ \"East\",\n      str_detect(district, \"West\")            ~ \"West\",\n      str_detect(district, \"Central|Cetnral\") ~ \"Central\"\n    )\n  )\n\nmeasles_clean %&gt;% count(district)\n\n  district   n\n1  Central 113\n2     East 233\n3    North 356\n4    South 297\n5     West 182\n6     &lt;NA&gt;  34\n\n\nstr_to_title() turns “north” into “North” first, so each str_detect() line only has to catch the misspellings and the “… District” versions. Because there is no .default, the 34 missing districts stay NA.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1180,9 +1202,9 @@
     "href": "pages/lessons/02-cleaning.html#bmi",
     "title": "Session 2: Cleaning Your Data",
     "section": "BMI",
-    "text": "BMI\nmutate() can calculate a new column from other columns.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(bmi = round(wt_kg / (ht_cm / 100)^2, 1))\n\nsummary(linelist_clean$bmi)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs \n  10.90   24.60   32.10   48.09   49.88 1250.00      34 \n\n\n\n\n\n\n\n\nNote🤔 Think about it: a BMI of 1,250?\n\n\n\n\n\nThat is impossible: the heights and weights don’t fit together. Set BMIs outside a plausible range (10–60) to NA.\n\n\n\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(bmi = if_else(bmi &lt; 10 | bmi &gt; 60, NA, bmi))\n\nsummary(linelist_clean$bmi)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs \n  10.90   23.20   28.70   30.58   36.50   60.00    1382 \n\n\nAbout 1,400 BMIs are now NA, because many height and weight values in this teaching dataset are unrealistic. Setting only the bad value to NA (instead of filtering out those rows) keeps everything else we know about each patient.",
+    "text": "BMI\nmutate() can calculate a new column from other columns.\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(bmi = round(wt_kg / (ht_cm / 100)^2, 1))\n\nsummary(linelist_clean$bmi)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  10.90   24.60   32.10   48.09   49.88 1250.00      34 \n\n\n\n\n\n\n\n\nNote🤔 Think about it: a BMI of 1,250?\n\n\n\n\n\nThat is impossible: the heights and weights don’t fit together. Set BMIs outside a plausible range (10–60) to NA.\n\n\n\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(bmi = if_else(bmi &lt; 10 | bmi &gt; 60, NA, bmi))\n\nsummary(linelist_clean$bmi)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  10.90   23.20   28.70   30.58   36.50   60.00    1382 \n\n\nAbout 1,400 BMIs are now NA, because many height and weight values in this teaching dataset are unrealistic. Setting only the bad value to NA (instead of filtering out those rows) keeps everything else we know about each patient.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1193,7 +1215,7 @@
     "section": "Age groups",
     "text": "Age groups\n\nlinelist_clean &lt;- linelist_clean %&gt;%\n  mutate(age_cat = case_when(\n    age_years &lt; 18 ~ \"Under 18\",\n    age_years &lt; 30 ~ \"18-29\",\n    age_years &lt; 40 ~ \"30-39\",\n    age_years &lt; 50 ~ \"40-49\",\n    age_years &lt; 60 ~ \"50-59\",\n    age_years &lt; 70 ~ \"60-69\",\n    age_years &lt; 80 ~ \"70-79\",\n    age_years &gt;= 80 ~ \"80+\"\n  ))\n\nlinelist_clean %&gt;% count(age_cat)\n\n   age_cat    n\n1    18-29 1487\n2    30-39  598\n3    40-49  252\n4    50-59   78\n5    60-69   27\n6    70-79    6\n7      80+    1\n8 Under 18 4055\n9     &lt;NA&gt;  100\n\n\nBecause case_when() stops at the first TRUE line, age_years &lt; 30 only catches ages 18–29 (younger ages were already caught by the line above).\ncount() lists the groups in alphabetical order (“18-29” before “Under 18”). In Session 5 you will learn how to put them in a sensible order with factors.\n\n\n\n\n\n\nNote🔁 The base R way: cut()\n\n\n\nBase R’s cut() makes groups from numbers by giving the break points. right = FALSE means each group includes its lower limit (18 goes into “18-29”):\n\ncut(linelist_clean$age_years,\n    breaks = c(0, 18, 30, 40, 50, 60, 70, 80, Inf),\n    labels = c(\"Under 18\", \"18-29\", \"30-39\", \"40-49\", \"50-59\", \"60-69\", \"70-79\", \"80+\"),\n    right  = FALSE) %&gt;%\n  table(useNA = \"ifany\")\n\n.\nUnder 18    18-29    30-39    40-49    50-59    60-69    70-79      80+ \n    4055     1487      598      252       78       27        6        1 \n    &lt;NA&gt; \n     100 \n\n\nThe same counts as case_when(), and already in the right order, because cut() returns a factor (Session 5). Forgetting right = FALSE is the classic mistake: then an 18-year-old lands in “Under 18”.\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\nEnding with TRUE ~ \"80+\" (or .default = \"80+\") puts every patient with a missing age into the 80+ group. Write the last condition out in full (age_years &gt;= 80 ~ \"80+\") so missing ages stay NA.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): outcome and age groups\n\n\n\nIn measles_clean:\n\nmake outcome consistent with str_to_title()\ncreate age_cat: “Under 5”, “5-9”, “10-14”, “15+”\n\n✅ Check: count(outcome) shows only Died, Recovered, NA; count(age_cat) shows 4 groups plus NA (31)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_clean &lt;- measles_clean %&gt;%\n  mutate(\n    outcome = str_to_title(outcome),\n    age_cat = case_when(\n      age_years &lt; 5   ~ \"Under 5\",\n      age_years &lt; 10  ~ \"5-9\",\n      age_years &lt; 15  ~ \"10-14\",\n      age_years &gt;= 15 ~ \"15+\"\n    )\n  )\n\nmeasles_clean %&gt;% count(outcome)\n\n    outcome    n\n1      Died   52\n2 Recovered 1095\n3      &lt;NA&gt;   68\n\nmeasles_clean %&gt;% count(age_cat)\n\n  age_cat   n\n1   10-14 232\n2     15+ 205\n3     5-9 368\n4 Under 5 379\n5    &lt;NA&gt;  31\n\n\n“died” and “recovered” now match “Died” and “Recovered” (52 died, 1095 recovered, 68 missing). The 31 missing ages (the 27 “unknown” plus the four 999s) stay NA because the last condition is written out in full.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1202,9 +1224,9 @@
     "href": "pages/lessons/02-cleaning.html#save-your-work",
     "title": "Session 2: Cleaning Your Data",
     "section": "Save your work",
-    "text": "Save your work\nexport() is the opposite of import(). Save cleaned data to processed_data/ — never over the raw file.\n\nexport(linelist_clean, here(\"processed_data\", \"linelist_clean.rds\"))\n\n.rds is R’s own file format. It keeps everything exactly as it is in R — dates stay dates and missing values stay NA — so it’s the best choice for a file you will open in R again. (We compare .rds and .csv in Session 3.)\nSession 3 starts from this file.\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): save the measles data\n\n\n\nSave measles_clean as processed_data/measles_clean.rds. You need this file in Session 3!\n✅ Check: the file appears in the processed_data folder (Explorer, on the left)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nexport(measles_clean, here(\"processed_data\", \"measles_clean.rds\"))\n\nSame pattern as for linelist_clean: export(DATA, here(\"FOLDER\", \"FILE_NAME.rds\")). Session 3 starts by importing this file.\n\n\n\n\n\n\n\n\n\n\n\nTip⭐ Bonus\n\n\n\n\nRewrite all of your measles TRY ITs as one pipeline that starts from measles_raw (like Part 7). It should give the same result — see the solutions file.\nBrought your own data? Fix the problems on your own problem list, then export() the clean version to processed_data/.",
+    "text": "Save your work\nexport() is the opposite of import(). Save cleaned data to processed_data/ — never over the raw file.\n\nexport(linelist_clean, here(\"processed_data\", \"linelist_clean.rds\"))\n\n.rds is R’s own file format. It keeps everything exactly as it is in R — dates stay dates and missing values stay NA — so it’s the best choice for a file you will open in R again. (We compare .rds and .csv in Session 3.)\nSession 3 starts from this file.\n\n\n\n\n\n\nImportant✏️ TRY IT (2 min): save the measles data\n\n\n\nSave measles_clean as processed_data/measles_clean.rds. You need this file in Session 3!\n✅ Check: the file appears in the processed_data folder (Explorer, on the left)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nexport(measles_clean, here(\"processed_data\", \"measles_clean.rds\"))\n\nSame pattern as for linelist_clean: export(DATA, here(\"FOLDER\", \"FILE_NAME.rds\")). Session 3 starts by importing this file.\n\n\n\n\n\n\n\n\n\n\n\nTip⭐ Bonus\n\n\n\n\nRewrite all of your measles TRY ITs as one pipeline that starts from measles_raw (like Part 8). It should give the same result — see the solutions file.\nBrought your own data? Fix the problems on your own problem list, then export() the clean version to processed_data/.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 2: Cleaning Your Data"
     ]
   },
@@ -1215,7 +1237,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)\nSessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain why mutate() works on a whole column at once, base-R subsetting is everywhere in help pages and other people’s code (and you will need it to write functions in Session 8), lists are how R stores test and model results, and reshaping is needed for many summaries and plots.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1226,7 +1248,7 @@
     "section": "The main types",
     "text": "The main types\n\n\n\nType\nExample\nclass() says\n\n\n\n\nNumber\n38.5, 2\n\"numeric\"\n\n\nText\n\"male\", \"Recover\"\n\"character\"\n\n\nTRUE/FALSE\nTRUE, FALSE\n\"logical\"\n\n\nDate\nas.Date(\"2014-05-13\")\n\"Date\"\n\n\nFactor\ncategories with an order\n\"factor\"\n\n\n\n\nclass(linelist$age_years)\n\n[1] \"numeric\"\n\nclass(linelist$gender)\n\n[1] \"character\"\n\nclass(linelist$onset_date)\n\n[1] \"Date\"",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1237,7 +1259,7 @@
     "section": "One type per vector",
     "text": "One type per vector\nIf you mix types, R converts everything to the most flexible type — usually text. This is why a single “unknown” turned the whole age column into text in Session 1:\n\nc(1, 2, \"unknown\")\n\n[1] \"1\"       \"2\"       \"unknown\"\n\nc(1, TRUE, FALSE)    # TRUE becomes 1, FALSE becomes 0\n\n[1] 1 1 0",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1248,7 +1270,7 @@
     "section": "Missing values spread",
     "text": "Missing values spread\nAny calculation with NA gives NA, unless you tell R to skip them:\n\nmean(c(38, 39, NA))\n\n[1] NA\n\nmean(c(38, 39, NA), na.rm = TRUE)\n\n[1] 38.5\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): types in the measles data\n\n\n\nUse class() on measles$age_years, measles$vaccinated, and measles$report_date, and length() on measles$temp_c.\n✅ Check: “numeric”, “character”, “Date”, and 1163\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nclass(measles$age_years)\n\n[1] \"numeric\"\n\nclass(measles$vaccinated)\n\n[1] \"character\"\n\nclass(measles$report_date)\n\n[1] \"Date\"\n\nlength(measles$temp_c)\n\n[1] 1163\n\n\nAges are numbers, vaccination status is text, and the report date is a real date. The length is 1163 — one value per row, because a column is just a vector.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1259,7 +1281,7 @@
     "section": "Comparisons are vectorized too",
     "text": "Comparisons are vectorized too\nA comparison gives a logical vector, one TRUE/FALSE per element:\n\ntemps_c &gt; 38\n\n[1] FALSE  TRUE  TRUE\n\n\nTRUE counts as 1 and FALSE as 0, so:\n\nsum() of a comparison counts the TRUEs\nmean() of a comparison gives the proportion that are TRUE\n\n\nsum(linelist$temp &gt; 38, na.rm = TRUE)    # how many patients had temp above 38\n\n[1] 4943\n\nmean(linelist$temp &gt; 38, na.rm = TRUE)   # what proportion\n\n[1] 0.7846032\n\nmean(linelist$fever == \"yes\")            # proportion with fever\n\n[1] 0.7870098\n\n\nYou will use this trick again in Session 5: mean(fever == \"yes\") * 100 inside summarise() gives the percentage with fever in each group.\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): vectorized calculations\n\n\n\n\nConvert measles$temp_c to Fahrenheit and look at the first values with head()\nCount the cases with a temperature of 39 or more: sum(... &gt;= 39)\nFind the proportion of cases who were vaccinated: mean(... == \"Yes\")\n\n✅ Check: a) starts 100.94, 101.12 b) 565 c) 0.238\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nhead(measles$temp_c * 9 / 5 + 32)    # a)\n\n[1] 100.94 101.12 102.74 100.40 102.02 101.30\n\nsum(measles$temp_c &gt;= 39)            # b)\n\n[1] 565\n\nmean(measles$vaccinated == \"Yes\")    # c)\n\n[1] 0.2381771\n\n\n565 cases had a temperature of 39 °C or more, and 23.8% of cases were vaccinated. No na.rm = TRUE is needed here because temp_c has no missing values after cleaning.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1270,7 +1292,7 @@
     "section": "Vectors: x[ ]",
     "text": "Vectors: x[ ]\n\ntemps_c[1]            # first element\n\n[1] 36.8\n\ntemps_c[c(1, 3)]      # first and third\n\n[1] 36.8 40.1\n\ntemps_c[-1]           # everything EXCEPT the first\n\n[1] 38.5 40.1\n\ntemps_c[temps_c &gt; 38] # elements that meet a condition\n\n[1] 38.5 40.1",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1281,7 +1303,7 @@
     "section": "Data frames: df[rows, columns]",
     "text": "Data frames: df[rows, columns]\nInside the brackets, rows come first, then columns, separated by a comma. Leave one side empty to keep everything:\n\nlinelist[1:3, c(\"case_id\", \"age_years\", \"outcome\")]   # rows 1–3, three columns\n\n  case_id age_years outcome\n1  5fe599         2 Unknown\n2  8689b7         3 Recover\n3  11f8ea        56 Recover\n\n\n\nlinelist[1:3, ]                                       # rows 1–3, all columns\nlinelist[, \"age_years\"]                               # all rows, one column",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1292,7 +1314,7 @@
     "section": "One column: $ and [[ ]]",
     "text": "One column: $ and [[ ]]\n\nlinelist$hospital_name[1:3]        # $ with a name you type\n\n[1] \"Other/Unknown\"                 \"Other/Unknown\"                \n[3] \"St. Mark's Maternity Hospital\"\n\nlinelist[[\"hospital_name\"]][1:3]   # [[ ]] with a name in quotes — useful inside functions\n\n[1] \"Other/Unknown\"                 \"Other/Unknown\"                \n[3] \"St. Mark's Maternity Hospital\"",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1303,7 +1325,7 @@
     "section": "Conditions",
     "text": "Conditions\n\n# Mean temperature of patients who died\nmean(linelist$temp[linelist$outcome == \"Death\"], na.rm = TRUE)\n\n[1] 38.59154\n\n\n\n\n\n\n\n\nWarningBase R and missing values\n\n\n\n\nnrow(linelist[linelist$temp &gt; 40, ])   # 244 rows?!\n\n[1] 244\n\nnrow(filter(linelist, temp &gt; 40))     # 93 rows\n\n[1] 93\n\n\nBase R returns an extra row of NAs for every missing temperature (151 of them). filter() drops rows where the condition is NA. With base R, add & !is.na(temp), or just use filter():\n\nnrow(linelist[linelist$temp &gt; 40 & !is.na(linelist$temp), ])   # 93: fixed\n\n[1] 93",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1314,7 +1336,7 @@
     "section": "Base R vs tidyverse",
     "text": "Base R vs tidyverse\n\n\n\n\n\n\n\n\nTask\nBase R\nTidyverse\n\n\n\n\nRows that meet a condition\ndf[df$age &gt; 40, ]\nfilter(df, age &gt; 40)\n\n\nSome columns\ndf[, c(\"a\", \"b\")]\nselect(df, a, b)\n\n\nOne column as a vector\ndf$a or df[[\"a\"]]\npull(df, a)\n\n\nFirst rows\ndf[1:5, ]\nslice(df, 1:5) or head(df, 5)\n\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nForgetting the comma: df[1:3] picks columns 1–3, not rows!\nBase R adds a row of NAs for every NA in the condition (see the box above). Add & !is.na(...), or use filter().\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): subsetting the measles data\n\n\n\nWith base R,\n\nShow rows 1–5 of the patient_id and temp_c columns of measles\nFind the mean temperature of children who died (outcome == \"Died\")\nCount the cases aged 15 or older with nrow(measles[...]), then with filter(). Why are the answers different? Fix the base R version.\n\n✅ Check: a) the first ID is MS-0931 b) 38.75 c) 225 vs 196 (29 missing ages)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\n# a)\nmeasles[1:5, c(\"patient_id\", \"temp_c\")]\n\n  patient_id temp_c\n1    MS-0931   38.3\n2    MS-0113   38.4\n3    MS-0975   39.3\n4    MS-0297   38.0\n5    MS-0159   38.9\n\n# b)\nmean(measles$temp_c[measles$outcome == \"Died\"])\n\n[1] 38.754\n\n# c)\nnrow(measles[measles$age_years &gt;= 15, ])\n\n[1] 225\n\nnrow(filter(measles, age_years &gt;= 15))\n\n[1] 196\n\nnrow(measles[measles$age_years &gt;= 15 & !is.na(measles$age_years), ])   # fixed\n\n[1] 196\n\n\nBase R gives 225 rows because it adds a row of NAs for each of the 29 cases with a missing age. Adding & !is.na(measles$age_years) gives 196, the same as filter().",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1325,7 +1347,7 @@
     "section": "Pulling things out",
     "text": "Pulling things out\n\npatient$symptoms     # $ with a name you type\n\n[1] \"fever\" \"cough\"\n\npatient[[\"age\"]]     # [[ ]] with a name in quotes (or a position)\n\n[1] 2\n\npatient[\"age\"]       # [ ] gives back a smaller LIST, not the value\n\n$age\n[1] 2\n\nlength(patient)      # 4 elements\n\n[1] 4\n\nstr(patient)         # the structure: what is in each element\n\nList of 4\n $ id      : chr \"5fe599\"\n $ age     : num 2\n $ symptoms: chr [1:2] \"fever\" \"cough\"\n $ visits  : Date[1:2], format: \"2014-05-13\" \"2014-05-15\"\n\n\nThink of a list as a box of items: [[ ]] takes an item out of the box; [ ] gives you a smaller box.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1336,7 +1358,7 @@
     "section": "A data frame is a list",
     "text": "A data frame is a list\nA data frame is a list of columns that all have the same length:\n\nis.list(linelist)\n\n[1] TRUE\n\nlength(linelist)     # the number of columns\n\n[1] 19\n\n\nThat is why $ and [[ ]] work on data frames too, and why map() in Session 8 runs once for each column.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1347,7 +1369,7 @@
     "section": "Results are lists",
     "text": "Results are lists\nStatistical tests and models return lists. You don’t need to know the statistics yet; look at the shape of the result:\n\nage_test &lt;- t.test(age_years ~ gender, data = filter(linelist, gender != \"Unknown\"))\nage_test\n\n\n    Welch Two Sample t-test\n\ndata:  age_years by gender\nt = -21.98, df = 5390.7, p-value &lt; 2.2e-16\nalternative hypothesis: true difference in means between group female and group male is not equal to 0\n95 percent confidence interval:\n -7.441575 -6.222858\nsample estimates:\nmean in group female   mean in group male \n            12.68343             19.51564 \n\n\nThe printout is a friendly view for people. Underneath, it is a list your code can use:\n\nnames(age_test)\n\n [1] \"statistic\"   \"parameter\"   \"p.value\"     \"conf.int\"    \"estimate\"   \n [6] \"null.value\"  \"stderr\"      \"alternative\" \"method\"      \"data.name\"  \n\nage_test$p.value\n\n[1] 1.271186e-102\n\nage_test$estimate\n\nmean in group female   mean in group male \n            12.68343             19.51564 \n\n\nEvery test and model in R works this way (chisq.test(), lm(), glm(), survival models, Bioconductor objects), so this is how you get one number out of an analysis and into a table or a report.\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\npatient[\"age\"] + 1 gives an error: [ ] returns a list. Use patient[[\"age\"]] or patient$age.\nt.test() compares exactly two groups. “grouping factor must have exactly 2 levels” means there is a third group (like “Unknown”): filter() it out first.\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): a test result is a list\n\n\n\n\nRun t.test() on temp_c by vaccinated in measles, leaving out the “Unknown” vaccination status. Save it as temp_test.\nPull out the p-value and the two group means with $.\n\n✅ Check: p-value 0.565; means 38.80 (No) and 38.84 (Yes)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\ntemp_test &lt;- t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != \"Unknown\"))   # a)\n\ntemp_test$p.value    # b)\n\n[1] 0.5645313\n\ntemp_test$estimate\n\n mean in group No mean in group Yes \n         38.80480          38.83682 \n\n\nVaccinated and unvaccinated children had almost the same temperature (38.80 vs 38.84 °C), and a p-value of 0.565 means the small difference is easily explained by chance.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1358,7 +1380,7 @@
     "section": "Tidy data",
     "text": "Tidy data\nData is tidy when:\n\nEach variable is a column\nEach observation is a row\nEach value is a cell\n\nThe tidyverse works best on tidy data. But “observation” depends on your question. Our symptoms are in wide format — one column per symptom:\n\nlinelist %&gt;% select(case_id, fever:vomit) %&gt;% head(3)\n\n  case_id   fever  chills   cough   aches   vomit\n1  5fe599      no      no     yes      no     yes\n2  8689b7 Unknown Unknown Unknown Unknown Unknown\n3  11f8ea Unknown Unknown Unknown Unknown Unknown\n\n\nTo count or plot all symptoms together, we want long format: one row per patient per symptom.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1369,7 +1391,7 @@
     "section": "pivot_longer(): wide → long",
     "text": "pivot_longer(): wide → long\n\nsymptoms_long &lt;- linelist %&gt;%\n  select(case_id, fever:vomit) %&gt;%\n  pivot_longer(\n    cols      = fever:vomit,   # the columns to stack\n    names_to  = \"symptom\",     # new column for the old column NAMES\n    values_to = \"present\"      # new column for the VALUES\n  )\n\nhead(symptoms_long)\n\n# A tibble: 6 × 3\n  case_id symptom present\n  &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  \n1 5fe599  fever   no     \n2 5fe599  chills  no     \n3 5fe599  cough   yes    \n4 5fe599  aches   no     \n5 5fe599  vomit   yes    \n6 8689b7  fever   Unknown\n\nnrow(symptoms_long)   # 6451 patients × 5 symptoms\n\n[1] 32255\n\n\nfever:vomit means “every column from fever to vomit”.\nNow one count() answers “how many patients had each symptom?”:\n\nsymptom_counts &lt;- symptoms_long %&gt;%\n  filter(present == \"yes\") %&gt;%\n  count(symptom)\n\nsymptom_counts\n\n# A tibble: 5 × 2\n  symptom     n\n  &lt;chr&gt;   &lt;int&gt;\n1 aches     604\n2 chills   1209\n3 cough    5347\n4 fever    5077\n5 vomit    3095\n\n\nAnd it’s ready to plot (a preview of Session 6):\n\nggplot(symptom_counts, aes(x = n, y = fct_reorder(symptom, n))) +\n  geom_col(fill = \"#2a78d6\") +\n  labs(title = \"Patients reporting each symptom\", x = \"Number of patients\", y = NULL) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): measles symptoms long\n\n\n\nSelect patient_id, fever, and rash from measles, then pivot_longer() the two symptom columns. count() symptom and present.\nPattern: pivot_longer(cols = c(COLUMN_1, COLUMN_2), names_to = \"symptom\", values_to = \"present\")\n✅ Check: 2326 rows (1163 × 2); fever yes 1064, rash yes 976\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles_symptoms &lt;- measles %&gt;%\n  select(patient_id, fever, rash) %&gt;%\n  pivot_longer(\n    cols      = c(fever, rash),\n    names_to  = \"symptom\",\n    values_to = \"present\"\n  )\n\nnrow(measles_symptoms)\n\n[1] 2326\n\nmeasles_symptoms %&gt;% count(symptom, present)\n\n# A tibble: 4 × 3\n  symptom present     n\n  &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt;\n1 fever   no         99\n2 fever   yes      1064\n3 rash    no        187\n4 rash    yes       976\n\n\nEach of the 1163 cases now has two rows, one for fever and one for rash, so there are 2326 rows. One count() gives the yes/no totals for both symptoms.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping"
     ]
   },
@@ -1380,7 +1402,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1391,7 +1413,7 @@
     "section": "Fixed colors",
     "text": "Fixed colors\nInside geom_histogram(), fill is the inside color and color is the outline. A white outline separates the bars.\n\nggplot(data = linelist, mapping = aes(x = age_years)) +\n  geom_histogram(binwidth = 5, fill = \"#2a78d6\", color = \"white\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteColors in R\n\n\n\nUse a name (\"steelblue\", \"gray50\") or a hex code (\"#2a78d6\"). Run colors() to see all 657 named colors.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (3 min): measles ages\n\n\n\nMake a histogram of measles age_years with binwidth = 1, a fill color, and a white outline. Which age has the most cases?\n✅ Check: the tallest bar is at age 2 (about 100 cases). The warning about “removed rows” is the 29 missing ages: that’s fine.\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nggplot(data = measles, mapping = aes(x = age_years)) +\n  geom_histogram(binwidth = 1, fill = \"#2a78d6\", color = \"white\")\n\n\n\n\n\n\n\n\nThe tallest bar is age 2 (102 cases), and most cases are ages 1–5. ggplot can’t draw the 29 rows with a missing age, so it drops them and tells you.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1402,7 +1424,7 @@
     "section": "Map a third variable to color",
     "text": "Map a third variable to color\n\nggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg, color = gender)) +\n  geom_point(size = 1, alpha = 0.4)",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1413,7 +1435,7 @@
     "section": "Add a trend line",
     "text": "Add a trend line\ngeom_smooth() adds a trend line on top of the points. method = \"lm\" draws a straight line (linear model); se = FALSE hides the confidence band.\n\nggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +\n  geom_point(size = 1, alpha = 0.3) +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"#eb6834\")",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1424,7 +1446,7 @@
     "section": "Filter right inside ggplot()",
     "text": "Filter right inside ggplot()\nYou can pipe data into ggplot(), so you can filter() first without making a new object:\n\nlinelist %&gt;%\n  filter(fever == \"yes\") %&gt;%\n  ggplot(mapping = aes(x = age_years, y = wt_kg)) +\n  geom_point(size = 1, alpha = 0.3)\n\n\n\n\n\n\n\n\nNotice the switch: %&gt;% into ggplot(), then + between layers.\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): a scatter plot\n\n\n\nFor hospitalized patients only (filter(!is.na(days_in_hospital))), plot age_years (x) against days_in_hospital (y) with alpha, and add a trend line. Is there a relationship?\n✅ Check: 427 hospitalized patients; the trend line is almost flat (no relationship)\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles %&gt;%\n  filter(!is.na(days_in_hospital)) %&gt;%\n  ggplot(mapping = aes(x = age_years, y = days_in_hospital)) +\n  geom_point(alpha = 0.3) +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"#eb6834\")\n\n\n\n\n\n\n\n\nThe trend line is almost flat: older and younger patients stay in hospital about as long. “No relationship” is a result too!",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1435,7 +1457,7 @@
     "section": "Clean it up",
     "text": "Clean it up\nRemove the “Unknown” group, color the boxes, and drop the legend (the x-axis already names the groups):\n\nlinelist %&gt;%\n  filter(gender != \"Unknown\") %&gt;%\n  ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +\n  geom_boxplot() +\n  theme(legend.position = \"none\")",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1446,7 +1468,7 @@
     "section": "Add the mean",
     "text": "Add the mean\nstat_summary() calculates a statistic for each group and draws it. Here, the mean as a diamond:\n\nlinelist %&gt;%\n  filter(gender != \"Unknown\") %&gt;%\n  ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +\n  geom_boxplot() +\n  stat_summary(fun = mean, geom = \"point\", shape = 23, size = 3, fill = \"white\") +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote🤔 Think about it: why is the mean (diamond) above the median (line)?\n\n\n\n\n\nThe ages are right-skewed: a few older patients pull the mean up. For example, the median age of female cases is 11 but the mean is 12.7.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\ngeom_violin() shows the full shape of each distribution. Try swapping it in for geom_boxplot().\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): a box plot\n\n\n\nMake a box plot of days_in_hospital by vaccinated (hospitalized patients only), with the mean and no legend.\n✅ Check: three boxes; the medians are 4–5 days for every group\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmeasles %&gt;%\n  filter(!is.na(days_in_hospital)) %&gt;%\n  ggplot(mapping = aes(x = vaccinated, y = days_in_hospital, fill = vaccinated)) +\n  geom_boxplot() +\n  stat_summary(fun = mean, geom = \"point\", shape = 23, size = 3, fill = \"white\") +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\n\nThe medians are 4 days (Yes) and 5 days (No, Unknown), and the means are all about 5: no clear difference in hospital stay by vaccination status. The boxes appear in the order you set with fct_relevel() in Part 1.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1457,7 +1479,7 @@
     "section": "labs()",
     "text": "labs()\n\nlinelist %&gt;%\n  filter(gender != \"Unknown\") %&gt;%\n  ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +\n  geom_boxplot() +\n  labs(\n    title    = \"Age distribution by gender\",\n    subtitle = \"Cases with known gender\",\n    x        = \"Gender\",\n    y        = \"Age (years)\",\n    caption  = \"Source: workshop outbreak linelist\"\n  ) +\n  theme(legend.position = \"none\")",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1468,7 +1490,7 @@
     "section": "Themes",
     "text": "Themes\nA theme changes the look of everything that isn’t data: background, grid lines, fonts. Try theme_minimal(), theme_classic(), theme_bw(), and theme_light().\n\nggplot(data = linelist, mapping = aes(x = age_years)) +\n  geom_histogram(binwidth = 5, fill = \"#2a78d6\", color = \"white\") +\n  labs(\n    title = \"Age distribution of cases\",\n    x     = \"Age (years)\",\n    y     = \"Number of cases\"\n  ) +\n  theme_minimal(base_size = 14)\n\n\n\n\n\n\n\n\nbase_size makes all the text bigger — useful for slides.\n\n\n\n\n\n\nWarningOrder matters\n\n\n\nA complete theme like theme_minimal() resets everything, so put it before theme(legend.position = ...) or your change will be overwritten.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1479,7 +1501,7 @@
     "section": "Save a plot as an object",
     "text": "Save a plot as an object\nA plot can be saved with &lt;- and built on later:\n\nage_plot &lt;- ggplot(data = linelist, mapping = aes(x = age_years)) +\n  geom_histogram(binwidth = 5, fill = \"#2a78d6\", color = \"white\")\n\nage_plot +\n  labs(title = \"Age distribution of cases\", x = \"Age (years)\", y = \"Number of cases\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): finish a plot\n\n\n\nFinish one of your measles plots with a title, subtitle, axis labels, a caption, and a theme. Save it as my_plot.\n✅ Check: typing my_plot in the Console shows your finished plot\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmy_plot &lt;- ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +\n  geom_histogram(binwidth = 0.2, color = \"white\") +\n  labs(\n    title    = \"Temperature of measles cases\",\n    subtitle = \"Patients with fever cluster around 39 °C\",\n    x        = \"Temperature (°C)\",\n    y        = \"Number of cases\",\n    fill     = \"Fever\",\n    caption  = \"Source: practice measles linelist\"\n  ) +\n  theme_minimal()\n\nmy_plot\n\n\n\n\n\n\n\n\nThis is one example — any measles plot works. fill = \"Fever\" inside labs() renames the legend title. Saving the plot as my_plot stores it in the Variables pane, and typing its name draws it.\n\n\n\n\n\n\n\n\n\n\n\nTip⭐ Bonus\n\n\n\n\nMake the measles age histogram with fill = vaccinated. Which ages have the most unvaccinated cases?\nSwap geom_boxplot() for geom_violin() in your box plot. What does it show?\nBrought your own data? Make a histogram, a scatter plot, and a box plot.\n\nSee the solutions file for the code.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 6: Plotting Basics with ggplot2"
     ]
   },
@@ -1490,7 +1512,7 @@
     "section": "",
     "text": "⬇ Student script ⬇ Solutions ⬇ Whole workshop folder (ZIP)",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1501,7 +1523,7 @@
     "section": "Why write functions?",
     "text": "Why write functions?\nIf you copy and paste code more than twice, write a function. Functions:\n\navoid copy-paste mistakes (change it once, fixed everywhere)\ngive a task a clear name (c_to_f() says what it does)\nmake your scripts shorter and easier to read",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1512,7 +1534,7 @@
     "section": "The shape of a function",
     "text": "The shape of a function\n\nc_to_f &lt;- function(temp_c) {\n  temp_c * 9 / 5 + 32\n}\n\n\nc_to_f is the name — you save a function with &lt;- like any object. Run the whole block to create it; then it appears in the Variables pane\ntemp_c is the argument — the input. Inside the function, it is whatever value you pass in\nThe code between { } is the body\nThe function returns the result of its last line\n\n\nc_to_f(38)\n\n[1] 100.4\n\nc_to_f(c(36.8, 38.5, 40.1))   # it's vectorized, because the maths inside is\n\n[1]  98.24 101.30 104.18\n\n\nBecause it’s vectorized, it works on a whole column inside mutate():\n\nlinelist %&gt;%\n  mutate(temp_f = c_to_f(temp)) %&gt;%\n  select(case_id, temp, temp_f) %&gt;%\n  head(3)\n\n  case_id temp temp_f\n1  5fe599 36.8  98.24\n2  8689b7 36.9  98.42\n3  11f8ea 36.9  98.42",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1523,7 +1545,7 @@
     "section": "Default values",
     "text": "Default values\nGive an argument a default with =. You can change it, but you don’t have to:\n\nc_to_f &lt;- function(temp_c, digits = 1) {\n  round(temp_c * 9 / 5 + 32, digits)\n}\n\nc_to_f(38.37)              # uses digits = 1\n\n[1] 101.1\n\nc_to_f(38.37, digits = 0)  # overrides it\n\n[1] 101\n\n\n\n\n\n\n\n\nWarningCommon mistakes\n\n\n\n\nChanging the function but not re-running the block: R still uses the old version.\n\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (4 min): Fahrenheit to Celsius\n\n\n\nWrite f_to_c(temp_f) that converts Fahrenheit to Celsius: (temp_f - 32) * 5 / 9, rounded to 1 decimal. Test it on 98.6 and 104.7.\n✅ Check: f_to_c(98.6) is 37 and f_to_c(104.7) is 40.4\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nf_to_c &lt;- function(temp_f) {\n  round((temp_f - 32) * 5 / 9, 1)\n}\n\nf_to_c(98.6)\n\n[1] 37\n\nf_to_c(104.7)\n\n[1] 40.4\n\n\n104.7 °F is 40.4 °C — the Fahrenheit temperature you found in the measles data in Session 1!",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1534,7 +1556,7 @@
     "section": "A calculation used in many places",
     "text": "A calculation used in many places\n\npct &lt;- function(x, digits = 1) {\n  round(mean(x, na.rm = TRUE) * 100, digits)\n}\n\nlinelist %&gt;%\n  group_by(hospital_name) %&gt;%\n  summarise(\n    n         = n(),\n    pct_death = pct(outcome == \"Death\"),\n    pct_fever = pct(fever == \"yes\")\n  )\n\n# A tibble: 7 × 4\n  hospital_name                     n pct_death pct_fever\n  &lt;chr&gt;                         &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 Central Hospital                454      42.5      77.3\n2 HMO Health                      280      44.3      92.9\n3 Military Hospital               896      44.5      79  \n4 Other/Unknown                  2354      42.7      77.3\n5 Premiere Health                 274      47.1      94.5\n6 Regional Medical center        1771      44.6      76.7\n7 St. Mark's Maternity Hospital   422      47.2      75.8\n\n\nCompare with Session 5, where we wrote round(mean(...) * 100, 1) every time.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1545,7 +1567,7 @@
     "section": "A function that takes a data frame",
     "text": "A function that takes a data frame\n\nhospital_summary &lt;- function(data, hospital) {\n  data %&gt;%\n    filter(hospital_name == hospital) %&gt;%\n    summarise(\n      n         = n(),\n      pct_death = pct(outcome == \"Death\")\n    )\n}\n\nhospital_summary(linelist, \"Military Hospital\")\n\n    n pct_death\n1 896      44.5\n\nhospital_summary(linelist, \"Central Hospital\")\n\n    n pct_death\n1 454      42.5\n\n\nhospital is an argument holding a value (the hospital’s name), so it can go straight into filter().",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1556,7 +1578,7 @@
     "section": "A function that makes a plot",
     "text": "A function that makes a plot\n\nmake_epicurve &lt;- function(data, hospital) {\n  data %&gt;%\n    filter(hospital_name == hospital, onset_date &gt;= as.Date(\"2014-01-01\")) %&gt;%\n    ggplot(aes(x = onset_date)) +\n    geom_histogram(binwidth = 7, fill = \"#2a78d6\", color = \"white\") +\n    labs(\n      title = paste(\"Weekly cases:\", hospital),\n      x     = \"Week of onset\",\n      y     = \"Number of cases\"\n    ) +\n    theme_minimal()\n}\n\nmake_epicurve(linelist, \"Military Hospital\")\n\n\n\n\n\n\n\n\npaste(\"Weekly cases:\", hospital) builds the title from the argument, so every plot gets the right title.\n\n\n\n\n\n\nWarningCommon mistake: name the argument district_name, not district\n\n\n\nDon’t give an argument the same name as a column! In\nfunction(data, district) { data %&gt;% filter(district == district) }\nR compares the district column with itself, so every row is kept — no error, just the wrong answer. Name the argument district_name instead: filter(district == district_name).\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (6 min): measles functions\n\n\n\n\nWrite rate_per_10k(cases, population) that returns cases / population * 10000, rounded to 1 decimal. Use it in mutate() after count(district, population).\nWrite district_summary(data, district_name) that returns the number of cases and the percentage vaccinated (use your pct() function!) for one district.\n\n✅ Check: a) East is 22.8 b) district_summary(measles, \"North\") gives n 342, 25.7%\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\n# a)\nrate_per_10k &lt;- function(cases, population) {\n  round(cases / population * 10000, 1)\n}\n\nmeasles %&gt;%\n  count(district, population) %&gt;%\n  mutate(rate = rate_per_10k(n, population)) %&gt;%\n  arrange(desc(rate))\n\n  district population   n rate\n1     East      98000 223 22.8\n2     West      76500 170 22.2\n3    South     142000 284 20.0\n4    North     185000 342 18.5\n5  Central     210000 110  5.2\n6  Unknown         NA  34   NA\n\n# b)\ndistrict_summary &lt;- function(data, district_name) {\n  data %&gt;%\n    filter(district == district_name) %&gt;%\n    summarise(\n      n              = n(),\n      pct_vaccinated = pct(vaccinated == \"Yes\")\n    )\n}\n\ndistrict_summary(measles, \"North\")\n\n    n pct_vaccinated\n1 342           25.7\n\n\nEast has the highest rate, 22.8 cases per 10,000. North has 342 cases, and 25.7% of them were vaccinated. Because the argument is called district_name, filter(district == district_name) keeps only North.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1567,7 +1589,7 @@
     "section": "if works on ONE value",
     "text": "if works on ONE value\n\nfever_status(c(39.2, 36.9))\n\nError in `if (temp &gt;= 38) ...`:\n! the condition has length &gt; 1\n\n\nif asks one yes/no question. For a whole column, use the vectorized if_else() from Session 2:\n\nfever_status &lt;- function(temp) {\n  if_else(temp &gt;= 38, \"fever\", \"no fever\")\n}\n\nfever_status(c(39.2, 36.9))\n\n[1] \"fever\"    \"no fever\"\n\nlinelist %&gt;%\n  mutate(fever_measured = fever_status(temp)) %&gt;%\n  count(fever_measured)\n\n  fever_measured    n\n1          fever 4976\n2       no fever 1324\n3           &lt;NA&gt;  151",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1578,7 +1600,7 @@
     "section": "Where if shines: checking inputs",
     "text": "Where if shines: checking inputs\nif is perfect for questions with one answer, like “is the input a number?”. stop() ends the function with a helpful error message:\n\nc_to_f &lt;- function(temp_c, digits = 1) {\n  if (!is.numeric(temp_c)) {\n    stop(\"temp_c must be a number, not \", class(temp_c))\n  }\n  round(temp_c * 9 / 5 + 32, digits)\n}\n\nc_to_f(\"38\")\n\nError in `c_to_f()`:\n! temp_c must be a number, not character\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (5 min): fever status for the measles data\n\n\n\n\nWrite a one-value fever_status() with if / else and test it on 38.5.\nWrite the vectorized version with if_else(), use it in mutate() on measles$temp_c, and count() the result.\n\n✅ Check: a) \"fever\" b) 1015 “fever” and 148 “no fever”\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\n# a)\nfever_status_one &lt;- function(temp) {\n  if (temp &gt;= 38) {\n    \"fever\"\n  } else {\n    \"no fever\"\n  }\n}\n\nfever_status_one(38.5)\n\n[1] \"fever\"\n\n# b)\nfever_status &lt;- function(temp) {\n  if_else(temp &gt;= 38, \"fever\", \"no fever\")\n}\n\nmeasles %&gt;%\n  mutate(fever_measured = fever_status(temp_c)) %&gt;%\n  count(fever_measured)\n\n  fever_measured    n\n1          fever 1015\n2       no fever  148\n\n\n38.5 is at least 38, so the one-value version returns \"fever\". The if_else() version works on all 1163 temperatures at once: 1015 with fever and 148 without.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1589,7 +1611,7 @@
     "section": "Loop over every hospital",
     "text": "Loop over every hospital\n\nhospitals &lt;- linelist %&gt;%\n  filter(hospital_name != \"Other/Unknown\") %&gt;%\n  distinct(hospital_name) %&gt;%\n  pull(hospital_name) %&gt;%\n  sort()\n\nhospitals\n\n[1] \"Central Hospital\"              \"HMO Health\"                   \n[3] \"Military Hospital\"             \"Premiere Health\"              \n[5] \"Regional Medical center\"       \"St. Mark's Maternity Hospital\"\n\nfor (h in hospitals) {\n  n_cases &lt;- sum(linelist$hospital_name == h)\n  print(paste(h, \"has\", n_cases, \"cases\"))\n}\n\n[1] \"Central Hospital has 454 cases\"\n[1] \"HMO Health has 280 cases\"\n[1] \"Military Hospital has 896 cases\"\n[1] \"Premiere Health has 274 cases\"\n[1] \"Regional Medical center has 1771 cases\"\n[1] \"St. Mark's Maternity Hospital has 422 cases\"\n\n\nInside a loop, results are not printed automatically — use print().",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1600,7 +1622,7 @@
     "section": "Save the results",
     "text": "Save the results\nTo keep results, create an empty container before the loop and fill it inside:\n\ncase_counts &lt;- c()   # an empty vector\n\nfor (h in hospitals) {\n  case_counts[h] &lt;- sum(linelist$hospital_name == h)\n}\n\ncase_counts\n\n             Central Hospital                    HMO Health \n                          454                           280 \n            Military Hospital               Premiere Health \n                          896                           274 \n      Regional Medical center St. Mark's Maternity Hospital \n                         1771                           422",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1611,7 +1633,7 @@
     "section": "The payoff: one epidemic curve per hospital",
     "text": "The payoff: one epidemic curve per hospital\n\nfor (h in hospitals) {\n  p &lt;- make_epicurve(linelist, h)\n  file_name &lt;- paste0(\"epicurve_\", make_clean_names(h), \".png\")\n  ggsave(here(\"outputs\", file_name), plot = p, width = 8, height = 5, dpi = 300)\n}\n\n\nmake_clean_names() (janitor) turns “St. Mark’s Maternity Hospital” into st_marks_maternity_hospital — safe for a file name\npaste0() glues the pieces with no spaces into epicurve_st_marks_maternity_hospital.png\nSix files, one loop. Next week, re-run it with the new data — check the Explorer to see the new files in outputs/\n\n\n\n\n\n\n\nNoteYou’ve already been looping\n\n\n\nmutate(), summarise() with group_by(), and across() all repeat work for you. In R, reach for those first; write a loop when you need to repeat a whole task, like making and saving a plot.\n\n\n\n\n\n\n\n\nImportant✏️ TRY IT (6 min): one epicurve per district\n\n\n\nWrite make_measles_epicurve(data, district_name) for weekly cases by report_date in one district. Then loop over the five districts (not “Unknown”) and save each plot to outputs/ as measles_central.png, measles_east.png, …\n✅ Check: five new .png files in the outputs folder\n\n\n\n\n\n\nNoteShow solution\n\n\n\n\n\n\nmake_measles_epicurve &lt;- function(data, district_name) {\n  data %&gt;%\n    filter(district == district_name, !is.na(report_date)) %&gt;%\n    ggplot(aes(x = report_date)) +\n    geom_histogram(binwidth = 7, fill = \"#2a78d6\", color = \"white\") +\n    labs(\n      title = paste(\"Weekly measles cases:\", district_name),\n      x     = \"Week of report\",\n      y     = \"Number of cases\"\n    ) +\n    theme_minimal()\n}\n\ndistricts &lt;- c(\"Central\", \"East\", \"North\", \"South\", \"West\")\n\nfor (d in districts) {\n  p &lt;- make_measles_epicurve(measles, d)\n  file_name &lt;- paste0(\"measles_\", make_clean_names(d), \".png\")\n  ggsave(here(\"outputs\", file_name), plot = p, width = 8, height = 5, dpi = 300)\n}\n\nThe loop creates five files in outputs/: measles_central.png, measles_east.png, measles_north.png, measles_south.png, and measles_west.png. Again, the argument is district_name, not district.",
     "crumbs": [
-      "Lessons",
+      "Setup",
       "Session 8: Programming — Functions, if/else, Loops, and Iteration"
     ]
   },
@@ -1620,27 +1642,39 @@
     "href": "pages/setup.html",
     "title": "Setup",
     "section": "",
-    "text": "Setup problems take a long time to fix during class, so please get ready before the first session. Each checklist ends with a test: if it prints the expected answer, you’re ready."
+    "text": "Setup problems take a long time to fix during class, so please get ready before the first session. Each checklist ends with a test: if it prints the expected answer, you’re ready.",
+    "crumbs": [
+      "Setup"
+    ]
   },
   {
     "objectID": "pages/setup.html#before-session-1-one-time-setup",
     "href": "pages/setup.html#before-session-1-one-time-setup",
     "title": "Setup",
     "section": "Before Session 1 (one-time setup)",
-    "text": "Before Session 1 (one-time setup)\n\nInstall R (version 4.2 or newer) from CRAN.\nInstall Positron (free) from Posit. Positron is the program you write and run R code in. Install R first (step 1), then Positron.\nDownload the workshop folder: download the ZIP file and unzip it somewhere easy to find (Documents, not Downloads). This one download has everything for all eight sessions.\nOpen the workshop folder in Positron: open Positron, choose File → Open Folder…, select the unzipped CWML-R-Hands-on-Workshop-Series folder, and click Open. If Positron asks whether you trust the authors of the files, click Yes.\n\nThe workshop files appear in the Explorer on the left.\nAn R Console starts at the bottom. If it doesn’t, click the interpreter button in the top-right corner and choose R.\n\nInstall the packages. Copy this into the Console (bottom) and press Enter:\ninstall.packages(c(\"tidyverse\", \"here\", \"rio\", \"janitor\", \"skimr\", \"gtsummary\", \"flextable\", \"scales\"))\nIt can take 5–10 minutes. If you see errors about compilers, see Troubleshooting.\nTest it. Copy this into the Console and press Enter:\nlibrary(tidyverse); library(here); library(rio); library(janitor); library(skimr); library(gtsummary); library(flextable)\nnrow(import(here(\"raw_data\", \"measles_raw.csv\")))\n\n\n\n\n\n\n\nTip✅ You’re ready if it prints [1] 1215\n\n\n\nRed messages that don’t start with “Error” are normal. If you see an error, contact the instructor before the session.\n\n\n\n\n\n\n\n\nNoteAlready use RStudio?\n\n\n\nThat works too. Install the packages the same way, and open the workshop by double-clicking CWML-R-Hands-on-Workshop-Series.Rproj instead of using Open Folder. Everything else in the workshop is the same. (In RStudio, Positron’s Variables pane is called Environment, and the Explorer is the Files pane.)"
+    "text": "Before Session 1 (one-time setup)\n\nInstall R (version 4.2 or newer) from CRAN.\nInstall Positron (free) from Posit. Positron is the program you write and run R code in. Install R first (step 1), then Positron.\nDownload the workshop folder from GitHub. All the workshop files (data, student scripts, and solutions) live in a GitHub repository, not on this website. This one download has everything for all eight sessions.\n\nGo to the workshop’s GitHub page: github.com/CWML/CWML-R-Hands-on-Workshop-Series\nClick the green Code button, then Download ZIP. (Or use this direct link: download the ZIP from GitHub.) You don’t need a GitHub account.\nUnzip the file somewhere easy to find (Documents, not Downloads). The unzipped folder may be called CWML-R-Hands-on-Workshop-Series-main; that’s fine.\n\nOpen the workshop folder in Positron: open Positron, choose File → Open Folder…, select the unzipped CWML-R-Hands-on-Workshop-Series folder, and click Open. If Positron asks whether you trust the authors of the files, click Yes.\n\nThe workshop files appear in the Explorer on the left.\nAn R Console starts at the bottom. If it doesn’t, click the interpreter button in the top-right corner and choose R.\n\nInstall the packages. Copy this into the Console (bottom) and press Enter:\ninstall.packages(c(\"tidyverse\", \"here\", \"rio\", \"janitor\", \"skimr\", \"gtsummary\", \"flextable\", \"scales\"))\nIt can take 5–10 minutes. If you see errors about compilers, see Troubleshooting.\nTest it. Copy this into the Console and press Enter:\nlibrary(tidyverse); library(here); library(rio); library(janitor); library(skimr); library(gtsummary); library(flextable)\nnrow(import(here(\"raw_data\", \"measles_raw.csv\")))\n\n\n\n\n\n\n\nTip✅ You’re ready if it prints [1] 1215\n\n\n\nRed messages that don’t start with “Error” are normal. If you see an error, contact the instructor before the session.",
+    "crumbs": [
+      "Setup"
+    ]
   },
   {
     "objectID": "pages/setup.html#before-every-session-2-minutes",
     "href": "pages/setup.html#before-every-session-2-minutes",
     "title": "Setup",
     "section": "Before every session (2 minutes)",
-    "text": "Before every session (2 minutes)\n\nOpen the workshop folder in Positron (File → Open Recent lists it) — not a script on its own\nOpen that session’s student script from the student_scripts/ folder\nRun that session’s test:\n\n\n\n\n\n\n\n\n\n\nSession\nBring / have ready\nTest (copy into the Console)\n✅ Ready if it prints\n\n\n\n\n1\nThe one-time setup above\nSee above\n[1] 1215\n\n\n2\nYour measles problem list from Session 1\nnrow(rio::import(here::here(\"raw_data\", \"linelist_raw.xlsx\")))\n[1] 6604\n\n\n3\n—\nnrow(rio::import(here::here(\"processed_data\", \"linelist_clean.rds\"), trust = TRUE))\n[1] 6604\n\n\n4\n—\nnrow(rio::import(here::here(\"processed_data\", \"combined_linelist.rds\"), trust = TRUE))\n[1] 6451\n\n\n5\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n6\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n7\n—\ndir.exists(here::here(\"outputs\"))\n[1] TRUE\n\n\n8\n—\npurrr::map_dbl(1:3, ~ .x * 2)\n[1] 2 4 6\n\n\n\n\n\n\n\n\n\nNoteMissed a session, or did your saved file break?\n\n\n\nEvery file a session starts from is already in the processed_data/ folder. When you save your own version in class, it replaces that copy. If yours stops working, download the workshop folder again and copy the file back into processed_data/.\n\n\n\n\n\n\n\n\nNoteBringing your own data?\n\n\n\nPut the file in the raw_data/ folder before the session. Every lesson ends with a ⭐ BONUS for your own data."
+    "text": "Before every session (2 minutes)\n\nOpen the workshop folder in Positron (File → Open Recent lists it) — not a script on its own\nOpen that session’s student script from the student_scripts/ folder\nRun that session’s test:\n\n\n\n\n\n\n\n\n\n\nSession\nBring / have ready\nTest (copy into the Console)\n✅ Ready if it prints\n\n\n\n\n1\nThe one-time setup above\nSee above\n[1] 1215\n\n\n2\nYour measles problem list from Session 1\nnrow(rio::import(here::here(\"raw_data\", \"linelist_raw.xlsx\")))\n[1] 6604\n\n\n3\n—\nnrow(rio::import(here::here(\"processed_data\", \"linelist_clean.rds\"), trust = TRUE))\n[1] 6604\n\n\n4\n—\nnrow(rio::import(here::here(\"processed_data\", \"combined_linelist.rds\"), trust = TRUE))\n[1] 6451\n\n\n5\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n6\n—\nnrow(rio::import(here::here(\"processed_data\", \"measles_final.rds\"), trust = TRUE))\n[1] 1163\n\n\n7\n—\ndir.exists(here::here(\"outputs\"))\n[1] TRUE\n\n\n8\n—\npurrr::map_dbl(1:3, ~ .x * 2)\n[1] 2 4 6\n\n\n\n\n\n\n\n\n\nNoteMissed a session, or did your saved file break?\n\n\n\nEvery file a session starts from is already in the processed_data/ folder. When you save your own version in class, it replaces that copy. If yours stops working, download the workshop folder again and copy the file back into processed_data/.\n\n\n\n\n\n\n\n\nNoteBringing your own data?\n\n\n\nPut the file in the raw_data/ folder before the session. Every lesson ends with a ⭐ BONUS for your own data.",
+    "crumbs": [
+      "Setup"
+    ]
   },
   {
     "objectID": "pages/setup.html#whats-in-the-workshop-folder",
     "href": "pages/setup.html#whats-in-the-workshop-folder",
     "title": "Setup",
     "section": "What’s in the workshop folder",
-    "text": "What’s in the workshop folder\nCWML-R-Hands-on-Workshop-Series/\n├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio\n├── student_scripts/  # student scripts, one per session\n├── solutions/        # the student scripts with every answer filled in\n├── raw_data/         # the original data files (never edit these!)\n├── processed_data/   # cleaned data saved during the sessions\n└── outputs/          # plots and tables you save"
+    "text": "What’s in the workshop folder\nCWML-R-Hands-on-Workshop-Series/\n├── student_scripts/  # student scripts, one per session\n├── solutions/        # the student scripts with every answer filled in\n├── raw_data/         # the original data files (never edit these!)\n├── processed_data/   # cleaned data saved during the sessions\n└── outputs/          # plots and tables you save",
+    "crumbs": [
+      "Setup"
+    ]
   }
 ]

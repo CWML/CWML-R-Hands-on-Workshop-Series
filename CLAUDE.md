@@ -23,6 +23,10 @@ Sessions: 1 Setup and first look · 2 Cleaning · 3 Missing data, joins, export 
 4 Data structures (vectors, lists, subsetting, pivoting) · 5 Summarizing ·
 6 Plotting basics · 7 Plotting further · 8 Programming (optional).
 
+Session 1 order: R basics → packages → project folders and `here()` → importing → inspecting →
+problem list. **Session 1 uses no pipe**: one function at a time, nesting for two steps
+(`head(arrange(data, col), 10)`). The pipe `%>%` (and `select()`) is taught in Session 2, Part 2.
+
 ## Keep these in sync
 
 A change to a session usually touches **four files**: the lesson page, the student script,
@@ -38,8 +42,9 @@ match across all of them.
   never `_` / `FUNCTION_NAME` blanks.
 - **Lesson pages speak to the learner** ("you"); timing, teaching notes, and "ask the class"
   prompts go on the instructor pages.
-- **IDE is Positron**, not RStudio: open the folder with File → Open Folder; pane names are
-  Variables and Explorer; mention RStudio only as a "works too" alternative.
+- **IDE is Positron** for everyone, not RStudio: open the folder with File → Open Folder;
+  pane names are Variables and Explorer. Don't offer RStudio as an alternative (the only
+  RStudio mentions left are the pane-name note for instructors and the troubleshooting page).
 - **No renv.** Packages: `install.packages(c("tidyverse", "here", "rio", "janitor", "skimr",
   "gtsummary", "flextable", "scales"))`. Word export uses
   `as_flex_table() %>% flextable::save_as_docx()`, not `gt::gtsave()` (needs pandoc).

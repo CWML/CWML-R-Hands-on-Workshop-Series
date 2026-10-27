@@ -44,7 +44,45 @@
 
 
 
-# ── PART 2: Column names ───────────────────────────────────────────────────
+# ── PART 2: The pipe %>% ───────────────────────────────────────────────────
+# 🎯 Goal: Write several steps in order, from left to right, with the pipe.
+#
+# 📖 What you need to know
+#    - In Session 1, two steps meant one function inside another:
+#        head(arrange(linelist_raw, wt_kg), 3)      read from the INSIDE OUT
+#    - The pipe %>% writes the same steps IN ORDER:
+#        linelist_raw %>% arrange(wt_kg) %>% head(3)
+#      Read it as "and then": take linelist_raw, AND THEN arrange it, AND THEN show 3 rows.
+#    - The pipe passes the result on its left in as the FIRST argument of the next
+#      function, so you don't write the data inside each function:
+#        count(linelist_raw, hospital)   is the same as   linelist_raw %>% count(hospital)
+#    - select(COLUMN_1, COLUMN_2) keeps only the columns you name.
+#    - Shortcut: Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
+#    - You may also see |>, the pipe built into R. It does the same thing.
+#
+# ⚠️ Common mistakes
+#    - Put %>% at the END of a line, not at the start of the next one.
+#    - Don't end the LAST line with %>%: R waits for more (a + appears in the
+#      Console). Press Esc and remove it.
+# ────────────────────────────────────────────────────────────────────────────
+
+# 👀 Follow along: head(arrange(linelist_raw, wt_kg), 3), then the same with the pipe
+#    Pattern: DATA %>% STEP_1() %>% STEP_2()
+
+
+# 👀 Follow along: a longer pipeline, one step per line:
+#    select() Case ID, wt_kg, and ht_cm, then arrange() by wt_kg, then head(5)
+
+
+# ✏️ TRY IT (3 min): in Session 1 you wrote
+#      head(arrange(measles_raw, desc(`Temp (C)`)), 10)
+#    Rewrite it with the pipe, and add a select() step so you only see
+#    `Patient ID` and `Temp (C)`.
+#    ✅ Check: two columns, and the top temperature is 104.7
+
+
+
+# ── PART 3: Column names ───────────────────────────────────────────────────
 # 🎯 Goal: Make every column name lower case with underscores, then rename columns.
 #
 # 📖 What you need to know
@@ -74,7 +112,7 @@
 
 
 
-# ── PART 3: Fixing types with mutate() ─────────────────────────────────────
+# ── PART 4: Fixing types with mutate() ─────────────────────────────────────
 # 🎯 Goal: Turn date columns into dates and text columns into numbers.
 #
 # 📖 What you need to know
@@ -105,7 +143,7 @@
 
 
 
-# ── PART 4: Fixing values with if_else() ───────────────────────────────────
+# ── PART 5: Fixing values with if_else() ───────────────────────────────────
 # 🎯 Goal: Fix values that meet ONE condition.
 #
 # 📖 What you need to know
@@ -137,7 +175,7 @@
 
 
 
-# ── PART 5: Recoding categories with case_when() ───────────────────────────
+# ── PART 6: Recoding categories with case_when() ───────────────────────────
 # 🎯 Goal: Fix categories with MANY conditions: gender and hospital names.
 #
 # 📖 What you need to know
@@ -185,7 +223,7 @@
 
 
 
-# ── PART 6: Creating new variables ─────────────────────────────────────────
+# ── PART 7: Creating new variables ─────────────────────────────────────────
 # 🎯 Goal: Calculate BMI and create age groups.
 #
 # 📖 What you need to know
@@ -219,7 +257,7 @@
 
 
 
-# ── PART 7: One pipeline and saving your work ──────────────────────────────
+# ── PART 8: One pipeline and saving your work ──────────────────────────────
 # 🎯 Goal: Combine every step into ONE pipeline, then save the result.
 #
 # 📖 What you need to know
@@ -251,7 +289,7 @@
 #  ⭐ BONUS
 #
 #  1. Rewrite all of your measles TRY ITs as ONE pipeline that starts from
-#     measles_raw (like Part 7).
+#     measles_raw (like Part 8).
 #  2. Brought your own data? Fix the problems on your own problem list, then
 #     export() the clean version to processed_data/.
 #________________________________________________________________________________

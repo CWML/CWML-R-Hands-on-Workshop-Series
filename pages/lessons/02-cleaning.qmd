@@ -1,6 +1,6 @@
 ---
 title: "Session 2: Cleaning Your Data"
-subtitle: "Column names, fixing types and values, recoding categories, new variables, and saving clean data"
+subtitle: "The pipe, column names, fixing types and values, recoding categories, new variables, and saving clean data"
 ---
 
 ::: downloads
@@ -10,11 +10,12 @@ subtitle: "Column names, fixing types and values, recoding categories, new varia
 ::: callout-note
 ## In this session you will learn to
 
-1.  Standardize column names with `clean_names()` and rename columns with `rename()`
-2.  Fix column types (dates, numbers) with `mutate()`
-3.  Fix values with `if_else()` and `case_when()`
-4.  Create new variables (BMI, age groups)
-5.  Combine every cleaning step into one pipeline and save the result
+1.  Chain steps together with the pipe `%>%`
+2.  Standardize column names with `clean_names()` and rename columns with `rename()`
+3.  Fix column types (dates, numbers) with `mutate()`
+4.  Fix values with `if_else()` and `case_when()`
+5.  Create new variables (BMI, age groups)
+6.  Combine every cleaning step into one pipeline and save the result
 
 **Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 2 - Cleaning_STUDENT.R`. Today starts from the raw files, `raw_data/linelist_raw.xlsx` and `raw_data/measles_raw.csv`, and works through the problem lists you wrote at the end of [Session 1](01-setup-and-first-look.qmd). If you fall behind, ready-made copies of today's results (`linelist_clean.rds` and `measles_clean.rds`) are in `processed_data/`.
 :::
@@ -41,12 +42,12 @@ The problem list from Session 1 is today's to-do list:
 
 | \# | Problem                                                            | Fixed in |
 |----|--------------------------------------------------------------------|----------|
-| 1  | Column names have spaces, dots, and capitals                       | Part 2   |
-| 2  | Date columns are different types                                   | Part 3   |
-| 3  | `age` is text, and 37 ages are in months                           | Parts 3–4 |
-| 4  | Hospital names are misspelled or inconsistent                      | Part 5   |
+| 1  | Column names have spaces, dots, and capitals                       | Part 3   |
+| 2  | Date columns are different types                                   | Part 4   |
+| 3  | `age` is text, and 37 ages are in months                           | Parts 4–5 |
+| 4  | Hospital names are misspelled or inconsistent                      | Part 6   |
 | 5  | Gender and outcome have missing values                             | Session 3 |
-| 6  | Impossible weights and heights                                     | Parts 4, 6 |
+| 6  | Impossible weights and heights                                     | Parts 5, 7 |
 | 7  | 130 rows have no Case ID                                           | Session 3 |
 | 8  | 25 rows are duplicates                                             | Session 3 |
 
@@ -72,7 +73,71 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 :::
 :::
 
-# Part 2: Column names
+# Part 2: The pipe `%>%`
+
+In Session 1, doing two things at once meant putting one function inside another:
+
+```{r}
+head(arrange(linelist_raw, wt_kg), 3)
+```
+
+You read that from the **inside out**: arrange the data, *then* take the head. Every extra step adds another layer of brackets. The **pipe** `%>%` writes the same steps **in order, from left to right**:
+
+```{r}
+linelist_raw %>% arrange(wt_kg) %>% head(3)
+```
+
+The pipe takes the result on its left and passes it in as the **first argument** of the function on its right. Read it as **"and then"**: *take `linelist_raw`, and then arrange it by weight, and then show the first 3 rows.*
+
+-   Keyboard shortcut: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows)
+-   With the pipe, you don't write the data inside each function: `count(linelist_raw, hospital)` becomes `linelist_raw %>% count(hospital)`
+
+## Longer pipelines
+
+Put each step on its own line, with the `%>%` at the **end** of the line. `select()` keeps only the **columns** you name:
+
+```{r}
+linelist_raw %>%
+  select(`Case ID`, wt_kg, ht_cm) %>%   # keep three columns
+  arrange(wt_kg) %>%                    # sort by weight
+  head(5)                               # show the first 5 rows
+```
+
+That is three steps, readable top to bottom. Written the Session 1 way, it would be `head(arrange(select(linelist_raw, ...), wt_kg), 5)`.
+
+::: callout-note
+You may also see `|>`, the pipe built into R itself. For this workshop they do the same thing.
+:::
+
+::: callout-warning
+## Common mistakes
+
+-   Put `%>%` at the **end** of a line, not at the start of the next one. R stops at a complete line, so a line starting with `%>%` gives an error.
+-   Don't end the last line with `%>%`: R then waits for another step (a `+` appears in the Console). Press **Esc** and remove it.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT (3 min): the pipe
+
+In Session 1 you wrote `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``. Rewrite it with the pipe, and add a `select()` step so you only see `` `Patient ID` `` and `` `Temp (C)` ``.
+
+✅ **Check:** two columns, and the top temperature is 104.7
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+measles_raw %>%
+  select(`Patient ID`, `Temp (C)`) %>%
+  arrange(desc(`Temp (C)`)) %>%
+  head(10)
+```
+
+Same answer as in Session 1, but now you can read it in order. From here on, almost every piece of code in the workshop uses the pipe.
+:::
+:::
+
+# Part 3: Column names
 
 ## `clean_names()`
 
@@ -109,7 +174,7 @@ We build the clean data step by step. Each step takes the current version, chang
 
 `linelist_clean <- linelist_clean %>% STEP()`
 
-If your object gets into a bad state, re-run from the first step (`linelist_clean <- linelist_raw %>% clean_names()`). In Part 7 we put all the steps into one pipeline.
+If your object gets into a bad state, re-run from the first step (`linelist_clean <- linelist_raw %>% clean_names()`). In Part 8 we put all the steps into one pipeline.
 :::
 
 ::: {.callout-important .tryit icon=false}
@@ -133,7 +198,7 @@ names(measles_clean)
 :::
 :::
 
-# Part 3: Fixing types with `mutate()`
+# Part 4: Fixing types with `mutate()`
 
 `mutate()` creates a new column or overwrites an existing one: `mutate(column = what_to_put_in_it)`. Use the same name to overwrite a column; a new name to add one.
 
@@ -203,7 +268,7 @@ The 27 `"unknown"` ages became `NA` — that is what the warning is about. A max
 :::
 :::
 
-# Part 4: Fixing values with `if_else()`
+# Part 5: Fixing values with `if_else()`
 
 `if_else(condition, value_if_TRUE, value_if_FALSE)` checks every row and fixes the values that meet one condition.
 
@@ -279,7 +344,7 @@ The four 999s are now `NA` (31 missing ages in total), and the 27 Fahrenheit tem
 :::
 :::
 
-# Part 5: Recoding categories with `case_when()`
+# Part 6: Recoding categories with `case_when()`
 
 `case_when()` is `if_else()` for **many** conditions. R checks each line in order and uses the first one that is TRUE:
 
@@ -416,7 +481,7 @@ measles_clean %>% count(district)
 :::
 :::
 
-# Part 6: Creating new variables
+# Part 7: Creating new variables
 
 ## BMI
 
@@ -521,7 +586,7 @@ measles_clean %>% count(age_cat)
 :::
 :::
 
-# Part 7: One pipeline and saving your work
+# Part 8: One pipeline and saving your work
 
 Here is every step as **one** pipeline. This is the version to keep in a real project: one block that goes from raw data to clean data, so anyone can re-run it and get exactly the same result.
 
@@ -609,12 +674,13 @@ Same pattern as for `linelist_clean`: `export(DATA, here("FOLDER", "FILE_NAME.rd
 ::: callout-tip
 ## ⭐ Bonus
 
-1.  Rewrite all of your measles TRY ITs as **one** pipeline that starts from `measles_raw` (like Part 7). It should give the same result — see the solutions file.
+1.  Rewrite all of your measles TRY ITs as **one** pipeline that starts from `measles_raw` (like Part 8). It should give the same result — see the solutions file.
 2.  Brought your own data? Fix the problems on your own problem list, then `export()` the clean version to `processed_data/`.
 :::
 
 # Key points
 
+-   The pipe `%>%` means "and then": `data %>% step_1() %>% step_2()` reads in order, left to right.
 -   **Never edit the raw data file** — every fix happens in code, so anyone can re-run it.
 -   `clean_names()` fixes every column name at once; `rename(new = old)` changes one.
 -   `mutate()` creates or overwrites columns; `as.Date()` and `as.numeric()` fix types.

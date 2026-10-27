@@ -72,6 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../pages/lessons/02-cleaning.html" rel="next">
+<link href="../../pages/setup.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -311,11 +312,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../pages/setup.html"> 
+    <a class="nav-link active" href="../../pages/setup.html" aria-current="page"> 
 <span class="menu-text">Setup</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../pages/lessons/01-setup-and-first-look.html" aria-current="page"> 
+    <a class="nav-link" href="../../pages/lessons/01-setup-and-first-look.html"> 
 <span class="menu-text">Lessons</span></a>
   </li>  
   <li class="nav-item">
@@ -370,6 +371,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/lessons/01-setup-and-first-look.html" class="sidebar-item-text sidebar-link active">
@@ -428,34 +435,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#part-1-project-folders-and-here" id="toc-part-1-project-folders-and-here" class="nav-link active" data-scroll-target="#part-1-project-folders-and-here">Part 1: Project folders and <code>here()</code></a>
-  <ul class="collapse">
-  <li><a href="#why-keep-everything-in-one-project-folder" id="toc-why-keep-everything-in-one-project-folder" class="nav-link" data-scroll-target="#why-keep-everything-in-one-project-folder">Why keep everything in one project folder?</a></li>
-  <li><a href="#open-the-project-folder-for-this-class" id="toc-open-the-project-folder-for-this-class" class="nav-link" data-scroll-target="#open-the-project-folder-for-this-class">Open the project folder for this class</a></li>
-  <li><a href="#relative-vs-absolute-paths" id="toc-relative-vs-absolute-paths" class="nav-link" data-scroll-target="#relative-vs-absolute-paths">Relative vs absolute paths</a></li>
-  </ul></li>
-  <li><a href="#part-2-installing-and-loading-packages" id="toc-part-2-installing-and-loading-packages" class="nav-link" data-scroll-target="#part-2-installing-and-loading-packages">Part 2: Installing and loading packages</a></li>
-  <li><a href="#part-3-r-basics" id="toc-part-3-r-basics" class="nav-link" data-scroll-target="#part-3-r-basics">Part 3: R basics</a>
+  <li><a href="#part-1-r-basics" id="toc-part-1-r-basics" class="nav-link active" data-scroll-target="#part-1-r-basics">Part 1: R basics</a>
   <ul class="collapse">
   <li><a href="#objects-and-the-assignment-arrow--" id="toc-objects-and-the-assignment-arrow--" class="nav-link" data-scroll-target="#objects-and-the-assignment-arrow--">Objects and the assignment arrow <code>&lt;-</code></a></li>
   <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a></li>
   <li><a href="#functions-and-arguments" id="toc-functions-and-arguments" class="nav-link" data-scroll-target="#functions-and-arguments">Functions and arguments</a></li>
   <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames">Data frames</a></li>
   </ul></li>
-  <li><a href="#part-4-the-pipe" id="toc-part-4-the-pipe" class="nav-link" data-scroll-target="#part-4-the-pipe">Part 4: The pipe <code>%&gt;%</code></a></li>
-  <li><a href="#part-5-importing-data" id="toc-part-5-importing-data" class="nav-link" data-scroll-target="#part-5-importing-data">Part 5: Importing data</a>
+  <li><a href="#part-2-installing-and-loading-packages" id="toc-part-2-installing-and-loading-packages" class="nav-link" data-scroll-target="#part-2-installing-and-loading-packages">Part 2: Installing and loading packages</a></li>
+  <li><a href="#part-3-project-folders-and-here" id="toc-part-3-project-folders-and-here" class="nav-link" data-scroll-target="#part-3-project-folders-and-here">Part 3: Project folders and <code>here()</code></a>
+  <ul class="collapse">
+  <li><a href="#why-keep-everything-in-one-project-folder" id="toc-why-keep-everything-in-one-project-folder" class="nav-link" data-scroll-target="#why-keep-everything-in-one-project-folder">Why keep everything in one project folder?</a></li>
+  <li><a href="#open-the-project-folder-for-this-class" id="toc-open-the-project-folder-for-this-class" class="nav-link" data-scroll-target="#open-the-project-folder-for-this-class">Open the project folder for this class</a></li>
+  <li><a href="#relative-vs-absolute-paths" id="toc-relative-vs-absolute-paths" class="nav-link" data-scroll-target="#relative-vs-absolute-paths">Relative vs absolute paths</a></li>
+  </ul></li>
+  <li><a href="#part-4-importing-data" id="toc-part-4-importing-data" class="nav-link" data-scroll-target="#part-4-importing-data">Part 4: Importing data</a>
   <ul class="collapse">
   <li><a href="#import-here" id="toc-import-here" class="nav-link" data-scroll-target="#import-here"><code>import()</code> + <code>here()</code></a></li>
   </ul></li>
-  <li><a href="#part-6-inspecting-data" id="toc-part-6-inspecting-data" class="nav-link" data-scroll-target="#part-6-inspecting-data">Part 6: Inspecting data</a>
+  <li><a href="#part-5-inspecting-data" id="toc-part-5-inspecting-data" class="nav-link" data-scroll-target="#part-5-inspecting-data">Part 5: Inspecting data</a>
   <ul class="collapse">
   <li><a href="#size-and-structure" id="toc-size-and-structure" class="nav-link" data-scroll-target="#size-and-structure">Size and structure</a></li>
   <li><a href="#summary-of-every-column" id="toc-summary-of-every-column" class="nav-link" data-scroll-target="#summary-of-every-column">Summary of every column</a></li>
   <li><a href="#categories-count" id="toc-categories-count" class="nav-link" data-scroll-target="#categories-count">Categories: <code>count()</code></a></li>
-  <li><a href="#zooming-in-select-filter-arrange" id="toc-zooming-in-select-filter-arrange" class="nav-link" data-scroll-target="#zooming-in-select-filter-arrange">Zooming in: <code>select()</code>, <code>filter()</code>, <code>arrange()</code></a></li>
+  <li><a href="#zooming-in-filter-and-arrange" id="toc-zooming-in-filter-and-arrange" class="nav-link" data-scroll-target="#zooming-in-filter-and-arrange">Zooming in: <code>filter()</code> and <code>arrange()</code></a></li>
   <li><a href="#missing-values-and-duplicates" id="toc-missing-values-and-duplicates" class="nav-link" data-scroll-target="#missing-values-and-duplicates">Missing values and duplicates</a></li>
   </ul></li>
-  <li><a href="#part-7-the-problem-list" id="toc-part-7-the-problem-list" class="nav-link" data-scroll-target="#part-7-the-problem-list">Part 7: The problem list</a></li>
+  <li><a href="#part-6-the-problem-list" id="toc-part-6-the-problem-list" class="nav-link" data-scroll-target="#part-6-the-problem-list">Part 6: The problem list</a></li>
   <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
   </ul>
 </nav>
@@ -467,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Session 1: Setup and a First Look at Your Data</h1>
-<p class="subtitle lead">Project folders, packages, R basics, the pipe, and importing and inspecting data</p>
+<p class="subtitle lead">R basics, packages, project folders, and importing and inspecting data</p>
 </div>
 
 
@@ -498,72 +504,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Open the workshop’s project folder and explain why <code>here()</code> makes file paths work on any computer</li>
+<li>Create objects, use vectors, and call functions</li>
 <li>Install packages (once) and load them (every session)</li>
-<li>Create objects, call functions, and chain steps together with the pipe <code>%&gt;%</code></li>
+<li>Open the workshop’s project folder and explain why <code>here()</code> makes file paths work on any computer</li>
 <li>Import a data file with <code>import()</code> and <code>here()</code></li>
 <li>Inspect a dataset and write down a list of the problems that need cleaning</li>
 </ol>
 <p><strong>Before you start:</strong> complete the <a href="../../pages/setup.html">Setup</a> and open <code>student_scripts/Session 1 - Setup and First Look_STUDENT.R</code>.</p>
 </div>
 </div>
-<section id="part-1-project-folders-and-here" class="level1">
-<h1>Part 1: Project folders and <code>here()</code></h1>
-<section id="why-keep-everything-in-one-project-folder" class="level2">
-<h2 class="anchored" data-anchor-id="why-keep-everything-in-one-project-folder">Why keep everything in one project folder?</h2>
-<ul>
-<li><strong>Organization:</strong> data, scripts, and outputs live in one folder with a predictable structure (<code>raw_data/</code>, <code>processed_data/</code>, <code>student_scripts/</code>)</li>
-<li><strong>Reproducibility:</strong> the project works on any computer — yours, a collaborator’s, future you’s</li>
-<li><strong>Shareable:</strong> zip the folder and send it, or put it on GitHub</li>
-</ul>
+<section id="part-1-r-basics" class="level1">
+<h1>Part 1: R basics</h1>
+<p>Before we open any data, a few building blocks you’ll use in every line of R. Type these in your script and run each line with <strong>Cmd + Return</strong> (Mac) or <strong>Ctrl + Enter</strong> (Windows); the result appears in the <strong>Console</strong>.</p>
+<section id="objects-and-the-assignment-arrow--" class="level2">
+<h2 class="anchored" data-anchor-id="objects-and-the-assignment-arrow--">Objects and the assignment arrow <code>&lt;-</code></h2>
+<p><code>&lt;-</code> stores a value in an <strong>object</strong> so you can use it later. Read it as “gets”. The object appears in the <strong>Variables</strong> pane.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_age <span class="ot">&lt;-</span> <span class="dv">35</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>my_age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_age <span class="sc">+</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+</div>
 </section>
-<section id="open-the-project-folder-for-this-class" class="level2">
-<h2 class="anchored" data-anchor-id="open-the-project-folder-for-this-class">Open the project folder for this class</h2>
-<ol type="1">
-<li>Download the workshop folder and save it somewhere you can find it (not your Downloads folder)</li>
-<li>In Positron, choose <strong>File → Open Folder…</strong>, select the <code>CWML-R-Hands-on-Workshop-Series</code> folder, and click <strong>Open</strong>. Positron uses that folder as the working directory</li>
-<li>Check the <strong>Explorer</strong> on the left: it should list the workshop files (<code>raw_data</code>, <code>student_scripts</code>, …)</li>
-</ol>
+<section id="vectors" class="level2">
+<h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
+<p><code>c()</code> combines values into a <strong>vector</strong>. Every value in a vector has the same type.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">18</span>, <span class="dv">56</span>, <span class="dv">61</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hospitals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Central Hospital"</span>, <span class="st">"Military Hospital"</span>, <span class="st">"Other"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ages)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34.25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(hospitals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</section>
+<section id="functions-and-arguments" class="level2">
+<h2 class="anchored" data-anchor-id="functions-and-arguments">Functions and arguments</h2>
+<p>A <strong>function</strong> does something to its inputs (<strong>arguments</strong>): <code>function_name(argument1, argument2, ...)</code>. Arguments can be named.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.14159</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.14159</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.14</code></pre>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Your own projects later
+<span class="screen-reader-only">Tip</span>Getting help
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Make a new folder for each project (with subfolders like <code>raw_data/</code> and <code>scripts/</code>), and open it in Positron with <strong>File → Open Folder…</strong>. Add an empty file called <code>.here</code> at the top so <code>here()</code> always finds it. <em>(RStudio users: <strong>File → New Project</strong> does the same thing and creates an <code>.Rproj</code> file.)</em></p>
+<p>Type <code>?round</code> in the Console to open the help page for any function.</p>
 </div>
 </div>
 </section>
-<section id="relative-vs-absolute-paths" class="level2">
-<h2 class="anchored" data-anchor-id="relative-vs-absolute-paths">Relative vs absolute paths</h2>
-<ul>
-<li><strong>Bad (absolute):</strong> <code>"/Users/mwegener/Desktop/maybe_here/data.csv"</code> — only works on one computer</li>
-<li><strong>Good (relative):</strong> <code>here("raw_data", "data.csv")</code> — works on any computer that has the project folder</li>
-</ul>
-<p><code>here()</code> finds the top of the project folder (it looks for a <code>.here</code> file, which the workshop folder has) and builds the path from there.</p>
+<section id="data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="data-frames">Data frames</h2>
+<p>A <strong>data frame</strong> is a table: each <strong>column</strong> is a variable (a vector), each <strong>row</strong> is an observation. (Later you’ll also see <strong>tibbles</strong>: the tidyverse version of a data frame, which prints more neatly.)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()                                   <span class="co"># where is the top of my project?</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>)    <span class="co"># full path to a file inside it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Ben"</span>, <span class="st">"Cho"</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">age  =</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">51</span>, <span class="dv">27</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>patients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  name age
+1  Ana  34
+2  Ben  51
+3  Cho  27</code></pre>
 </div>
-<p><code>here::here()</code> means “the <code>here()</code> function from the here package”. The <code>::</code> lets you use a function before loading its package.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>patients<span class="sc">$</span>age        <span class="co"># $ pulls out one column</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34 51 27</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>R is <strong>case-sensitive</strong>: <code>Age</code> and <code>age</code> are different</li>
+<li>Text needs quotes (<code>"Central Hospital"</code>); object names do not (<code>my_age</code>)</li>
+<li>Every <code>(</code> needs a <code>)</code> — Positron highlights the matching pair</li>
+<li><code>#</code> starts a comment; R ignores the rest of the line</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (1 min): a path to the practice data
+<span class="screen-reader-only">Important</span>✏️ TRY IT (2 min): objects and functions
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Build the path to the practice data, <code>raw_data/measles_raw.csv</code>.</p>
-<p>✅ <strong>Check:</strong> the output ends in <code>.../raw_data/measles_raw.csv</code></p>
+<p>Store three temperatures, 38.5, 39.1, and 37.9, in an object called <code>my_temps</code>. Then find their <code>mean()</code>.</p>
+<p>✅ <strong>Check:</strong> the mean is 38.5</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -572,10 +635,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"measles_raw.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_temps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.5</span>, <span class="fl">39.1</span>, <span class="fl">37.9</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(my_temps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 38.5</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -619,15 +686,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>Install everything for the whole workshop series (skip this if you did the <a href="../../pages/setup.html">Setup</a>):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"here"</span>, <span class="st">"rio"</span>, <span class="st">"janitor"</span>, <span class="st">"skimr"</span>, <span class="st">"gtsummary"</span>, <span class="st">"flextable"</span>, <span class="st">"scales"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"here"</span>, <span class="st">"rio"</span>, <span class="st">"janitor"</span>, <span class="st">"skimr"</span>, <span class="st">"gtsummary"</span>, <span class="st">"flextable"</span>, <span class="st">"scales"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Load only what you need today:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># data wrangling (dplyr) and plotting (ggplot2), plus the pipe</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)        <span class="co"># file paths that work on any computer</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)         <span class="co"># import() and export() for almost any file type</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)       <span class="co"># skim() for a quick data summary</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)     <span class="co"># get_dupes() today; clean_names() in Session 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># data wrangling (dplyr) and plotting (ggplot2)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)        <span class="co"># file paths that work on any computer</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)         <span class="co"># import() and export() for almost any file type</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)       <span class="co"># skim() for a quick data summary</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)     <span class="co"># get_dupes() today; clean_names() in Session 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -646,119 +713,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="part-3-r-basics" class="level1">
-<h1>Part 3: R basics</h1>
-<section id="objects-and-the-assignment-arrow--" class="level2">
-<h2 class="anchored" data-anchor-id="objects-and-the-assignment-arrow--">Objects and the assignment arrow <code>&lt;-</code></h2>
-<p><code>&lt;-</code> stores a value in an <strong>object</strong> so you can use it later. Read it as “gets”. The object appears in the <strong>Variables</strong> pane.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_age <span class="ot">&lt;-</span> <span class="dv">35</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>my_age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 35</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_age <span class="sc">+</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 40</code></pre>
-</div>
-</div>
+<section id="part-3-project-folders-and-here" class="level1">
+<h1>Part 3: Project folders and <code>here()</code></h1>
+<section id="why-keep-everything-in-one-project-folder" class="level2">
+<h2 class="anchored" data-anchor-id="why-keep-everything-in-one-project-folder">Why keep everything in one project folder?</h2>
+<ul>
+<li><strong>Organization:</strong> data, scripts, and outputs live in one folder with a predictable structure (<code>raw_data/</code>, <code>processed_data/</code>, <code>student_scripts/</code>)</li>
+<li><strong>Reproducibility:</strong> the project works on any computer — yours, a collaborator’s, future you’s</li>
+<li><strong>Shareable:</strong> zip the folder and send it, or put it on GitHub</li>
+</ul>
 </section>
-<section id="vectors" class="level2">
-<h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
-<p><code>c()</code> combines values into a <strong>vector</strong>. Every value in a vector has the same type.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">18</span>, <span class="dv">56</span>, <span class="dv">61</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hospitals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Central Hospital"</span>, <span class="st">"Military Hospital"</span>, <span class="st">"Other"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ages)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 34.25</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(hospitals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
-</div>
-</div>
-</section>
-<section id="functions-and-arguments" class="level2">
-<h2 class="anchored" data-anchor-id="functions-and-arguments">Functions and arguments</h2>
-<p>A <strong>function</strong> does something to its inputs (<strong>arguments</strong>): <code>function_name(argument1, argument2, ...)</code>. Arguments can be named.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.14159</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.14159</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.14</code></pre>
-</div>
-</div>
+<section id="open-the-project-folder-for-this-class" class="level2">
+<h2 class="anchored" data-anchor-id="open-the-project-folder-for-this-class">Open the project folder for this class</h2>
+<ol type="1">
+<li>Download the workshop folder and save it somewhere you can find it (not your Downloads folder)</li>
+<li>In Positron, choose <strong>File → Open Folder…</strong>, select the <code>CWML-R-Hands-on-Workshop-Series</code> folder, and click <strong>Open</strong>. Positron uses that folder as the working directory</li>
+<li>Check the <strong>Explorer</strong> on the left: it should list the workshop files (<code>raw_data</code>, <code>student_scripts</code>, …)</li>
+</ol>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Getting help
+<span class="screen-reader-only">Tip</span>Your own projects later
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Type <code>?round</code> in the Console to open the help page for any function.</p>
+<p>Make a new folder for each project (with subfolders like <code>raw_data/</code> and <code>scripts/</code>), and open it in Positron with <strong>File → Open Folder…</strong>. Add an empty file called <code>.here</code> at the top so <code>here()</code> always finds it.</p>
 </div>
 </div>
 </section>
-<section id="data-frames" class="level2">
-<h2 class="anchored" data-anchor-id="data-frames">Data frames</h2>
-<p>A <strong>data frame</strong> is a table: each <strong>column</strong> is a variable (a vector), each <strong>row</strong> is an observation. The tidyverse version is called a <strong>tibble</strong>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Ben"</span>, <span class="st">"Cho"</span>),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">age  =</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">51</span>, <span class="dv">27</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>patients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  name    age
-  &lt;chr&gt; &lt;dbl&gt;
-1 Ana      34
-2 Ben      51
-3 Cho      27</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>patients<span class="sc">$</span>age        <span class="co"># $ pulls out one column</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 34 51 27</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Common mistakes
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<section id="relative-vs-absolute-paths" class="level2">
+<h2 class="anchored" data-anchor-id="relative-vs-absolute-paths">Relative vs absolute paths</h2>
 <ul>
-<li>R is <strong>case-sensitive</strong>: <code>Age</code> and <code>age</code> are different</li>
-<li>Text needs quotes (<code>"Central Hospital"</code>); object names do not (<code>my_age</code>)</li>
-<li>Every <code>(</code> needs a <code>)</code> — Positron highlights the matching pair</li>
-<li><code>#</code> starts a comment; R ignores the rest of the line</li>
+<li><strong>Bad (absolute):</strong> <code>"/Users/mwegener/Desktop/maybe_here/data.csv"</code> — only works on one computer</li>
+<li><strong>Good (relative):</strong> <code>here("raw_data", "data.csv")</code> — works on any computer that has the project folder</li>
 </ul>
+<p><code>here()</code> finds the top of the project folder (it looks for a <code>.here</code> file, which the workshop folder has) and builds the path from there.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()                                   <span class="co"># where is the top of my project?</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>)    <span class="co"># full path to a file inside it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
+<p><code>here::here()</code> means “the <code>here()</code> function from the here package”. The <code>::</code> lets you use a function before loading its package.</p>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (2 min): objects and functions
+<span class="screen-reader-only">Important</span>✏️ TRY IT (1 min): a path to the practice data
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Store three temperatures, 38.5, 39.1, and 37.9, in an object called <code>my_temps</code>. Then find their <code>mean()</code>.</p>
-<p>✅ <strong>Check:</strong> the mean is 38.5</p>
+<p>Build the path to the practice data, <code>raw_data/measles_raw.csv</code>.</p>
+<p>✅ <strong>Check:</strong> the output ends in <code>.../raw_data/measles_raw.csv</code></p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -772,11 +781,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>my_temps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.5</span>, <span class="fl">39.1</span>, <span class="fl">37.9</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(my_temps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 38.5</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"measles_raw.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -785,83 +790,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="part-4-the-pipe" class="level1">
-<h1>Part 4: The pipe <code>%&gt;%</code></h1>
-<p>The pipe takes the result on its left and passes it into the function on its right. Read it as <strong>“and then”</strong>. Shortcut: <strong>Shift + Cmd + M</strong> (Mac) or <strong>Shift + Ctrl + M</strong> (Windows).</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Without the pipe: read from the inside out</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(ages), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 34.2</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With the pipe: read from left to right — "take ages, and then mean, and then round"</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ages <span class="sc">%&gt;%</span> <span class="fu">mean</span>() <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 34.2</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You may also see <code>|&gt;</code> — the pipe built into R itself. For this workshop they do the same thing.</p>
-</div>
-</div>
-<div class="tryit callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (1 min): the pipe
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Use the pipe to find the mean of <code>my_temps</code> and round it to 0 decimals.</p>
-<p>✅ <strong>Check:</strong> the answer is 38</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Show solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>my_temps <span class="sc">%&gt;%</span> <span class="fu">mean</span>() <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 38</code></pre>
-</div>
-</div>
-<p>Why not 39? R rounds a 5 to the nearest <strong>even</strong> number (38.5 → 38), a rule used to avoid bias when rounding lots of numbers.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="part-5-importing-data" class="level1">
-<h1>Part 5: Importing data</h1>
+<section id="part-4-importing-data" class="level1">
+<h1>Part 4: Importing data</h1>
 <section id="import-here" class="level2">
 <h2 class="anchored" data-anchor-id="import-here"><code>import()</code> + <code>here()</code></h2>
 <p><code>rio::import()</code> reads almost any file type (<code>.csv</code>, <code>.xlsx</code>, <code>.txt</code>, SPSS, Stata, SAS, …). It works out the type from the file extension, so you only need to learn one function. Save the result with <code>&lt;-</code>, or it only prints to the Console and is gone.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The same function works for other file types:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>case_info <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"case_info.csv"</span>))   <span class="co"># comma-separated</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>hosp_info <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"hosp_info.txt"</span>))   <span class="co"># tab-separated text</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>case_info <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"case_info.csv"</span>))   <span class="co"># comma-separated</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>hosp_info <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"hosp_info.txt"</span>))   <span class="co"># tab-separated text</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -910,7 +850,7 @@ Note
 <p>Import the practice data <code>raw_data/measles_raw.csv</code> and call it <code>measles_raw</code>.</p>
 <p>✅ <strong>Check:</strong> in the <strong>Variables</strong> pane, <code>measles_raw</code> shows 1215 rows and 11 columns</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -919,10 +859,10 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"measles_raw.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"measles_raw.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -931,20 +871,20 @@ Note
 </div>
 </section>
 </section>
-<section id="part-6-inspecting-data" class="level1">
-<h1>Part 6: Inspecting data</h1>
+<section id="part-5-inspecting-data" class="level1">
+<h1>Part 5: Inspecting data</h1>
 <p><strong>Always look before you clean.</strong> Inspecting tells you whether the data imported correctly and what needs fixing.</p>
 <section id="size-and-structure" class="level2">
 <h2 class="anchored" data-anchor-id="size-and-structure">Size and structure</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(linelist_raw)       <span class="co"># opens the Data Explorer (or click the table icon next to it in the Variables pane)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(linelist_raw)       <span class="co"># opens the Data Explorer (or click the table icon next to it in the Variables pane)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(linelist_raw)        <span class="co"># rows, columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(linelist_raw)        <span class="co"># rows, columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6604   12</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(linelist_raw)      <span class="co"># column names</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(linelist_raw)      <span class="co"># column names</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Case ID"         "infection date"  "date.onset"      "hosp date"      
  [5] "date of outcome" "OUTCOME"         "Gender"          "hospital"       
@@ -952,7 +892,7 @@ Note
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -961,14 +901,14 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Spaces, dots, capitals, and a mix of styles (<code>Case ID</code>, <code>date.onset</code>, <code>OUTCOME</code>). They are hard to type and need special handling. We fix all of them in Session 2 with one function.</p>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(linelist_raw)       <span class="co"># first 6 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(linelist_raw)       <span class="co"># first 6 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender
 1  5fe599     2014-05-08 2014-05-13 2014-05-15            &lt;NA&gt;    &lt;NA&gt;      m
@@ -985,7 +925,7 @@ Note
 5                    Military Hospital   3    years    36    71
 6              Regional Medical Center  16    years    56   116</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(linelist_raw)    <span class="co"># every column, its type, and the first few values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(linelist_raw)    <span class="co"># every column, its type, and the first few values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 6,604
 Columns: 12
@@ -1005,7 +945,7 @@ $ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112
 </div>
 <p>In <code>glimpse()</code>, the type is shown in angle brackets: <code>&lt;chr&gt;</code> text, <code>&lt;dbl&gt;</code> number, <code>&lt;date&gt;</code> date, <code>&lt;dttm&gt;</code> date-time.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1014,7 +954,7 @@ $ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>date.onset</code> is <code>&lt;chr&gt;</code> (text) but the other dates are <code>&lt;dttm&gt;</code> (date-time)</li>
@@ -1041,7 +981,7 @@ $ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112
 </ol>
 <p>✅ <strong>Check:</strong> <code>dim()</code> gives 1215 11</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1050,14 +990,14 @@ $ ht_cm             &lt;dbl&gt; 48, 59, 238, 135, 71, 116, 87, 11, 226, 174, 112
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(measles_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(measles_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1215   11</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(measles_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(measles_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,215
 Columns: 11
@@ -1087,7 +1027,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <section id="summary-of-every-column" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-every-column">Summary of every column</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(linelist_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(linelist_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Data summary</caption>
@@ -1349,8 +1289,9 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <section id="categories-count" class="level2">
 <h2 class="anchored" data-anchor-id="categories-count">Categories: <code>count()</code></h2>
 <p><code>count()</code> shows every distinct value in a column and how often it appears. It’s the fastest way to find misspellings.</p>
+<p>The data goes first, then the column: <code>count(DATA, COLUMN)</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(hospital)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(linelist_raw, hospital)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               hospital    n
 1                       Central Hopital   11
@@ -1368,21 +1309,21 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 13   St. Marks Maternity Hopital (SMMH)   11
 14                                 &lt;NA&gt; 1509</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(linelist_raw, Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Gender    n
 1      f 3140
 2      m 3147
 3   &lt;NA&gt;  317</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(OUTCOME)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(linelist_raw, OUTCOME)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  OUTCOME    n
 1   Death 2898
 2 Recover 2213
 3    &lt;NA&gt; 1493</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(age_unit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(linelist_raw, age_unit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  age_unit    n
 1   months   37
@@ -1401,13 +1342,13 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <div class="callout-body-container callout-body">
 <p>You will often see base R’s <code>table()</code> in other people’s code. It counts too, but <strong>it hides missing values</strong> unless you ask for them:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(linelist_raw<span class="sc">$</span>OUTCOME)                   <span class="co"># where are the missing outcomes?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(linelist_raw<span class="sc">$</span>OUTCOME)                   <span class="co"># where are the missing outcomes?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Death Recover 
    2898    2213 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(linelist_raw<span class="sc">$</span>OUTCOME, <span class="at">useNA =</span> <span class="st">"ifany"</span>)  <span class="co"># there they are: 1493</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(linelist_raw<span class="sc">$</span>OUTCOME, <span class="at">useNA =</span> <span class="st">"ifany"</span>)  <span class="co"># there they are: 1493</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Death Recover    &lt;NA&gt; 
@@ -1433,7 +1374,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </ol>
 <p>✅ <strong>Check:</strong> a) <code>count(District)</code> shows 18 rows (including NA) b) <code>table()</code> has no <code>NA</code>: 34 cases disappear</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1442,10 +1383,10 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(District)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(measles_raw, District)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           District   n
 1           Central  95
@@ -1467,7 +1408,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 17             west   9
 18             &lt;NA&gt;  34</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(SEX)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(measles_raw, SEX)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     SEX   n
 1      F  81
@@ -1478,7 +1419,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 6   male  47
 7   &lt;NA&gt;  40</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="sc">%&gt;%</span> <span class="fu">count</span>(<span class="st">`</span><span class="at">Vaccinated?</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(measles_raw, <span class="st">`</span><span class="at">Vaccinated?</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Vaccinated?   n
 1           N  40
@@ -1490,7 +1431,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 7          no  49
 8         yes  28</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(measles_raw<span class="sc">$</span>District)                   <span class="co"># b) no NA!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(measles_raw<span class="sc">$</span>District)                   <span class="co"># b) no NA!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
          central          Central Central District          Cetnral 
@@ -1504,7 +1445,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
    West District 
                6 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(measles_raw<span class="sc">$</span>District, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(measles_raw<span class="sc">$</span>District, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
          central          Central Central District          Cetnral 
@@ -1526,107 +1467,112 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 </div>
 </section>
-<section id="zooming-in-select-filter-arrange" class="level2">
-<h2 class="anchored" data-anchor-id="zooming-in-select-filter-arrange">Zooming in: <code>select()</code>, <code>filter()</code>, <code>arrange()</code></h2>
+<section id="zooming-in-filter-and-arrange" class="level2">
+<h2 class="anchored" data-anchor-id="zooming-in-filter-and-arrange">Zooming in: <code>filter()</code> and <code>arrange()</code></h2>
 <ul>
-<li><code>select()</code> keeps <strong>columns</strong></li>
 <li><code>filter()</code> keeps <strong>rows</strong> that meet a condition</li>
 <li><code>arrange()</code> sorts rows (<code>desc()</code> for largest first)</li>
 </ul>
-<p>Column names with spaces need <strong>backticks</strong>: <code>`Case ID`</code>. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!</p>
+<p>Each one takes the data first. Column names with spaces need <strong>backticks</strong>: <code>`Case ID`</code>. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!</p>
+<p><code>linelist_raw</code> is a regular data frame, so R prints <strong>every</strong> row it gets — all 6,604 of them, with 12 columns each! To do <strong>two</strong> things, such as filtering and then showing only the first 10 rows, put one function <strong>inside</strong> another. R runs the inside first:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which patients have ages in months?</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span></span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age_unit <span class="sc">==</span> <span class="st">"months"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Case ID</span><span class="st">`</span>, age, age_unit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many patients have ages in months?</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">filter</span>(linelist_raw, age_unit <span class="sc">==</span> <span class="st">"months"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Case ID  age age_unit
-1   e1c081   24   months
-2   9d8358 &lt;NA&gt;   months
-3   df9f64    7   months
-4   f76807    7   months
-5   58b05a   24   months
-6   5a2c39   24   months
-7   092cd0    6   months
-8   04a78f   36   months
-9   833a20    4   months
-10  5439ab    4   months
-11  7bb784    9   months
-12  31a7f9    8   months
-13  af82f5   36   months
-14  7f49f5    7   months
-15  b3a86b   18   months
-16  c8ee00    3   months
-17  059b73   11   months
-18  edfa52   24   months
-19  b87c07    6   months
-20  637f72    6   months
-21  ca3045    1   months
-22  39f2c8   10   months
-23  060017    9   months
-24  72febb    4   months
-25  a568bb    5   months
-26  dee16d    8   months
-27  389175    6   months
-28  6a968f    8   months
-29  87be9a   24   months
-30  5439ab    4   months
-31  833a20    4   months
-32  5439ab    4   months
-33  b87c07    6   months
-34  b3a86b   18   months
-35    &lt;NA&gt;    9   months
-36    &lt;NA&gt;    3   months
-37    &lt;NA&gt;    6   months</code></pre>
+<pre><code>[1] 37</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Impossible weights: sort smallest first, show the first 10 rows</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Case ID</span><span class="st">`</span>, wt_kg, ht_cm) <span class="sc">%&gt;%</span></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(wt_kg) <span class="sc">%&gt;%</span></span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first 10 of them</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">filter</span>(linelist_raw, age_unit <span class="sc">==</span> <span class="st">"months"</span>), <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Case ID wt_kg ht_cm
-1   6056ba   -11    24
-2   6056ba   -11    24
-3   7400b3   -10    13
-4   0fde59   -10    18
-5   fca629    -9    24
-6   eb4d8f    -8    22
-7   4fb46f    -7    13
-8   db9404    -7    16
-9   78b0f7    -6    19
-10  35a38e    -6    23</code></pre>
+<pre><code>   Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender
+1   e1c081     2014-10-13 2014-10-14 2014-10-14      2014-10-27   Death      m
+2   9d8358     2014-10-01       &lt;NA&gt; 2014-10-18            &lt;NA&gt; Recover   &lt;NA&gt;
+3   df9f64     2014-10-06 2014-10-26 2014-10-27      2014-11-06   Death      f
+4   f76807           &lt;NA&gt; 2014-10-27 2014-10-28      2014-11-02   Death      f
+5   58b05a           &lt;NA&gt; 2014-12-04 2014-12-05            &lt;NA&gt; Recover   &lt;NA&gt;
+6   5a2c39     2014-12-17 2014-12-25 2014-12-25      2015-01-16 Recover      m
+7   092cd0     2014-12-22 2015-01-02 2015-01-03      2015-01-17   Death      f
+8   04a78f           &lt;NA&gt; 2015-01-15 2015-01-17      2015-01-26 Recover      f
+9   833a20     2014-09-20 2014-09-30 2014-10-02      2014-10-05 Recover      m
+10  5439ab     2014-09-20 2014-10-04 2014-10-05            &lt;NA&gt;    &lt;NA&gt;      f
+                  hospital  age age_unit wt_kg ht_cm
+1  Regional Medical Center   24   months    68   138
+2                     &lt;NA&gt; &lt;NA&gt;   months    22    32
+3  Regional Medical Center    7   months    49    72
+4  Regional Medical Center    7   months    52   120
+5        Military Hospital   24   months    49   123
+6                    Other   24   months    48    74
+7                    Other    6   months    72   223
+8        Military Hospital   36   months    43    65
+9  Regional Medical Center    4   months    40    65
+10                    &lt;NA&gt;    4   months    58   125</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tallest patients</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Case ID</span><span class="st">`</span>, ht_cm) <span class="sc">%&gt;%</span></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ht_cm)) <span class="sc">%&gt;%</span></span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Impossible weights: sort smallest first, then show the first 10 rows</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">arrange</span>(linelist_raw, wt_kg), <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Case ID ht_cm
-1   ebb14f   295
-2   610c15   287
-3   0b32d8   272
-4   b06109   268
-5   b21b3e   266
-6   9c3a56   266
-7   389175   266
-8     &lt;NA&gt;   266
-9   ae0163   263
-10  4b158a   262</code></pre>
+<pre><code>   Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender
+1   6056ba           &lt;NA&gt; 2014-10-20 2014-10-21      2014-11-05   Death      f
+2   6056ba           &lt;NA&gt; 2012-10-20 2012-10-21      2012-11-05   Death      f
+3   7400b3     2014-10-07 2014-10-12 2014-10-13      2014-10-18   Death      f
+4   0fde59     2014-09-01 2014-09-04 2014-09-08      2014-09-14 Recover      f
+5   fca629           &lt;NA&gt; 2014-12-04 2014-12-07      2014-12-30 Recover      f
+6   eb4d8f     2014-10-02 2014-10-06 2014-10-07      2014-10-11    &lt;NA&gt;      f
+7   4fb46f     2014-08-12 2014-08-21 2014-08-25      2014-09-01 Recover      f
+8   db9404     2015-01-18 2015-01-21 2015-01-24      2015-01-27   Death      f
+9   78b0f7     2014-10-29 2014-11-05 2014-11-05      2014-11-19 Recover      f
+10  35a38e     2014-09-11 2014-09-16 2014-09-17      2014-09-26 Recover      f
+                  hospital age age_unit wt_kg ht_cm
+1                     &lt;NA&gt;   0    years   -11    24
+2               HMO Health   0    years   -11    24
+3  Regional Medical Center   0    years   -10    13
+4                     &lt;NA&gt;   0    years   -10    18
+5         Central Hospital   0    years    -9    24
+6                    Other   0    years    -8    22
+7  Regional Medical Center   0    years    -7    13
+8  Regional Medical Center   0    years    -7    16
+9                     &lt;NA&gt;   0    years    -6    19
+10 Regional Medical Center   0    years    -6    23</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tallest patients: desc() sorts largest first</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">arrange</span>(linelist_raw, <span class="fu">desc</span>(ht_cm)), <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Case ID infection date date.onset  hosp date date of outcome OUTCOME Gender
+1   ebb14f     2014-08-19 2014-09-01 2014-09-07      2014-09-13 Recover      m
+2   610c15           &lt;NA&gt; 2015-02-04 2015-02-06      2015-02-20    &lt;NA&gt;      m
+3   0b32d8     2015-01-07 2015-01-13 2015-01-14      2015-01-15   Death      m
+4   b06109     2014-11-13 2014-11-28 2014-11-30      2014-12-05   Death      m
+5   b21b3e           &lt;NA&gt; 2015-01-11 2015-01-12      2015-01-14   Death      m
+6   9c3a56     2015-01-04 2015-01-20 2015-01-21      2015-01-27   Death   &lt;NA&gt;
+7   389175     2015-03-13 2015-03-24 2015-03-25      2015-04-22 Recover      f
+8     &lt;NA&gt;     2015-03-13 2015-03-24 2015-03-25      2015-04-22 Recover      f
+9   ae0163     2014-08-26 2014-08-29 2014-09-06      2014-09-19    &lt;NA&gt;      m
+10  4b158a           &lt;NA&gt; 2014-11-07 2014-11-09      2014-12-08 Recover   &lt;NA&gt;
+                             hospital age age_unit wt_kg ht_cm
+1  St. Marks Maternity Hopital (SMMH)  84    years   111   295
+2                   Military Hospital  69    years   105   287
+3                   Military Hospital  72    years    94   272
+4             Regional Medical Center  68    years    85   268
+5                                &lt;NA&gt;  49    years    80   266
+6                                &lt;NA&gt;  76    years   101   266
+7                                &lt;NA&gt;   6   months    95   266
+8                                &lt;NA&gt;   6   months    95   266
+9                                &lt;NA&gt;  60    years    94   263
+10                               &lt;NA&gt;  69    years    87   262</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Long output? Add <code>head()</code>
+<span class="screen-reader-only">Note</span>Reading code from the inside out
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>linelist_raw</code> is a regular data frame, so R prints <strong>every</strong> row — all 6,604 of them! Adding <code>%&gt;% head(10)</code> at the end shows only the first 10.</p>
+<p><code>head(arrange(linelist_raw, wt_kg), 10)</code> reads: take <code>linelist_raw</code>, <strong>arrange</strong> it by weight, then take the <strong>head</strong>. Two steps are manageable, but with three or four the brackets pile up. In Session 2 you’ll learn the <strong>pipe</strong> <code>%&gt;%</code>, which writes the same steps in order, from left to right.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1653,10 +1599,11 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Sort <code>measles_raw</code> by <code>`Temp (C)`</code>, largest first, showing only <code>`Patient ID`</code> and <code>`Temp (C)`</code>. Add <code>head(10)</code> so you only see the top 10. What is the highest temperature? What do you think happened?</p>
+<p>Sort <code>measles_raw</code> by <code>`Temp (C)`</code>, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?</p>
+<p>HINT: <code>head(arrange(DATA, desc(COLUMN)), 10)</code></p>
 <p>✅ <strong>Check:</strong> the top value is 104.7</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1665,25 +1612,33 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="sc">%&gt;%</span></span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Patient ID</span><span class="st">`</span>, <span class="st">`</span><span class="at">Temp (C)</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Temp (C)</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">arrange</span>(measles_raw, <span class="fu">desc</span>(<span class="st">`</span><span class="at">Temp (C)</span><span class="st">`</span>)), <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Patient ID Temp (C)
-1     MS-0663    104.7
-2     MS-0444    104.0
-3     MS-0908    104.0
-4     MS-0523    104.0
-5     MS-0132    103.5
-6     MS-0052    103.3
-7     MS-1027    103.3
-8     MS-0167    103.3
-9     MS-0110    102.9
-10    MS-0943    102.6</code></pre>
+<pre><code>   Patient ID Report Date District    SEX Age (years) Vaccinated? Fever Rash
+1     MS-0663  2024-03-15    South   Male          14          No   yes  yes
+2     MS-0444  2024-02-26     East   Male           8     Unknown   yes  yes
+3     MS-0908  2024-03-03    Nroth   Male           1         yes   yes  yes
+4     MS-0523  2024-04-21     East Female          13          No   yes  yes
+5     MS-0132  2024-03-18     &lt;NA&gt;   Male           1         Yes   yes  yes
+6     MS-0052  2024-02-01    South   Male           5         Yes   yes  yes
+7     MS-1027  2024-03-21     East   Male           3     Unknown   yes  yes
+8     MS-0167  2024-04-10  Central Female           6          No   yes  yes
+9     MS-0110  2024-04-22    South   Male           4          No   yes  yes
+10    MS-0943  2024-04-11    South Female          23     Unknown   yes  yes
+   Temp (C) Days in Hospital   Outcome
+1     104.7               NA Recovered
+2     104.0               NA Recovered
+3     104.0               NA Recovered
+4     104.0               NA Recovered
+5     103.5               NA Recovered
+6     103.3               NA Recovered
+7     103.3               NA Recovered
+8     103.3               NA Recovered
+9     102.9               NA Recovered
+10    102.6               NA Recovered</code></pre>
 </div>
 </div>
 <p>104.7 is about 40 °C written in <strong>Fahrenheit</strong>. A few temperatures were entered in °F instead of °C.</p>
@@ -1696,8 +1651,8 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <section id="missing-values-and-duplicates" class="level2">
 <h2 class="anchored" data-anchor-id="missing-values-and-duplicates">Missing values and duplicates</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Missing values in each column</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(linelist_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Missing values in each column</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(linelist_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Case ID  infection date      date.onset       hosp date date of outcome 
             130            2315             286               0            1061 
@@ -1706,20 +1661,20 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
           wt_kg           ht_cm 
               0               0 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many rows have no Case ID?</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(<span class="st">`</span><span class="at">Case ID</span><span class="st">`</span>)) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many rows have no Case ID? Count the rows that filter() keeps</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">filter</span>(linelist_raw, <span class="fu">is.na</span>(<span class="st">`</span><span class="at">Case ID</span><span class="st">`</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 130</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many rows are exact copies of an earlier row?</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(linelist_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many rows are exact copies of an earlier row?</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(linelist_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the duplicated rows (shows every copy, plus a dupe_count column)</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_dupes</span>(linelist_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the duplicated rows (shows every copy, plus a dupe_count column)</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_dupes</span>(linelist_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1739,7 +1694,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </ol>
 <p>✅ <strong>Check:</strong> a) 37 b) 15</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1748,18 +1703,18 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(<span class="st">`</span><span class="at">Patient ID</span><span class="st">`</span>)) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">filter</span>(measles_raw, <span class="fu">is.na</span>(<span class="st">`</span><span class="at">Patient ID</span><span class="st">`</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(measles_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(measles_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(measles_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(measles_raw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Patient ID      Report Date         District              SEX 
               37               29               34               40 
@@ -1779,8 +1734,8 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 </section>
 </section>
-<section id="part-7-the-problem-list" class="level1">
-<h1>Part 7: The problem list</h1>
+<section id="part-6-the-problem-list" class="level1">
+<h1>Part 6: The problem list</h1>
 <p>Here is everything we found in <code>linelist_raw</code>. This list is the to-do list for Session 2.</p>
 <table class="caption-top table">
 <colgroup>
@@ -1851,7 +1806,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <p>Write a numbered problem list for <code>measles_raw</code> in your student script, using everything you found in the TRY ITs. Save it — you will fix these problems in Session 2!</p>
 <p>✅ <strong>Check:</strong> you should find at least 8 problems</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1860,7 +1815,7 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>Column names have spaces, capitals, and symbols (<code>?</code> and parentheses)</li>
@@ -1896,14 +1851,14 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
 <section id="key-points" class="level1">
 <h1>Key points</h1>
 <ul>
-<li>A <strong>project folder</strong> plus <code>here()</code> makes file paths work on any computer.</li>
-<li><strong>Install</strong> a package once with <code>install.packages()</code>; <strong>load</strong> it every session with <code>library()</code>.</li>
 <li><code>&lt;-</code> saves a value in an object; <code>c()</code> makes a vector; functions take arguments.</li>
-<li>The pipe <code>%&gt;%</code> means “and then”, so code reads from left to right.</li>
+<li><strong>Install</strong> a package once with <code>install.packages()</code>; <strong>load</strong> it every session with <code>library()</code>.</li>
+<li>A <strong>project folder</strong> plus <code>here()</code> makes file paths work on any computer.</li>
 <li><code>import(here("folder", "file"))</code> reads almost any file type.</li>
-<li><strong>Look before you clean:</strong> <code>glimpse()</code>, <code>skim()</code>, <code>count()</code>, <code>filter()</code>/<code>select()</code>/<code>arrange()</code>, <code>is.na()</code>, and <code>duplicated()</code> find the problems.</li>
+<li><strong>Look before you clean:</strong> <code>glimpse()</code>, <code>skim()</code>, <code>count()</code>, <code>filter()</code>, <code>arrange()</code>, <code>is.na()</code>, and <code>duplicated()</code> find the problems.</li>
+<li>To do two steps, put one function inside another: <code>head(arrange(data, column), 10)</code>. Wrap long output in <code>head()</code>.</li>
 </ul>
-<p><strong>Next: Session 2 — Cleaning.</strong> We fix the problem list with <code>clean_names()</code>, <code>mutate()</code>, <code>if_else()</code>, and <code>case_when()</code>.</p>
+<p><strong>Next: Session 2 — Cleaning.</strong> We start with the <strong>pipe</strong> <code>%&gt;%</code>, then fix the problem list with <code>clean_names()</code>, <code>mutate()</code>, <code>if_else()</code>, and <code>case_when()</code>.</p>
 
 
 </section>
@@ -2324,6 +2279,9 @@ $ Outcome            &lt;chr&gt; "Died", "recovered", "Recovered", "Recovered", 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../pages/setup.html" class="pagination-link" aria-label="Setup">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Setup</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../pages/lessons/02-cleaning.html" class="pagination-link" aria-label="Session 2: Cleaning Your Data">

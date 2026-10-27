@@ -9,34 +9,37 @@ subtitle: "Setup and a first look at your data"
 
 | Part | Topic | Time (incl. TRY IT) |
 |------|-------|---------------------|
-| 1 | R Projects and `here()` | 10 min |
+| 1 | R basics | 12 min |
 | 2 | Installing and loading packages | 8 min |
-| 3 | R basics | 12 min |
-| 4 | The pipe `%>%` | 5 min |
-| 5 | Importing data | 10 min |
-| 6 | Inspecting data (4 TRY ITs) | 30 min |
-| 7 | The problem list (class + TRY IT) | 15 min |
+| 3 | Project folders and `here()` | 10 min |
+| 4 | Importing data | 10 min |
+| 5 | Inspecting data (4 TRY ITs) | 30 min |
+| 6 | The problem list (class + TRY IT) | 15 min |
 |   | Wrap-up and preview | 5 min |
-|   | **Total** | **95 min** |
+|   | **Total** | **90 min** |
 
-**Short on time?** Make the Part 7 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.
+**Short on time?** Make the Part 6 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.
+
+## Why this order
+
+The session starts with the **basics of the language** (objects, vectors, functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. The **pipe** `%>%` is taught at the start of Session 2, together with the tidyverse cleaning it is used for, so Session 1 calls one function at a time.
 
 ## Before you start
 
--   Check that everyone ran the [Setup](../setup.qmd) test. Anyone who didn't should start `install.packages()` **at the very beginning** of class — it can take several minutes. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools ([Troubleshooting](../troubleshooting.qmd)).
+-   Check that everyone ran the [Setup](../setup.qmd) test. Anyone who didn't should start `install.packages()` **at the very beginning** of class — it can take several minutes, and Part 1 (R basics) needs no packages, so they can follow along while it installs. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools ([Troubleshooting](../troubleshooting.qmd)).
 -   Hand out the green and red sticky notes and explain them.
 
 ## Teaching notes by part
 
-**Part 1 — Project folders and `here()`.** Show that `here::here()` points at the workshop folder because it's open in Positron (and has a `.here` file). Learners using RStudio should open the `.Rproj` file instead; everything else is the same.
+**Part 1 — R basics.** Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (`Mean(ages)`) to show that R is case-sensitive. The data frame example uses base R's `data.frame()`, because no packages are loaded yet; mention that the tidyverse version, the **tibble**, shows up later.
+
+**Part 2 — Packages.** Learners who did the setup only need the `library()` lines.
+
+**Part 3 — Project folders and `here()`.** Show that `here::here()` points at the workshop folder because it's open in Positron (and has a `.here` file). The workshop uses Positron for everyone, so the setup and pane names are the same on every laptop.
 
 **Positron vs RStudio names:** if learners follow older tutorials, Positron's **Variables** pane is RStudio's **Environment** pane, and the **Explorer** is the **Files** pane.
 
-**Part 3 — R basics.** Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (`Mean(ages)`) to show that R is case-sensitive.
-
-**Part 4 — The pipe.** If anyone asks why `round(38.5)` gives 38 rather than 39: R rounds a 5 to the nearest **even** number, which avoids bias when rounding many values.
-
-**Part 6 — Inspecting.** This is the longest part. The "Think about it" questions on the lesson page are prompts to ask the class:
+**Part 5 — Inspecting.** This is the longest part. The "Think about it" questions on the lesson page are prompts to ask the class:
 
 -   *What is wrong with these column names?* — spaces, dots, capitals, mixed styles.
 -   *Which column types look wrong?* — `date.onset` is text, `age` is text, and `age_unit` hints that some ages aren't in years.
@@ -45,18 +48,19 @@ After `skim()`, point at the `n_missing` column, the negative minimum of `wt_kg`
 
 The **🔁 base R `table()`** box takes 2 minutes. The point is not to learn a second counting function but to *recognize* it in other people's code, and to know its trap: it hides `NA` unless you add `useNA = "ifany"`. TRY IT (b) lets learners find this themselves.
 
-**Part 7 — The problem list.** Build the list **with the class** — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2's TRY ITs work through it.
+**Zooming in** uses one function inside another, such as `head(arrange(linelist_raw, wt_kg), 10)`. Read it aloud from the inside out ("arrange the data, *then* take the head"). Let learners feel that the brackets get awkward: it sets up the pipe at the start of Session 2.
+
+**Part 6 — The problem list.** Build the list **with the class** — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2's TRY ITs work through it.
 
 ## TRY IT answers at a glance
 
 | TRY IT | Answer |
 |---|---|
-| Path to the practice data | `here::here("raw_data", "measles_raw.csv")` |
 | Objects and functions | `mean(my_temps)` is 38.5 |
-| The pipe | `my_temps %>% mean() %>% round(0)` is 38 |
+| Path to the practice data | `here::here("raw_data", "measles_raw.csv")` |
 | Import | 1215 rows, 11 columns |
 | Size and structure | `Age (years)` is text; six names need backticks |
 | Categories | a) District has 18 values; "North" and "No" are each written 4 ways b) `table()` drops the 34 `NA` districts |
-| Zooming in | Highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
+| Zooming in | `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``: highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
 | Missing values and duplicates | 37 missing IDs, 15 duplicates; `Days in Hospital` has 766 NAs (not hospitalized) |
 | Problem list | At least 8 problems — see the lesson's solution |

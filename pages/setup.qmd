@@ -9,7 +9,10 @@ Setup problems take a long time to fix during class, so please get ready **befor
 
 1.  **Install R** (version 4.2 or newer) from [CRAN](https://cran.r-project.org/).
 2.  **Install Positron** (free) from [Posit](https://positron.posit.co/download.html). Positron is the program you write and run R code in. Install R first (step 1), then Positron.
-3.  **Download the workshop folder:** [download the ZIP file](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip) and unzip it somewhere easy to find (Documents, not Downloads). This one download has everything for all eight sessions.
+3.  **Download the workshop folder from GitHub.** All the workshop files (data, student scripts, and solutions) live in a **GitHub repository**, not on this website. This one download has everything for all eight sessions.
+    -   Go to the workshop's GitHub page: [github.com/CWML/CWML-R-Hands-on-Workshop-Series](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series)
+    -   Click the green **Code** button, then **Download ZIP**. (Or use this direct link: [download the ZIP from GitHub](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip).) You don't need a GitHub account.
+    -   **Unzip** the file somewhere easy to find (Documents, not Downloads). The unzipped folder may be called `CWML-R-Hands-on-Workshop-Series-main`; that's fine.
 4.  **Open the workshop folder in Positron:** open Positron, choose **File → Open Folder...**, select the unzipped `CWML-R-Hands-on-Workshop-Series` folder, and click **Open**. If Positron asks whether you trust the authors of the files, click **Yes**.
     -   The workshop files appear in the **Explorer** on the left.
     -   An R **Console** starts at the bottom. If it doesn't, click the interpreter button in the top-right corner and choose R.
@@ -32,12 +35,6 @@ Setup problems take a long time to fix during class, so please get ready **befor
 ## ✅ You're ready if it prints `[1] 1215`
 
 Red messages that don't start with "Error" are normal. If you see an error, contact the instructor before the session.
-:::
-
-::: callout-note
-## Already use RStudio?
-
-That works too. Install the packages the same way, and open the workshop by double-clicking `CWML-R-Hands-on-Workshop-Series.Rproj` instead of using Open Folder. Everything else in the workshop is the same. (In RStudio, Positron's **Variables** pane is called **Environment**, and the **Explorer** is the **Files** pane.)
 :::
 
 ## Before every session (2 minutes)
@@ -73,7 +70,6 @@ Put the file in the `raw_data/` folder before the session. Every lesson ends wit
 
 ```
 CWML-R-Hands-on-Workshop-Series/
-├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio
 ├── student_scripts/  # student scripts, one per session
 ├── solutions/        # the student scripts with every answer filled in
 ├── raw_data/         # the original data files (never edit these!)

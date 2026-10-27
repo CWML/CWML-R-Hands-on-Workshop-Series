@@ -24,7 +24,27 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 measles_raw <- import(here("raw_data", "measles_raw.csv"))
 
 
-# ── PART 2: Column names ───────────────────────────────────────────────────
+# ── PART 2: The pipe %>% ───────────────────────────────────────────────────
+
+# 👀 Follow along: head(arrange(linelist_raw, wt_kg), 3), then the same with the pipe
+head(arrange(linelist_raw, wt_kg), 3)
+linelist_raw %>% arrange(wt_kg) %>% head(3)
+
+# 👀 Follow along: a longer pipeline, one step per line
+linelist_raw %>%
+  select(`Case ID`, wt_kg, ht_cm) %>%   # keep three columns
+  arrange(wt_kg) %>%                    # sort by weight
+  head(5)                               # show the first 5 rows
+
+# ✏️ TRY IT: rewrite Session 1's code with the pipe, plus select()
+measles_raw %>%
+  select(`Patient ID`, `Temp (C)`) %>%
+  arrange(desc(`Temp (C)`)) %>%
+  head(10)
+# The top temperature is 104.7 (a Fahrenheit value), the same as in Session 1.
+
+
+# ── PART 3: Column names ───────────────────────────────────────────────────
 
 # 👀 Follow along: create linelist_clean from linelist_raw with clean_names().
 #    Compare names() before and after.
@@ -51,7 +71,7 @@ measles_clean <- measles_raw %>%
 names(measles_clean)   # `Temp (C)` -> temp_c and `Vaccinated?` -> vaccinated
 
 
-# ── PART 3: Fixing types with mutate() ─────────────────────────────────────
+# ── PART 4: Fixing types with mutate() ─────────────────────────────────────
 
 # 👀 Follow along: as.Date() on date_of_infection, onset_date, hospital_date, date_of_outcome
 linelist_clean <- linelist_clean %>%
@@ -76,7 +96,7 @@ measles_clean <- measles_clean %>%
 summary(measles_clean$age_years)   # max is 999!
 
 
-# ── PART 4: Fixing values with if_else() ───────────────────────────────────
+# ── PART 5: Fixing values with if_else() ───────────────────────────────────
 
 # 👀 Follow along: create age_years (ages in months divided by 12)
 linelist_clean <- linelist_clean %>%
@@ -102,7 +122,7 @@ summary(measles_clean$age_years)   # max 52
 summary(measles_clean$temp_c)      # max 40.9
 
 
-# ── PART 5: Recoding categories with case_when() ───────────────────────────
+# ── PART 6: Recoding categories with case_when() ───────────────────────────
 
 # 👀 Follow along: recode gender "m" -> "male", "f" -> "female". Check with count().
 linelist_clean <- linelist_clean %>%
@@ -164,7 +184,7 @@ measles_clean <- measles_clean %>%
 measles_clean %>% count(district)     # 5 districts + NA (34)
 
 
-# ── PART 6: Creating new variables ─────────────────────────────────────────
+# ── PART 7: Creating new variables ─────────────────────────────────────────
 
 # 👀 Follow along: calculate bmi, then set BMIs below 10 or above 60 to NA
 linelist_clean <- linelist_clean %>%
@@ -213,7 +233,7 @@ measles_clean %>% count(outcome)      # Died, Recovered, NA
 measles_clean %>% count(age_cat)      # 4 groups + NA (31)
 
 
-# ── PART 7: One pipeline and saving your work ──────────────────────────────
+# ── PART 8: One pipeline and saving your work ──────────────────────────────
 
 # 👀 Follow along: one pipeline from linelist_raw to linelist_clean
 linelist_clean <- linelist_raw %>%

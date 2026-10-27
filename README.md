@@ -17,8 +17,8 @@ explanations, code, TRY ITs with solutions, setup instructions, and the instruct
 
 | \# | Session | You will learn | Student script |
 |----|---------|----------------|----------------|
-| 1 | Setup and a first look at your data | project folders, `here()`, packages, R basics, the pipe, `import()`, inspecting data, 🔁 `table()` | `Session 1 - Setup and First Look_STUDENT.R` |
-| 2 | Cleaning | `clean_names()`, `rename()`, `mutate()`, `if_else()`, `case_when()`, fixing types, new variables, 🔁 `ifelse()`, `cut()` | `Session 2 - Cleaning_STUDENT.R` |
+| 1 | Setup and a first look at your data | R basics, packages, project folders, `here()`, `import()`, inspecting data, 🔁 `table()` | `Session 1 - Setup and First Look_STUDENT.R` |
+| 2 | Cleaning | the pipe `%>%`, `clean_names()`, `rename()`, `mutate()`, `if_else()`, `case_when()`, fixing types, new variables, 🔁 `ifelse()`, `cut()` | `Session 2 - Cleaning_STUDENT.R` |
 | 3 | Missing data, joins, and export | missing values, `distinct()`, `replace_na()`, `select()`, joins, `export()`, 🔁 `merge()`, `%in%` | `Session 3 - Missing Data, Joins, and Export_STUDENT.R` |
 | 4 | Data structures | vectors and types, vectorization, subsetting with `[ ]` and `$`, **lists** (and test results as lists), tidy data, `pivot_longer()` / `pivot_wider()` | `Session 4 - Data Structures_STUDENT.R` |
 | 5 | Summarizing | factors, `count()`, `group_by()` + `summarise()`, `tabyl()`, a `gtsummary` Table 1, 🔁 `factor()`, `table()`, `tapply()` | `Session 5 - Summarizing_STUDENT.R` |
@@ -63,10 +63,11 @@ checklist ends with a test: if the test prints the expected answer, you're ready
 - [ ] **Install R** from [CRAN](https://cran.r-project.org/) (version 4.2 or newer)
 - [ ] **Install Positron** (free) from [Posit](https://positron.posit.co/download.html)
       (install R first). Positron is the program you write and run R code in.
-- [ ] **Download the workshop folder:** on the
-      [GitHub page](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series), click
-      **Code → Download ZIP**. Unzip it somewhere easy to find (Documents, not
-      Downloads). This one download has everything for all six sessions.
+- [ ] **Download the workshop folder from GitHub:** on the
+      [GitHub page](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series), click the
+      green **Code** button → **Download ZIP** (no GitHub account needed). Unzip it
+      somewhere easy to find (Documents, not Downloads). This one download has everything
+      for all eight sessions.
 - [ ] **Open the workshop folder in Positron:** **File → Open Folder...**, select the
       unzipped `CWML-R-Hands-on-Workshop-Series` folder, and click **Open** (click **Yes** if
       asked whether you trust the authors). An R **Console** starts at the bottom.
@@ -87,9 +88,6 @@ checklist ends with a test: if the test prints the expected answer, you're ready
 
   ✅ **Ready if it prints `[1] 1215`.** Red messages that don't start with
   "Error" are normal. If you see an error, email the instructor before the session.
-
-**Already use RStudio?** That works too: open the workshop by double-clicking
-`CWML-R-Hands-on-Workshop-Series.Rproj` instead of using Open Folder.
 
 ### Before every session (2 minutes)
 
@@ -121,7 +119,6 @@ session ends with a ⭐ BONUS for your own data.
 
 ```
 CWML-R-Hands-on-Workshop-Series/
-├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio
 ├── README.md                               # this file
 ├── student_scripts/                        # student scripts, one per session
 ├── solutions/                              # the student scripts with the code filled in

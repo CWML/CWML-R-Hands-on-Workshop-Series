@@ -7,37 +7,7 @@
 #________________________________________________________________________________
 
 
-# ── PART 1: Project folders and here() ─────────────────────────────────────
-# 🎯 Goal: Open the workshop folder in Positron and see how here() builds file paths.
-# ────────────────────────────────────────────────────────────────────────────
-
-# 👀 Follow along: find the top of the project folder
-here::here()
-
-# 👀 Follow along: build the path to raw_data/linelist_raw.xlsx
-here::here("raw_data", "linelist_raw.xlsx")
-
-# ✏️ TRY IT: build the path to the practice data, raw_data/measles_raw.csv
-here::here("raw_data", "measles_raw.csv")
-
-
-# ── PART 2: Installing and loading packages ────────────────────────────────
-# 🎯 Goal: Install the packages for the whole workshop (ONCE per computer),
-#    then load the ones we need today (EVERY time you open R).
-# ────────────────────────────────────────────────────────────────────────────
-
-# Install (run once; skip this if you did the pre-workshop setup)
-install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
-
-# 👀 Follow along: load today's packages, one library() line each
-library(tidyverse)
-library(here)
-library(rio)
-library(skimr)
-library(janitor)
-
-
-# ── PART 3: R basics ───────────────────────────────────────────────────────
+# ── PART 1: R basics ───────────────────────────────────────────────────────
 # 🎯 Goal: Create objects, use functions, and build a small data frame.
 # ────────────────────────────────────────────────────────────────────────────
 
@@ -58,8 +28,8 @@ length(hospitals)
 round(3.14159)
 round(3.14159, digits = 2)
 
-# 👀 Follow along: make a small data frame with tibble(), then pull out one column with $
-patients <- tibble(
+# 👀 Follow along: make a small data frame with data.frame(), then pull out one column with $
+patients <- data.frame(
   name = c("Ana", "Ben", "Cho"),
   age  = c(34, 51, 27)
 )
@@ -72,19 +42,37 @@ my_temps <- c(38.5, 39.1, 37.9)
 mean(my_temps)   # 38.5
 
 
-# ── PART 4: The pipe %>% ───────────────────────────────────────────────────
-# 🎯 Goal: Chain steps together so code reads from left to right.
+# ── PART 2: Installing and loading packages ────────────────────────────────
+# 🎯 Goal: Install the packages for the whole workshop (ONCE per computer),
+#    then load the ones we need today (EVERY time you open R).
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: round(mean(ages), 1) without the pipe, then with the pipe
-round(mean(ages), 1)
-ages %>% mean() %>% round(1)
+# Install (run once; skip this if you did the pre-workshop setup)
+install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 
-# ✏️ TRY IT: use the pipe to find the mean of my_temps and round it to 0 decimals
-my_temps %>% mean() %>% round(0)   # 38
+# 👀 Follow along: load today's packages, one library() line each
+library(tidyverse)
+library(here)
+library(rio)
+library(skimr)
+library(janitor)
 
 
-# ── PART 5: Importing data ─────────────────────────────────────────────────
+# ── PART 3: Project folders and here() ─────────────────────────────────────
+# 🎯 Goal: Open the workshop folder in Positron and see how here() builds file paths.
+# ────────────────────────────────────────────────────────────────────────────
+
+# 👀 Follow along: find the top of the project folder
+here::here()
+
+# 👀 Follow along: build the path to raw_data/linelist_raw.xlsx
+here::here("raw_data", "linelist_raw.xlsx")
+
+# ✏️ TRY IT: build the path to the practice data, raw_data/measles_raw.csv
+here::here("raw_data", "measles_raw.csv")
+
+
+# ── PART 4: Importing data ─────────────────────────────────────────────────
 # 🎯 Goal: Read data files into R with import() + here().
 # ────────────────────────────────────────────────────────────────────────────
 
@@ -99,7 +87,7 @@ hosp_info <- import(here("raw_data", "hosp_info.txt"))
 measles_raw <- import(here("raw_data", "measles_raw.csv"))
 
 
-# ── PART 6: Inspecting data ────────────────────────────────────────────────
+# ── PART 5: Inspecting data ────────────────────────────────────────────────
 # 🎯 Goal: Look at the data before changing anything, and find its problems.
 # ────────────────────────────────────────────────────────────────────────────
 
@@ -121,70 +109,60 @@ glimpse(measles_raw)
 skim(linelist_raw)
 
 # 👀 Follow along: count() the hospital, Gender, OUTCOME, and age_unit columns
-linelist_raw %>% count(hospital)
-linelist_raw %>% count(Gender)
-linelist_raw %>% count(OUTCOME)
-linelist_raw %>% count(age_unit)
+count(linelist_raw, hospital)
+count(linelist_raw, Gender)
+count(linelist_raw, OUTCOME)
+count(linelist_raw, age_unit)
 
 # 🔁 Follow along: the base R way. table() OUTCOME, with and without useNA = "ifany"
 table(linelist_raw$OUTCOME)                    # no NA shown
 table(linelist_raw$OUTCOME, useNA = "ifany")   # 1493 missing outcomes
 
 # ✏️ TRY IT: a) count() District, SEX, and `Vaccinated?` in measles_raw
-measles_raw %>% count(District)        # North: "North", "north", "Nroth", "North District" = 4 ways
-measles_raw %>% count(SEX)             # Male / male / M and Female / female / F
-measles_raw %>% count(`Vaccinated?`)   # No: "No", "no", "N", "NO" = 4 ways
+count(measles_raw, District)        # North: "North", "north", "Nroth", "North District" = 4 ways
+count(measles_raw, SEX)             # Male / male / M and Female / female / F
+count(measles_raw, `Vaccinated?`)   # No: "No", "no", "N", "NO" = 4 ways
 
 # b) table() drops the 34 cases with no district
 table(measles_raw$District)
 table(measles_raw$District, useNA = "ifany")
 
-# 👀 Follow along: use filter(), select(), and arrange() to find
-#    - patients whose ages are in months
+# 👀 Follow along: use filter(), arrange(), and head() to find
+#    - how many patients have ages in months, and the first 10 of them
 #    - the smallest weights (any impossible values?)
 #    - the tallest patients
-linelist_raw %>%
-  filter(age_unit == "months") %>%
-  select(`Case ID`, age, age_unit)
+nrow(filter(linelist_raw, age_unit == "months"))     # 37
+head(filter(linelist_raw, age_unit == "months"), 10)
 
-linelist_raw %>%
-  select(`Case ID`, wt_kg, ht_cm) %>%
-  arrange(wt_kg) %>%
-  head(10)
+head(arrange(linelist_raw, wt_kg), 10)               # negative and zero weights!
 
-linelist_raw %>%
-  select(`Case ID`, ht_cm) %>%
-  arrange(desc(ht_cm)) %>%
-  head(10)
+head(arrange(linelist_raw, desc(ht_cm)), 10)         # heights up to 295 cm
 
-# ✏️ TRY IT: sort measles_raw by `Temp (C)`, largest first, showing only
-#    `Patient ID` and `Temp (C)`. Add head(10) to see just the top 10.
-#    What is the highest temperature? What happened?
-measles_raw %>%
-  select(`Patient ID`, `Temp (C)`) %>%
-  arrange(desc(`Temp (C)`)) %>%
-  head(10)
+# ✏️ TRY IT: sort measles_raw by `Temp (C)`, largest first, and show only
+#    the top 10 rows. What is the highest temperature? What happened?
+head(arrange(measles_raw, desc(`Temp (C)`)), 10)
 # 104.7 is about 40 °C written in Fahrenheit. A few temperatures were entered in °F.
 
-# 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID,
+# 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID
+#    (nrow(filter(...))),
 #    and duplicates with sum(duplicated()) and get_dupes()
 colSums(is.na(linelist_raw))
-linelist_raw %>% filter(is.na(`Case ID`)) %>% nrow()   # 130
-sum(duplicated(linelist_raw))                          # 25
+nrow(filter(linelist_raw, is.na(`Case ID`)))   # 130
+sum(duplicated(linelist_raw))                  # 25
 get_dupes(linelist_raw)
 
 # ✏️ TRY IT: in measles_raw,
 #    a) how many rows have a missing `Patient ID`?
 #    b) how many rows are exact duplicates?
 #    c) which column has the most missing values? Is that a mistake, or does it make sense?
-measles_raw %>% filter(is.na(`Patient ID`)) %>% nrow()   # a) 37
-sum(duplicated(measles_raw))                             # b) 15
+nrow(filter(measles_raw, is.na(`Patient ID`)))   # a) 37
+sum(duplicated(measles_raw))                     # b) 15
 colSums(is.na(measles_raw))
 # c) `Days in Hospital` (766). That makes sense: patients who were never
 #    hospitalized have no hospital days. Missing is not always an error!
 
 
-# ── PART 7: The problem list ───────────────────────────────────────────────
+# ── PART 6: The problem list ───────────────────────────────────────────────
 # 🎯 Goal: Write down every problem you found. This list is the to-do list for Session 2.
 # ────────────────────────────────────────────────────────────────────────────
 

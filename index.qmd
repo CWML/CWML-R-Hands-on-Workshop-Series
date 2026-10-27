@@ -28,8 +28,8 @@ No experience with R or programming is needed.
 ::: lesson-list
 | \#    | Lesson                                                                   | You will learn                                                                  |
 |-------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| 1     | [Setup and a first look at your data](pages/lessons/01-setup-and-first-look.qmd) | R Projects, packages, R basics, the pipe, importing and inspecting data |
-| 2     | [Cleaning](pages/lessons/02-cleaning.qmd)                                                 | `clean_names()`, `mutate()`, `if_else()`, `case_when()`                          |
+| 1     | [Setup and a first look at your data](pages/lessons/01-setup-and-first-look.qmd) | R basics, packages, project folders, importing and inspecting data       |
+| 2     | [Cleaning](pages/lessons/02-cleaning.qmd)                                                 | the pipe `%>%`, `clean_names()`, `mutate()`, `if_else()`, `case_when()`          |
 | 3     | [Missing data, joins, and export](pages/lessons/03-missing-data-joins-export.qmd)                          | missing values, duplicates, joins, `export()`                                   |
 | 4     | [Data structures](pages/lessons/04-data-structures.qmd)                                          | vectors, subsetting, lists, `pivot_longer()` / `pivot_wider()`                  |
 | 5     | [Summarizing](pages/lessons/05-summarizing.qmd)                                              | `count()`, `summarise()`, `tabyl()`, a `gtsummary` Table 1                      |

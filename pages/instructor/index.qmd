@@ -42,8 +42,8 @@ This is the approach used by [The Carpentries](https://carpentries.org/): short 
 
 | Session | Lesson | Time | Starts from |
 |---|---|---|---|
-| 1 | [Setup and a first look at your data](session-01.qmd) | 95 min | `raw_data/` |
-| 2 | [Cleaning](session-02.qmd) | 90 min | `raw_data/` |
+| 1 | [Setup and a first look at your data](session-01.qmd) | 90 min | `raw_data/` |
+| 2 | [Cleaning](session-02.qmd) | 104 min | `raw_data/` |
 | 3 | [Missing data, joins, and export](session-03.qmd) | 87 min | `processed_data/linelist_clean.rds` |
 | 4 | [Data structures](session-04.qmd) | 86 min | `processed_data/combined_linelist.rds` |
 | 5 | [Summarizing](session-05.qmd) | 92 min | `processed_data/combined_linelist.rds` |

@@ -1,6 +1,6 @@
 ---
 title: "Session 1: Setup and a First Look at Your Data"
-subtitle: "Project folders, packages, R basics, the pipe, and importing and inspecting data"
+subtitle: "R basics, packages, project folders, and importing and inspecting data"
 ---
 
 ::: downloads
@@ -10,101 +10,18 @@ subtitle: "Project folders, packages, R basics, the pipe, and importing and insp
 ::: callout-note
 ## In this session you will learn to
 
-1.  Open the workshop's project folder and explain why `here()` makes file paths work on any computer
+1.  Create objects, use vectors, and call functions
 2.  Install packages (once) and load them (every session)
-3.  Create objects, call functions, and chain steps together with the pipe `%>%`
+3.  Open the workshop's project folder and explain why `here()` makes file paths work on any computer
 4.  Import a data file with `import()` and `here()`
 5.  Inspect a dataset and write down a list of the problems that need cleaning
 
 **Before you start:** complete the [Setup](../setup.qmd) and open `student_scripts/Session 1 - Setup and First Look_STUDENT.R`.
 :::
 
-# Part 1: Project folders and `here()`
+# Part 1: R basics
 
-## Why keep everything in one project folder?
-
--   **Organization:** data, scripts, and outputs live in one folder with a predictable structure (`raw_data/`, `processed_data/`, `student_scripts/`)
--   **Reproducibility:** the project works on any computer — yours, a collaborator's, future you's
--   **Shareable:** zip the folder and send it, or put it on GitHub
-
-## Open the project folder for this class
-
-1.  Download the workshop folder and save it somewhere you can find it (not your Downloads folder)
-2.  In Positron, choose **File → Open Folder...**, select the `CWML-R-Hands-on-Workshop-Series` folder, and click **Open**. Positron uses that folder as the working directory
-3.  Check the **Explorer** on the left: it should list the workshop files (`raw_data`, `student_scripts`, ...)
-
-::: callout-tip
-## Your own projects later
-
-Make a new folder for each project (with subfolders like `raw_data/` and `scripts/`), and open it in Positron with **File → Open Folder...**. Add an empty file called `.here` at the top so `here()` always finds it. *(RStudio users: **File → New Project** does the same thing and creates an `.Rproj` file.)*
-:::
-
-## Relative vs absolute paths
-
--   **Bad (absolute):** `"/Users/mwegener/Desktop/maybe_here/data.csv"` — only works on one computer
--   **Good (relative):** `here("raw_data", "data.csv")` — works on any computer that has the project folder
-
-`here()` finds the top of the project folder (it looks for a `.here` file, which the workshop folder has) and builds the path from there.
-
-```{r}
-#| eval: false
-here::here()                                   # where is the top of my project?
-here::here("raw_data", "linelist_raw.xlsx")    # full path to a file inside it
-```
-
-`here::here()` means "the `here()` function from the here package". The `::` lets you use a function before loading its package.
-
-::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (1 min): a path to the practice data
-
-Build the path to the practice data, `raw_data/measles_raw.csv`.
-
-✅ **Check:** the output ends in `.../raw_data/measles_raw.csv`
-
-::: {.callout-note collapse="true" icon=false}
-## Show solution
-
-```{r}
-#| eval: false
-here::here("raw_data", "measles_raw.csv")
-```
-:::
-:::
-
-# Part 2: Installing and loading packages
-
-A **package** is a collection of functions someone else wrote. There are two steps:
-
-| Step    | Function             | How often                 | Analogy                 |
-|---------|----------------------|---------------------------|-------------------------|
-| Install | `install.packages()` | **Once** per computer     | Buying a book           |
-| Load    | `library()`          | **Every** time you open R | Taking it off the shelf |
-
-Install everything for the whole workshop series (skip this if you did the [Setup](../setup.qmd)):
-
-```{r}
-#| eval: false
-install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
-```
-
-Load only what you need today:
-
-```{r}
-library(tidyverse)   # data wrangling (dplyr) and plotting (ggplot2), plus the pipe
-library(here)        # file paths that work on any computer
-library(rio)         # import() and export() for almost any file type
-library(skimr)       # skim() for a quick data summary
-library(janitor)     # get_dupes() today; clean_names() in Session 2
-```
-
-::: callout-warning
-## Common mistakes
-
--   Package names need quotes in `install.packages()` but **not** in `library()`.
--   Red text is not always an error! Messages like "Attaching core tidyverse packages" are normal. An error starts with **Error**.
-:::
-
-# Part 3: R basics
+Before we open any data, a few building blocks you'll use in every line of R. Type these in your script and run each line with **Cmd + Return** (Mac) or **Ctrl + Enter** (Windows); the result appears in the **Console**.
 
 ## Objects and the assignment arrow `<-`
 
@@ -145,10 +62,10 @@ Type `?round` in the Console to open the help page for any function.
 
 ## Data frames
 
-A **data frame** is a table: each **column** is a variable (a vector), each **row** is an observation. The tidyverse version is called a **tibble**.
+A **data frame** is a table: each **column** is a variable (a vector), each **row** is an observation. (Later you'll also see **tibbles**: the tidyverse version of a data frame, which prints more neatly.)
 
 ```{r}
-patients <- tibble(
+patients <- data.frame(
   name = c("Ana", "Ben", "Cho"),
   age  = c(34, 51, 27)
 )
@@ -183,41 +100,92 @@ mean(my_temps)
 :::
 :::
 
-# Part 4: The pipe `%>%`
+# Part 2: Installing and loading packages
 
-The pipe takes the result on its left and passes it into the function on its right. Read it as **"and then"**. Shortcut: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows).
+A **package** is a collection of functions someone else wrote. There are two steps:
+
+| Step    | Function             | How often                 | Analogy                 |
+|---------|----------------------|---------------------------|-------------------------|
+| Install | `install.packages()` | **Once** per computer     | Buying a book           |
+| Load    | `library()`          | **Every** time you open R | Taking it off the shelf |
+
+Install everything for the whole workshop series (skip this if you did the [Setup](../setup.qmd)):
 
 ```{r}
-# Without the pipe: read from the inside out
-round(mean(ages), 1)
-
-# With the pipe: read from left to right — "take ages, and then mean, and then round"
-ages %>% mean() %>% round(1)
+#| eval: false
+install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 ```
 
-::: callout-note
-You may also see `|>` — the pipe built into R itself. For this workshop they do the same thing.
+Load only what you need today:
+
+```{r}
+library(tidyverse)   # data wrangling (dplyr) and plotting (ggplot2)
+library(here)        # file paths that work on any computer
+library(rio)         # import() and export() for almost any file type
+library(skimr)       # skim() for a quick data summary
+library(janitor)     # get_dupes() today; clean_names() in Session 2
+```
+
+::: callout-warning
+## Common mistakes
+
+-   Package names need quotes in `install.packages()` but **not** in `library()`.
+-   Red text is not always an error! Messages like "Attaching core tidyverse packages" are normal. An error starts with **Error**.
 :::
 
+# Part 3: Project folders and `here()`
+
+## Why keep everything in one project folder?
+
+-   **Organization:** data, scripts, and outputs live in one folder with a predictable structure (`raw_data/`, `processed_data/`, `student_scripts/`)
+-   **Reproducibility:** the project works on any computer — yours, a collaborator's, future you's
+-   **Shareable:** zip the folder and send it, or put it on GitHub
+
+## Open the project folder for this class
+
+1.  Download the workshop folder and save it somewhere you can find it (not your Downloads folder)
+2.  In Positron, choose **File → Open Folder...**, select the `CWML-R-Hands-on-Workshop-Series` folder, and click **Open**. Positron uses that folder as the working directory
+3.  Check the **Explorer** on the left: it should list the workshop files (`raw_data`, `student_scripts`, ...)
+
+::: callout-tip
+## Your own projects later
+
+Make a new folder for each project (with subfolders like `raw_data/` and `scripts/`), and open it in Positron with **File → Open Folder...**. Add an empty file called `.here` at the top so `here()` always finds it.
+:::
+
+## Relative vs absolute paths
+
+-   **Bad (absolute):** `"/Users/mwegener/Desktop/maybe_here/data.csv"` — only works on one computer
+-   **Good (relative):** `here("raw_data", "data.csv")` — works on any computer that has the project folder
+
+`here()` finds the top of the project folder (it looks for a `.here` file, which the workshop folder has) and builds the path from there.
+
+```{r}
+#| eval: false
+here::here()                                   # where is the top of my project?
+here::here("raw_data", "linelist_raw.xlsx")    # full path to a file inside it
+```
+
+`here::here()` means "the `here()` function from the here package". The `::` lets you use a function before loading its package.
+
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (1 min): the pipe
+## ✏️ TRY IT (1 min): a path to the practice data
 
-Use the pipe to find the mean of `my_temps` and round it to 0 decimals.
+Build the path to the practice data, `raw_data/measles_raw.csv`.
 
-✅ **Check:** the answer is 38
+✅ **Check:** the output ends in `.../raw_data/measles_raw.csv`
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
 
 ```{r}
-my_temps %>% mean() %>% round(0)
+#| eval: false
+here::here("raw_data", "measles_raw.csv")
 ```
-
-Why not 39? R rounds a 5 to the nearest **even** number (38.5 → 38), a rule used to avoid bias when rounding lots of numbers.
 :::
 :::
 
-# Part 5: Importing data
+# Part 4: Importing data
 
 ## `import()` + `here()`
 
@@ -266,7 +234,7 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 :::
 :::
 
-# Part 6: Inspecting data
+# Part 5: Inspecting data
 
 **Always look before you clean.** Inspecting tells you whether the data imported correctly and what needs fixing.
 
@@ -338,11 +306,13 @@ Look at the `n_missing` column, the minimum of `wt_kg` (below zero!), and the ma
 
 `count()` shows every distinct value in a column and how often it appears. It's the fastest way to find misspellings.
 
+The data goes first, then the column: `count(DATA, COLUMN)`.
+
 ```{r}
-linelist_raw %>% count(hospital)
-linelist_raw %>% count(Gender)
-linelist_raw %>% count(OUTCOME)
-linelist_raw %>% count(age_unit)
+count(linelist_raw, hospital)
+count(linelist_raw, Gender)
+count(linelist_raw, OUTCOME)
+count(linelist_raw, age_unit)
 ```
 
 ::: callout-note
@@ -370,9 +340,9 @@ b)  Now try `table(measles_raw$District)`. What is missing compared with `count(
 ## Show solution
 
 ```{r}
-measles_raw %>% count(District)
-measles_raw %>% count(SEX)
-measles_raw %>% count(`Vaccinated?`)
+count(measles_raw, District)
+count(measles_raw, SEX)
+count(measles_raw, `Vaccinated?`)
 
 table(measles_raw$District)                   # b) no NA!
 table(measles_raw$District, useNA = "ifany")
@@ -382,37 +352,35 @@ table(measles_raw$District, useNA = "ifany")
 :::
 :::
 
-## Zooming in: `select()`, `filter()`, `arrange()`
+## Zooming in: `filter()` and `arrange()`
 
--   `select()` keeps **columns**
 -   `filter()` keeps **rows** that meet a condition
 -   `arrange()` sorts rows (`desc()` for largest first)
 
-Column names with spaces need **backticks**: `` `Case ID` ``. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!
+Each one takes the data first. Column names with spaces need **backticks**: `` `Case ID` ``. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!
+
+`linelist_raw` is a regular data frame, so R prints **every** row it gets — all 6,604 of them, with 12 columns each! To do **two** things, such as filtering and then showing only the first 10 rows, put one function **inside** another. R runs the inside first:
 
 ```{r}
-# Which patients have ages in months?
-linelist_raw %>%
-  filter(age_unit == "months") %>%
-  select(`Case ID`, age, age_unit)
+# How many patients have ages in months?
+nrow(filter(linelist_raw, age_unit == "months"))
 
-# Impossible weights: sort smallest first, show the first 10 rows
-linelist_raw %>%
-  select(`Case ID`, wt_kg, ht_cm) %>%
-  arrange(wt_kg) %>%
-  head(10)
-
-# Tallest patients
-linelist_raw %>%
-  select(`Case ID`, ht_cm) %>%
-  arrange(desc(ht_cm)) %>%
-  head(10)
+# Show the first 10 of them
+head(filter(linelist_raw, age_unit == "months"), 10)
 ```
 
-::: callout-tip
-## Long output? Add `head()`
+```{r}
+# Impossible weights: sort smallest first, then show the first 10 rows
+head(arrange(linelist_raw, wt_kg), 10)
 
-`linelist_raw` is a regular data frame, so R prints **every** row — all 6,604 of them! Adding `%>% head(10)` at the end shows only the first 10.
+# Tallest patients: desc() sorts largest first
+head(arrange(linelist_raw, desc(ht_cm)), 10)
+```
+
+::: callout-note
+## Reading code from the inside out
+
+`head(arrange(linelist_raw, wt_kg), 10)` reads: take `linelist_raw`, **arrange** it by weight, then take the **head**. Two steps are manageable, but with three or four the brackets pile up. In Session 2 you'll learn the **pipe** `%>%`, which writes the same steps in order, from left to right.
 :::
 
 ::: callout-note
@@ -426,7 +394,9 @@ Use `==` (two equals signs) to compare. One `=` is for naming arguments.
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT (3 min): zooming in
 
-Sort `measles_raw` by `` `Temp (C)` ``, largest first, showing only `` `Patient ID` `` and `` `Temp (C)` ``. Add `head(10)` so you only see the top 10. What is the highest temperature? What do you think happened?
+Sort `measles_raw` by `` `Temp (C)` ``, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?
+
+HINT: `head(arrange(DATA, desc(COLUMN)), 10)`
 
 ✅ **Check:** the top value is 104.7
 
@@ -434,10 +404,7 @@ Sort `measles_raw` by `` `Temp (C)` ``, largest first, showing only `` `Patient 
 ## Show solution
 
 ```{r}
-measles_raw %>%
-  select(`Patient ID`, `Temp (C)`) %>%
-  arrange(desc(`Temp (C)`)) %>%
-  head(10)
+head(arrange(measles_raw, desc(`Temp (C)`)), 10)
 ```
 
 104.7 is about 40 °C written in **Fahrenheit**. A few temperatures were entered in °F instead of °C.
@@ -450,8 +417,8 @@ measles_raw %>%
 # Missing values in each column
 colSums(is.na(linelist_raw))
 
-# How many rows have no Case ID?
-linelist_raw %>% filter(is.na(`Case ID`)) %>% nrow()
+# How many rows have no Case ID? Count the rows that filter() keeps
+nrow(filter(linelist_raw, is.na(`Case ID`)))
 
 # How many rows are exact copies of an earlier row?
 sum(duplicated(linelist_raw))
@@ -478,7 +445,7 @@ c)  Which column has the most missing values? Is that a mistake, or does it make
 ## Show solution
 
 ```{r}
-measles_raw %>% filter(is.na(`Patient ID`)) %>% nrow()
+nrow(filter(measles_raw, is.na(`Patient ID`)))
 sum(duplicated(measles_raw))
 colSums(is.na(measles_raw))
 ```
@@ -487,7 +454,7 @@ c)  `Days in Hospital` has the most (766). That makes sense: patients who were n
 :::
 :::
 
-# Part 7: The problem list
+# Part 6: The problem list
 
 Here is everything we found in `linelist_raw`. This list is the to-do list for Session 2.
 
@@ -533,11 +500,11 @@ Brought your own dataset? Put the file in the `raw_data/` folder, then: `import(
 
 # Key points
 
--   A **project folder** plus `here()` makes file paths work on any computer.
--   **Install** a package once with `install.packages()`; **load** it every session with `library()`.
 -   `<-` saves a value in an object; `c()` makes a vector; functions take arguments.
--   The pipe `%>%` means "and then", so code reads from left to right.
+-   **Install** a package once with `install.packages()`; **load** it every session with `library()`.
+-   A **project folder** plus `here()` makes file paths work on any computer.
 -   `import(here("folder", "file"))` reads almost any file type.
--   **Look before you clean:** `glimpse()`, `skim()`, `count()`, `filter()`/`select()`/`arrange()`, `is.na()`, and `duplicated()` find the problems.
+-   **Look before you clean:** `glimpse()`, `skim()`, `count()`, `filter()`, `arrange()`, `is.na()`, and `duplicated()` find the problems.
+-   To do two steps, put one function inside another: `head(arrange(data, column), 10)`. Wrap long output in `head()`.
 
-**Next: Session 2 — Cleaning.** We fix the problem list with `clean_names()`, `mutate()`, `if_else()`, and `case_when()`.
+**Next: Session 2 — Cleaning.** We start with the **pipe** `%>%`, then fix the problem list with `clean_names()`, `mutate()`, `if_else()`, and `case_when()`.

@@ -71,6 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../pages/lessons/01-setup-and-first-look.html" rel="next">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -352,10 +353,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/setup.html">Setup</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/setup.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/01-setup-and-first-look.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Setup and a First Look at Your Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/02-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2: Cleaning Your Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/03-missing-data-joins-export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3: Missing Data, Joins, and Export</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/04-data-structures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4: Data Structures — Vectors, Lists, Subsetting, and Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/05-summarizing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Summarizing Your Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/06-plotting-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 6: Plotting Basics with ggplot2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/07-plotting-further.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 7: Plotting Further — Bar Charts, Colors, Epicurves, and Facets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/lessons/08-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 8: Programming — Functions, if/else, Loops, and Iteration</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -398,7 +470,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p><strong>Install R</strong> (version 4.2 or newer) from <a href="https://cran.r-project.org/">CRAN</a>.</p></li>
 <li><p><strong>Install Positron</strong> (free) from <a href="https://positron.posit.co/download.html">Posit</a>. Positron is the program you write and run R code in. Install R first (step 1), then Positron.</p></li>
-<li><p><strong>Download the workshop folder:</strong> <a href="https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip">download the ZIP file</a> and unzip it somewhere easy to find (Documents, not Downloads). This one download has everything for all eight sessions.</p></li>
+<li><p><strong>Download the workshop folder from GitHub.</strong> All the workshop files (data, student scripts, and solutions) live in a <strong>GitHub repository</strong>, not on this website. This one download has everything for all eight sessions.</p>
+<ul>
+<li>Go to the workshop’s GitHub page: <a href="https://github.com/CWML/CWML-R-Hands-on-Workshop-Series">github.com/CWML/CWML-R-Hands-on-Workshop-Series</a></li>
+<li>Click the green <strong>Code</strong> button, then <strong>Download ZIP</strong>. (Or use this direct link: <a href="https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/archive/refs/heads/main.zip">download the ZIP from GitHub</a>.) You don’t need a GitHub account.</li>
+<li><strong>Unzip</strong> the file somewhere easy to find (Documents, not Downloads). The unzipped folder may be called <code>CWML-R-Hands-on-Workshop-Series-main</code>; that’s fine.</li>
+</ul></li>
 <li><p><strong>Open the workshop folder in Positron:</strong> open Positron, choose <strong>File → Open Folder…</strong>, select the unzipped <code>CWML-R-Hands-on-Workshop-Series</code> folder, and click <strong>Open</strong>. If Positron asks whether you trust the authors of the files, click <strong>Yes</strong>.</p>
 <ul>
 <li>The workshop files appear in the <strong>Explorer</strong> on the left.</li>
@@ -422,19 +499,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <p>Red messages that don’t start with “Error” are normal. If you see an error, contact the instructor before the session.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Already use RStudio?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>That works too. Install the packages the same way, and open the workshop by double-clicking <code>CWML-R-Hands-on-Workshop-Series.Rproj</code> instead of using Open Folder. Everything else in the workshop is the same. (In RStudio, Positron’s <strong>Variables</strong> pane is called <strong>Environment</strong>, and the <strong>Explorer</strong> is the <strong>Files</strong> pane.)</p>
 </div>
 </div>
 </section>
@@ -541,7 +605,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="whats-in-the-workshop-folder" class="level2">
 <h2 class="anchored" data-anchor-id="whats-in-the-workshop-folder">What’s in the workshop folder</h2>
 <pre><code>CWML-R-Hands-on-Workshop-Series/
-├── CWML-R-Hands-on-Workshop-Series.Rproj   # only needed if you use RStudio
 ├── student_scripts/  # student scripts, one per session
 ├── solutions/        # the student scripts with every answer filled in
 ├── raw_data/         # the original data files (never edit these!)
@@ -965,6 +1028,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../pages/lessons/01-setup-and-first-look.html" class="pagination-link" aria-label="Session 1: Setup and a First Look at Your Data">
+        <span class="nav-page-text">Session 1: Setup and a First Look at Your Data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

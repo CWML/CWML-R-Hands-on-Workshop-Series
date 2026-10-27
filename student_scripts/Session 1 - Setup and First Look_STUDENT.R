@@ -14,38 +14,51 @@
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
-#   Insert a pipe:   Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
 #   Comments:        anything after # is a note to yourself. R ignores it. Add your own!
 #   Stuck?           put up your red sticky note, or check
 #                    solutions/Session 1 - Setup and First Look_SOLUTIONS.R
 #________________________________________________________________________________
 
 
-# ── PART 1: Project folders and here() ─────────────────────────────────────
-# 🎯 Goal: Open the workshop folder in Positron and see how here() builds file paths.
+# ── PART 1: R basics ───────────────────────────────────────────────────────
+# 🎯 Goal: Create objects, use functions, and build a small data frame.
 #
 # 📖 What you need to know
-#    - Keep everything for a project in ONE folder, and open that folder in Positron:
-#      File -> Open Folder... -> CWML-R-Hands-on-Workshop-Series -> Open.
-#      The workshop files then appear in the Explorer on the left.
-#      (RStudio users: double-click CWML-R-Hands-on-Workshop-Series.Rproj instead.)
-#    - here() builds a file path that starts at the project folder, so the same
-#      code works on every computer. here("raw_data", "file.csv") means
-#      "the file called file.csv, inside the raw_data folder".
-#    - here::here() means "the here() function from the here package". The :: lets
-#      you use a function before loading its package with library().
+#    - <- stores a value in an object: my_age <- 35. Read it as "my_age gets 35".
+#      The object then appears in the Variables pane.
+#    - c() combines values into a vector: c(2, 18, 56)
+#    - A function does something to its inputs (arguments): round(3.14159, digits = 2)
+#      Type ?round in the Console to see the help page for any function.
+#    - A data frame is a table: each column is a vector, each row is one
+#      observation. data$column pulls out one column. data.frame() makes one.
+#      (A tibble is the tidyverse version of a data frame: you'll meet them later.)
+#
+# ⚠️ Common mistakes
+#    - R is case-sensitive: Age and age are different objects.
+#    - Text needs quotes ("Central Hospital"); object names don't (my_age).
+#    - Every ( needs a ). Positron highlights the matching bracket.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: find the top of the project folder
-#    Pattern: here::here()
+# 👀 Follow along: store a number in an object called my_age, then add 5 to it
+#    Pattern: OBJECT_NAME <- VALUE
 
 
-# 👀 Follow along: build the path to raw_data/linelist_raw.xlsx
-#    Pattern: here::here("FOLDER", "FILE_NAME.EXTENSION")
+# 👀 Follow along: make a vector of ages with c(), then find the mean()
 
 
-# ✏️ TRY IT (1 min): build the path to the practice data, raw_data/measles_raw.csv
-#    ✅ Check: the output ends in .../raw_data/measles_raw.csv
+# 👀 Follow along: make a vector of hospital names and find its length()
+
+
+# 👀 Follow along: round(3.14159) with and without digits = 2
+
+
+# 👀 Follow along: make a small data frame with data.frame(), then pull out one column with $
+#    Pattern: data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))
+
+
+# ✏️ TRY IT (2 min): store three temperatures, 38.5, 39.1, and 37.9, in an object
+#    called my_temps. Then find their mean().
+#    ✅ Check: the mean is 38.5
 
 
 
@@ -81,68 +94,34 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 
 
 
-# ── PART 3: R basics ───────────────────────────────────────────────────────
-# 🎯 Goal: Create objects, use functions, and build a small data frame.
+# ── PART 3: Project folders and here() ─────────────────────────────────────
+# 🎯 Goal: Open the workshop folder in Positron and see how here() builds file paths.
 #
 # 📖 What you need to know
-#    - <- stores a value in an object: my_age <- 35. Read it as "my_age gets 35".
-#      The object then appears in the Variables pane.
-#    - c() combines values into a vector: c(2, 18, 56)
-#    - A function does something to its inputs (arguments): round(3.14159, digits = 2)
-#      Type ?round in the Console to see the help page for any function.
-#    - A data frame (or tibble) is a table: each column is a vector, each row is
-#      one observation. data$column pulls out one column.
-#
-# ⚠️ Common mistakes
-#    - R is case-sensitive: Age and age are different objects.
-#    - Text needs quotes ("Central Hospital"); object names don't (my_age).
-#    - Every ( needs a ). Positron highlights the matching bracket.
+#    - Keep everything for a project in ONE folder, and open that folder in Positron:
+#      File -> Open Folder... -> CWML-R-Hands-on-Workshop-Series -> Open.
+#      The workshop files then appear in the Explorer on the left.
+#    - here() builds a file path that starts at the project folder, so the same
+#      code works on every computer. here("raw_data", "file.csv") means
+#      "the file called file.csv, inside the raw_data folder".
+#    - here::here() means "the here() function from the here package". The :: lets
+#      you use a function before loading its package with library().
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: store a number in an object called my_age, then add 5 to it
-#    Pattern: OBJECT_NAME <- VALUE
+# 👀 Follow along: find the top of the project folder
+#    Pattern: here::here()
 
 
-# 👀 Follow along: make a vector of ages with c(), then find the mean()
+# 👀 Follow along: build the path to raw_data/linelist_raw.xlsx
+#    Pattern: here::here("FOLDER", "FILE_NAME.EXTENSION")
 
 
-# 👀 Follow along: make a vector of hospital names and find its length()
-
-
-# 👀 Follow along: round(3.14159) with and without digits = 2
-
-
-# 👀 Follow along: make a small data frame with tibble(), then pull out one column with $
-#    Pattern: tibble(COLUMN_1 = c(...), COLUMN_2 = c(...))
-
-
-# ✏️ TRY IT (2 min): store three temperatures, 38.5, 39.1, and 37.9, in an object
-#    called my_temps. Then find their mean().
-#    ✅ Check: the mean is 38.5
+# ✏️ TRY IT (1 min): build the path to the practice data, raw_data/measles_raw.csv
+#    ✅ Check: the output ends in .../raw_data/measles_raw.csv
 
 
 
-# ── PART 4: The pipe %>% ───────────────────────────────────────────────────
-# 🎯 Goal: Chain steps together so code reads from left to right.
-#
-# 📖 What you need to know
-#    - %>% takes the result on its left and passes it into the function on its right.
-#      Read it as "and then".
-#    - round(mean(ages), 1) and  ages %>% mean() %>% round(1)  do the same thing:
-#      "take ages, AND THEN mean, AND THEN round to 1 decimal".
-#    - You may also see |>, the pipe built into R. It does the same thing.
-# ────────────────────────────────────────────────────────────────────────────
-
-# 👀 Follow along: round(mean(ages), 1) without the pipe, then with the pipe
-
-
-# ✏️ TRY IT (1 min): use the pipe to find the mean of my_temps and round it to 0 decimals
-#    Pattern: OBJECT %>% FUNCTION() %>% FUNCTION(ARGUMENT)
-#    ✅ Check: the answer is 38
-
-
-
-# ── PART 5: Importing data ─────────────────────────────────────────────────
+# ── PART 4: Importing data ─────────────────────────────────────────────────
 # 🎯 Goal: Read data files into R with import() + here().
 #
 # 📖 What you need to know
@@ -170,7 +149,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 
 
 
-# ── PART 6: Inspecting data ────────────────────────────────────────────────
+# ── PART 5: Inspecting data ────────────────────────────────────────────────
 # 🎯 Goal: Look at the data before changing anything, and find its problems.
 #
 # 📖 What you need to know
@@ -184,18 +163,21 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #      skim()      a summary of every column, including missing values, min, and max
 #
 #    Categories
-#      count()     every distinct value in a column and how often it appears.
-#                  The fastest way to find misspellings!
+#      count(DATA, COLUMN)   every distinct value in a column and how often it
+#                  appears. The fastest way to find misspellings!
 #      🔁 Base R:  table(data$COLUMN) counts too, but HIDES missing values.
 #                  Add useNA = "ifany" to see them.
 #
-#    Zooming in
-#      filter()    keeps ROWS that meet a condition:  filter(age_unit == "months")
-#      select()    keeps COLUMNS:                     select(age, age_unit)
-#      arrange()   sorts rows; desc() sorts largest first: arrange(desc(ht_cm))
-#      head(10)    shows only the first 10 rows. linelist_raw is a regular data
-#                  frame, so R prints ALL 6,604 rows unless you add %>% head(10)
+#    Zooming in (the data always goes first)
+#      filter(DATA, CONDITION)   keeps ROWS that meet a condition
+#      arrange(DATA, COLUMN)     sorts rows; desc(COLUMN) sorts largest first
+#      head(DATA, 10)            shows only the first 10 rows
 #      Conditions: == equal, != not equal, > < >= <=, is.na() missing
+#
+#    Two steps at once: put one function INSIDE another. R runs the inside first.
+#      head(arrange(linelist_raw, wt_kg), 10)   sort by weight, THEN show 10 rows
+#      linelist_raw is a regular data frame, so R prints ALL 6,604 rows unless you
+#      wrap the code in head(..., 10). (In Session 2 the pipe %>% makes this easier.)
 #
 #    Missing values and duplicates
 #      colSums(is.na(data))    the number of missing values in each column
@@ -222,7 +204,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 
 
 # 👀 Follow along: count() the hospital, Gender, OUTCOME, and age_unit columns
-#    Pattern: DATA %>% count(COLUMN)
+#    Pattern: count(DATA, COLUMN)
 
 
 # 🔁 Follow along: the base R way. table() OUTCOME, with and without useNA = "ifany"
@@ -237,22 +219,23 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 
 
 
-# 👀 Follow along: use filter(), select(), and arrange() to find
-#    - patients whose ages are in months
+# 👀 Follow along: use filter(), arrange(), and head() to find
+#    - how many patients have ages in months, and the first 10 of them
 #    - the smallest weights (any impossible values?)
 #    - the tallest patients
-#    Pattern: DATA %>% filter(CONDITION) %>% select(COLUMN_1, COLUMN_2)
-#    Pattern: DATA %>% select(COLUMN_1, COLUMN_2) %>% arrange(COLUMN) %>% head(10)
+#    Pattern: nrow(filter(DATA, CONDITION))
+#    Pattern: head(arrange(DATA, COLUMN), 10)
 
 
-# ✏️ TRY IT (3 min): sort measles_raw by `Temp (C)`, largest first, showing only
-#    `Patient ID` and `Temp (C)`. Add head(10) to see just the top 10.
-#    What is the highest temperature? What happened?
+# ✏️ TRY IT (3 min): sort measles_raw by `Temp (C)`, largest first, and show only
+#    the top 10 rows. What is the highest temperature? What happened?
+#    Pattern: head(arrange(DATA, desc(COLUMN)), 10)
 #    ✅ Check: the top value is 104.7
 
 
 
-# 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID,
+# 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID
+#    (nrow(filter(...))),
 #    and duplicates with sum(duplicated()) and get_dupes()
 
 
@@ -264,7 +247,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 
 
 
-# ── PART 7: The problem list ───────────────────────────────────────────────
+# ── PART 6: The problem list ───────────────────────────────────────────────
 # 🎯 Goal: Write down every problem you found. This list is the to-do list for Session 2.
 # ────────────────────────────────────────────────────────────────────────────
 
