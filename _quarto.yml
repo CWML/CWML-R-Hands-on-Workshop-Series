@@ -45,7 +45,6 @@ website:
       title: "Lessons"
       style: docked
       contents:
-        - pages/setup.qmd
         - pages/lessons/01-setup-and-first-look.qmd
         - pages/lessons/02-cleaning.qmd
         - pages/lessons/03-missing-data-joins-export.qmd

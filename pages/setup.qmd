@@ -79,3 +79,7 @@ cwml-r-workshop/
 ├── outputs/          # plots and tables you save
 └── README.md         # how to open the folder
 ```
+
+::: next-step
+[Next: Session 1 — Setup and a First Look at Your Data →](lessons/01-setup-and-first-look.qmd){.btn .btn-outline-primary}
+:::

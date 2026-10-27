@@ -12,6 +12,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Comments:        anything after # is a note to yourself. R ignores it. Add your own!
@@ -39,24 +41,24 @@
 #    - Every ( needs a ). Positron highlights the matching bracket.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: store a number in an object called my_age, then add 5 to it
+# 👀 Follow along 1.1: store a number in an object called my_age, then add 5 to it
 #    Pattern: OBJECT_NAME <- VALUE
 
 
-# 👀 Follow along: make a vector of ages with c(), then find the mean()
+# 👀 Follow along 1.2: make a vector of ages with c(), then find the mean()
 
 
-# 👀 Follow along: make a vector of hospital names and find its length()
+# 👀 Follow along 1.3: make a vector of hospital names and find its length()
 
 
-# 👀 Follow along: round(3.14159) with and without digits = 2
+# 👀 Follow along 1.4: round(3.14159) with and without digits = 2
 
 
-# 👀 Follow along: make a small data frame with data.frame(), then pull out one column with $
+# 👀 Follow along 1.5: make a small data frame with data.frame(), then pull out one column with $
 #    Pattern: data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))
 
 
-# ✏️ TRY IT (2 min): store three temperatures, 38.5, 39.1, and 37.9, in an object
+# ✏️ TRY IT 1 (2 min): store three temperatures, 38.5, 39.1, and 37.9, in an object
 #    called my_temps. Then find their mean().
 #    ✅ Check: the mean is 38.5
 
@@ -86,7 +88,7 @@
 # Install (run once; skip this if you did the pre-workshop setup)
 install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 
-# 👀 Follow along: load today's packages, one library() line each
+# 👀 Follow along 2.1: load today's packages, one library() line each
 #    Pattern: library(PACKAGE_NAME)
 
 
@@ -108,15 +110,15 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #      you use a function before loading its package with library().
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: find the top of the project folder
+# 👀 Follow along 3.1: find the top of the project folder
 #    Pattern: here::here()
 
 
-# 👀 Follow along: build the path to raw_data/linelist_raw.xlsx
+# 👀 Follow along 3.2: build the path to raw_data/linelist_raw.xlsx
 #    Pattern: here::here("FOLDER", "FILE_NAME.EXTENSION")
 
 
-# ✏️ TRY IT (1 min): build the path to the practice data, raw_data/measles_raw.csv
+# ✏️ TRY IT 2 (1 min): build the path to the practice data, raw_data/measles_raw.csv
 #    ✅ Check: the output ends in .../raw_data/measles_raw.csv
 
 
@@ -137,14 +139,14 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #      workshop folder isn't open (check the Explorer on the left).
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: import raw_data/linelist_raw.xlsx and call it linelist_raw
+# 👀 Follow along 4.1: import raw_data/linelist_raw.xlsx and call it linelist_raw
 #    Pattern: NEW_NAME <- import(here("FOLDER", "FILE_NAME.EXTENSION"))
 
 
-# 👀 Follow along: import raw_data/case_info.csv (case_info) and raw_data/hosp_info.txt (hosp_info)
+# 👀 Follow along 4.2: import raw_data/case_info.csv (case_info) and raw_data/hosp_info.txt (hosp_info)
 
 
-# ✏️ TRY IT (2 min): import the practice data raw_data/measles_raw.csv and call it measles_raw
+# ✏️ TRY IT 3 (2 min): import the practice data raw_data/measles_raw.csv and call it measles_raw
 #    ✅ Check: in the Variables pane, measles_raw shows 1215 rows and 11 columns
 
 
@@ -190,27 +192,27 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    - Use == (two equals signs) to compare. One = is for naming arguments.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: size and structure of linelist_raw: view(), dim(), names(), head(), glimpse()
+# 👀 Follow along 5.1: size and structure of linelist_raw: view(), dim(), names(), head(), glimpse()
 
 
-# ✏️ TRY IT (3 min): use dim() and glimpse() on measles_raw
+# ✏️ TRY IT 4 (3 min): use dim() and glimpse() on measles_raw
 #    a) Which column should be a number but is stored as text (<chr>)?
 #    b) Which column names will need backticks?
 #    ✅ Check: dim() gives 1215 11
 
 
 
-# 👀 Follow along: skim(linelist_raw). Look at n_missing, and the min and max of wt_kg and ht_cm.
+# 👀 Follow along 5.2: skim(linelist_raw). Look at n_missing, and the min and max of wt_kg and ht_cm.
 
 
-# 👀 Follow along: count() the hospital, Gender, OUTCOME, and age_unit columns
+# 👀 Follow along 5.3: count() the hospital, Gender, OUTCOME, and age_unit columns
 #    Pattern: count(DATA, COLUMN)
 
 
-# 🔁 Follow along: the base R way. table() OUTCOME, with and without useNA = "ifany"
+# 🔁 Follow along 5.4: the base R way. table() OUTCOME, with and without useNA = "ifany"
 
 
-# ✏️ TRY IT (3 min):
+# ✏️ TRY IT 5 (3 min):
 #    a) count() District, SEX, and `Vaccinated?` in measles_raw
 #       How many different ways is "North" written? How many ways is "No" written?
 #    b) Now try table(measles_raw$District). What is missing compared with count()?
@@ -219,7 +221,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 
 
 
-# 👀 Follow along: use filter(), arrange(), and head() to find
+# 👀 Follow along 5.5: use filter(), arrange(), and head() to find
 #    - how many patients have ages in months, and the first 10 of them
 #    - the smallest weights (any impossible values?)
 #    - the tallest patients
@@ -227,19 +229,19 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    Pattern: head(arrange(DATA, COLUMN), 10)
 
 
-# ✏️ TRY IT (3 min): sort measles_raw by `Temp (C)`, largest first, and show only
+# ✏️ TRY IT 6 (3 min): sort measles_raw by `Temp (C)`, largest first, and show only
 #    the top 10 rows. What is the highest temperature? What happened?
 #    Pattern: head(arrange(DATA, desc(COLUMN)), 10)
 #    ✅ Check: the top value is 104.7
 
 
 
-# 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID
+# 👀 Follow along 5.6: missing values with colSums(is.na()), rows with no Case ID
 #    (nrow(filter(...))),
 #    and duplicates with sum(duplicated()) and get_dupes()
 
 
-# ✏️ TRY IT (3 min): in measles_raw,
+# ✏️ TRY IT 7 (3 min): in measles_raw,
 #    a) how many rows have a missing `Patient ID`?
 #    b) how many rows are exact duplicates?
 #    c) which column has the most missing values? Is that a mistake, or does it make sense?
@@ -251,7 +253,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 # 🎯 Goal: Write down every problem you found. This list is the to-do list for Session 2.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: the problem list for linelist_raw (fill it in with the class)
+# 👀 Follow along 6.1: the problem list for linelist_raw (fill it in with the class)
 # 1.
 # 2.
 # 3.
@@ -262,7 +264,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 # 8.
 
 
-# ✏️ TRY IT (10 min): write a problem list for measles_raw, using everything you
+# ✏️ TRY IT 8 (10 min): write a problem list for measles_raw, using everything you
 #    found in the TRY ITs above. Save this file: you will fix these problems in Session 2!
 #    ✅ Check: you should find at least 8 problems. Compare with the solutions file.
 # 1.

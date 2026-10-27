@@ -27,6 +27,10 @@ Before we open any data, a few building blocks you'll use in every line of R. Ty
 
 `<-` stores a value in an **object** so you can use it later. Read it as "gets". The object appears in the **Variables** pane.
 
+::: follow-along
+**👀 Follow along 1.1** — Store a number in an object called `my_age`, then add 5 to it.
+:::
+
 ```{r}
 my_age <- 35
 my_age
@@ -37,17 +41,31 @@ my_age + 5
 
 `c()` combines values into a **vector**. Every value in a vector has the same type.
 
+::: follow-along
+**👀 Follow along 1.2** — Make a vector of ages with `c()`, then find the `mean()`.
+:::
+
 ```{r}
 ages <- c(2, 18, 56, 61)
-hospitals <- c("Central Hospital", "Military Hospital", "Other")
-
 mean(ages)
+```
+
+::: follow-along
+**👀 Follow along 1.3** — Make a vector of hospital names (text needs quotes!) and find its `length()`.
+:::
+
+```{r}
+hospitals <- c("Central Hospital", "Military Hospital", "Other")
 length(hospitals)
 ```
 
 ## Functions and arguments
 
 A **function** does something to its inputs (**arguments**): `function_name(argument1, argument2, ...)`. Arguments can be named.
+
+::: follow-along
+**👀 Follow along 1.4** — Use `round(3.14159)` with and without `digits = 2`.
+:::
 
 ```{r}
 round(3.14159)
@@ -63,6 +81,10 @@ Type `?round` in the Console to open the help page for any function.
 ## Data frames
 
 A **data frame** is a table: each **column** is a variable (a vector), each **row** is an observation. (Later you'll also see **tibbles**: the tidyverse version of a data frame, which prints more neatly.)
+
+::: follow-along
+**👀 Follow along 1.5** — Make a small data frame with `data.frame()`, then pull out one column with `$`.
+:::
 
 ```{r}
 patients <- data.frame(
@@ -84,7 +106,7 @@ patients$age        # $ pulls out one column
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (2 min): objects and functions
+## ✏️ TRY IT 1 (2 min): objects and functions
 
 Store three temperatures, 38.5, 39.1, and 37.9, in an object called `my_temps`. Then find their `mean()`.
 
@@ -117,6 +139,10 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 ```
 
 Load only what you need today:
+
+::: follow-along
+**👀 Follow along 2.1** — Load today's packages, one `library()` line each. ✅ You should see no line that starts with "Error".
+:::
 
 ```{r}
 library(tidyverse)   # data wrangling (dplyr) and plotting (ggplot2)
@@ -160,16 +186,28 @@ Make a new folder for each project (with subfolders like `raw_data/` and `script
 
 `here()` finds the top of the project folder (it looks for a `.here` file, which the workshop folder has) and builds the path from there.
 
+::: follow-along
+**👀 Follow along 3.1** — Find the top of the project folder.
+:::
+
 ```{r}
 #| eval: false
 here::here()                                   # where is the top of my project?
+```
+
+::: follow-along
+**👀 Follow along 3.2** — Build the path to `raw_data/linelist_raw.xlsx`.
+:::
+
+```{r}
+#| eval: false
 here::here("raw_data", "linelist_raw.xlsx")    # full path to a file inside it
 ```
 
 `here::here()` means "the `here()` function from the here package". The `::` lets you use a function before loading its package.
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (1 min): a path to the practice data
+## ✏️ TRY IT 2 (1 min): a path to the practice data
 
 Build the path to the practice data, `raw_data/measles_raw.csv`.
 
@@ -191,11 +229,19 @@ here::here("raw_data", "measles_raw.csv")
 
 `rio::import()` reads almost any file type (`.csv`, `.xlsx`, `.txt`, SPSS, Stata, SAS, ...). It works out the type from the file extension, so you only need to learn one function. Save the result with `<-`, or it only prints to the Console and is gone.
 
+::: follow-along
+**👀 Follow along 4.1** — Import `raw_data/linelist_raw.xlsx` and call it `linelist_raw`.
+:::
+
 ```{r}
 linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
 ```
 
 The same function works for other file types:
+
+::: follow-along
+**👀 Follow along 4.2** — Import `raw_data/case_info.csv` (`case_info`) and `raw_data/hosp_info.txt` (`hosp_info`).
+:::
 
 ```{r}
 case_info <- import(here("raw_data", "case_info.csv"))   # comma-separated
@@ -219,7 +265,7 @@ hosp_info <- import(here("raw_data", "hosp_info.txt"))   # tab-separated text
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (2 min): import the practice data
+## ✏️ TRY IT 3 (2 min): import the practice data
 
 Import the practice data `raw_data/measles_raw.csv` and call it `measles_raw`.
 
@@ -239,6 +285,10 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 **Always look before you clean.** Inspecting tells you whether the data imported correctly and what needs fixing.
 
 ## Size and structure
+
+::: follow-along
+**👀 Follow along 5.1** — Size and structure of `linelist_raw`: `view()`, `dim()`, `names()`, `head()`, and `glimpse()` (the next three code blocks).
+:::
 
 ```{r}
 #| eval: false
@@ -272,7 +322,7 @@ In `glimpse()`, the type is shown in angle brackets: `<chr>` text, `<dbl>` numbe
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): size and structure
+## ✏️ TRY IT 4 (3 min): size and structure
 
 Use `dim()` and `glimpse()` on `measles_raw`.
 
@@ -296,6 +346,10 @@ b)  Names with spaces or symbols need backticks: `` `Patient ID` ``, `` `Report 
 
 ## Summary of every column
 
+::: follow-along
+**👀 Follow along 5.2** — `skim(linelist_raw)`. Look at `n_missing`, and the min and max of `wt_kg` and `ht_cm`.
+:::
+
 ```{r}
 skim(linelist_raw)
 ```
@@ -307,6 +361,10 @@ Look at the `n_missing` column, the minimum of `wt_kg` (below zero!), and the ma
 `count()` shows every distinct value in a column and how often it appears. It's the fastest way to find misspellings.
 
 The data goes first, then the column: `count(DATA, COLUMN)`.
+
+::: follow-along
+**👀 Follow along 5.3** — `count()` the hospital, Gender, OUTCOME, and age_unit columns.
+:::
 
 ```{r}
 count(linelist_raw, hospital)
@@ -320,6 +378,10 @@ count(linelist_raw, age_unit)
 
 You will often see base R's `table()` in other people's code. It counts too, but **it hides missing values** unless you ask for them:
 
+::: follow-along
+**🔁 Follow along 5.4** — The base R way: `table()` OUTCOME, with and without `useNA = "ifany"`.
+:::
+
 ```{r}
 table(linelist_raw$OUTCOME)                   # where are the missing outcomes?
 table(linelist_raw$OUTCOME, useNA = "ifany")  # there they are: 1493
@@ -329,7 +391,7 @@ table(linelist_raw$OUTCOME, useNA = "ifany")  # there they are: 1493
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): categories
+## ✏️ TRY IT 5 (3 min): categories
 
 a)  `count()` District, SEX, and `` `Vaccinated?` `` in `measles_raw`. How many different ways is "North" written? How many ways is "No" written?
 b)  Now try `table(measles_raw$District)`. What is missing compared with `count()`?
@@ -360,6 +422,10 @@ table(measles_raw$District, useNA = "ifany")
 Each one takes the data first. Column names with spaces need **backticks**: `` `Case ID` ``. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!
 
 `linelist_raw` is a regular data frame, so R prints **every** row it gets — all 6,604 of them, with 12 columns each! To do **two** things, such as filtering and then showing only the first 10 rows, put one function **inside** another. R runs the inside first:
+
+::: follow-along
+**👀 Follow along 5.5** — Use `filter()`, `arrange()`, and `head()` to find the patients with ages in months, the smallest weights, and the tallest patients (the next two code blocks).
+:::
 
 ```{r}
 # How many patients have ages in months?
@@ -392,7 +458,7 @@ Use `==` (two equals signs) to compare. One `=` is for naming arguments.
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): zooming in
+## ✏️ TRY IT 6 (3 min): zooming in
 
 Sort `measles_raw` by `` `Temp (C)` ``, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?
 
@@ -413,6 +479,10 @@ head(arrange(measles_raw, desc(`Temp (C)`)), 10)
 
 ## Missing values and duplicates
 
+::: follow-along
+**👀 Follow along 5.6** — Missing values with `colSums(is.na())`, rows with no Case ID, and duplicates with `sum(duplicated())` and `get_dupes()`.
+:::
+
 ```{r}
 # Missing values in each column
 colSums(is.na(linelist_raw))
@@ -431,7 +501,7 @@ get_dupes(linelist_raw)
 ```
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): missing values and duplicates
+## ✏️ TRY IT 7 (3 min): missing values and duplicates
 
 In `measles_raw`:
 
@@ -456,6 +526,10 @@ c)  `Days in Hospital` has the most (766). That makes sense: patients who were n
 
 # Part 6: The problem list
 
+::: follow-along
+**👀 Follow along 6.1** — The problem list for `linelist_raw`, filled in together.
+:::
+
 Here is everything we found in `linelist_raw`. This list is the to-do list for Session 2.
 
 | \# | Problem | How we found it |
@@ -470,7 +544,7 @@ Here is everything we found in `linelist_raw`. This list is the to-do list for S
 | 8 | 25 rows are duplicates | `duplicated()` |
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (10 min): the measles problem list
+## ✏️ TRY IT 8 (10 min): the measles problem list
 
 Write a numbered problem list for `measles_raw` in your student script, using everything you found in the TRY ITs. Save it — you will fix these problems in Session 2!
 

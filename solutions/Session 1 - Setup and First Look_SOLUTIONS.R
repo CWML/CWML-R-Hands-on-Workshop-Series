@@ -11,24 +11,24 @@
 # 🎯 Goal: Create objects, use functions, and build a small data frame.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: store a number in an object called my_age, then add 5 to it
+# 👀 Follow along 1.1: store a number in an object called my_age, then add 5 to it
 my_age <- 35
 my_age
 my_age + 5
 
-# 👀 Follow along: make a vector of ages with c(), then find the mean()
+# 👀 Follow along 1.2: make a vector of ages with c(), then find the mean()
 ages <- c(2, 18, 56, 61)
 mean(ages)
 
-# 👀 Follow along: make a vector of hospital names and find its length()
+# 👀 Follow along 1.3: make a vector of hospital names and find its length()
 hospitals <- c("Central Hospital", "Military Hospital", "Other")
 length(hospitals)
 
-# 👀 Follow along: round(3.14159) with and without digits = 2
+# 👀 Follow along 1.4: round(3.14159) with and without digits = 2
 round(3.14159)
 round(3.14159, digits = 2)
 
-# 👀 Follow along: make a small data frame with data.frame(), then pull out one column with $
+# 👀 Follow along 1.5: make a small data frame with data.frame(), then pull out one column with $
 patients <- data.frame(
   name = c("Ana", "Ben", "Cho"),
   age  = c(34, 51, 27)
@@ -36,7 +36,7 @@ patients <- data.frame(
 patients
 patients$age
 
-# ✏️ TRY IT: store three temperatures, 38.5, 39.1, and 37.9, in an object
+# ✏️ TRY IT 1: store three temperatures, 38.5, 39.1, and 37.9, in an object
 #    called my_temps. Then find their mean().
 my_temps <- c(38.5, 39.1, 37.9)
 mean(my_temps)   # 38.5
@@ -50,7 +50,7 @@ mean(my_temps)   # 38.5
 # Install (run once; skip this if you did the pre-workshop setup)
 install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 
-# 👀 Follow along: load today's packages, one library() line each
+# 👀 Follow along 2.1: load today's packages, one library() line each
 library(tidyverse)
 library(here)
 library(rio)
@@ -62,13 +62,13 @@ library(janitor)
 # 🎯 Goal: Open the workshop folder in Positron and see how here() builds file paths.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: find the top of the project folder
+# 👀 Follow along 3.1: find the top of the project folder
 here::here()
 
-# 👀 Follow along: build the path to raw_data/linelist_raw.xlsx
+# 👀 Follow along 3.2: build the path to raw_data/linelist_raw.xlsx
 here::here("raw_data", "linelist_raw.xlsx")
 
-# ✏️ TRY IT: build the path to the practice data, raw_data/measles_raw.csv
+# ✏️ TRY IT 2: build the path to the practice data, raw_data/measles_raw.csv
 here::here("raw_data", "measles_raw.csv")
 
 
@@ -76,14 +76,14 @@ here::here("raw_data", "measles_raw.csv")
 # 🎯 Goal: Read data files into R with import() + here().
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: import raw_data/linelist_raw.xlsx and call it linelist_raw
+# 👀 Follow along 4.1: import raw_data/linelist_raw.xlsx and call it linelist_raw
 linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
 
-# 👀 Follow along: import raw_data/case_info.csv (case_info) and raw_data/hosp_info.txt (hosp_info)
+# 👀 Follow along 4.2: import raw_data/case_info.csv (case_info) and raw_data/hosp_info.txt (hosp_info)
 case_info <- import(here("raw_data", "case_info.csv"))
 hosp_info <- import(here("raw_data", "hosp_info.txt"))
 
-# ✏️ TRY IT: import the practice data raw_data/measles_raw.csv and call it measles_raw
+# ✏️ TRY IT 3: import the practice data raw_data/measles_raw.csv and call it measles_raw
 measles_raw <- import(here("raw_data", "measles_raw.csv"))
 
 
@@ -91,34 +91,34 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 # 🎯 Goal: Look at the data before changing anything, and find its problems.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: size and structure of linelist_raw: view(), dim(), names(), head(), glimpse()
+# 👀 Follow along 5.1: size and structure of linelist_raw: view(), dim(), names(), head(), glimpse()
 view(linelist_raw)
 dim(linelist_raw)        # 6604 rows, 12 columns
 names(linelist_raw)
 head(linelist_raw)
 glimpse(linelist_raw)
 
-# ✏️ TRY IT: use dim() and glimpse() on measles_raw
+# ✏️ TRY IT 4: use dim() and glimpse() on measles_raw
 dim(measles_raw)         # 1215 rows, 11 columns
 glimpse(measles_raw)
 # a) `Age (years)` is <chr> (text) but should be a number
 # b) Backticks needed: `Patient ID`, `Report Date`, `Age (years)`, `Vaccinated?`,
 #    `Temp (C)`, `Days in Hospital`
 
-# 👀 Follow along: skim(linelist_raw). Look at n_missing, and the min and max of wt_kg and ht_cm.
+# 👀 Follow along 5.2: skim(linelist_raw). Look at n_missing, and the min and max of wt_kg and ht_cm.
 skim(linelist_raw)
 
-# 👀 Follow along: count() the hospital, Gender, OUTCOME, and age_unit columns
+# 👀 Follow along 5.3: count() the hospital, Gender, OUTCOME, and age_unit columns
 count(linelist_raw, hospital)
 count(linelist_raw, Gender)
 count(linelist_raw, OUTCOME)
 count(linelist_raw, age_unit)
 
-# 🔁 Follow along: the base R way. table() OUTCOME, with and without useNA = "ifany"
+# 🔁 Follow along 5.4: the base R way. table() OUTCOME, with and without useNA = "ifany"
 table(linelist_raw$OUTCOME)                    # no NA shown
 table(linelist_raw$OUTCOME, useNA = "ifany")   # 1493 missing outcomes
 
-# ✏️ TRY IT: a) count() District, SEX, and `Vaccinated?` in measles_raw
+# ✏️ TRY IT 5: a) count() District, SEX, and `Vaccinated?` in measles_raw
 count(measles_raw, District)        # North: "North", "north", "Nroth", "North District" = 4 ways
 count(measles_raw, SEX)             # Male / male / M and Female / female / F
 count(measles_raw, `Vaccinated?`)   # No: "No", "no", "N", "NO" = 4 ways
@@ -127,7 +127,7 @@ count(measles_raw, `Vaccinated?`)   # No: "No", "no", "N", "NO" = 4 ways
 table(measles_raw$District)
 table(measles_raw$District, useNA = "ifany")
 
-# 👀 Follow along: use filter(), arrange(), and head() to find
+# 👀 Follow along 5.5: use filter(), arrange(), and head() to find
 #    - how many patients have ages in months, and the first 10 of them
 #    - the smallest weights (any impossible values?)
 #    - the tallest patients
@@ -138,12 +138,12 @@ head(arrange(linelist_raw, wt_kg), 10)               # negative and zero weights
 
 head(arrange(linelist_raw, desc(ht_cm)), 10)         # heights up to 295 cm
 
-# ✏️ TRY IT: sort measles_raw by `Temp (C)`, largest first, and show only
+# ✏️ TRY IT 6: sort measles_raw by `Temp (C)`, largest first, and show only
 #    the top 10 rows. What is the highest temperature? What happened?
 head(arrange(measles_raw, desc(`Temp (C)`)), 10)
 # 104.7 is about 40 °C written in Fahrenheit. A few temperatures were entered in °F.
 
-# 👀 Follow along: missing values with colSums(is.na()), rows with no Case ID
+# 👀 Follow along 5.6: missing values with colSums(is.na()), rows with no Case ID
 #    (nrow(filter(...))),
 #    and duplicates with sum(duplicated()) and get_dupes()
 colSums(is.na(linelist_raw))
@@ -151,7 +151,7 @@ nrow(filter(linelist_raw, is.na(`Case ID`)))   # 130
 sum(duplicated(linelist_raw))                  # 25
 get_dupes(linelist_raw)
 
-# ✏️ TRY IT: in measles_raw,
+# ✏️ TRY IT 7: in measles_raw,
 #    a) how many rows have a missing `Patient ID`?
 #    b) how many rows are exact duplicates?
 #    c) which column has the most missing values? Is that a mistake, or does it make sense?
@@ -166,7 +166,7 @@ colSums(is.na(measles_raw))
 # 🎯 Goal: Write down every problem you found. This list is the to-do list for Session 2.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: the problem list for linelist_raw (fill it in with the class)
+# 👀 Follow along 6.1: the problem list for linelist_raw (fill it in with the class)
 # 1. Column names have spaces, dots, and capitals
 # 2. Date columns are different types (date.onset is text, the others are date-times)
 # 3. age is stored as text, and 37 ages are in months, not years
@@ -176,7 +176,7 @@ colSums(is.na(measles_raw))
 # 7. 130 rows have no Case ID
 # 8. 25 rows are duplicates
 
-# ✏️ TRY IT: write a problem list for measles_raw
+# ✏️ TRY IT 8: write a problem list for measles_raw
 # 1. Column names have spaces, capitals, and symbols (? and parentheses)
 # 2. `Age (years)` is stored as text because of "unknown" (27 rows) and "999" (4 rows)
 # 3. District is misspelled ("Nroth", "Cetnral"), has lower-case versions, and some say "... District"

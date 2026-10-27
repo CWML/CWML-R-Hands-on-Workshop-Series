@@ -54,3 +54,40 @@ body.quarto-dark .callout-header code {
 }
 .page-navigation .nav-page-previous .pagination-link::before { content: "Previous: "; font-weight: 400; }
 .page-navigation .nav-page-next .pagination-link::before { content: "Next: "; font-weight: 400; order: 0; }
+
+/* "👀 Follow along 1.1" labels above code, matching the numbers in the student scripts */
+.follow-along {
+  margin: 1.4rem 0 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-left: 4px solid var(--bs-primary, #2780e3);
+  background-color: rgba(39, 128, 227, 0.08);
+  border-radius: 0 0.35rem 0.35rem 0;
+  font-size: 0.95rem;
+}
+.follow-along strong:first-child {
+  white-space: nowrap;
+}
+body.quarto-dark .follow-along {
+  background-color: rgba(55, 90, 127, 0.25);
+}
+.follow-along p {
+  margin: 0;
+}
+
+/* Dark mode: the outline-secondary download buttons were too dim to read */
+body.quarto-dark .downloads .btn-outline-secondary {
+  color: #dee2e6;
+  border-color: #adb5bd;
+}
+body.quarto-dark .downloads .btn-outline-secondary:hover {
+  color: #222;
+  background-color: #dee2e6;
+}
+
+/* A single "next" button placed by hand (Setup page) */
+.next-step {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--bs-border-color, #dee2e6);
+  text-align: right;
+}

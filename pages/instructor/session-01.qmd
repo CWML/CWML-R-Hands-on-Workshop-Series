@@ -18,7 +18,7 @@ subtitle: "Setup and a first look at your data"
 |   | Wrap-up and preview | 5 min |
 |   | **Total** | **90 min** |
 
-**Short on time?** Make the Part 6 TRY IT (the measles problem list) homework — learners need it at the start of Session 2.
+**Short on time?** Make TRY IT 8 (the measles problem list) homework — learners need it at the start of Session 2.
 
 ## Why this order
 
@@ -54,13 +54,15 @@ The **🔁 base R `table()`** box takes 2 minutes. The point is not to learn a s
 
 ## TRY IT answers at a glance
 
+The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.3 = Part 5, third prompt).
+
 | TRY IT | Answer |
 |---|---|
-| Objects and functions | `mean(my_temps)` is 38.5 |
-| Path to the practice data | `here::here("raw_data", "measles_raw.csv")` |
-| Import | 1215 rows, 11 columns |
-| Size and structure | `Age (years)` is text; six names need backticks |
-| Categories | a) District has 18 values; "North" and "No" are each written 4 ways b) `table()` drops the 34 `NA` districts |
-| Zooming in | `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``: highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
-| Missing values and duplicates | 37 missing IDs, 15 duplicates; `Days in Hospital` has 766 NAs (not hospitalized) |
-| Problem list | At least 8 problems — see the lesson's solution |
+| 1. Objects and functions | `mean(my_temps)` is 38.5 |
+| 2. Path to the practice data | `here::here("raw_data", "measles_raw.csv")` |
+| 3. Import | 1215 rows, 11 columns |
+| 4. Size and structure | `Age (years)` is text; six names need backticks |
+| 5. Categories | a) District has 18 values; "North" and "No" are each written 4 ways b) `table()` drops the 34 `NA` districts |
+| 6. Zooming in | `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``: highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
+| 7. Missing values and duplicates | 37 missing IDs, 15 duplicates; `Days in Hospital` has 766 NAs (not hospitalized) |
+| 8. Problem list | At least 8 problems — see the lesson's solution |
