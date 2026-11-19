@@ -34,3 +34,10 @@ processed_data/OLD/
 
 # Student ZIP built by tools/build_student_zip.sh
 /dist/
+
+# Files made by running the solution scripts (plots, tables, CSV copies)
+/outputs/*
+!/outputs/.gitkeep
+/processed_data/linelist_clean.csv
+/processed_data/measles_clean.csv
+/processed_data/*.docx
