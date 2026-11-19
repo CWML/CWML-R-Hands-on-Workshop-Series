@@ -20,6 +20,24 @@ No experience with R or programming is needed.
 -   Make histograms, scatter plots, box plots, bar charts, and epidemic curves with **ggplot2**
 -   Write your own functions and loops to automate repeated work
 
+## The steps of a data project
+
+Most data projects go through the same steps, whatever the topic. The workshop follows them in order, with one realistic dataset from start to finish:
+
+::: workflow
+1.  [Import (Session 1)]{.step}
+2.  [Inspect (1)]{.step}
+3.  [Clean (2, 3)]{.step}
+4.  [Combine (3)]{.step}
+5.  [Reshape (4)]{.step}
+6.  [Summarize (5)]{.step}
+7.  [Visualize (6, 7)]{.step}
+8.  [Save and share (2, 3, 5, 7)]{.step}
+9.  [Automate (8)]{.step}
+:::
+
+Each lesson starts with this strip and highlights the steps it covers.
+
 ## Start here
 
 1.  **[Setup](pages/setup.qmd)** — install R, Positron, and the packages, and download the workshop folder. Please do this **before** the first session.
@@ -28,7 +46,7 @@ No experience with R or programming is needed.
 ::: lesson-list
 | \#    | Lesson                                                                   | You will learn                                                                  |
 |-------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| 1     | [Setup and a first look at your data](pages/lessons/01-setup-and-first-look.qmd) | R basics, packages, project folders, importing and inspecting data       |
+| 1     | [R basics, importing, and inspecting data](pages/lessons/01-r-basics-importing-inspecting.qmd) | R basics, packages, project folders, importing and inspecting data       |
 | 2     | [Cleaning](pages/lessons/02-cleaning.qmd)                                                 | the pipe `%>%`, `clean_names()`, `mutate()`, `if_else()`, `case_when()`          |
 | 3     | [Missing data, joins, and export](pages/lessons/03-missing-data-joins-export.qmd)                          | missing values, duplicates, joins, `export()`                                   |
 | 4     | [Data structures](pages/lessons/04-data-structures.qmd)                                          | vectors, subsetting, lists, `pivot_longer()` / `pivot_wider()`                  |

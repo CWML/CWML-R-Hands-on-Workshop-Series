@@ -140,3 +140,33 @@ body.quarto-dark .gt_table caption,
 body.quarto-dark .gt_table caption * {
   color: #333 !important;
 }
+
+/* Workflow strip: the steps of a data project, with today's steps highlighted */
+.workflow ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0.5rem 0 1.25rem;
+}
+.workflow li { margin: 0; }
+.workflow li:not(:last-child)::after {
+  content: "→" / "";
+  margin-left: 0.35rem;
+  color: var(--bs-secondary-color, #6c757d);
+}
+.workflow .step {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid #adb5bd;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+.workflow .today {
+  background-color: #1b5fae;
+  border-color: #1b5fae;
+  color: #fff;
+  font-weight: 600;
+}

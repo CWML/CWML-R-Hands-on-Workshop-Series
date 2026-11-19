@@ -20,7 +20,7 @@ https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/
 | `docs/`, `_freeze/` | **Generated** by `quarto render`. Never edit by hand; commit both |
 | `Notes/`, `instructor scripts/` | Private, git-ignored. `instructor scripts/make_practice_data.R` regenerates the measles data; old material is archived in `instructor scripts/OLD/` |
 
-Sessions: 1 Setup and first look · 2 Cleaning · 3 Missing data, joins, export ·
+Sessions: 1 R basics, importing, inspecting · 2 Cleaning · 3 Missing data, joins, export ·
 4 Data structures (vectors, lists, subsetting, pivoting) · 5 Summarizing ·
 6 Plotting basics · 7 Plotting further · 8 Programming (optional).
 

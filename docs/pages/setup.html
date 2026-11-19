@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Setup</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/lessons/01-setup-and-first-look.html"> 
+    <a class="nav-link" href="../pages/lessons/01-r-basics-importing-inspecting.html"> 
 <span class="menu-text">Lessons</span></a>
   </li>  
   <li class="nav-item">
@@ -435,74 +435,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Open the workshop <strong>folder</strong> in Positron (<strong>File → Open Recent</strong> lists it) — not a script on its own</li>
 <li>Open that session’s student script from the <code>student_scripts/</code> folder</li>
-<li>Run that session’s test:</li>
+<li>Copy that session’s test into the Console and press Enter:</li>
 </ul>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Session</th>
-<th>Bring / have ready</th>
-<th>Test (copy into the Console)</th>
-<th>✅ Ready if it prints</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>The one-time setup above</td>
-<td>See above</td>
-<td><code>[1] 1215</code></td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Your measles problem list from Session 1</td>
-<td><code>nrow(rio::import(here::here("raw_data", "linelist_raw.xlsx")))</code></td>
-<td><code>[1] 6604</code></td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>—</td>
-<td><code>nrow(rio::import(here::here("processed_data", "linelist_clean.rds"), trust = TRUE))</code></td>
-<td><code>[1] 6604</code></td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>—</td>
-<td><code>nrow(rio::import(here::here("processed_data", "combined_linelist.rds"), trust = TRUE))</code></td>
-<td><code>[1] 6451</code></td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>—</td>
-<td><code>nrow(rio::import(here::here("processed_data", "measles_final.rds"), trust = TRUE))</code></td>
-<td><code>[1] 1163</code></td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>—</td>
-<td><code>nrow(rio::import(here::here("processed_data", "measles_final.rds"), trust = TRUE))</code></td>
-<td><code>[1] 1163</code></td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>—</td>
-<td><code>dir.exists(here::here("outputs"))</code></td>
-<td><code>[1] TRUE</code></td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>—</td>
-<td><code>purrr::map_dbl(1:3, ~ .x * 2)</code></td>
-<td><code>[1] 2 4 6</code></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Session 1</strong> — have ready: the one-time setup above. Test: step 6 above. ✅ Ready if it prints <code>[1] 1215</code></p>
+<p><strong>Session 2</strong> — have ready: your measles problem list from Session 1.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">"linelist_raw.xlsx"</span>, <span class="st">"measles_raw.csv"</span>), \(f) <span class="fu">nrow</span>(rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"raw_data"</span>, f))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>✅ Ready if it prints <code>6604</code> and <code>1215</code></p>
+<p><strong>Session 3</strong> — have ready: <code>linelist_clean.rds</code> and <code>measles_clean.rds</code>, which you saved in Session 2.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">"linelist_clean.rds"</span>, <span class="st">"measles_clean.rds"</span>), \(f) <span class="fu">nrow</span>(rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"processed_data"</span>, f), <span class="at">trust =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>✅ Ready if it prints <code>6604</code> and <code>1215</code></p>
+<p><strong>Sessions 4–8</strong> (Session 8 is optional) — have ready: <code>combined_linelist.rds</code> and <code>measles_final.rds</code>, which you saved in Session 3.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">"combined_linelist.rds"</span>, <span class="st">"measles_final.rds"</span>), \(f) <span class="fu">nrow</span>(rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"processed_data"</span>, f), <span class="at">trust =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>✅ Ready if it prints <code>6451</code> and <code>1163</code></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -540,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ├── outputs/          # plots and tables you save
 └── README.md         # how to open the folder</code></pre>
 <div class="next-step">
-<p><a href="../pages/lessons/01-setup-and-first-look.html" class="btn btn-outline-primary">Next: Session 1 — Setup and a First Look at Your Data →</a></p>
+<p><a href="../pages/lessons/01-r-basics-importing-inspecting.html" class="btn btn-outline-primary">Next: Session 1 — R Basics, Importing, and Inspecting Data →</a></p>
 </div>
 
 

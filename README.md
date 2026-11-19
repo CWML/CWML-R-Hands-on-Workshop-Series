@@ -17,7 +17,7 @@ explanations, code, TRY ITs with solutions, setup instructions, and the instruct
 
 | \# | Session | You will learn | Student script |
 |----|---------|----------------|----------------|
-| 1 | Setup and a first look at your data | R basics, packages, project folders, `here()`, `import()`, inspecting data, 🔁 `table()` | `Session 1 - Setup and First Look_STUDENT.R` |
+| 1 | R basics, importing, and inspecting data | R basics, packages, project folders, `here()`, `import()`, inspecting data, 🔁 `table()` | `Session 1 - R Basics, Importing, and Inspecting_STUDENT.R` |
 | 2 | Cleaning | the pipe `%>%`, `clean_names()`, `rename()`, `mutate()`, `if_else()`, `case_when()`, fixing types, new variables, 🔁 `ifelse()`, `cut()` | `Session 2 - Cleaning_STUDENT.R` |
 | 3 | Missing data, joins, and export | missing values, `distinct()`, `replace_na()`, `select()`, joins, `export()`, 🔁 `merge()`, `%in%` | `Session 3 - Missing Data, Joins, and Export_STUDENT.R` |
 | 4 | Data structures | vectors and types, vectorization, subsetting with `[ ]` and `$`, **lists** (and test results as lists), tidy data, `pivot_longer()` / `pivot_wider()` | `Session 4 - Data Structures_STUDENT.R` |
@@ -94,18 +94,9 @@ checklist ends with a test: if the test prints the expected answer, you're ready
 - [ ] Open the workshop **folder** in Positron (**File → Open Recent** lists it),
       not a script on its own
 - [ ] Open that session's student script from the `student_scripts/` folder
-- [ ] Run that session's test below
-
-| Session | Bring / have ready | Test (copy into the Console) | ✅ Ready if it prints |
-|---|---|---|---|
-| 1 | The one-time setup above | See above | `[1] 1215` |
-| 2 | Your measles problem list from Session 1 | `nrow(rio::import(here::here("raw_data", "linelist_raw.xlsx")))` | `[1] 6604` |
-| 3 | — | `nrow(rio::import(here::here("processed_data", "linelist_clean.rds"), trust = TRUE))` | `[1] 6604` |
-| 4 | — | `nrow(rio::import(here::here("processed_data", "combined_linelist.rds"), trust = TRUE))` | `[1] 6451` |
-| 5 | — | `nrow(rio::import(here::here("processed_data", "measles_final.rds"), trust = TRUE))` | `[1] 1163` |
-| 6 | — | `nrow(rio::import(here::here("processed_data", "measles_final.rds"), trust = TRUE))` | `[1] 1163` |
-| 7 | — | `dir.exists(here::here("outputs"))` | `[1] TRUE` |
-| 8 | — | `purrr::map_dbl(1:3, ~ .x * 2)` | `[1] 2 4 6` |
+- [ ] Run that session's test from the
+      [Setup page](https://cwml.github.io/CWML-R-Hands-on-Workshop-Series/pages/setup.html#before-every-session-2-minutes)
+      (it checks that the data files the session starts from are in place)
 
 **Missed a session, or did your saved file get broken?** Every file a session
 starts from is already in `processed_data/`. When you save your own version in

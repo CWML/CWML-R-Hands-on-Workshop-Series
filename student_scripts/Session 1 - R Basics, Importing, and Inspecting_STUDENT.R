@@ -1,4 +1,4 @@
-# Session 1: Setup and a First Look at Your Data
+# Session 1: R Basics, Importing, and Inspecting Data
 # R Hands-on Workshop Series — STUDENT VERSION
 #________________________________________________________________________________
 #
@@ -18,7 +18,7 @@
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Comments:        anything after # is a note to yourself. R ignores it. Add your own!
 #   Stuck?           put up your red sticky note, or check
-#                    solutions/Session 1 - Setup and First Look_SOLUTIONS.R
+#                    solutions/Session 1 - R Basics, Importing, and Inspecting_SOLUTIONS.R
 #________________________________________________________________________________
 
 

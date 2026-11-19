@@ -1,4 +1,4 @@
-# Session 1: Setup and a First Look at Your Data
+# Session 1: R Basics, Importing, and Inspecting Data
 # R Hands-on Workshop Series — SOLUTIONS
 #________________________________________________________________________________
 #

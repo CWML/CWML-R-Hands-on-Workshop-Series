@@ -22,7 +22,7 @@ website:
       - text: "Setup"
         href: pages/setup.qmd
       - text: "Lessons"
-        href: pages/lessons/01-setup-and-first-look.qmd
+        href: pages/lessons/01-r-basics-importing-inspecting.qmd
       - text: "Data"
         href: pages/data.qmd
       - text: "Base R ↔ tidyverse"
@@ -45,7 +45,7 @@ website:
       title: "Lessons"
       style: docked
       contents:
-        - pages/lessons/01-setup-and-first-look.qmd
+        - pages/lessons/01-r-basics-importing-inspecting.qmd
         - pages/lessons/02-cleaning.qmd
         - pages/lessons/03-missing-data-joins-export.qmd
         - pages/lessons/04-data-structures.qmd

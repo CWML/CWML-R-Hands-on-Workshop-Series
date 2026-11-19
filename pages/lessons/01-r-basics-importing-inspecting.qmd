@@ -1,10 +1,12 @@
 ---
-title: "Session 1: Setup and a First Look at Your Data"
-subtitle: "R basics, packages, project folders, and importing and inspecting data"
+aliases:
+  - 01-setup-and-first-look.html
+title: "Session 1: R Basics, Importing, and Inspecting Data"
+subtitle: "Objects, functions, packages, and project folders, then your first dataset"
 ---
 
 ::: downloads
-[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%201%20-%20Setup%20and%20First%20Look_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20Setup%20and%20First%20Look_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip){.btn .btn-outline-secondary .btn-sm}
+[⬇ Student script](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/student_scripts/Session%201%20-%20R%20Basics%2C%20Importing%2C%20and%20Inspecting_STUDENT.R){.btn .btn-outline-primary .btn-sm} [⬇ Solutions](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/blob/main/solutions/Session%201%20-%20R%20Basics%2C%20Importing%2C%20and%20Inspecting_SOLUTIONS.R){.btn .btn-outline-secondary .btn-sm} [⬇ Workshop folder (ZIP)](https://github.com/CWML/CWML-R-Hands-on-Workshop-Series/releases/download/student-files/cwml-r-workshop.zip){.btn .btn-outline-secondary .btn-sm}
 :::
 
 ::: callout-note
@@ -16,7 +18,21 @@ subtitle: "R basics, packages, project folders, and importing and inspecting dat
 4.  Import a data file with `import()` and `here()`
 5.  Inspect a dataset and write down a list of the problems that need cleaning
 
-**Before you start:** complete the [Setup](../setup.qmd) and open `student_scripts/Session 1 - Setup and First Look_STUDENT.R`.
+**Before you start:** complete the [Setup](../setup.qmd) and open `student_scripts/Session 1 - R Basics, Importing, and Inspecting_STUDENT.R`.
+:::
+
+**Where this session fits.** Most data projects go through the same steps, whatever the topic. Today covers the first two, **Import** and **Inspect** (highlighted): getting the data into R, and looking at it carefully before changing anything. You could do these steps in Excel or SPSS too. What R adds is that every step is written down in a script, so you (or a colleague) can check it, rerun it on next month's data, and share it.
+
+::: workflow
+1.  [Import]{.step .today}
+2.  [Inspect]{.step .today}
+3.  [Clean]{.step}
+4.  [Combine]{.step}
+5.  [Reshape]{.step}
+6.  [Summarize]{.step}
+7.  [Visualize]{.step}
+8.  [Save and share]{.step}
+9.  [Automate]{.step}
 :::
 
 # Part 1: R basics
@@ -39,6 +55,14 @@ my_age
 my_age + 5
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `my_age <- 35` creates an object called `my_age` and stores the number 35 in it. Nothing prints: saving is silent. `my_age` now appears in the **Variables** pane.
+-   `my_age` on its own prints what is stored: `[1] 35`. The `[1]` means "this is the first value". It helps you keep your place when the output runs over several lines.
+-   `my_age + 5` uses the object in a calculation and prints 40. `my_age` itself is still 35: to change it, you would save again with `<-`.
+:::
+
 ## Vectors
 
 `c()` combines values into a **vector**. Every value in a vector has the same type.
@@ -52,6 +76,14 @@ ages <- c(2, 18, 56, 61)
 mean(ages)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `c(2, 18, 56, 61)` combines four numbers into one vector, and `ages <-` saves it.
+-   `mean(ages)` gives the whole vector to `mean()`, which adds the values and divides by how many there are: (2 + 18 + 56 + 61) / 4 = 34.25.
+-   Most R functions work on a whole vector at once, so you rarely handle values one by one.
+:::
+
 ::: follow-along
 **👀 Follow along 1.3** — Make a vector of hospital names (text needs quotes!) and find its `length()`.
 :::
@@ -60,6 +92,13 @@ mean(ages)
 hospitals <- c("Central Hospital", "Military Hospital", "Other")
 length(hospitals)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The hospital names are text, so each one is in quotes. Without quotes, R would look for an object called `Central` and give an error.
+-   `length(hospitals)` counts the values in the vector: 3. It counts values, not letters.
+:::
 
 ## Functions and arguments
 
@@ -73,6 +112,14 @@ A **function** does something to its inputs (**arguments**): `function_name(argu
 round(3.14159)
 round(3.14159, digits = 2)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `round(3.14159)` has one argument, the number. The `digits` argument wasn't given, so `round()` uses its default, 0, and rounds to a whole number: 3.
+-   `round(3.14159, digits = 2)` adds a second, **named** argument and gives 3.14.
+-   Arguments you leave out use their default value. The help page (`?round`) lists every argument and its default.
+:::
 
 ::: callout-tip
 ## Getting help
@@ -100,6 +147,14 @@ patients
 patients$age        # $ pulls out one column
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `data.frame()` builds a table from vectors. Each `column_name = c(...)` becomes one column: `name` holds text and `age` holds numbers.
+-   Every column must have the same length (3 here), because each row is one patient.
+-   `patients$age` pulls out the `age` column as a vector: `34 51 27`. You can give it to any function, for example `mean(patients$age)`.
+:::
+
 ::: callout-warning
 ## Common mistakes
 
@@ -124,6 +179,15 @@ my_temps <- c(38.5, 39.1, 37.9)
 mean(my_temps)
 ```
 :::
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   **Script or Console?** The Console runs a line once and forgets it. Your script is the record of what you did, so type your code in the script and run it from there.
+-   **Objects live in R's memory, not on your disk.** They disappear when you close Positron or restart R. That's fine: rerun your script and they're back. If you're ever asked whether to save the workspace, choose **No**.
+-   **`<-` or `=`?** Both can store a value, but this course always uses `<-`, so that `=` only ever means "name an argument" (as in `digits = 2`).
+-   **A vector holds one type.** If you mix text into numbers, R turns everything into text: `c(5, 12, "unknown")` is three pieces of text. You'll see this in the practice data, where a few ages say "unknown".
 :::
 
 # Part 2: Installing and loading packages
@@ -158,11 +222,27 @@ library(skimr)       # skim() for a quick data summary
 library(janitor)     # get_dupes() today; clean_names() in Session 2
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Each `library()` line makes one package's functions available until you close Positron or restart R. That's why every session starts with these lines.
+-   `library(tidyverse)` loads a whole family of packages at once (dplyr, ggplot2, tidyr, readr, stringr, forcats, lubridate, tibble, and purrr) and lists them.
+-   Its **Conflicts** message says that a few tidyverse functions share a name with a base R function, for example `filter()`. From now on, `filter()` means the tidyverse version. This is normal, not an error.
+-   The text after `#` is a **comment**: a note for people. R ignores it.
+:::
+
 ::: callout-warning
 ## Common mistakes
 
 -   Package names need quotes in `install.packages()` but **not** in `library()`.
 -   Red text is not always an error! Messages like "Attaching core tidyverse packages" are normal. An error starts with **Error**.
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   Packages are shared on **CRAN**, R's official package library, which has more than 20,000 of them. `install.packages()` downloads from there.
+-   The **tidyverse** is a family of packages designed to work together, with the same style of function names and arguments. That's why one `library(tidyverse)` loads several of them.
 :::
 
 # Part 3: Project folders and `here()`
@@ -203,6 +283,13 @@ Pattern: `here::here()`
 here::here()                                   # where is the top of my project?
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `here::here()` prints the full path to the top of the project folder: wherever you saved `cwml-r-workshop` on your computer. It finds the top by looking for the `.here` file.
+-   If the path isn't your workshop folder, the folder isn't open in Positron. Choose **File → Open Folder...** and open it.
+:::
+
 ::: follow-along
 **👀 Follow along 3.2** — Build the path to `raw_data/linelist_raw.xlsx`.
 
@@ -213,6 +300,14 @@ Pattern: `here::here("FOLDER", "FILE_NAME.EXTENSION")`
 #| eval: false
 here::here("raw_data", "linelist_raw.xlsx")    # full path to a file inside it
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `here::here("raw_data", "linelist_raw.xlsx")` adds a folder and a file name to that path, joined with `/`. R uses `/` on every computer, Windows included.
+-   It only **builds** the path, as text. It doesn't check that the file exists or open it: that's the job of `import()`, next.
+-   Each piece is in quotes because it's text, not the name of an object.
+:::
 
 `here::here()` means "the `here()` function from the here package". The `::` lets you use a function before loading its package.
 
@@ -233,6 +328,14 @@ here::here("raw_data", "measles_raw.csv")
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   The **working directory** is the folder R reads files from and saves files to. Opening the workshop folder in Positron sets it for you.
+-   Older tutorials often start with `setwd("C:/Users/...")`. That path only exists on one computer, so the script breaks everywhere else. A project folder with `here()` avoids this.
+-   `here()` finds the top of the project by looking for a marker: a `.here` file (the workshop folder has one), an `.Rproj` file, or a `.git` folder.
+:::
+
 # Part 4: Importing data
 
 ## `import()` + `here()`
@@ -249,6 +352,32 @@ Pattern: `NEW_NAME <- import(here("FOLDER", "FILE_NAME.EXTENSION"))`
 linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
 ```
 
+::: {.callout-tip icon=false}
+## 🧩 Reading a function call
+
+Here is the line you just ran, taken apart:
+
+`linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))`
+
+| Piece | What it is | What it does |
+|---|---|---|
+| `linelist_raw` | the name of a new object | holds the result |
+| `<-` | the assignment arrow | saves the result in `linelist_raw` |
+| `import(...)` | a function from the rio package | reads a file into R |
+| `here(...)` | a function from the here package, used as the **argument** of `import()` | builds the full path to the file |
+| `"raw_data"`, `"linelist_raw.xlsx"` | two text arguments of `here()` | the folder, then the file name |
+
+R runs it from the **inside out**: first `here()` builds the path, then `import()` reads the file at that path, and finally `<-` saves the result. Reading code aloud in the same order helps: "`linelist_raw` gets: import the file at here, raw_data, linelist_raw.xlsx."
+:::
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `import()` saw the `.xlsx` ending and read the file as an Excel workbook (the first sheet, unless you ask for another).
+-   Nothing prints. `linelist_raw` appears in the **Variables** pane with 6604 rows and 12 columns.
+-   The result is a **data frame**: the same kind of table as `patients` in Part 1, only bigger. Each row is one patient (a case), and each column is one piece of information about them.
+:::
+
 The same function works for other file types:
 
 ::: follow-along
@@ -259,6 +388,14 @@ The same function works for other file types:
 case_info <- import(here("raw_data", "case_info.csv"))   # comma-separated
 hosp_info <- import(here("raw_data", "hosp_info.txt"))   # tab-separated text
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Same pattern, different file types: `import()` chooses how to read each file from its ending. `.csv` is comma-separated values; this `.txt` file is separated by tabs.
+-   `case_info` has 5888 rows and 7 columns of extra details about each case. We join it to the linelist in Session 3.
+-   `hosp_info` is a small look-up table (6 rows): the correct name and some facts about each hospital. We use it in Session 2 to fix the hospital names.
+:::
 
 ::: callout-warning
 ## Common mistakes
@@ -290,6 +427,14 @@ Import the practice data `raw_data/measles_raw.csv` and call it `measles_raw`.
 measles_raw <- import(here("raw_data", "measles_raw.csv"))
 ```
 :::
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   `import()` passes the work to a specialist package based on the file ending: **readxl** for Excel, **data.table** for CSV and text files, and **haven** for SPSS, Stata, and SAS. You only need to remember one function.
+-   `import()` returns a plain **data frame**, which prints every row. That's why this lesson wraps long output in `head()`. Tidyverse functions return a **tibble**, a data frame that prints only the first 10 rows.
+-   Excel stores dates as date-times, so most date columns arrive as `<dttm>`. One column, `date.onset`, arrives as text: Excel files often hold surprises like this, which is why you inspect before you clean.
 :::
 
 # Part 5: Inspecting data
@@ -324,6 +469,16 @@ glimpse(linelist_raw)    # every column, its type, and the first few values
 ```
 
 In `glimpse()`, the type is shown in angle brackets: `<chr>` text, `<dbl>` number, `<date>` date, `<dttm>` date-time.
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `view()` opens the data like a spreadsheet in the Data Explorer. You can sort and filter there to look around; that doesn't change the data.
+-   `dim()` gives the size: rows first, then columns (6604 12).
+-   `names()` lists the 12 column names exactly as they're spelled. Code has to use exactly this spelling.
+-   `head()` shows the first 6 rows. `head(linelist_raw, 10)` shows 10.
+-   `glimpse()` turns the table on its side: one line per column, with its type and the first few values. It's the easiest way to see every column of a wide dataset.
+:::
 
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: which column types look wrong?
@@ -368,6 +523,15 @@ skim(linelist_raw)
 
 Look at the `n_missing` column, the minimum of `wt_kg` (below zero!), and the maximum of `ht_cm` (almost 3 meters!).
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `skim()` summarizes every column at once, grouped by type: text (`character`), numbers (`numeric`), and date-times (`POSIXct`).
+-   `n_missing` is the number of missing values in each column; `complete_rate` is the share that is filled in.
+-   For numbers, `p0` is the smallest value, `p50` the median, and `p100` the largest. Here the smallest weight is -11 kg and the tallest height is 295 cm: both impossible.
+-   For text, `n_unique` is the number of different values. A high number in a column that should have only a few categories is a sign of misspellings.
+:::
+
 ## Categories: `count()`
 
 `count()` shows every distinct value in a column and how often it appears. It's the fastest way to find misspellings.
@@ -387,6 +551,14 @@ count(linelist_raw, OUTCOME)
 count(linelist_raw, age_unit)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `count(linelist_raw, hospital)` lists each different value in `hospital` and how many rows have it (`n`). Values are sorted alphabetically, with missing values (`NA`) last.
+-   The hospital list shows the same hospital spelled several ways, for example "Central Hospital" (457 rows) and "Central Hopital" (11). R treats every spelling as a different hospital, so these have to be fixed before counting cases per hospital. 1509 rows have no hospital at all.
+-   `count(linelist_raw, age_unit)` shows that 37 ages are in months, not years.
+:::
+
 ::: callout-note
 ## 🔁 The base R way: `table()`
 
@@ -400,6 +572,14 @@ You will often see base R's `table()` in other people's code. It counts too, but
 table(linelist_raw$OUTCOME)                   # where are the missing outcomes?
 table(linelist_raw$OUTCOME, useNA = "ifany")  # there they are: 1493
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `table()` takes one column, pulled out with `$`, instead of the data and a column name.
+-   Without `useNA = "ifany"`, it shows only Death (2898) and Recover (2213). The 1493 missing outcomes are left out without a warning, so any percentages you worked out from it would be wrong.
+-   `useNA = "ifany"` adds an `<NA>` count whenever there are missing values.
+:::
 
 `count()` always shows `NA`. With `table()`, add `useNA = "ifany"`. See [Base R ↔ tidyverse](../base-vs-tidyverse.qmd) for more translations.
 :::
@@ -456,6 +636,15 @@ head(arrange(linelist_raw, wt_kg), 10)
 # Tallest patients: desc() sorts largest first
 head(arrange(linelist_raw, desc(ht_cm)), 10)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `filter(linelist_raw, age_unit == "months")` keeps only the rows where `age_unit` is exactly "months". `==` asks "is it equal?" for every row, and `filter()` keeps the rows where the answer is TRUE.
+-   `nrow()` counts the rows that are left: 37. `head(..., 10)` shows only the first 10 of them.
+-   `arrange(linelist_raw, wt_kg)` sorts all rows by weight, smallest first, so the impossible weights (down to -11 kg) come to the top. `desc(ht_cm)` sorts largest first, so the 295 cm height comes to the top.
+-   None of these change `linelist_raw`. They show a changed copy and then forget it. To keep a result, save it with `<-`.
+:::
 
 ::: callout-note
 ## Reading code from the inside out
@@ -514,6 +703,15 @@ sum(duplicated(linelist_raw))
 get_dupes(linelist_raw)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `is.na(linelist_raw)` checks every cell and gives TRUE where a value is missing. `colSums()` adds up each column, counting each TRUE as 1. The result is the number of missing values per column, for example 1493 in `OUTCOME`.
+-   `` filter(linelist_raw, is.na(`Case ID`)) `` keeps the rows with no Case ID, and `nrow()` counts them: 130.
+-   `duplicated()` marks every row that is an exact copy of an earlier row (every column the same), and `sum()` counts them: 25. The first copy of each row isn't counted.
+-   `get_dupes()` (janitor) shows every row that has a copy, side by side, with a `dupe_count` column. Here that's 50 rows: each of the 25 duplicates and its original.
+:::
+
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT 7 (3 min): missing values and duplicates
 
@@ -542,6 +740,19 @@ c)  `Days in Hospital` has the most (766). That makes sense: patients who were n
 
 ::: follow-along
 **👀 Follow along 6.1** — The problem list for `linelist_raw`, filled in together.
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know: a checklist for any new dataset
+
+Use these questions on your own data, too. The answers become your problem list.
+
+1.  How many rows and columns are there? Is that what you expected?
+2.  Are the column types right (numbers, dates, text)?
+3.  Which columns have missing values, and do they make sense?
+4.  Are the categories spelled consistently (`count()`)?
+5.  Are there impossible values (`skim()`, `arrange()`)?
+6.  Are there duplicate rows?
 :::
 
 Here is everything we found in `linelist_raw`. This list is the to-do list for Session 2.

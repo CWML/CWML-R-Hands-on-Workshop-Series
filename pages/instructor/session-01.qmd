@@ -1,9 +1,9 @@
 ---
 title: "Instructor notes: Session 1"
-subtitle: "Setup and a first look at your data"
+subtitle: "R basics, importing, and inspecting data"
 ---
 
-[→ Open the Session 1 lesson](../lessons/01-setup-and-first-look.qmd)
+[→ Open the Session 1 lesson](../lessons/01-r-basics-importing-inspecting.qmd)
 
 ## Timing
 
