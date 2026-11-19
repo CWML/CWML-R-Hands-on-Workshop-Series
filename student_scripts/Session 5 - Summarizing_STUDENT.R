@@ -11,6 +11,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Insert a pipe:   Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
@@ -23,11 +25,11 @@
 # 🎯 Goal: Load packages and import the finished data from Session 3.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio, janitor, gtsummary; import
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, gtsummary; import
 #    processed_data/combined_linelist.rds (trust = TRUE) as linelist
 
 
-# ✏️ TRY IT (1 min): import processed_data/measles_final.rds (trust = TRUE) as measles
+# ✏️ TRY IT 1 (1 min): import processed_data/measles_final.rds (trust = TRUE) as measles
 #    ✅ Check: in the Variables pane, measles shows 1163 rows and 14 columns
 
 
@@ -51,18 +53,18 @@
 #    but a misspelled level turns those values into NA, with no warning.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: count(age_cat). What order are the groups in?
+# 👀 Follow along 2.1: count(age_cat). What order are the groups in?
 
 
-# 👀 Follow along: fct_relevel() age_cat: "Under 18", "18-29", "30-39", "40-49", "50-59",
+# 👀 Follow along 2.2: fct_relevel() age_cat: "Under 18", "18-29", "30-39", "40-49", "50-59",
 #    "60-69", "70-79", "80+", "Unknown"; then outcome: "Recover", "Death", "Unknown"
 #    Pattern: DATA <- DATA %>% mutate(COLUMN = fct_relevel(COLUMN, "LEVEL_1", "LEVEL_2", ...))
 
 
-# 🔁 Follow along: the base R way. factor() with the right levels, then with "death" misspelled
+# 🔁 Follow along 2.3: the base R way. factor() with the right levels, then with "death" misspelled
 
 
-# ✏️ TRY IT (3 min): in measles, fct_relevel()
+# ✏️ TRY IT 2 (3 min): in measles, fct_relevel()
 #    age_cat:    "Under 5", "5-9", "10-14", "15+", "Unknown"
 #    vaccinated: "Yes", "No", "Unknown"
 #    outcome:    "Recovered", "Died", "Unknown"
@@ -88,19 +90,19 @@
 #    The result is a table, not a data frame (it won't work with mutate() or ggplot).
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: count(outcome), then count(age_cat, outcome)
+# 👀 Follow along 3.1: count(outcome), then count(age_cat, outcome)
 
 
-# 👀 Follow along: count(outcome) with a percent column
+# 👀 Follow along 3.2: count(outcome) with a percent column
 
 
-# 👀 Follow along: percentages within each age group with group_by()
+# 👀 Follow along 3.3: percentages within each age group with group_by()
 
 
-# 🔁 Follow along: the base R way. table(age_cat, outcome), then prop.table(margin = 1)
+# 🔁 Follow along 3.4: the base R way. table(age_cat, outcome), then prop.table(margin = 1)
 
 
-# ✏️ TRY IT (5 min):
+# ✏️ TRY IT 3 (5 min):
 #    a) what percentage of measles cases were vaccinated?
 #    b) within each age group, what percentage were vaccinated?
 #       Which age group has the lowest percentage?
@@ -128,29 +130,29 @@
 #      aggregate(X ~ GROUP, data = data, FUN = median)        a data frame
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: summarise() n, mean, sd, and median of age_years for everyone
+# 👀 Follow along 4.1: summarise() n, mean, sd, and median of age_years for everyone
 
 
-# 👀 Follow along: the same by outcome, plus mean_bmi and mean_temp
+# 👀 Follow along 4.2: the same by outcome, plus mean_bmi and mean_temp
 
 
-# 👀 Follow along: across(): the mean of age_years, bmi, and temp by outcome
+# 👀 Follow along 4.3: across(): the mean of age_years, bmi, and temp by outcome
 
 
-# 👀 Follow along: percentage with fever, cough, and vomiting by outcome:
+# 👀 Follow along 4.4: percentage with fever, cough, and vomiting by outcome:
 #    round(mean(fever == "yes") * 100, 1)
 
 
-# 🔁 Follow along: the base R way. Median age by outcome with tapply() and aggregate()
+# 🔁 Follow along 4.5: the base R way. Median age by outcome with tapply() and aggregate()
 
 
-# ✏️ TRY IT (4 min): for each measles outcome, calculate the number of cases, mean and
+# ✏️ TRY IT 4 (4 min): for each measles outcome, calculate the number of cases, mean and
 #    median age, mean temperature, and mean days in hospital (careful: NAs!)
 #    ✅ Check: Recovered n = 1048, median age 7; Died n = 50, median age 5
 
 
 
-# ✏️ TRY IT (4 min): cases per 10,000 people by district
+# ✏️ TRY IT 5 (4 min): cases per 10,000 people by district
 #    = number of cases / population * 10000
 #    HINT: count(district, population) gives both columns; then mutate() and arrange(desc())
 #    ✅ Check: East has the highest rate (22.8); Central the lowest (5.2)
@@ -170,13 +172,13 @@
 #        adorn_title("combined")          a title, last
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: tabyl(outcome), then tabyl(age_cat, outcome)
+# 👀 Follow along 5.1: tabyl(outcome), then tabyl(age_cat, outcome)
 
 
-# 👀 Follow along: tabyl(age_cat, outcome) with all five adorn_ functions
+# 👀 Follow along 5.2: tabyl(age_cat, outcome) with all five adorn_ functions
 
 
-# ✏️ TRY IT (4 min): a tabyl() of vaccinated by outcome in measles, with row
+# ✏️ TRY IT 6 (4 min): a tabyl() of vaccinated by outcome in measles, with row
 #    percentages and counts. What do you notice about deaths?
 #    ✅ Check: 6.3% of unvaccinated cases died, vs 0.7% of vaccinated cases
 
@@ -200,17 +202,17 @@
 #      fct_drop(outcome) removes it, or tbl_summary() shows an empty column.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: a basic tbl_summary(by = outcome)
+# 👀 Follow along 6.1: a basic tbl_summary(by = outcome)
 
 
-# 👀 Follow along: the same with na_if() for "Unknown"
+# 👀 Follow along 6.2: the same with na_if() for "Unknown"
 
 
-# 👀 Follow along: a customized table1 with labels, mean (SD), add_overall(),
+# 👀 Follow along 6.3: a customized table1 with labels, mean (SD), add_overall(),
 #    bold_labels(), and a caption; then save it to outputs/table1.docx
 
 
-# ✏️ TRY IT (6 min): a tbl_summary() of measles cases by outcome (leave out "Unknown"
+# ✏️ TRY IT 7 (6 min): a tbl_summary() of measles cases by outcome (leave out "Unknown"
 #    outcomes) with sex, age_years, age_cat, vaccinated, rash, temp_c, and
 #    days_in_hospital. Give the rows nice labels and add an overall column.
 #    ✅ Check: the column headers say Overall N = 1,098, Recovered N = 1,048, Died N = 50

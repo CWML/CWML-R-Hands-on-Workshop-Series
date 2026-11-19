@@ -9,7 +9,7 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along: load packages; import linelist and order the categories
+# 👀 Follow along 1.1: load packages; import linelist and order the categories
 library(tidyverse)
 library(here)
 library(rio)
@@ -21,7 +21,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
     outcome = fct_relevel(outcome, "Recover", "Death", "Unknown")
   )
 
-# ✏️ TRY IT: import measles and order the categories
+# ✏️ TRY IT 1: import measles and order the categories
 measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE) %>%
   mutate(
     age_cat    = fct_relevel(age_cat, "Under 5", "5-9", "10-14", "15+", "Unknown"),
@@ -33,7 +33,7 @@ levels(measles$age_cat)
 
 # ── PART 2: The grammar of graphics ────────────────────────────────────────
 
-# 👀 Follow along: three steps
+# 👀 Follow along 2.1: three steps
 ggplot(data = linelist)
 
 ggplot(data = linelist, mapping = aes(x = age_years))
@@ -41,7 +41,7 @@ ggplot(data = linelist, mapping = aes(x = age_years))
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram()
 
-# ✏️ TRY IT: a histogram of measles temp_c in three steps
+# ✏️ TRY IT 2: a histogram of measles temp_c in three steps
 ggplot(data = measles)
 
 ggplot(data = measles, mapping = aes(x = temp_c))
@@ -52,15 +52,15 @@ ggplot(data = measles, mapping = aes(x = temp_c)) +
 
 # ── PART 3: Histograms ─────────────────────────────────────────────────────
 
-# 👀 Follow along: binwidth = 5
+# 👀 Follow along 3.1: binwidth = 5
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5)
 
-# 👀 Follow along: fill and outline colors
+# 👀 Follow along 3.2: fill and outline colors
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 
-# ✏️ TRY IT: measles ages, binwidth = 1
+# ✏️ TRY IT 3: measles ages, binwidth = 1
 ggplot(data = measles, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 1, fill = "#2a78d6", color = "white")
 # The tallest bar is age 2; most cases are ages 1–5.
@@ -68,19 +68,19 @@ ggplot(data = measles, mapping = aes(x = age_years)) +
 
 # ── PART 4: Mapping vs setting ─────────────────────────────────────────────
 
-# 👀 Follow along: mapping
+# 👀 Follow along 4.1: mapping
 ggplot(data = linelist, mapping = aes(x = age_years, fill = outcome)) +
   geom_histogram(binwidth = 5, color = "white")
 
-# 👀 Follow along: setting
+# 👀 Follow along 4.2: setting
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 
-# 👀 Follow along: fill = "blue" inside aes() — NOT blue!
+# 👀 Follow along 4.3: fill = "blue" inside aes() — NOT blue!
 ggplot(data = linelist, mapping = aes(x = age_years, fill = "blue")) +
   geom_histogram(binwidth = 5)
 
-# ✏️ TRY IT: temperatures, then fill = fever
+# ✏️ TRY IT 4: temperatures, then fill = fever
 ggplot(data = measles, mapping = aes(x = temp_c)) +
   geom_histogram(binwidth = 0.2, color = "white")
 
@@ -91,29 +91,29 @@ ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +
 
 # ── PART 5: Scatter plots ──────────────────────────────────────────────────
 
-# 👀 Follow along: age vs weight
+# 👀 Follow along 5.1: age vs weight
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point()
 
-# 👀 Follow along: smaller, see-through points; then color = gender
+# 👀 Follow along 5.2: smaller, see-through points; then color = gender
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point(size = 1, alpha = 0.3)
 
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg, color = gender)) +
   geom_point(size = 1, alpha = 0.4)
 
-# 👀 Follow along: a trend line
+# 👀 Follow along 5.3: a trend line
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point(size = 1, alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
 
-# 👀 Follow along: only patients with fever
+# 👀 Follow along 5.4: only patients with fever
 linelist %>%
   filter(fever == "yes") %>%
   ggplot(mapping = aes(x = age_years, y = wt_kg)) +
   geom_point(size = 1, alpha = 0.3)
 
-# ✏️ TRY IT: age vs days in hospital
+# ✏️ TRY IT 5: age vs days in hospital
 measles %>%
   filter(!is.na(days_in_hospital)) %>%
   ggplot(mapping = aes(x = age_years, y = days_in_hospital)) +
@@ -124,18 +124,18 @@ measles %>%
 
 # ── PART 6: Box plots ──────────────────────────────────────────────────────
 
-# 👀 Follow along: age by gender
+# 👀 Follow along 6.1: age by gender
 ggplot(data = linelist, mapping = aes(x = gender, y = age_years)) +
   geom_boxplot()
 
-# 👀 Follow along: no "Unknown", fill = gender, no legend
+# 👀 Follow along 6.2: no "Unknown", fill = gender, no legend
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
   geom_boxplot() +
   theme(legend.position = "none")
 
-# 👀 Follow along: add the mean
+# 👀 Follow along 6.3: add the mean
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
@@ -143,7 +143,7 @@ linelist %>%
   stat_summary(fun = mean, geom = "point", shape = 23, size = 3, fill = "white") +
   theme(legend.position = "none")
 
-# ✏️ TRY IT: days in hospital by vaccination status
+# ✏️ TRY IT 6: days in hospital by vaccination status
 measles %>%
   filter(!is.na(days_in_hospital)) %>%
   ggplot(mapping = aes(x = vaccinated, y = days_in_hospital, fill = vaccinated)) +
@@ -154,7 +154,7 @@ measles %>%
 
 # ── PART 7: Labels and themes ──────────────────────────────────────────────
 
-# 👀 Follow along: labs() on the box plot
+# 👀 Follow along 7.1: labs() on the box plot
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
@@ -168,13 +168,13 @@ linelist %>%
   ) +
   theme(legend.position = "none")
 
-# 👀 Follow along: themes
+# 👀 Follow along 7.2: themes
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white") +
   labs(title = "Age distribution of cases", x = "Age (years)", y = "Number of cases") +
   theme_minimal(base_size = 14)
 
-# 👀 Follow along: a plot saved as an object
+# 👀 Follow along 7.3: a plot saved as an object
 age_plot <- ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 
@@ -182,7 +182,7 @@ age_plot +
   labs(title = "Age distribution of cases", x = "Age (years)", y = "Number of cases") +
   theme_minimal()
 
-# ✏️ TRY IT: finish a plot and save it as my_plot
+# ✏️ TRY IT 7: finish a plot and save it as my_plot
 my_plot <- ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +
   geom_histogram(binwidth = 0.2, color = "white") +
   labs(

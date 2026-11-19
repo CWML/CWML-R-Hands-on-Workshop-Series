@@ -12,7 +12,7 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along: load packages; import linelist
+# 👀 Follow along 1.1: load packages; import linelist
 library(tidyverse)
 library(here)
 library(rio)
@@ -20,13 +20,13 @@ library(janitor)
 
 linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
 
-# ✏️ TRY IT: import measles
+# ✏️ TRY IT 1: import measles
 measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE)
 
 
 # ── PART 2: Writing your first function ────────────────────────────────────
 
-# 👀 Follow along: write c_to_f(temp_c) and test it
+# 👀 Follow along 2.1: write c_to_f(temp_c) and test it
 c_to_f <- function(temp_c) {
   temp_c * 9 / 5 + 32
 }
@@ -34,13 +34,13 @@ c_to_f <- function(temp_c) {
 c_to_f(38)
 c_to_f(c(36.8, 38.5, 40.1))   # vectorized
 
-# 👀 Follow along: use c_to_f() inside mutate()
+# 👀 Follow along 2.2: use c_to_f() inside mutate()
 linelist %>%
   mutate(temp_f = c_to_f(temp)) %>%
   select(case_id, temp, temp_f) %>%
   head(3)
 
-# 👀 Follow along: a digits = 1 default argument
+# 👀 Follow along 2.3: a digits = 1 default argument
 c_to_f <- function(temp_c, digits = 1) {
   round(temp_c * 9 / 5 + 32, digits)
 }
@@ -48,7 +48,7 @@ c_to_f <- function(temp_c, digits = 1) {
 c_to_f(38.37)
 c_to_f(38.37, digits = 0)
 
-# ✏️ TRY IT: f_to_c()
+# ✏️ TRY IT 2: f_to_c()
 f_to_c <- function(temp_f) {
   round((temp_f - 32) * 5 / 9, 1)
 }
@@ -59,7 +59,7 @@ f_to_c(104.7)   # 40.4: the Fahrenheit temperature from Session 1!
 
 # ── PART 3: Functions that use data ────────────────────────────────────────
 
-# 👀 Follow along: pct()
+# 👀 Follow along 3.1: pct()
 pct <- function(x, digits = 1) {
   round(mean(x, na.rm = TRUE) * 100, digits)
 }
@@ -72,7 +72,7 @@ linelist %>%
     pct_fever = pct(fever == "yes")
   )
 
-# 👀 Follow along: hospital_summary()
+# 👀 Follow along 3.2: hospital_summary()
 hospital_summary <- function(data, hospital) {
   data %>%
     filter(hospital_name == hospital) %>%
@@ -85,7 +85,7 @@ hospital_summary <- function(data, hospital) {
 hospital_summary(linelist, "Military Hospital")
 hospital_summary(linelist, "Central Hospital")
 
-# 👀 Follow along: make_epicurve()
+# 👀 Follow along 3.3: make_epicurve()
 make_epicurve <- function(data, hospital) {
   data %>%
     filter(hospital_name == hospital, onset_date >= as.Date("2014-01-01")) %>%
@@ -101,7 +101,7 @@ make_epicurve <- function(data, hospital) {
 
 make_epicurve(linelist, "Military Hospital")
 
-# ✏️ TRY IT:
+# ✏️ TRY IT 3:
 # a)
 rate_per_10k <- function(cases, population) {
   round(cases / population * 10000, 1)
@@ -127,7 +127,7 @@ district_summary(measles, "North")   # n 342, 25.7%
 
 # ── PART 4: if / else ──────────────────────────────────────────────────────
 
-# 👀 Follow along: fever_status() with if / else
+# 👀 Follow along 4.1: fever_status() with if / else
 fever_status <- function(temp) {
   if (temp >= 38) {
     "fever"
@@ -139,10 +139,10 @@ fever_status <- function(temp) {
 fever_status(39.2)
 fever_status(36.9)
 
-# 👀 Follow along: what happens with a vector? An error (on purpose):
+# 👀 Follow along 4.2: what happens with a vector? An error (on purpose):
 try(fever_status(c(39.2, 36.9)))   # Error: the condition has length > 1
 
-# 👀 Follow along: the vectorized version with if_else()
+# 👀 Follow along 4.3: the vectorized version with if_else()
 fever_status <- function(temp) {
   if_else(temp >= 38, "fever", "no fever")
 }
@@ -153,7 +153,7 @@ linelist %>%
   mutate(fever_measured = fever_status(temp)) %>%
   count(fever_measured)
 
-# 👀 Follow along: an input check with stop()
+# 👀 Follow along 4.4: an input check with stop()
 c_to_f <- function(temp_c, digits = 1) {
   if (!is.numeric(temp_c)) {
     stop("temp_c must be a number, not ", class(temp_c))
@@ -163,7 +163,7 @@ c_to_f <- function(temp_c, digits = 1) {
 
 try(c_to_f("38"))   # Error: temp_c must be a number, not character (on purpose)
 
-# ✏️ TRY IT:
+# ✏️ TRY IT 4:
 # a)
 fever_status_one <- function(temp) {
   if (temp >= 38) {
@@ -187,12 +187,12 @@ measles %>%
 
 # ── PART 5: for loops ──────────────────────────────────────────────────────
 
-# 👀 Follow along: a loop that prints two hospital names
+# 👀 Follow along 5.1: a loop that prints two hospital names
 for (h in c("Central Hospital", "Military Hospital")) {
   print(h)
 }
 
-# 👀 Follow along: the hospitals vector, and a loop that prints the number of cases
+# 👀 Follow along 5.2: the hospitals vector, and a loop that prints the number of cases
 hospitals <- linelist %>%
   filter(hospital_name != "Other/Unknown") %>%
   distinct(hospital_name) %>%
@@ -206,7 +206,7 @@ for (h in hospitals) {
   print(paste(h, "has", n_cases, "cases"))
 }
 
-# 👀 Follow along: save the counts
+# 👀 Follow along 5.3: save the counts
 case_counts <- c()
 
 for (h in hospitals) {
@@ -215,14 +215,14 @@ for (h in hospitals) {
 
 case_counts
 
-# 👀 Follow along: THE PAYOFF: one epicurve per hospital
+# 👀 Follow along 5.4: THE PAYOFF: one epicurve per hospital
 for (h in hospitals) {
   p <- make_epicurve(linelist, h)
   file_name <- paste0("epicurve_", make_clean_names(h), ".png")
   ggsave(here("outputs", file_name), plot = p, width = 8, height = 5, dpi = 300)
 }
 
-# ✏️ TRY IT: one measles epicurve per district
+# ✏️ TRY IT 5: one measles epicurve per district
 make_measles_epicurve <- function(data, district_name) {
   data %>%
     filter(district == district_name, !is.na(report_date)) %>%
@@ -247,29 +247,29 @@ for (d in districts) {
 
 # ── PART 6: Iteration the tidyverse way: map() and walk() ──────────────────
 
-# 👀 Follow along: map_dbl()
+# 👀 Follow along 6.1: map_dbl()
 linelist %>%
   select(age_years, bmi, temp) %>%
   map_dbl(~ mean(.x, na.rm = TRUE))
 
-# 👀 Follow along: map() to a list of plots
+# 👀 Follow along 6.2: map() to a list of plots
 epicurves <- map(hospitals, ~ make_epicurve(linelist, .x))
 length(epicurves)   # 6
 epicurves[[1]]
 
-# 👀 Follow along: walk() to save them all
+# 👀 Follow along 6.3: walk() to save them all
 walk(hospitals, ~ ggsave(
   here("outputs", paste0("epicurve_", make_clean_names(.x), ".png")),
   plot = make_epicurve(linelist, .x), width = 8, height = 5, dpi = 300
 ))
 
-# 🔁 Follow along: the base R way
+# 🔁 Follow along 6.4: the base R way
 three_cols <- linelist[, c("age_years", "bmi", "temp")]
 sapply(three_cols, mean, na.rm = TRUE)    # like map_dbl()
 lapply(three_cols, range, na.rm = TRUE)   # like map(): a list
 sapply(three_cols, range, na.rm = TRUE)   # a matrix: sapply() guesses the shape
 
-# ✏️ TRY IT:
+# ✏️ TRY IT 6:
 # a)
 measles %>%
   select(age_years, temp_c, days_in_hospital) %>%

@@ -499,9 +499,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Before you start:</strong> open the workshop folder in Positron (<strong>File → Open Folder…</strong>) and open <code>student_scripts/Session 7 - Plotting Further_STUDENT.R</code>. This session starts from <code>processed_data/combined_linelist.rds</code> and <code>processed_data/measles_final.rds</code>, the files you made in Session 3. Missed a session? Ready-made copies are already in <code>processed_data/</code>.</p>
 </div>
 </div>
+<p><strong>Where this session fits.</strong> Most data projects go through the same steps, whatever the topic. Today covers <strong>Visualize</strong> and <strong>Save and share</strong> (highlighted): more kinds of plots, chosen colors, and saving plots to files you can put in a report.</p>
+<div class="workflow">
+<ol type="1">
+<li><span class="step">Import</span></li>
+<li><span class="step">Inspect</span></li>
+<li><span class="step">Clean</span></li>
+<li><span class="step">Combine</span></li>
+<li><span class="step">Reshape</span></li>
+<li><span class="step">Summarize</span></li>
+<li><span class="step today">Visualize</span></li>
+<li><span class="step today">Save and share</span></li>
+<li><span class="step">Automate</span></li>
+</ol>
+</div>
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
 <p>Load the packages, import the finished linelist, and put the categories in a sensible order (the same as Session 6):</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, and rio; import <code>combined_linelist.rds</code> as <code>linelist</code>, and <code>fct_relevel()</code> <code>age_cat</code> and <code>outcome</code> (same as Session 6).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
@@ -513,6 +530,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"50-59"</span>, <span class="st">"60-69"</span>, <span class="st">"70-79"</span>, <span class="st">"80+"</span>, <span class="st">"Unknown"</span>),</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="fu">fct_relevel</span>(outcome, <span class="st">"Recover"</span>, <span class="st">"Death"</span>, <span class="st">"Unknown"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>library(tidyverse)</code> loads ggplot2 (for plots) and forcats (for <code>fct_</code> functions) along with the rest of the tidyverse.</li>
+<li><code>import(here("processed_data", "combined_linelist.rds"), trust = TRUE)</code> reads the finished linelist from Session 3: 6451 rows. An <code>.rds</code> file can hold any R object, so rio asks you to confirm with <code>trust = TRUE</code> that you trust where it came from.</li>
+<li><code>age_cat</code> arrives as plain text. Plots draw text categories in alphabetical order, which would put “Under 18” after “80+”. <code>fct_relevel()</code> turns the column into a <strong>factor</strong>: categories with an order you choose, youngest to oldest.</li>
+<li><code>fct_relevel(outcome, "Recover", "Death", "Unknown")</code> does the same for outcome. The order decides how bars are stacked and the order of the legend.</li>
+</ul>
+</div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -535,14 +570,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): set up the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 1 (3 min): set up the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Import <code>measles_final.rds</code> as <code>measles</code>, <code>fct_relevel()</code> <code>age_cat</code> and <code>vaccinated</code> (same as Session 6), and save <code>vacc_colors</code> (above).</p>
 <p>✅ <strong>Check:</strong> <code>vacc_colors</code> prints three named colors</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -551,7 +586,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
@@ -577,6 +612,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-2-bar-charts-of-counts-geom_bar" class="level1">
 <h1>Part 2: Bar charts of counts: <code>geom_bar()</code></h1>
 <p><code>geom_bar()</code> <strong>counts the rows</strong> in each category for you — you only give it <code>x</code>.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.1</strong> — <code>geom_bar()</code> with <code>x = hospital_name</code>, then with <code>y = hospital_name</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> hospital_name)) <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -600,9 +638,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>ggplot(data = linelist, mapping = aes(x = hospital_name))</code> sets up the plot: which data to use, and which column goes on the x-axis. On its own it draws an empty frame.</li>
+<li><code>+ geom_bar()</code> adds a layer of bars. <code>geom_bar()</code> counts the rows for each hospital itself, so you don’t give it a <code>y</code>. Other/Unknown is the tallest bar, with 2354 cases.</li>
+<li>The seven hospital names are long, so on the x-axis they overlap. <code>aes(y = hospital_name)</code> puts them on the y-axis instead: horizontal bars, with labels you can read.</li>
+<li><code>hospital_name</code> is text, so the bars are in alphabetical order. The next step fixes that.</li>
+</ul>
+</div>
+</div>
 <section id="order-the-bars" class="level2">
 <h2 class="anchored" data-anchor-id="order-the-bars">Order the bars</h2>
 <p>Alphabetical order rarely helps. <code>fct_infreq()</code> orders by count (most common first), and <code>fct_rev()</code> flips it so the longest bar is at the top:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.2</strong> — Order the bars with <code>fct_rev(fct_infreq(hospital_name))</code>, and add a fill color and <code>labs()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_infreq</span>(hospital_name)))) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#2a78d6"</span>) <span class="sc">+</span></span>
@@ -616,11 +675,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><code>y = NULL</code> removes an axis title the reader doesn’t need.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧩 Reading a function call
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here is the core of the plot you just made, taken apart:</p>
+<p><code>ggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) + geom_bar(fill = "#2a78d6")</code></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Piece</th>
+<th>What it is</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot(...)</code></td>
+<td>the function that starts every plot</td>
+<td>sets up an empty plot</td>
+</tr>
+<tr class="even">
+<td><code>data = linelist</code></td>
+<td>a named argument of <code>ggplot()</code></td>
+<td>the data to plot</td>
+</tr>
+<tr class="odd">
+<td><code>mapping = aes(...)</code></td>
+<td>a named argument, filled in by the <code>aes()</code> function</td>
+<td>links columns to parts of the plot (“aesthetics”)</td>
+</tr>
+<tr class="even">
+<td><code>y = fct_rev(fct_infreq(hospital_name))</code></td>
+<td>an argument of <code>aes()</code></td>
+<td>puts the hospitals on the y-axis, in the order of their counts</td>
+</tr>
+<tr class="odd">
+<td><code>+</code></td>
+<td>the plus sign</td>
+<td>adds the next layer to the plot</td>
+</tr>
+<tr class="even">
+<td><code>geom_bar(...)</code></td>
+<td>a function that adds a layer</td>
+<td>draws one bar per hospital, counting its rows</td>
+</tr>
+<tr class="odd">
+<td><code>fill = "#2a78d6"</code></td>
+<td>an argument of <code>geom_bar()</code>, outside <code>aes()</code></td>
+<td>colors every bar the same blue</td>
+</tr>
+</tbody>
+</table>
+<p>Inside the brackets, R works from the <strong>inside out</strong>: <code>fct_infreq()</code> orders the hospitals by count, then <code>fct_rev()</code> reverses that order. The <code>+</code> signs then build the plot <strong>layer by layer, from left to right</strong>: first the empty plot, then the bars, then the labels and the theme.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>fct_infreq(hospital_name)</code> turns the hospital names into categories ordered by how often they appear, most common first.</li>
+<li><code>fct_rev()</code> reverses that order. On a horizontal chart the first category is drawn at the bottom, so reversing it puts the longest bar (Other/Unknown, 2354 cases) at the top.</li>
+<li><code>geom_bar(fill = "#2a78d6")</code> colors every bar blue. <code>fill</code> is outside <code>aes()</code> here, so it’s one fixed color, not linked to a column.</li>
+<li><code>labs()</code> sets the title and the axis titles. <code>y = NULL</code> removes the y-axis title: the hospital names speak for themselves.</li>
+<li><code>theme_minimal()</code> removes the gray background and keeps light grid lines.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="fill-by-a-second-variable" class="level2">
 <h2 class="anchored" data-anchor-id="fill-by-a-second-variable">Fill by a second variable</h2>
 <p>Map <code>fill</code> to split each bar. The <code>position</code> argument controls how the pieces are arranged:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.3</strong> — <code>x = age_cat</code>, <code>fill = outcome</code>, with <code>position = "stack"</code>, <code>"fill"</code>, and <code>"dodge"</code> (the next three code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># "stack" (the default): counts, stacked</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> outcome)) <span class="sc">+</span></span>
@@ -658,7 +804,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>fill = outcome</code> is <strong>inside</strong> <code>aes()</code>, so it’s linked to a column: each bar is split into one colored piece per outcome, and ggplot adds a legend. These are ggplot’s default colors; in Part 4 you choose your own.</li>
+<li><code>position = "stack"</code> piles the pieces on top of each other, so the bar height is the number of cases. Under 18 has 3962 cases and 80+ only 1, so the older groups are hard to see.</li>
+<li><code>position = "fill"</code> stretches every bar to the same height, from 0 to 1 (0% to 100%). You compare <strong>proportions</strong>: what share of each age group recovered, died, or has an unknown outcome.</li>
+<li><code>position = "dodge"</code> puts the pieces side by side. You compare <strong>counts</strong> within each group: in most age groups the Death bar is taller than the Recover bar (Under 18: 1755 deaths, 1322 recoveries).</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -667,7 +831,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The 100% <code>"fill"</code> version. The stacked version mostly shows that there are many more young patients than old ones, so the small bars for older groups are hard to compare.</p>
 </div>
@@ -679,14 +843,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): cases by district
+<span class="screen-reader-only">Important</span>✏️ TRY IT 2 (3 min): cases by district
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Make a horizontal bar chart of measles cases by district, longest bar on top.</p>
 <p>✅ <strong>Check:</strong> North is at the top; Unknown is at the bottom</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -695,7 +859,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_infreq</span>(district)))) <span class="sc">+</span></span>
@@ -716,11 +880,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Inside or outside <code>aes()</code>?</strong> Inside <code>aes()</code>, a setting is linked to a column and changes from bar to bar (<code>aes(fill = outcome)</code>). Outside, it’s one fixed value for everything (<code>geom_bar(fill = "#2a78d6")</code>).</li>
+<li>A common mistake is a color name inside <code>aes()</code>: <code>aes(fill = "blue")</code>. ggplot treats “blue” as a category called “blue”, draws it in its first default color (a salmon red), and adds a legend for it.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-3-bar-charts-of-values-geom_col" class="level1">
 <h1>Part 3: Bar charts of values: <code>geom_col()</code></h1>
 <p>When <strong>you</strong> have already calculated the numbers (with <code>count()</code> or <code>summarise()</code> from Session 5), use <code>geom_col()</code> and give it both <code>x</code> and <code>y</code>:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.1</strong> — Create <code>death_by_age</code> (the percentage who died in each age group), then plot it with <code>geom_col()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>death_by_age <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>, age_cat <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -756,6 +939,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The first block makes a small table, <code>death_by_age</code>. <code>filter()</code> leaves out patients with an unknown outcome or age group; <code>group_by(age_cat)</code> and <code>summarise()</code> then give one row per age group.</li>
+<li><code>n = n()</code> counts the patients in each group. <code>mean(outcome == "Death") * 100</code> is the percentage who died: <code>outcome == "Death"</code> is TRUE or FALSE for each patient, and the mean of TRUE/FALSE values is the share that are TRUE. For Under 18 that’s 57.0%.</li>
+<li>Printing <code>death_by_age</code> shows the 8 rows, so you can check the numbers before you plot them.</li>
+<li><code>geom_col()</code> draws the numbers as they are: one bar per row, with <code>x = age_cat</code> and <code>y = pct_death</code>. Nothing is counted; the bar height is the percentage.</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -771,7 +972,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -780,7 +981,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Not much. Check <code>n</code> in <code>death_by_age</code>: the 70–79 bar is based on 6 patients and the 80+ bar on just 1. One more death or recovery would change those percentages a lot. Always look at how many cases are behind a percentage.</p>
 </div>
@@ -792,7 +993,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): case rates by district
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (5 min): case rates by district
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -802,7 +1003,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>✅ <strong>Check:</strong> bars from Central (lowest, 5.2) to East (highest, 22.8)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -811,7 +1012,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
@@ -862,6 +1063,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Keep the <strong>same color for the same category</strong> in every plot of a report</li>
 </ul>
 <p><code>scale_fill_manual()</code> (for <code>fill</code>) and <code>scale_color_manual()</code> (for <code>color</code>) set the colors by name:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.1</strong> — Save <code>outcome_colors</code>, then make a 100% bar chart of outcome by <code>age_cat</code> with <code>scale_fill_manual()</code>, a white outline, and a percent y-axis.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>outcome_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Recover"</span> <span class="ot">=</span> <span class="st">"#2a78d6"</span>, <span class="st">"Death"</span> <span class="ot">=</span> <span class="st">"#eb6834"</span>, <span class="st">"Unknown"</span> <span class="ot">=</span> <span class="st">"#9a9a95"</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -884,11 +1088,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li>Saving the colors as <code>outcome_colors</code> lets you reuse them in every plot</li>
-<li><code>color = "white"</code> draws a thin white line between the segments</li>
-<li><code>scale_y_continuous(labels = scales::percent)</code> shows 0.25 as 25%</li>
+<li><code>outcome_colors</code> is a <strong>named vector</strong>: each name (“Recover”, “Death”, “Unknown”) is a category, and each value is its color. Saving it once lets you reuse it in every plot.</li>
+<li><code>scale_fill_manual(values = outcome_colors)</code> matches the colors to the categories <strong>by name</strong>, so Recover is always blue, even in a plot where some outcomes are missing.</li>
+<li><code>geom_bar(position = "fill", color = "white")</code> makes 100% bars, and <code>color = "white"</code> draws a thin white line between the pieces.</li>
+<li><code>scale_y_continuous(labels = scales::percent)</code> shows the y-axis values 0.25, 0.50, … as 25%, 50%, ….</li>
+<li>In <code>labs()</code>, <code>fill = "Outcome"</code> sets the title of the legend.</li>
 </ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -924,14 +1142,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): vaccination by age group
+<span class="screen-reader-only">Important</span>✏️ TRY IT 4 (4 min): vaccination by age group
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Make a 100% bar chart of <code>vaccinated</code> by <code>age_cat</code>, with <code>vacc_colors</code>, a percent y-axis, labels, and <code>theme_minimal()</code>.</p>
 <p>✅ <strong>Check:</strong> every bar reaches 100%; “Yes” is blue in every bar</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -940,7 +1158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> vaccinated)) <span class="sc">+</span></span>
@@ -968,11 +1186,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>About 1 in 12 men and 1 in 200 women have some form of color-vision deficiency, so in a room of 30 people, someone probably can’t tell red from green.</li>
+<li>Don’t rely on color alone: clear titles, axis labels, and a sensible order make a plot readable even in black and white.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-5-epidemic-curves" class="level1">
 <h1>Part 5: Epidemic curves</h1>
 <p>An <strong>epidemic curve</strong> (epicurve) shows the number of new cases over time — the most important plot in outbreak investigation. It is a histogram of a <strong>date</strong> column:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.1</strong> — <code>geom_histogram()</code> of <code>onset_date</code> with <code>binwidth = 7</code>. What’s going on before 2014?</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> onset_date)) <span class="sc">+</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">7</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -984,9 +1221,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><code>binwidth = 7</code> makes each bar one week.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>aes(x = onset_date)</code> puts the date of symptom onset on the x-axis. <code>geom_histogram()</code> sorts the dates into bins and counts the cases in each one.</li>
+<li>Dates are counted in days, so <code>binwidth = 7</code> makes each bin, and so each bar, one week long.</li>
+<li><code>fill = "#2a78d6", color = "white"</code> gives blue bars with a white outline, so neighbouring weeks are easy to tell apart.</li>
+<li>R warns that it <strong>removed 281 rows</strong>: those cases have no onset date, so they can’t be placed on a time axis. The warning is expected.</li>
+<li>The x-axis runs from April 2012 to April 2015. Look at the left end before reading on.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -995,13 +1250,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>538 onset dates fall in 2012–2013, long before the outbreak — and every one of them belongs to a case ID that appears more than once (the duplicate IDs from Session 3), usually with the same day and month but a different year. They are almost certainly data-entry errors in the year. <strong>Plots reveal problems tables hide:</strong> look at the whole range first!</p>
 </div>
 </div>
 </div>
 <p>Zoom in on the outbreak and format the date axis:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.2</strong> — Keep onset dates from 2014, and add <code>scale_x_date()</code> and <code>labs()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(onset_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2014-01-01"</span>)) <span class="sc">%&gt;%</span></span>
@@ -1023,12 +1281,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li><code>date_breaks = "2 months"</code> puts a label every two months</li>
-<li><code>date_labels = "%b\n%Y"</code> shows the short month name, a line break, and the year (<code>%d</code> = day, <code>%B</code> = full month name)</li>
+<li><code>filter(onset_date &gt;= as.Date("2014-01-01"))</code> keeps cases with an onset on or after 1 January 2014. <code>as.Date()</code> turns the text into a date so R can compare. Rows with no onset date are dropped too, which leaves 5632 cases.</li>
+<li>The data is piped into <code>ggplot()</code>, so you don’t write <code>data =</code>: the pipe passes it in as the first argument.</li>
+<li><code>scale_x_date(date_breaks = "2 months", date_labels = "%b\n%Y")</code> puts a label every two months. <code>%b</code> is the short month name, <code>\n</code> starts a new line, and <code>%Y</code> is the year, so a label reads “Sep” above “2014”. (<code>%d</code> is the day and <code>%B</code> the full month name.)</li>
+<li><code>labs()</code> adds a title, a subtitle, and axis titles. The busiest week, in September 2014, has 304 cases.</li>
 </ul>
+</div>
+</div>
 <section id="epicurve-by-outcome" class="level2">
 <h2 class="anchored" data-anchor-id="epicurve-by-outcome">Epicurve by outcome</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.3</strong> — Fill the epicurve by outcome with <code>outcome_colors</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(onset_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2014-01-01"</span>)) <span class="sc">%&gt;%</span></span>
@@ -1046,20 +1321,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>fill = outcome</code> inside <code>aes()</code> splits each week’s bar by outcome, and <code>scale_fill_manual(values = outcome_colors)</code> uses the same colors as in Part 4.</li>
+<li>The fixed <code>fill = "#2a78d6"</code> is gone from <code>geom_histogram()</code>. A fixed fill there would paint every bar blue and hide the outcome colors.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): the measles epicurve
+<span class="screen-reader-only">Important</span>✏️ TRY IT 5 (5 min): the measles epicurve
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Make a weekly epicurve of measles <code>report_date</code>, filled by <code>vaccinated</code>, with <code>vacc_colors</code> and <code>scale_x_date(date_breaks = "1 month", date_labels = "%b")</code>. Save it as <code>measles_epicurve</code> — you will need it in Part 7. <strong>Hint:</strong> <code>filter(!is.na(report_date))</code> first. When did the outbreak peak?</p>
 <p>✅ <strong>Check:</strong> the peak is in the second half of March (about 115 cases in one week)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1068,7 +1359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>measles_epicurve <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
@@ -1100,11 +1391,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Which date?</strong> Epicurves usually use the <strong>date of symptom onset</strong>, because it’s closest to when people were infected. The date a case was <strong>reported</strong> comes later, and the delay varies from case to case.</li>
+<li><strong>The last weeks often look lower than they really are.</strong> Recent cases may not have been reported yet. Keep that in mind before saying an outbreak is ending.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-6-facets" class="level1">
 <h1>Part 6: Facets</h1>
 <p><code>facet_wrap()</code> splits one plot into <strong>small multiples</strong> — one panel per category, all with the same axes so they are easy to compare:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.1</strong> — The epicurve with <code>facet_wrap(~ hospital_name)</code>, leaving out “Other/Unknown”.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(onset_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2014-01-01"</span>), hospital_name <span class="sc">!=</span> <span class="st">"Other/Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -1122,7 +1432,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>filter()</code> keeps onset dates from 2014 and leaves out the “Other/Unknown” hospital.</li>
+<li><code>facet_wrap(~ hospital_name)</code> draws one small epicurve per hospital. Read the <code>~</code> as “by”: “wrap the plot by hospital name”.</li>
+<li>All panels share the same x- and y-axes, so a taller bar really means more cases, whichever panel it’s in.</li>
+<li>There are only four panels. HMO Health and Premiere Health have no onset dates from 2014 (all of theirs are in 2012–2013), so the filter leaves nothing to plot for them.</li>
+<li><code>date_breaks = "4 months"</code> labels the axis less often, because each panel is narrow.</li>
+</ul>
+</div>
+</div>
 <p>Facets work with any plot:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.2</strong> — An age histogram with <code>facet_wrap(~ gender)</code>, leaving out “Unknown”.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -1137,6 +1469,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="07-plotting-further_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" alt="Two age histograms side by side, for female and male patients. Female patients are mostly under 25, while male ages are spread more widely, up to about 75." width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The same <code>facet_wrap()</code> works on any plot: here a histogram of age, with each bar covering 5 years (<code>binwidth = 5</code>).</li>
+<li><code>filter(gender != "Unknown")</code> leaves out the 304 patients with unknown gender, so 6147 are plotted.</li>
+<li><code>facet_wrap(~ gender)</code> gives one panel for female and one for male patients, on the same axes, so you can compare the shapes directly.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1162,14 +1511,14 @@ Note
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): facets
+<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (4 min): facets
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Facet your measles epicurve by district (leave out “Unknown”). Did every district peak at the same time?</p>
 <p>✅ <strong>Check:</strong> five panels; every district peaks in March</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1178,7 +1527,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-34" class="callout-34-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
@@ -1213,6 +1562,9 @@ Note
 <section id="part-7-saving-plots" class="level1">
 <h1>Part 7: Saving plots</h1>
 <p><code>ggsave()</code> saves the <strong>last plot you made</strong>, or a plot object you name. Save the plot as an object first:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 7.1</strong> — Save the epicurve as an object, then <code>ggsave()</code> it to <code>outputs/epicurve.png</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>epicurve <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(onset_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2014-01-01"</span>)) <span class="sc">%&gt;%</span></span>
@@ -1226,25 +1578,55 @@ Note
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="st">"epicurve.png"</span>), <span class="at">plot =</span> epicurve,</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li>The file type comes from the extension: <code>.png</code> for slides and documents, <code>.pdf</code> for print</li>
-<li><code>width</code> and <code>height</code> are in inches; <code>dpi = 300</code> is print quality</li>
-<li>Save plots in their own folder (here, <code>outputs/</code>) so they don’t get mixed up with data</li>
+<li><code>epicurve &lt;- linelist %&gt;% ... + theme_minimal()</code> saves the plot as an object instead of showing it. Nothing appears until you print it (type <code>epicurve</code>) or save it.</li>
+<li><code>ggsave(here("outputs", "epicurve.png"), plot = epicurve, ...)</code> writes the plot to a file. <code>here()</code> builds the path, as in Session 1, and <code>plot = epicurve</code> says which plot to save. Without <code>plot =</code>, <code>ggsave()</code> saves the last plot you looked at.</li>
+<li>The file type comes from the ending: <code>.png</code> for slides and documents, <code>.pdf</code> for print.</li>
+<li><code>width</code> and <code>height</code> are in inches. <code>dpi = 300</code> (dots per inch) is print quality: this file is 8 × 300 = 2400 pixels wide and 5 × 300 = 1500 high.</li>
+<li>Save plots in their own folder (here, <code>outputs/</code>) so they don’t get mixed up with data.</li>
 </ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Text in a saved plot is sized in points, like in a word processor. On a small plot (<code>width = 4</code>), the text takes up more of the picture; on a large one (<code>width = 12</code>), less. If the labels look too big or too small in the file, change <code>width</code> and <code>height</code>, not <code>dpi</code>.</li>
+<li><code>dpi</code> only changes how sharp the picture is (how many pixels it has), not how big the text looks.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): save a plot
+<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (3 min): save a plot
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Save your measles epicurve to <code>outputs/measles_epicurve.png</code>, 8 inches wide, 5 inches high, <code>dpi = 300</code>.</p>
 <p>✅ <strong>Check:</strong> open the file from the <strong>Explorer</strong> (<code>outputs</code> folder). Does it look right?</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1253,7 +1635,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div id="callout-38" class="callout-38-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="st">"measles_epicurve.png"</span>), <span class="at">plot =</span> measles_epicurve,</span>

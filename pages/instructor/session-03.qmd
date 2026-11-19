@@ -19,7 +19,7 @@ subtitle: "Missing data, joins, and export"
 |   | Wrap-up and preview | 5 min |
 |   | **Total** | **91 min** |
 
-**Short on time?** Shorten Part 5 by skipping the step-by-step `select()` and showing only "the whole thing as one pipeline". Do **not** cut the Part 7 TRY IT: every later session starts from `measles_final.rds` (ready-made copies are in `processed_data/` for anyone who doesn't finish).
+**Short on time?** Shorten Part 5 by skipping the step-by-step `select()` and showing only "the whole thing as one pipeline". Do **not** cut TRY IT 7 (saving the measles data): every later session starts from `measles_final.rds` (ready-made copies are in `processed_data/` for anyone who doesn't finish).
 
 ## Before you start
 
@@ -59,13 +59,15 @@ Make sure everyone saves `measles_final.rds` — they need it for every remainin
 
 ## TRY IT answers at a glance
 
+The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.2 = Part 5, second prompt).
+
 | TRY IT | Answer |
 |---|---|
-| Import the measles data | `measles_clean` 1215 rows; `district_info` 5 rows |
-| Missing values in the measles data | `days_in_hospital` has 766 NAs — never hospitalized, not a mistake |
-| Measles rows with no ID | `filter(is.na(patient_id)) %>% mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))` — 37 rows |
-| Measles duplicates | 1178 rows after `filter()`, 1163 after `distinct()` — 15 duplicates removed |
-| Replace missing text | `mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))`; district Unknown (34); `days_in_hospital` is numeric so it is skipped |
-| Join the district information | Still 1163 rows; the 34 "Unknown" district rows have no match, so `population` is NA |
-| Save the measles data | Three `export()` lines: `measles_final.rds`, `measles_final.csv`, `measles_missing_ids.csv` |
+| 1. Import the measles data | `measles_clean` 1215 rows; `district_info` 5 rows |
+| 2. Missing values in the measles data | `days_in_hospital` has 766 NAs — never hospitalized, not a mistake |
+| 3. Measles rows with no ID | `filter(is.na(patient_id)) %>% mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))` — 37 rows |
+| 4. Measles duplicates | 1178 rows after `filter()`, 1163 after `distinct()` — 15 duplicates removed |
+| 5. Replace missing text | `mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))`; district Unknown (34); `days_in_hospital` is numeric so it is skipped |
+| 6. Join the district information | Still 1163 rows; the 34 "Unknown" district rows have no match, so `population` is NA |
+| 7. Save the measles data | Three `export()` lines: `measles_final.rds`, `measles_final.csv`, `measles_missing_ids.csv` |
 | ⭐ Bonus | `inner_join()` gives 1129 rows (drops the 34 Unknown) vs 1163 for `left_join()` |

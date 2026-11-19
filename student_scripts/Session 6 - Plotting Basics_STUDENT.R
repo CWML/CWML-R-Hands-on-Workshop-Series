@@ -11,6 +11,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Stuck?           put up your red sticky note, or check
@@ -30,11 +32,11 @@
 #        DATA <- import(...) %>% mutate(COLUMN = fct_relevel(COLUMN, ...))
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio; import combined_linelist.rds as linelist
+# 👀 Follow along 1.1: load tidyverse, here, rio; import combined_linelist.rds as linelist
 #    and fct_relevel() age_cat and outcome (same as Session 5)
 
 
-# ✏️ TRY IT (3 min): import measles_final.rds as measles and fct_relevel()
+# ✏️ TRY IT 1 (3 min): import measles_final.rds as measles and fct_relevel()
 #    age_cat ("Under 5", "5-9", "10-14", "15+", "Unknown") and vaccinated ("Yes", "No", "Unknown")
 #    ✅ Check: levels(measles$age_cat) starts with "Under 5"
 
@@ -56,10 +58,10 @@
 #    - Putting + at the START of a line instead of the END
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: 1. ggplot(data = linelist)   2. add aes(x = age_years)   3. add geom_histogram()
+# 👀 Follow along 2.1: 1. ggplot(data = linelist)   2. add aes(x = age_years)   3. add geom_histogram()
 
 
-# ✏️ TRY IT (2 min): build a histogram of measles temp_c in the same three steps
+# ✏️ TRY IT 2 (2 min): build a histogram of measles temp_c in the same three steps
 #    ✅ Check: step 2 shows an empty plot with temperatures on the x-axis
 
 
@@ -75,13 +77,13 @@
 #    - Colors can be names ("steelblue") or hex codes ("#2a78d6").
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: age histogram with binwidth = 5 (then try 1 and 10)
+# 👀 Follow along 3.1: age histogram with binwidth = 5 (then try 1 and 10)
 
 
-# 👀 Follow along: add fill = "#2a78d6" and color = "white"
+# 👀 Follow along 3.2: add fill = "#2a78d6" and color = "white"
 
 
-# ✏️ TRY IT (3 min): a histogram of measles age_years with binwidth = 1, a fill color,
+# ✏️ TRY IT 3 (3 min): a histogram of measles age_years with binwidth = 1, a fill color,
 #    and a white outline. Which age has the most cases?
 #    ✅ Check: the tallest bar is at age 2 (about 100 cases). The warning about
 #              "removed rows" is the 29 missing ages: that's fine.
@@ -102,16 +104,16 @@
 #      and gives it the first default color (pink-red), with a legend saying "blue".
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: age histogram with fill = outcome inside aes()
+# 👀 Follow along 4.1: age histogram with fill = outcome inside aes()
 
 
-# 👀 Follow along: the same with fill = "#2a78d6" in geom_histogram()
+# 👀 Follow along 4.2: the same with fill = "#2a78d6" in geom_histogram()
 
 
-# 👀 Follow along: what happens with fill = "blue" inside aes()?
+# 👀 Follow along 4.3: what happens with fill = "blue" inside aes()?
 
 
-# ✏️ TRY IT (3 min): a histogram of measles temp_c with binwidth = 0.2, then map
+# ✏️ TRY IT 4 (3 min): a histogram of measles temp_c with binwidth = 0.2, then map
 #    fill = fever inside aes(). Why are there two "humps"?
 #    ✅ Check: the small hump near 37 °C is "no" fever; the big one near 39 °C is "yes"
 
@@ -130,19 +132,19 @@
 #      %>% before ggplot(), + after it.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: age_years vs wt_kg with geom_point()
+# 👀 Follow along 5.1: age_years vs wt_kg with geom_point()
 
 
-# 👀 Follow along: add size = 1, alpha = 0.3; then map color = gender
+# 👀 Follow along 5.2: add size = 1, alpha = 0.3; then map color = gender
 
 
-# 👀 Follow along: add geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
+# 👀 Follow along 5.3: add geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
 
 
-# 👀 Follow along: only patients with fever: filter() first, then ggplot()
+# 👀 Follow along 5.4: only patients with fever: filter() first, then ggplot()
 
 
-# ✏️ TRY IT (4 min): for hospitalized patients only (filter(!is.na(days_in_hospital))),
+# ✏️ TRY IT 5 (4 min): for hospitalized patients only (filter(!is.na(days_in_hospital))),
 #    plot age_years (x) against days_in_hospital (y) with alpha, and add a trend line.
 #    Is there a relationship?
 #    ✅ Check: 427 hospitalized patients; the trend line is almost flat (no relationship)
@@ -161,16 +163,16 @@
 #      adds the mean as a white diamond.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: age_years by gender with geom_boxplot()
+# 👀 Follow along 6.1: age_years by gender with geom_boxplot()
 
 
-# 👀 Follow along: filter out "Unknown", add fill = gender, and remove the legend
+# 👀 Follow along 6.2: filter out "Unknown", add fill = gender, and remove the legend
 
 
-# 👀 Follow along: add the mean with stat_summary()
+# 👀 Follow along 6.3: add the mean with stat_summary()
 
 
-# ✏️ TRY IT (4 min): a box plot of days_in_hospital by vaccinated (hospitalized
+# ✏️ TRY IT 6 (4 min): a box plot of days_in_hospital by vaccinated (hospitalized
 #    patients only), with the mean and no legend
 #    ✅ Check: three boxes; the medians are 4–5 days for every group
 
@@ -189,16 +191,16 @@
 #        my_plot + labs(...) + theme_minimal()
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: add labs() to the box plot
+# 👀 Follow along 7.1: add labs() to the box plot
 
 
-# 👀 Follow along: try theme_minimal(), theme_classic(), theme_bw() on the age histogram
+# 👀 Follow along 7.2: try theme_minimal(), theme_classic(), theme_bw() on the age histogram
 
 
-# 👀 Follow along: save a plot as age_plot, then add labs() and a theme to it
+# 👀 Follow along 7.3: save a plot as age_plot, then add labs() and a theme to it
 
 
-# ✏️ TRY IT (5 min): finish one of your measles plots with a title, subtitle, axis
+# ✏️ TRY IT 7 (5 min): finish one of your measles plots with a title, subtitle, axis
 #    labels, a caption, and a theme. Save it as my_plot.
 #    ✅ Check: typing my_plot in the Console shows your finished plot
 

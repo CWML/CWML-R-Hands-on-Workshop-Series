@@ -20,9 +20,27 @@ subtitle: "Bar charts of counts and values, choosing colors, epidemic curves, fa
 **Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 7 - Plotting Further_STUDENT.R`. This session starts from `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`, the files you made in Session 3. Missed a session? Ready-made copies are already in `processed_data/`.
 :::
 
+**Where this session fits.** Most data projects go through the same steps, whatever the topic. Today covers **Visualize** and **Save and share** (highlighted): more kinds of plots, chosen colors, and saving plots to files you can put in a report.
+
+::: workflow
+1.  [Import]{.step}
+2.  [Inspect]{.step}
+3.  [Clean]{.step}
+4.  [Combine]{.step}
+5.  [Reshape]{.step}
+6.  [Summarize]{.step}
+7.  [Visualize]{.step .today}
+8.  [Save and share]{.step .today}
+9.  [Automate]{.step}
+:::
+
 # Part 1: Set up
 
 Load the packages, import the finished linelist, and put the categories in a sensible order (the same as Session 6):
+
+::: follow-along
+**👀 Follow along 1.1** — Load tidyverse, here, and rio; import `combined_linelist.rds` as `linelist`, and `fct_relevel()` `age_cat` and `outcome` (same as Session 6).
+:::
 
 ```{r}
 #| message: false
@@ -38,6 +56,15 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
   )
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `library(tidyverse)` loads ggplot2 (for plots) and forcats (for `fct_` functions) along with the rest of the tidyverse.
+-   `import(here("processed_data", "combined_linelist.rds"), trust = TRUE)` reads the finished linelist from Session 3: 6451 rows. An `.rds` file can hold any R object, so rio asks you to confirm with `trust = TRUE` that you trust where it came from.
+-   `age_cat` arrives as plain text. Plots draw text categories in alphabetical order, which would put "Under 18" after "80+". `fct_relevel()` turns the column into a **factor**: categories with an order you choose, youngest to oldest.
+-   `fct_relevel(outcome, "Recover", "Death", "Unknown")` does the same for outcome. The order decides how bars are stacked and the order of the legend.
+:::
+
 ::: callout-tip
 ## Save your colors once
 
@@ -49,7 +76,7 @@ You will use these colors in Part 4.
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): set up the measles data
+## ✏️ TRY IT 1 (3 min): set up the measles data
 
 Import `measles_final.rds` as `measles`, `fct_relevel()` `age_cat` and `vaccinated` (same as Session 6), and save `vacc_colors` (above).
 
@@ -77,6 +104,10 @@ The same import pipeline as Session 6, plus a named color vector: each name (`"Y
 
 `geom_bar()` **counts the rows** in each category for you — you only give it `x`.
 
+::: follow-along
+**👀 Follow along 2.1** — `geom_bar()` with `x = hospital_name`, then with `y = hospital_name` (the next two code blocks).
+:::
+
 ```{r}
 #| fig-alt: "Vertical bar chart of cases by hospital in gray. The hospital names on the x-axis overlap and are hard to read. Other/Unknown has the most cases (about 2,350), then Regional Medical center (about 1,800)."
 ggplot(data = linelist, mapping = aes(x = hospital_name)) +
@@ -91,9 +122,22 @@ ggplot(data = linelist, mapping = aes(y = hospital_name)) +
   geom_bar()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `ggplot(data = linelist, mapping = aes(x = hospital_name))` sets up the plot: which data to use, and which column goes on the x-axis. On its own it draws an empty frame.
+-   `+ geom_bar()` adds a layer of bars. `geom_bar()` counts the rows for each hospital itself, so you don't give it a `y`. Other/Unknown is the tallest bar, with 2354 cases.
+-   The seven hospital names are long, so on the x-axis they overlap. `aes(y = hospital_name)` puts them on the y-axis instead: horizontal bars, with labels you can read.
+-   `hospital_name` is text, so the bars are in alphabetical order. The next step fixes that.
+:::
+
 ## Order the bars
 
 Alphabetical order rarely helps. `fct_infreq()` orders by count (most common first), and `fct_rev()` flips it so the longest bar is at the top:
+
+::: follow-along
+**👀 Follow along 2.2** — Order the bars with `fct_rev(fct_infreq(hospital_name))`, and add a fill color and `labs()`.
+:::
 
 ```{r}
 #| fig-alt: "Horizontal bar chart titled Cases by hospital in blue, sorted from most to fewest cases: Other/Unknown, Regional Medical center, Military Hospital, Central Hospital, St. Mark's Maternity Hospital, HMO Health, and Premiere Health."
@@ -103,11 +147,44 @@ ggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) +
   theme_minimal()
 ```
 
-`y = NULL` removes an axis title the reader doesn't need.
+::: {.callout-tip icon=false}
+## 🧩 Reading a function call
+
+Here is the core of the plot you just made, taken apart:
+
+`ggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) + geom_bar(fill = "#2a78d6")`
+
+| Piece | What it is | What it does |
+|---|---|---|
+| `ggplot(...)` | the function that starts every plot | sets up an empty plot |
+| `data = linelist` | a named argument of `ggplot()` | the data to plot |
+| `mapping = aes(...)` | a named argument, filled in by the `aes()` function | links columns to parts of the plot ("aesthetics") |
+| `y = fct_rev(fct_infreq(hospital_name))` | an argument of `aes()` | puts the hospitals on the y-axis, in the order of their counts |
+| `+` | the plus sign | adds the next layer to the plot |
+| `geom_bar(...)` | a function that adds a layer | draws one bar per hospital, counting its rows |
+| `fill = "#2a78d6"` | an argument of `geom_bar()`, outside `aes()` | colors every bar the same blue |
+
+Inside the brackets, R works from the **inside out**: `fct_infreq()` orders the hospitals by count, then `fct_rev()` reverses that order. The `+` signs then build the plot **layer by layer, from left to right**: first the empty plot, then the bars, then the labels and the theme.
+:::
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fct_infreq(hospital_name)` turns the hospital names into categories ordered by how often they appear, most common first.
+-   `fct_rev()` reverses that order. On a horizontal chart the first category is drawn at the bottom, so reversing it puts the longest bar (Other/Unknown, 2354 cases) at the top.
+-   `geom_bar(fill = "#2a78d6")` colors every bar blue. `fill` is outside `aes()` here, so it's one fixed color, not linked to a column.
+-   `labs()` sets the title and the axis titles. `y = NULL` removes the y-axis title: the hospital names speak for themselves.
+-   `theme_minimal()` removes the gray background and keeps light grid lines.
+:::
+
 
 ## Fill by a second variable
 
 Map `fill` to split each bar. The `position` argument controls how the pieces are arranged:
+
+::: follow-along
+**👀 Follow along 2.3** — `x = age_cat`, `fill = outcome`, with `position = "stack"`, `"fill"`, and `"dodge"` (the next three code blocks).
+:::
 
 ```{r}
 #| fig-alt: "Stacked bar chart of case counts by age group, split by outcome. The Under 18 group is by far the largest (about 4,000 cases), so outcomes in the older groups are hard to compare."
@@ -130,6 +207,15 @@ ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "dodge")
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fill = outcome` is **inside** `aes()`, so it's linked to a column: each bar is split into one colored piece per outcome, and ggplot adds a legend. These are ggplot's default colors; in Part 4 you choose your own.
+-   `position = "stack"` piles the pieces on top of each other, so the bar height is the number of cases. Under 18 has 3962 cases and 80+ only 1, so the older groups are hard to see.
+-   `position = "fill"` stretches every bar to the same height, from 0 to 1 (0% to 100%). You compare **proportions**: what share of each age group recovered, died, or has an unknown outcome.
+-   `position = "dodge"` puts the pieces side by side. You compare **counts** within each group: in most age groups the Death bar is taller than the Recover bar (Under 18: 1755 deaths, 1322 recoveries).
+:::
+
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: which version answers "do older patients die more often?"
 
@@ -137,7 +223,7 @@ The 100% `"fill"` version. The stacked version mostly shows that there are many 
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): cases by district
+## ✏️ TRY IT 2 (3 min): cases by district
 
 Make a horizontal bar chart of measles cases by district, longest bar on top.
 
@@ -158,9 +244,20 @@ ggplot(data = measles, mapping = aes(y = fct_rev(fct_infreq(district)))) +
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   **Inside or outside `aes()`?** Inside `aes()`, a setting is linked to a column and changes from bar to bar (`aes(fill = outcome)`). Outside, it's one fixed value for everything (`geom_bar(fill = "#2a78d6")`).
+-   A common mistake is a color name inside `aes()`: `aes(fill = "blue")`. ggplot treats "blue" as a category called "blue", draws it in its first default color (a salmon red), and adds a legend for it.
+:::
+
 # Part 3: Bar charts of values: `geom_col()`
 
 When **you** have already calculated the numbers (with `count()` or `summarise()` from Session 5), use `geom_col()` and give it both `x` and `y`:
+
+::: follow-along
+**👀 Follow along 3.1** — Create `death_by_age` (the percentage who died in each age group), then plot it with `geom_col()`.
+:::
 
 ```{r}
 #| fig-alt: "Bar chart of the percentage of cases who died in each age group: 55 to 59% for every group under 60, 33% for 60 to 69, 50% for 70 to 79 (only 6 patients), and 0% for 80 and over (1 patient)."
@@ -180,6 +277,15 @@ ggplot(data = death_by_age, mapping = aes(x = age_cat, y = pct_death)) +
   theme_minimal()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The first block makes a small table, `death_by_age`. `filter()` leaves out patients with an unknown outcome or age group; `group_by(age_cat)` and `summarise()` then give one row per age group.
+-   `n = n()` counts the patients in each group. `mean(outcome == "Death") * 100` is the percentage who died: `outcome == "Death"` is TRUE or FALSE for each patient, and the mean of TRUE/FALSE values is the share that are TRUE. For Under 18 that's 57.0%.
+-   Printing `death_by_age` shows the 8 rows, so you can check the numbers before you plot them.
+-   `geom_col()` draws the numbers as they are: one bar per row, with `x = age_cat` and `y = pct_death`. Nothing is counted; the bar height is the percentage.
+:::
+
 ::: callout-note
 ## `geom_bar()` or `geom_col()`?
 
@@ -195,7 +301,7 @@ Not much. Check `n` in `death_by_age`: the 70–79 bar is based on 6 patients an
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (5 min): case rates by district
+## ✏️ TRY IT 3 (5 min): case rates by district
 
 a)  Calculate cases per 10,000 people by district (Session 5), leaving out "Unknown".
 b)  Plot it with `geom_col()`, using `x = fct_reorder(district, rate_per_10k)`.
@@ -240,6 +346,10 @@ ggplot's default colors are fine for exploring, but for a report choose colors *
 
 `scale_fill_manual()` (for `fill`) and `scale_color_manual()` (for `color`) set the colors by name:
 
+::: follow-along
+**👀 Follow along 4.1** — Save `outcome_colors`, then make a 100% bar chart of outcome by `age_cat` with `scale_fill_manual()`, a white outline, and a percent y-axis.
+:::
+
 ```{r}
 #| fig-alt: "100% stacked bar chart of outcome by age group with chosen colors: blue for Recover, orange for Death, and gray for Unknown, with a percent y-axis and a minimal theme."
 outcome_colors <- c("Recover" = "#2a78d6", "Death" = "#eb6834", "Unknown" = "#9a9a95")
@@ -257,9 +367,15 @@ ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   theme_minimal()
 ```
 
--   Saving the colors as `outcome_colors` lets you reuse them in every plot
--   `color = "white"` draws a thin white line between the segments
--   `scale_y_continuous(labels = scales::percent)` shows 0.25 as 25%
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `outcome_colors` is a **named vector**: each name ("Recover", "Death", "Unknown") is a category, and each value is its color. Saving it once lets you reuse it in every plot.
+-   `scale_fill_manual(values = outcome_colors)` matches the colors to the categories **by name**, so Recover is always blue, even in a plot where some outcomes are missing.
+-   `geom_bar(position = "fill", color = "white")` makes 100% bars, and `color = "white"` draws a thin white line between the pieces.
+-   `scale_y_continuous(labels = scales::percent)` shows the y-axis values 0.25, 0.50, ... as 25%, 50%, ....
+-   In `labs()`, `fill = "Outcome"` sets the title of the legend.
+:::
 
 ::: callout-tip
 ## Need more colors?
@@ -280,7 +396,7 @@ ggplot(data = linelist, mapping = aes(x = hospital_name)) +
 ```
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): vaccination by age group
+## ✏️ TRY IT 4 (4 min): vaccination by age group
 
 Make a 100% bar chart of `vaccinated` by `age_cat`, with `vacc_colors`, a percent y-axis, labels, and `theme_minimal()`.
 
@@ -308,9 +424,20 @@ ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   About 1 in 12 men and 1 in 200 women have some form of color-vision deficiency, so in a room of 30 people, someone probably can't tell red from green.
+-   Don't rely on color alone: clear titles, axis labels, and a sensible order make a plot readable even in black and white.
+:::
+
 # Part 5: Epidemic curves
 
 An **epidemic curve** (epicurve) shows the number of new cases over time — the most important plot in outbreak investigation. It is a histogram of a **date** column:
+
+::: follow-along
+**👀 Follow along 5.1** — `geom_histogram()` of `onset_date` with `binwidth = 7`. What's going on before 2014?
+:::
 
 ```{r}
 #| fig-alt: "Weekly epidemic curve of all onset dates: a small cluster in late 2012 and early 2013, a gap, then the main outbreak from mid-2014 that peaks at about 300 cases per week in September 2014."
@@ -318,7 +445,16 @@ ggplot(data = linelist, mapping = aes(x = onset_date)) +
   geom_histogram(binwidth = 7, fill = "#2a78d6", color = "white")
 ```
 
-`binwidth = 7` makes each bar one week.
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `aes(x = onset_date)` puts the date of symptom onset on the x-axis. `geom_histogram()` sorts the dates into bins and counts the cases in each one.
+-   Dates are counted in days, so `binwidth = 7` makes each bin, and so each bar, one week long.
+-   `fill = "#2a78d6", color = "white"` gives blue bars with a white outline, so neighbouring weeks are easy to tell apart.
+-   R warns that it **removed 281 rows**: those cases have no onset date, so they can't be placed on a time axis. The warning is expected.
+-   The x-axis runs from April 2012 to April 2015. Look at the left end before reading on.
+:::
+
 
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: what is going on before 2014?
@@ -327,6 +463,10 @@ ggplot(data = linelist, mapping = aes(x = onset_date)) +
 :::
 
 Zoom in on the outbreak and format the date axis:
+
+::: follow-along
+**👀 Follow along 5.2** — Keep onset dates from 2014, and add `scale_x_date()` and `labs()`.
+:::
 
 ```{r}
 #| fig-alt: "Epidemic curve of weekly cases from 2014 onward. Cases rise from May 2014 to a peak of about 300 per week in September 2014, then decline slowly through April 2015."
@@ -344,10 +484,20 @@ linelist %>%
   theme_minimal()
 ```
 
--   `date_breaks = "2 months"` puts a label every two months
--   `date_labels = "%b\n%Y"` shows the short month name, a line break, and the year (`%d` = day, `%B` = full month name)
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `filter(onset_date >= as.Date("2014-01-01"))` keeps cases with an onset on or after 1 January 2014. `as.Date()` turns the text into a date so R can compare. Rows with no onset date are dropped too, which leaves 5632 cases.
+-   The data is piped into `ggplot()`, so you don't write `data =`: the pipe passes it in as the first argument.
+-   `scale_x_date(date_breaks = "2 months", date_labels = "%b\n%Y")` puts a label every two months. `%b` is the short month name, `\n` starts a new line, and `%Y` is the year, so a label reads "Sep" above "2014". (`%d` is the day and `%B` the full month name.)
+-   `labs()` adds a title, a subtitle, and axis titles. The busiest week, in September 2014, has 304 cases.
+:::
 
 ## Epicurve by outcome
+
+::: follow-along
+**👀 Follow along 5.3** — Fill the epicurve by outcome with `outcome_colors`.
+:::
 
 ```{r}
 #| fig-alt: "Epidemic curve of weekly cases from 2014 onward with each bar split by outcome: blue for Recover, orange for Death, gray for Unknown. All three outcomes rise and fall with the outbreak."
@@ -361,8 +511,15 @@ linelist %>%
   theme_minimal()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fill = outcome` inside `aes()` splits each week's bar by outcome, and `scale_fill_manual(values = outcome_colors)` uses the same colors as in Part 4.
+-   The fixed `fill = "#2a78d6"` is gone from `geom_histogram()`. A fixed fill there would paint every bar blue and hide the outcome colors.
+:::
+
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (5 min): the measles epicurve
+## ✏️ TRY IT 5 (5 min): the measles epicurve
 
 Make a weekly epicurve of measles `report_date`, filled by `vaccinated`, with `vacc_colors` and `scale_x_date(date_breaks = "1 month", date_labels = "%b")`. Save it as `measles_epicurve` — you will need it in Part 7. **Hint:** `filter(!is.na(report_date))` first. When did the outbreak peak?
 
@@ -394,9 +551,20 @@ The outbreak peaked in the second half of March 2024, with 117 cases in the peak
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   **Which date?** Epicurves usually use the **date of symptom onset**, because it's closest to when people were infected. The date a case was **reported** comes later, and the delay varies from case to case.
+-   **The last weeks often look lower than they really are.** Recent cases may not have been reported yet. Keep that in mind before saying an outbreak is ending.
+:::
+
 # Part 6: Facets
 
 `facet_wrap()` splits one plot into **small multiples** — one panel per category, all with the same axes so they are easy to compare:
+
+::: follow-along
+**👀 Follow along 6.1** — The epicurve with `facet_wrap(~ hospital_name)`, leaving out "Other/Unknown".
+:::
 
 ```{r}
 #| fig-alt: "Four small epidemic curves on the same axes, one per hospital: Central Hospital, Military Hospital, Regional Medical center, and St. Mark's Maternity Hospital. Regional Medical center has the largest outbreak, peaking at about 90 cases per week in September 2014."
@@ -411,7 +579,21 @@ linelist %>%
   theme_minimal()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `filter()` keeps onset dates from 2014 and leaves out the "Other/Unknown" hospital.
+-   `facet_wrap(~ hospital_name)` draws one small epicurve per hospital. Read the `~` as "by": "wrap the plot by hospital name".
+-   All panels share the same x- and y-axes, so a taller bar really means more cases, whichever panel it's in.
+-   There are only four panels. HMO Health and Premiere Health have no onset dates from 2014 (all of theirs are in 2012–2013), so the filter leaves nothing to plot for them.
+-   `date_breaks = "4 months"` labels the axis less often, because each panel is narrow.
+:::
+
 Facets work with any plot:
+
+::: follow-along
+**👀 Follow along 6.2** — An age histogram with `facet_wrap(~ gender)`, leaving out "Unknown".
+:::
 
 ```{r}
 #| fig-alt: "Two age histograms side by side, for female and male patients. Female patients are mostly under 25, while male ages are spread more widely, up to about 75."
@@ -424,6 +606,14 @@ linelist %>%
   theme_minimal()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The same `facet_wrap()` works on any plot: here a histogram of age, with each bar covering 5 years (`binwidth = 5`).
+-   `filter(gender != "Unknown")` leaves out the 304 patients with unknown gender, so 6147 are plotted.
+-   `facet_wrap(~ gender)` gives one panel for female and one for male patients, on the same axes, so you can compare the shapes directly.
+:::
+
 ::: callout-note
 -   `facet_wrap(~ hospital_name, ncol = 2)` sets the number of columns
 -   `facet_wrap(~ hospital_name, scales = "free_y")` lets each panel have its own y-axis (careful: it makes panels harder to compare)
@@ -431,7 +621,7 @@ linelist %>%
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): facets
+## ✏️ TRY IT 6 (4 min): facets
 
 Facet your measles epicurve by district (leave out "Unknown"). Did every district peak at the same time?
 
@@ -466,6 +656,10 @@ Roughly, yes: every district peaks in March, at about the same time as the overa
 
 `ggsave()` saves the **last plot you made**, or a plot object you name. Save the plot as an object first:
 
+::: follow-along
+**👀 Follow along 7.1** — Save the epicurve as an object, then `ggsave()` it to `outputs/epicurve.png` (the next two code blocks).
+:::
+
 ```{r}
 epicurve <- linelist %>%
   filter(onset_date >= as.Date("2014-01-01")) %>%
@@ -483,12 +677,25 @@ ggsave(here("outputs", "epicurve.png"), plot = epicurve,
        width = 8, height = 5, dpi = 300)
 ```
 
--   The file type comes from the extension: `.png` for slides and documents, `.pdf` for print
--   `width` and `height` are in inches; `dpi = 300` is print quality
--   Save plots in their own folder (here, `outputs/`) so they don't get mixed up with data
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `epicurve <- linelist %>% ... + theme_minimal()` saves the plot as an object instead of showing it. Nothing appears until you print it (type `epicurve`) or save it.
+-   `ggsave(here("outputs", "epicurve.png"), plot = epicurve, ...)` writes the plot to a file. `here()` builds the path, as in Session 1, and `plot = epicurve` says which plot to save. Without `plot =`, `ggsave()` saves the last plot you looked at.
+-   The file type comes from the ending: `.png` for slides and documents, `.pdf` for print.
+-   `width` and `height` are in inches. `dpi = 300` (dots per inch) is print quality: this file is 8 × 300 = 2400 pixels wide and 5 × 300 = 1500 high.
+-   Save plots in their own folder (here, `outputs/`) so they don't get mixed up with data.
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   Text in a saved plot is sized in points, like in a word processor. On a small plot (`width = 4`), the text takes up more of the picture; on a large one (`width = 12`), less. If the labels look too big or too small in the file, change `width` and `height`, not `dpi`.
+-   `dpi` only changes how sharp the picture is (how many pixels it has), not how big the text looks.
+:::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): save a plot
+## ✏️ TRY IT 7 (3 min): save a plot
 
 Save your measles epicurve to `outputs/measles_epicurve.png`, 8 inches wide, 5 inches high, `dpi = 300`.
 

@@ -511,9 +511,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Before you start:</strong> open the workshop folder in Positron (<strong>File → Open Folder…</strong>) and open <code>student_scripts/Session 4 - Data Structures_STUDENT.R</code>. This session starts from the finished data of Session 3: <code>processed_data/combined_linelist.rds</code> and <code>processed_data/measles_final.rds</code>. Missed Session 3? Ready-made copies of both files are already in <code>processed_data/</code>.</p>
 </div>
 </div>
+<p><strong>Where this session fits.</strong> Today covers <strong>Reshape</strong> (highlighted): changing a table between wide and long. First, you look under the hood at how R stores data (vectors, types, and lists), which explains why the tidyverse functions from Sessions 1–3 work the way they do.</p>
+<div class="workflow">
+<ol type="1">
+<li><span class="step">Import</span></li>
+<li><span class="step">Inspect</span></li>
+<li><span class="step">Clean</span></li>
+<li><span class="step">Combine</span></li>
+<li><span class="step today">Reshape</span></li>
+<li><span class="step">Summarize</span></li>
+<li><span class="step">Visualize</span></li>
+<li><span class="step">Save and share</span></li>
+<li><span class="step">Automate</span></li>
+</ol>
+</div>
 <p>Sessions 1–3 used tidyverse functions that hide how R stores data. Today you look under the hood: vectors and vectorization explain <em>why</em> <code>mutate()</code> works on a whole column at once, base-R subsetting is everywhere in help pages and other people’s code (and you will need it to write functions in Session 8), lists are how R stores test and model results, and reshaping is needed for many summaries and plots.</p>
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
+<div class="follow-along">
+<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, and rio, and import <code>processed_data/combined_linelist.rds</code> (with <code>trust = TRUE</code>) as <code>linelist</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
@@ -521,20 +538,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>library()</code> loads today’s three packages: tidyverse (which includes <code>pivot_longer()</code> and <code>pivot_wider()</code>), here, and rio.</li>
+<li><code>import()</code> reads <code>combined_linelist.rds</code>, the finished linelist you saved in Session 3. <code>.rds</code> files can contain R code, so rio asks you to confirm that you trust the file with <code>trust = TRUE</code>.</li>
+<li><code>linelist</code> has 6451 rows (patients) and 19 columns.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (2 min): import the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 1 (2 min): import the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Import <code>processed_data/measles_final.rds</code> (with <code>trust = TRUE</code>) and call it <code>measles</code>.</p>
 <p>✅ <strong>Check:</strong> in the <strong>Variables</strong> pane, <code>measles</code> shows 1163 rows and 14 columns</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -543,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
@@ -562,6 +596,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-2-vectors-and-types" class="level1">
 <h1>Part 2: Vectors and types</h1>
 <p>A <strong>vector</strong> is a set of values of the <strong>same type</strong>. Every column of a data frame is a vector. <code>$</code> pulls one column out:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.1</strong> — Pull out <code>linelist$age_years</code> as <code>ages</code>, then <code>head()</code> and <code>length()</code> it.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> linelist<span class="sc">$</span>age_years</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ages)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -574,6 +611,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>length()</code> tells you how many values a vector has: 6451, one per row of <code>linelist</code>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist$age_years</code> pulls the <code>age_years</code> column out of the data frame as a vector, and <code>ages &lt;-</code> saves it as an object of its own.</li>
+<li><code>head(ages)</code> shows the first 6 values: 2, 3, 56, 18, 3, 16.</li>
+<li><code>length(ages)</code> counts the values: 6451, the same as the number of rows. A column always has one value per row, even if some of them are <code>NA</code>.</li>
+</ul>
+</div>
+</div>
 <section id="the-main-types" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-types">The main types</h2>
 <table class="caption-top table">
@@ -612,6 +666,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.2</strong> — <code>class()</code> of <code>age_years</code>, <code>gender</code>, and <code>onset_date</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(linelist<span class="sc">$</span>age_years)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -626,10 +683,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "Date"</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>class()</code> tells you what type of vector something is.</li>
+<li><code>age_years</code> is <code>"numeric"</code> (numbers you can calculate with), <code>gender</code> is <code>"character"</code> (text), and <code>onset_date</code> is <code>"Date"</code>. In the raw data, ages and some dates were text; the cleaning in Session 2 gave them the right types.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="one-type-per-vector" class="level2">
 <h2 class="anchored" data-anchor-id="one-type-per-vector">One type per vector</h2>
-<p>If you mix types, R converts everything to the most flexible type — usually text. This is why a single “unknown” turned the whole <code>age</code> column into text in Session 1:</p>
+<p>If you mix types, R converts everything to the most flexible type — usually text. This is why a few “unknown” values turned the measles <code>Age (years)</code> column into text in Session 1:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.3</strong> — What happens with <code>c(1, 2, "unknown")</code> and <code>c(1, TRUE, FALSE)</code>?</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"unknown"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -640,10 +716,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 1 1 0</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>c(1, 2, "unknown")</code> mixes numbers and text, so R turns the numbers into text: <code>"1" "2" "unknown"</code>. The quotes in the output show they’re text now, and you can no longer calculate with them.</li>
+<li><code>c(1, TRUE, FALSE)</code> mixes numbers and TRUE/FALSE. Numbers are the more flexible type, so TRUE becomes 1 and FALSE becomes 0: <code>1 1 0</code>.</li>
+<li>From least to most flexible: logical (TRUE/FALSE), then numeric, then character. R always picks the most flexible type in the vector.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="missing-values-spread" class="level2">
 <h2 class="anchored" data-anchor-id="missing-values-spread">Missing values spread</h2>
 <p>Any calculation with <code>NA</code> gives <code>NA</code>, unless you tell R to skip them:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.4</strong> — <code>mean(c(38, 39, NA))</code> with and without <code>na.rm = TRUE</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">38</span>, <span class="dv">39</span>, <span class="cn">NA</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -654,20 +750,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 38.5</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>mean(c(38, 39, NA))</code> gives <code>NA</code>. One value is unknown, so the mean is unknown too: R tells you instead of guessing.</li>
+<li><code>na.rm = TRUE</code> (“NA remove”) tells <code>mean()</code> to skip the missing values: the mean of 38 and 39 is 38.5.</li>
+<li>The same argument works in <code>sum()</code>, <code>min()</code>, <code>max()</code>, <code>median()</code>, and <code>sd()</code>.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): types in the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 2 (3 min): types in the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Use <code>class()</code> on <code>measles$age_years</code>, <code>measles$vaccinated</code>, and <code>measles$report_date</code>, and <code>length()</code> on <code>measles$temp_c</code>.</p>
 <p>✅ <strong>Check:</strong> “numeric”, “character”, “Date”, and 1163</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -676,7 +789,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(measles<span class="sc">$</span>age_years)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -702,11 +815,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><code>NA</code> and “Unknown” are different.</strong> <code>NA</code> means the value is missing, and R treats it specially: calculations with it give <code>NA</code>. “Unknown” is ordinary text, which R counts like any other value. In this data, unknown symptoms are written “Unknown”, so <code>fever</code> has no <code>NA</code>s.</li>
+<li><strong><code>str()</code> describes any object:</strong> its type, its size, and its first values. For a data frame it works like <code>glimpse()</code>.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-3-vectorization" class="level1">
 <h1>Part 3: Vectorization</h1>
 <p>R does most calculations on <strong>every element of a vector at once</strong>. No loop needed:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.1</strong> — Make <code>temps_c &lt;- c(36.8, 38.5, 40.1)</code> and convert it to Fahrenheit.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>temps_c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">36.8</span>, <span class="fl">38.5</span>, <span class="fl">40.1</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>temps_c <span class="sc">*</span> <span class="dv">9</span> <span class="sc">/</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">32</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -714,7 +846,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1]  98.24 101.30 104.18</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>temps_c * 9 / 5 + 32</code> applies the Celsius-to-Fahrenheit formula to all three values at once: 98.24, 101.30, and 104.18.</li>
+<li><code>temps_c</code> itself doesn’t change; the result only prints. Save it with <code>&lt;-</code> to keep it.</li>
+</ul>
+</div>
+</div>
 <p>That is exactly what happens inside <code>mutate()</code>: the calculation runs on the whole column.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.2</strong> — <code>head()</code> of every patient’s weight in pounds: <code>linelist$wt_kg * 2.2</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight in pounds for every patient, in one line</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(linelist<span class="sc">$</span>wt_kg <span class="sc">*</span> <span class="fl">2.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -722,9 +873,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1]  59.4  55.0 200.2  90.2  79.2 123.2</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist$wt_kg * 2.2</code> multiplies every one of the 6451 weights by 2.2 (kilograms to pounds) in one step. <code>head()</code> shows the first 6: 59.4, 55.0, 200.2, and so on.</li>
+<li><code>mutate(wt_lb = wt_kg * 2.2)</code> does exactly the same inside the data frame and saves it as a new column.</li>
+</ul>
+</div>
+</div>
 <section id="comparisons-are-vectorized-too" class="level2">
 <h2 class="anchored" data-anchor-id="comparisons-are-vectorized-too">Comparisons are vectorized too</h2>
 <p>A comparison gives a <strong>logical</strong> vector, one TRUE/FALSE per element:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.3</strong> — <code>temps_c &gt; 38</code>, then <code>sum()</code> and <code>mean()</code> of <code>linelist$temp &gt; 38</code>, and <code>mean(linelist$fever == "yes")</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>temps_c <span class="sc">&gt;</span> <span class="dv">38</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -750,6 +920,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 0.7870098</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>temps_c &gt; 38</code> compares each value with 38 and gives one TRUE or FALSE per value: <code>FALSE TRUE TRUE</code>.</li>
+<li><code>sum(linelist$temp &gt; 38, na.rm = TRUE)</code> counts the TRUEs: 4943 patients had a temperature above 38 °C. <code>na.rm = TRUE</code> skips the 151 patients with no temperature.</li>
+<li><code>mean()</code> of the same comparison gives the proportion: 0.785, so about 78% of the patients with a recorded temperature had one above 38 °C.</li>
+<li><code>mean(linelist$fever == "yes")</code> is the proportion of all patients with fever: 0.787. <code>fever</code> has no missing values (unknowns are written “Unknown”), so no <code>na.rm</code> is needed.</li>
+</ul>
+</div>
+</div>
 <p>You will use this trick again in Session 5: <code>mean(fever == "yes") * 100</code> inside <code>summarise()</code> gives the percentage with fever in each group.</p>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -757,7 +945,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): vectorized calculations
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (4 min): vectorized calculations
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -768,7 +956,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>✅ <strong>Check:</strong> a) starts 100.94, 101.12 b) 565 c) 0.238</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -777,7 +965,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(measles<span class="sc">$</span>temp_c <span class="sc">*</span> <span class="dv">9</span> <span class="sc">/</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">32</span>)    <span class="co"># a)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -799,6 +987,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Why no loop?</strong> In many programming languages you’d write a loop to go through the values one at a time. In R, vectorized code is shorter and much faster, because the loop runs inside R’s own built-in code. Loops still have their uses (Session 8).</li>
+<li>The functions you used in Session 2, such as <code>as.Date()</code>, <code>if_else()</code>, <code>case_when()</code>, and <code>str_detect()</code>, are vectorized too. That’s why they worked on whole columns.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-4-subsetting-with-base-r" class="level1">
@@ -806,6 +1010,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Subsetting</strong> means pulling out part of a vector or data frame. The tidyverse does this with <code>filter()</code> and <code>select()</code>; base R uses square brackets. You will see base R in help pages, older code, and when writing functions (Session 8).</p>
 <section id="vectors-x" class="level2">
 <h2 class="anchored" data-anchor-id="vectors-x">Vectors: <code>x[ ]</code></h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.1</strong> — <code>temps_c[1]</code>, <code>temps_c[c(1, 3)]</code>, <code>temps_c[-1]</code>, and <code>temps_c[temps_c &gt; 38]</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>temps_c[<span class="dv">1</span>]            <span class="co"># first element</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -824,10 +1031,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 38.5 40.1</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>temps_c[1]</code> gives the first value, 36.8. Positions in R start at 1.</li>
+<li><code>temps_c[c(1, 3)]</code> gives the first and third values: 36.8 and 40.1.</li>
+<li><code>temps_c[-1]</code> drops the first value: 38.5 and 40.1.</li>
+<li>In <code>temps_c[temps_c &gt; 38]</code>, the comparison inside the brackets gives <code>FALSE TRUE TRUE</code>, and the brackets keep the values where it’s TRUE: 38.5 and 40.1.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="data-frames-dfrows-columns" class="level2">
 <h2 class="anchored" data-anchor-id="data-frames-dfrows-columns">Data frames: <code>df[rows, columns]</code></h2>
 <p>Inside the brackets, <strong>rows come first, then columns</strong>, separated by a comma. Leave one side empty to keep everything:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.2</strong> — <code>linelist[1:3, c("case_id", "age_years", "outcome")]</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>linelist[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"case_id"</span>, <span class="st">"age_years"</span>, <span class="st">"outcome"</span>)]   <span class="co"># rows 1–3, three columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -841,9 +1069,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>linelist[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ]                                       <span class="co"># rows 1–3, all columns</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>linelist[, <span class="st">"age_years"</span>]                               <span class="co"># all rows, one column</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>In <code>linelist[1:3, c("case_id", "age_years", "outcome")]</code>, the part before the comma chooses rows (<code>1:3</code> means rows 1, 2, and 3) and the part after it chooses columns, by name.</li>
+<li><code>1:3</code> is short for <code>c(1, 2, 3)</code>.</li>
+<li>In the second block, an empty side keeps everything: <code>linelist[1:3, ]</code> is rows 1–3 with all 19 columns, and <code>linelist[, "age_years"]</code> is every row of one column.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="one-column-and" class="level2">
 <h2 class="anchored" data-anchor-id="one-column-and">One column: <code>$</code> and <code>[[ ]]</code></h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.3</strong> — The first three hospital names with <code>$</code> and with <code>[[ ]]</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>linelist<span class="sc">$</span>hospital_name[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]        <span class="co"># $ with a name you type</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -856,14 +1104,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [3] "St. Mark's Maternity Hospital"</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist$hospital_name</code> and <code>linelist[["hospital_name"]]</code> both pull out the whole column as a vector, and <code>[1:3]</code> then keeps its first three values.</li>
+<li>With <code>$</code> you type the name itself. <code>[[ ]]</code> takes the name as text, so the name can also come from an object: <code>col &lt;- "hospital_name"</code> and then <code>linelist[[col]]</code>. That’s why <code>[[ ]]</code> is the one to use inside your own functions (Session 8).</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="conditions" class="level2">
 <h2 class="anchored" data-anchor-id="conditions">Conditions</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.4</strong> — The mean temperature of patients who died.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean temperature of patients who died</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(linelist<span class="sc">$</span>temp[linelist<span class="sc">$</span>outcome <span class="sc">==</span> <span class="st">"Death"</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 38.59154</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist$outcome == "Death"</code> gives TRUE for every patient who died.</li>
+<li><code>linelist$temp[...]</code> keeps the temperatures where that is TRUE: the temperatures of the patients who died.</li>
+<li><code>mean(..., na.rm = TRUE)</code> averages them, skipping missing temperatures: 38.6 °C. In Session 5 you’ll do the same with <code>filter()</code> and <code>summarise()</code>.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -876,6 +1160,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<div class="follow-along">
+<p><strong>👀 Follow along 4.5</strong> — Compare <code>nrow(linelist[linelist$temp &gt; 40, ])</code> with <code>nrow(filter(linelist, temp &gt; 40))</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist[linelist<span class="sc">$</span>temp <span class="sc">&gt;</span> <span class="dv">40</span>, ])   <span class="co"># 244 rows?!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -891,6 +1178,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist[linelist<span class="sc">$</span>temp <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(linelist<span class="sc">$</span>temp), ])   <span class="co"># 93: fixed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 93</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist$temp &gt; 40</code> is <code>NA</code> for the 151 patients with no temperature. Inside <code>[ ]</code>, each <code>NA</code> becomes a row filled with NAs, so base R returns 244 rows (93 + 151) instead of 93.</li>
+<li><code>filter()</code> keeps only the rows where the condition is TRUE, so it drops the NAs and returns 93.</li>
+<li><code>&amp; !is.na(linelist$temp)</code> adds a second condition, “and the temperature isn’t missing”, which turns those NAs into FALSE.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -956,7 +1260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): subsetting the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 4 (5 min): subsetting the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -968,7 +1272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>✅ <strong>Check:</strong> a) the first ID is MS-0931 b) 38.75 c) 225 vs 196 (29 missing ages)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -977,7 +1281,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
@@ -1015,11 +1319,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Where you’ll meet base R:</strong> help-page examples (<code>?mean</code>), answers on Stack Overflow, older scripts, and many Bioconductor packages. Being able to read it is the main skill; you can keep writing tidyverse code.</li>
+<li><strong>Out-of-range positions don’t give an error:</strong> <code>temps_c[10]</code> gives <code>NA</code>, because there is no tenth value. If you see unexpected <code>NA</code>s after subsetting, check your positions.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-5-lists" class="level1">
 <h1>Part 5: Lists</h1>
 <p>A vector holds values of <strong>one type</strong>. A <strong>list</strong> can hold <strong>anything</strong>: numbers, text, dates, whole data frames, even other lists, and each element can have a different length.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.1</strong> — Make a list called <code>patient</code> with <code>id</code>, <code>age</code>, <code>symptoms</code>, and <code>visits</code> (two dates). Print it, then use <code>$</code>, <code>[[ ]]</code>, <code>[ ]</code>, <code>length()</code>, and <code>str()</code> on it (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>patient <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id       =</span> <span class="st">"5fe599"</span>,</span>
@@ -1071,11 +1394,32 @@ $visits
  $ visits  : Date[1:2], format: "2014-05-13" "2014-05-15"</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>list()</code> stores four different things together, each with a name: a piece of text, a number, two symptoms, and two dates.</li>
+<li><code>patient$symptoms</code> and <code>patient[["age"]]</code> take one element out: the vector itself.</li>
+<li><code>patient["age"]</code> gives back a list with one element in it. The output shows the difference: it starts with <code>$age</code>. You can’t calculate with it: <code>patient["age"] + 1</code> gives an error.</li>
+<li><code>length(patient)</code> counts the elements: 4. <code>str()</code> shows one line per element with its type and size: <code>chr</code>, <code>num</code>, <code>chr [1:2]</code>, and <code>Date[1:2]</code>.</li>
+</ul>
+</div>
+</div>
 <p>Think of a list as a box of items: <code>[[ ]]</code> takes <strong>an item out of the box</strong>; <code>[ ]</code> gives you <strong>a smaller box</strong>.</p>
 </section>
 <section id="a-data-frame-is-a-list" class="level2">
 <h2 class="anchored" data-anchor-id="a-data-frame-is-a-list">A data frame is a list</h2>
 <p>A data frame is a list of columns that all have the same length:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.2</strong> — <code>is.list(linelist)</code> and <code>length(linelist)</code>. A data frame is a list!</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.list</span>(linelist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1086,11 +1430,30 @@ $visits
 <pre><code>[1] 19</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>is.list(linelist)</code> is TRUE: a data frame is a list whose elements are its columns.</li>
+<li>So <code>length(linelist)</code> counts the columns, 19, not the rows. Use <code>nrow()</code> for the number of rows.</li>
+</ul>
+</div>
+</div>
 <p>That is why <code>$</code> and <code>[[ ]]</code> work on data frames too, and why <code>map()</code> in Session 8 runs once for each column.</p>
 </section>
 <section id="results-are-lists" class="level2">
 <h2 class="anchored" data-anchor-id="results-are-lists">Results are lists</h2>
 <p>Statistical tests and models return lists. You don’t need to know the statistics yet; look at the <strong>shape</strong> of the result:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.3</strong> — <code>t.test()</code> of <code>age_years</code> by <code>gender</code> (leave out “Unknown”), saved as <code>age_test</code>. Then <code>names(age_test)</code>, <code>age_test$p.value</code>, and <code>age_test$estimate</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>age_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(age_years <span class="sc">~</span> gender, <span class="at">data =</span> <span class="fu">filter</span>(linelist, gender <span class="sc">!=</span> <span class="st">"Unknown"</span>))</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>age_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1125,6 +1488,24 @@ mean in group female   mean in group male
             12.68343             19.51564 </code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>t.test(age_years ~ gender, ...)</code> compares the mean age of the two genders. Read <code>~</code> as “by”: age by gender.</li>
+<li><code>data = filter(linelist, gender != "Unknown")</code> gives <code>t.test()</code> only the rows with a known gender, because it needs exactly two groups.</li>
+<li><code>age_test</code> is a list. <code>names(age_test)</code> lists its 10 elements, such as <code>p.value</code>, <code>estimate</code>, and <code>conf.int</code>.</li>
+<li><code>age_test$p.value</code> takes out the p-value as a plain number: <code>1.271186e-102</code>, R’s way of writing 1.27 × 10<sup>-102</sup> (extremely small). <code>age_test$estimate</code> gives the two means: 12.7 years (female) and 19.5 years (male).</li>
+</ul>
+</div>
+</div>
 <p>Every test and model in R works this way (<code>chisq.test()</code>, <code>lm()</code>, <code>glm()</code>, survival models, Bioconductor objects), so this is how you get <em>one number</em> out of an analysis and into a table or a report.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1148,7 +1529,7 @@ mean in group female   mean in group male
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): a test result is a list
+<span class="screen-reader-only">Important</span>✏️ TRY IT 5 (5 min): a test result is a list
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1158,7 +1539,7 @@ mean in group female   mean in group male
 </ol>
 <p>✅ <strong>Check:</strong> p-value 0.565; means 38.80 (No) and 38.84 (Yes)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1167,7 +1548,7 @@ mean in group female   mean in group male
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>temp_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(temp_c <span class="sc">~</span> vaccinated, <span class="at">data =</span> <span class="fu">filter</span>(measles, vaccinated <span class="sc">!=</span> <span class="st">"Unknown"</span>))   <span class="co"># a)</span></span>
@@ -1188,6 +1569,22 @@ mean in group female   mean in group male
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>When you get an object you don’t recognize</strong> (from a test, a model, or someone else’s code), try <code>str()</code> and <code>names()</code> first. They show what’s inside and what you can pull out with <code>$</code>.</li>
+<li>The <strong>broom</strong> package (installed with the tidyverse) turns test and model results into data frames: <code>broom::tidy(age_test)</code> gives a one-row table with the means and the p-value, ready for a report.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-6-tidy-data-and-pivot_longer" class="level1">
@@ -1201,6 +1598,9 @@ mean in group female   mean in group male
 <li>Each <strong>value</strong> is a cell</li>
 </ol>
 <p>The tidyverse works best on tidy data. But “observation” depends on your question. Our symptoms are in <strong>wide</strong> format — one column per symptom:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.1</strong> — Look at the symptom columns: <code>linelist %&gt;% select(case_id, fever:vomit)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">select</span>(case_id, fever<span class="sc">:</span>vomit) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1210,10 +1610,29 @@ mean in group female   mean in group male
 3  11f8ea Unknown Unknown Unknown Unknown Unknown</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>select(case_id, fever:vomit)</code> keeps the ID and the five symptom columns: fever, chills, cough, aches, and vomit. <code>head(3)</code> shows the first 3 patients.</li>
+<li>Each symptom has its own column, with “yes”, “no”, or “Unknown” in each cell. This is <strong>wide</strong> format.</li>
+</ul>
+</div>
+</div>
 <p>To count or plot <strong>all</strong> symptoms together, we want <strong>long</strong> format: one row per patient <em>per symptom</em>.</p>
 </section>
 <section id="pivot_longer-wide-long" class="level2">
 <h2 class="anchored" data-anchor-id="pivot_longer-wide-long"><code>pivot_longer()</code>: wide → long</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.2</strong> — <code>pivot_longer()</code> the five symptoms into <code>symptoms_long</code>, and check <code>nrow()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>symptoms_long <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, fever<span class="sc">:</span>vomit) <span class="sc">%&gt;%</span></span>
@@ -1241,7 +1660,85 @@ mean in group female   mean in group male
 </div>
 </div>
 <p><code>fever:vomit</code> means “every column from fever to vomit”.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧩 Reading a function call
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here is the key call of this session, taken apart:</p>
+<p><code>pivot_longer(cols = fever:vomit, names_to = "symptom", values_to = "present")</code></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Piece</th>
+<th>What it is</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_longer(...)</code></td>
+<td>a function from the tidyr package (part of the tidyverse)</td>
+<td>reshapes wide data into long data</td>
+</tr>
+<tr class="even">
+<td>the data</td>
+<td>arrives through the pipe <code>%&gt;%</code> as the first argument, so you don’t type it</td>
+<td>the table to reshape</td>
+</tr>
+<tr class="odd">
+<td><code>cols = fever:vomit</code></td>
+<td>an argument: which columns to stack</td>
+<td>the five columns from <code>fever</code> to <code>vomit</code></td>
+</tr>
+<tr class="even">
+<td><code>names_to = "symptom"</code></td>
+<td>an argument: the name of a new column, in quotes</td>
+<td>will hold the old column <strong>names</strong> (fever, chills, …)</td>
+</tr>
+<tr class="odd">
+<td><code>values_to = "present"</code></td>
+<td>an argument: the name of another new column</td>
+<td>will hold the <strong>values</strong> from the old cells (yes, no, Unknown)</td>
+</tr>
+</tbody>
+</table>
+<p>Because every argument is named, you can read the call like a sentence: “pivot longer the columns fever to vomit; put their names into <code>symptom</code> and their values into <code>present</code>.” The new column names are in quotes because those columns don’t exist yet. <code>fever:vomit</code> isn’t, because those columns already exist.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>select()</code> keeps the ID and the five symptoms, as before.</li>
+<li><code>pivot_longer()</code> stacks the five symptom columns, so each patient now has five rows, one per symptom.</li>
+<li>The old column names (fever, chills, …) go into the new <code>symptom</code> column, and the yes/no values go into the new <code>present</code> column.</li>
+<li><code>case_id</code> isn’t in <code>cols</code>, so it’s repeated on each of the patient’s five rows.</li>
+<li><code>nrow()</code> confirms the size: 6451 patients × 5 symptoms = 32255 rows.</li>
+</ul>
+</div>
+</div>
 <p>Now one <code>count()</code> answers “how many patients had each symptom?”:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.3</strong> — Count the patients with each symptom (<code>filter()</code> <code>present == "yes"</code>, then <code>count()</code>), and plot it with <code>ggplot()</code> + <code>geom_col()</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>symptom_counts <span class="ot">&lt;-</span> symptoms_long <span class="sc">%&gt;%</span></span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(present <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">%&gt;%</span></span>
@@ -1273,13 +1770,31 @@ mean in group female   mean in group male
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>filter(present == "yes")</code> keeps only the rows where the patient had that symptom.</li>
+<li><code>count(symptom)</code> counts the rows left for each symptom: cough 5347, fever 5077, vomit 3095, chills 1209, and aches 604.</li>
+<li>Because the data is long, one <code>count()</code> does what would take five separate counts in the wide data.</li>
+<li><code>ggplot()</code> draws one bar per symptom: <code>geom_col()</code> uses <code>n</code> as the bar length, and <code>fct_reorder(symptom, n)</code> orders the bars by length, so the longest is at the top. You’ll learn plotting in Session 6.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): measles symptoms long
+<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (5 min): measles symptoms long
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1287,7 +1802,7 @@ mean in group female   mean in group male
 <p>Pattern: <code>pivot_longer(cols = c(COLUMN_1, COLUMN_2), names_to = "symptom", values_to = "present")</code></p>
 <p>✅ <strong>Check:</strong> 2326 rows (1163 × 2); fever yes 1064, rash yes 976</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1296,7 +1811,7 @@ mean in group female   mean in group male
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-39" class="callout-39-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>measles_symptoms <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
@@ -1328,11 +1843,29 @@ mean in group female   mean in group male
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>How to tell wide from long:</strong> if some column names are really values of a variable (fever, chills, cough, or years like 2019, 2020, 2021), the data is wide. Spreadsheets are usually wide; <code>count()</code>, <code>ggplot()</code>, and most tidyverse functions work best on long data.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-7-pivot_wider" class="level1">
 <h1>Part 7: <code>pivot_wider()</code></h1>
 <p>The opposite: long → wide. Most useful for <strong>tables people read</strong>. <code>count()</code> gives long output:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 7.1</strong> — <code>count(hospital_name, outcome)</code>, then <code>pivot_wider()</code> it (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(hospital_name, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1381,6 +1914,23 @@ mean in group female   mean in group male
 7 St. Mark's Maternity Hospital   199     126      97</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>count(hospital_name, outcome)</code> gives one row per combination of hospital and outcome: 7 hospitals × 3 outcomes = 21 rows. This is long format.</li>
+<li><code>pivot_wider()</code> turns it around: the values of <code>outcome</code> (Death, Recover, Unknown) become column names, and the counts in <code>n</code> fill the cells.</li>
+<li>The result has one row per hospital (7 rows), which is much easier to read as a table.</li>
+</ul>
+</div>
+</div>
 <p><code>values_fill = 0</code> puts 0 instead of NA where a combination doesn’t exist.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1401,14 +1951,14 @@ mean in group female   mean in group male
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): a district × vaccination table
+<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (4 min): a district × vaccination table
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><code>count()</code> <code>district</code> and <code>vaccinated</code> in <code>measles</code>, then <code>pivot_wider()</code> so each vaccination status is a column.</p>
 <p>✅ <strong>Check:</strong> 6 rows (5 districts + Unknown); North has No 205, Unknown 49, Yes 88</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1417,7 +1967,7 @@ mean in group female   mean in group male
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-44" class="callout-44-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>

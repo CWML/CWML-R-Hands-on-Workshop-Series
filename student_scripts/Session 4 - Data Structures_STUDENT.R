@@ -11,6 +11,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Insert a pipe:   Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
@@ -26,11 +28,11 @@
 # 🎯 Goal: Load packages and import the finished data from Session 3.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio; import processed_data/combined_linelist.rds
+# 👀 Follow along 1.1: load tidyverse, here, rio; import processed_data/combined_linelist.rds
 #    (trust = TRUE) and call it linelist
 
 
-# ✏️ TRY IT (2 min): import processed_data/measles_final.rds (trust = TRUE) and call it measles
+# ✏️ TRY IT 1 (2 min): import processed_data/measles_final.rds (trust = TRUE) and call it measles
 #    ✅ Check: in the Variables pane, measles shows 1163 rows and 14 columns
 
 
@@ -49,24 +51,24 @@
 #        "Date"       dates                  as.Date("2014-05-13")
 #        "factor"     categories with a set order (Session 5)
 #    - Mix types in one vector and R converts everything to the most flexible
-#      type, usually text: c(1, 2, "unknown") is all text. That's why one
-#      "unknown" made the whole age column text in Session 1!
+#      type, usually text: c(1, 2, "unknown") is all text. That's why a few
+#      "unknown" values made the measles Age (years) column text in Session 1!
 #    - Any calculation with NA gives NA, unless you add na.rm = TRUE.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: pull out linelist$age_years as ages; head() and length() it
+# 👀 Follow along 2.1: pull out linelist$age_years as ages; head() and length() it
 
 
-# 👀 Follow along: class() of age_years, gender, and onset_date
+# 👀 Follow along 2.2: class() of age_years, gender, and onset_date
 
 
-# 👀 Follow along: what happens with c(1, 2, "unknown") and c(1, TRUE, FALSE)?
+# 👀 Follow along 2.3: what happens with c(1, 2, "unknown") and c(1, TRUE, FALSE)?
 
 
-# 👀 Follow along: mean(c(38, 39, NA)) with and without na.rm = TRUE
+# 👀 Follow along 2.4: mean(c(38, 39, NA)) with and without na.rm = TRUE
 
 
-# ✏️ TRY IT (3 min): class() of measles$age_years, measles$vaccinated, and
+# ✏️ TRY IT 2 (3 min): class() of measles$age_years, measles$vaccinated, and
 #    measles$report_date, and length() of measles$temp_c
 #    ✅ Check: "numeric", "character", "Date", and 1163
 
@@ -86,17 +88,17 @@
 #        mean(CONDITION)   gives the PROPORTION TRUE   mean(fever == "yes")
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: make temps_c <- c(36.8, 38.5, 40.1) and convert it to Fahrenheit
+# 👀 Follow along 3.1: make temps_c <- c(36.8, 38.5, 40.1) and convert it to Fahrenheit
 
 
-# 👀 Follow along: head() of every patient's weight in pounds: linelist$wt_kg * 2.2
+# 👀 Follow along 3.2: head() of every patient's weight in pounds: linelist$wt_kg * 2.2
 
 
-# 👀 Follow along: temps_c > 38, then sum() and mean() of linelist$temp > 38,
+# 👀 Follow along 3.3: temps_c > 38, then sum() and mean() of linelist$temp > 38,
 #    and mean(linelist$fever == "yes")
 
 
-# ✏️ TRY IT (4 min):
+# ✏️ TRY IT 3 (4 min):
 #    a) convert measles$temp_c to Fahrenheit and look at the first values with head()
 #    b) count the cases with a temperature of 39 or more: sum(... >= 39)
 #    c) find the proportion of cases who were vaccinated: mean(... == "Yes")
@@ -131,23 +133,23 @@
 #      Fix: add & !is.na(temp), or use filter().
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: temps_c[1], temps_c[c(1, 3)], temps_c[-1], temps_c[temps_c > 38]
+# 👀 Follow along 4.1: temps_c[1], temps_c[c(1, 3)], temps_c[-1], temps_c[temps_c > 38]
 
 
-# 👀 Follow along: linelist[1:3, c("case_id", "age_years", "outcome")]
+# 👀 Follow along 4.2: linelist[1:3, c("case_id", "age_years", "outcome")]
 
 
-# 👀 Follow along: the first three hospital names with $ and with [[ ]]
+# 👀 Follow along 4.3: the first three hospital names with $ and with [[ ]]
 
 
-# 👀 Follow along: the mean temperature of patients who died:
+# 👀 Follow along 4.4: the mean temperature of patients who died:
 #    mean(linelist$temp[linelist$outcome == "Death"], na.rm = TRUE)
 
 
-# 👀 Follow along: compare nrow(linelist[linelist$temp > 40, ]) with nrow(filter(linelist, temp > 40))
+# 👀 Follow along 4.5: compare nrow(linelist[linelist$temp > 40, ]) with nrow(filter(linelist, temp > 40))
 
 
-# ✏️ TRY IT (5 min): with base R,
+# ✏️ TRY IT 4 (5 min): with base R,
 #    a) show rows 1–5 of the patient_id and temp_c columns of measles
 #    b) find the mean temperature of children who died (outcome == "Died")
 #    c) count the cases aged 15 or older with nrow(measles[...]), then with filter().
@@ -177,18 +179,18 @@
 #      2 levels" means there is a third group (like "Unknown"): filter() it out.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: make a list called patient with id, age, symptoms, and visits
+# 👀 Follow along 5.1: make a list called patient with id, age, symptoms, and visits
 #    (two dates). Print it, then use $, [[ ]], [ ], length(), and str() on it.
 
 
-# 👀 Follow along: is.list(linelist) and length(linelist). A data frame is a list!
+# 👀 Follow along 5.2: is.list(linelist) and length(linelist). A data frame is a list!
 
 
-# 👀 Follow along: t.test() of age_years by gender (leave out "Unknown"), saved as age_test.
+# 👀 Follow along 5.3: t.test() of age_years by gender (leave out "Unknown"), saved as age_test.
 #    Then names(age_test), age_test$p.value, age_test$estimate
 
 
-# ✏️ TRY IT (5 min):
+# ✏️ TRY IT 5 (5 min):
 #    a) t.test() temp_c by vaccinated in measles, leaving out "Unknown". Save it as temp_test.
 #    b) pull out the p-value and the two group means with $
 #    ✅ Check: p-value 0.565; means 38.80 (No) and 38.84 (Yes)
@@ -211,17 +213,17 @@
 #      )
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: look at the symptom columns: linelist %>% select(case_id, fever:vomit)
+# 👀 Follow along 6.1: look at the symptom columns: linelist %>% select(case_id, fever:vomit)
 
 
-# 👀 Follow along: pivot_longer() the five symptoms into symptoms_long; check nrow()
+# 👀 Follow along 6.2: pivot_longer() the five symptoms into symptoms_long; check nrow()
 
 
-# 👀 Follow along: count the patients with each symptom (filter present == "yes", then count)
+# 👀 Follow along 6.3: count the patients with each symptom (filter present == "yes", then count)
 #    and plot it with ggplot() + geom_col() (a preview of Session 6)
 
 
-# ✏️ TRY IT (5 min): select patient_id, fever, and rash from measles, then
+# ✏️ TRY IT 6 (5 min): select patient_id, fever, and rash from measles, then
 #    pivot_longer() the two symptom columns. count() symptom and present.
 #    Pattern: pivot_longer(cols = c(COLUMN_1, COLUMN_2), names_to = "symptom", values_to = "present")
 #    ✅ Check: 2326 rows (1163 × 2); fever yes 1064, rash yes 976
@@ -244,10 +246,10 @@
 #      end for a table someone will read.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: count(hospital_name, outcome), then pivot_wider() it
+# 👀 Follow along 7.1: count(hospital_name, outcome), then pivot_wider() it
 
 
-# ✏️ TRY IT (4 min): count() district and vaccinated in measles, then pivot_wider()
+# ✏️ TRY IT 7 (4 min): count() district and vaccinated in measles, then pivot_wider()
 #    so each vaccination status is a column
 #    ✅ Check: 6 rows (5 districts + Unknown); North has No 205, Unknown 49, Yes 88
 

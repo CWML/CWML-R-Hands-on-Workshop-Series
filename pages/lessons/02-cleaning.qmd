@@ -20,6 +20,20 @@ subtitle: "The pipe, column names, fixing types and values, recoding categories,
 **Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 2 - Cleaning_STUDENT.R`. Today starts from the raw files, `raw_data/linelist_raw.xlsx` and `raw_data/measles_raw.csv`, and works through the problem lists you wrote at the end of [Session 1](01-r-basics-importing-inspecting.qmd). If you fall behind, ready-made copies of today's results (`linelist_clean.rds` and `measles_clean.rds`) are in `processed_data/`.
 :::
 
+**Where this session fits.** Today covers **Clean** and **Save and share** (highlighted): you fix the problems you found in Session 1, then save the clean data so the next session can start from it.
+
+::: workflow
+1.  [Import]{.step}
+2.  [Inspect]{.step}
+3.  [Clean]{.step .today}
+4.  [Combine]{.step}
+5.  [Reshape]{.step}
+6.  [Summarize]{.step}
+7.  [Visualize]{.step}
+8.  [Save and share]{.step .today}
+9.  [Automate]{.step}
+:::
+
 You will build **two** cleaned datasets side by side: `linelist_clean` in the Follow along code, and `measles_clean` in the TRY ITs.
 
 # Part 1: Set up and recall the problem list
@@ -38,6 +52,13 @@ library(janitor)
 library(skimr)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The same packages as in Session 1. Today `janitor` gives you `clean_names()`, and the tidyverse gives you the pipe, `mutate()`, `if_else()`, `case_when()`, and the `str_` text functions.
+-   On this page the start-up messages are hidden; in Positron you'll see them in the Console. Messages are fine: only a line that starts with **Error** is a problem.
+:::
+
 ::: follow-along
 **👀 Follow along 1.2** — Import `raw_data/linelist_raw.xlsx` (`linelist_raw`) and `raw_data/hosp_info.txt` (`hosp_info`).
 :::
@@ -45,6 +66,14 @@ library(skimr)
 linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
 hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Both files are imported fresh from `raw_data/`, exactly as in Session 1. Today you clean a **copy** in R; the files themselves never change.
+-   `hosp_info` is a small look-up table: one row for each of the 6 hospitals, with its correct name. You'll use it in Part 6 to fix the misspelled hospital names.
+-   The extra spaces before `<-` only line the two lines up so they're easier to read. R ignores them.
+:::
 
 The problem list from Session 1 is today's to-do list:
 
@@ -101,6 +130,15 @@ You read that from the **inside out**: arrange the data, *then* take the head. E
 linelist_raw %>% arrange(wt_kg) %>% head(3)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Both code blocks do exactly the same thing and give the same 3 rows: the data sorted by weight, smallest first.
+-   In the first block, R starts with the innermost function, `arrange()`, and hands its result to `head()`.
+-   In the second, `linelist_raw %>%` passes the data into `arrange(wt_kg)`, and that result goes into `head(3)`. You never write `linelist_raw` inside the brackets: the pipe fills in the first argument for you.
+-   The first two rows share the Case ID 6056ba and both have a weight of -11 kg: an impossible value, and an ID that appears twice. You fix the weights in Part 5; repeated IDs and duplicates come up in Session 3.
+:::
+
 The pipe takes the result on its left and passes it in as the **first argument** of the function on its right. Read it as **"and then"**: *take `linelist_raw`, and then arrange it by weight, and then show the first 3 rows.*
 
 -   Keyboard shortcut: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows)
@@ -120,6 +158,15 @@ linelist_raw %>%
   arrange(wt_kg) %>%                    # sort by weight
   head(5)                               # show the first 5 rows
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `` select(`Case ID`, wt_kg, ht_cm) `` keeps only these three columns, in this order. `Case ID` has a space in it, so it needs backticks.
+-   `arrange(wt_kg)` sorts the rows by weight, smallest first, and `head(5)` keeps the first 5.
+-   Each line ends with `%>%`, so R knows the next line continues the same pipeline. The text after `#` is a comment for people; R ignores it.
+-   Nothing is saved: the result prints and is gone. To keep a result, start the pipeline with `NEW_NAME <-`.
+:::
 
 That is three steps, readable top to bottom. Written the Session 1 way, it would be `head(arrange(select(linelist_raw, ...), wt_kg), 5)`.
 
@@ -155,6 +202,13 @@ Same answer as in Session 1, but now you can read it in order. From here on, alm
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   Most tidyverse functions take the data as their **first** argument. That's what makes the pipe work: whatever comes out of one step goes straight into the first argument of the next.
+-   The pipe `%>%` comes from the magrittr package, which the tidyverse loads for you.
+:::
+
 # Part 3: Column names
 
 ## `clean_names()`
@@ -176,6 +230,14 @@ linelist_clean <- linelist_raw %>%
 names(linelist_clean)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The first `names()` shows the 12 original names, as in Session 1.
+-   `linelist_raw %>% clean_names()` makes a copy of the data with tidied names, and `linelist_clean <-` saves it as a **new** object. `linelist_raw` is unchanged.
+-   The second `names()` shows the result: `"Case ID"` became `case_id`, `"date.onset"` became `date_onset`, and `"OUTCOME"` became `outcome`. Only the names change; the data in the columns stays the same.
+:::
+
 ## `rename()`
 
 `rename(new_name = old_name)` — the **new** name goes on the left.
@@ -196,6 +258,14 @@ linelist_clean <- linelist_clean %>%
 
 names(linelist_clean)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `rename()` changes three names. In each pair, the **new** name is on the left of `=` and the current name on the right.
+-   All other columns keep their names, and there are still 12 columns.
+-   `linelist_clean <- linelist_clean %>% ...` takes the current version, changes it, and saves it back under the same name.
+:::
 
 ::: callout-tip
 ## One step at a time
@@ -228,6 +298,13 @@ names(measles_clean)
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   The names `clean_names()` makes are in **snake_case**: lower case, with words joined by `_`. Most R code uses this style, and you never need backticks for it.
+-   `clean_names()` also makes repeated names unique (a second `a` becomes `a_2`) and puts an `x` in front of names that start with a number (`2020 cases` becomes `x2020_cases`), because R names can't start with a number.
+:::
+
 # Part 4: Fixing types with `mutate()`
 
 `mutate()` creates a new column or overwrites an existing one: `mutate(column = what_to_put_in_it)`. Use the same name to overwrite a column; a new name to add one.
@@ -254,6 +331,15 @@ linelist_clean <- linelist_clean %>%
 linelist_clean %>% select(date_of_infection:date_of_outcome) %>% glimpse()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Inside `mutate()`, each line `column = as.Date(column)` overwrites one column with a date version of itself. Four columns are converted in one `mutate()`, separated by commas.
+-   `onset_date` was text (`"2014-05-13"`) and the other three were date-times from Excel. `as.Date()` turns both kinds into plain dates.
+-   `select(date_of_infection:date_of_outcome)` uses `:` to pick every column from `date_of_infection` to `date_of_outcome`. `glimpse()` then shows that all four are now `<date>`.
+-   Missing dates stay missing (`NA`).
+:::
+
 ::: callout-note
 ## Dates written in other formats
 
@@ -274,6 +360,14 @@ linelist_clean <- linelist_clean %>%
 
 class(linelist_clean$age)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `mutate(age = as.numeric(age))` replaces the text column `age` with numbers.
+-   `class()` tells you what kind of values a column holds: now `"numeric"`.
+-   There's no warning here, because every filled-in age was a number written as text. The 100 ages that were already missing stay `NA`. In the measles data (TRY IT 4), "unknown" can't become a number, so you will see the warning there.
+:::
 
 ::: callout-warning
 ## Common mistakes
@@ -308,6 +402,13 @@ The 27 `"unknown"` ages became `NA` — that is what the warning is about. A max
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   R stores a date as the number of days since 1 January 1970: 13 May 2014 is day 16203. That's what lets you subtract dates or sort them. You'll see these numbers in Part 5 when something goes wrong.
+-   `as.Date()`, `as.numeric()`, and `as.character()` all follow the same pattern: `as.` plus the type you want.
+:::
+
 # Part 5: Fixing values with `if_else()`
 
 `if_else(condition, value_if_TRUE, value_if_FALSE)` checks every row and fixes the values that meet one condition.
@@ -330,6 +431,35 @@ linelist_clean %>%
   head()
 ```
 
+::: {.callout-tip icon=false}
+## 🧩 Reading a function call
+
+Most cleaning steps in this workshop have the same shape as the code you just ran:
+
+`linelist_clean <- linelist_clean %>% mutate(age_years = if_else(age_unit == "months", age / 12, age))`
+
+| Piece | What it is | What it does |
+|---|---|---|
+| `linelist_clean <-` | the object and the assignment arrow | saves the result back under the same name |
+| `linelist_clean %>%` | the data and the pipe | passes the data into the next function |
+| `mutate(...)` | a function from dplyr (tidyverse) | adds or changes a column |
+| `age_years =` | a named argument of `mutate()` | the name of the new column |
+| `if_else(...)` | a function used as the value of that column | works out a value for every row |
+| `age_unit == "months"` | the first argument of `if_else()`: a condition | TRUE or FALSE for each row |
+| `age / 12` | the second argument | used where the condition is TRUE |
+| `age` | the third argument | used where the condition is FALSE |
+
+R works it out from the inside out: for every row, `if_else()` checks the condition and picks `age / 12` or `age`; `mutate()` puts the results in the new column `age_years`; and `<-` saves the changed data as `linelist_clean`.
+:::
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `if_else()` checks every row: if `age_unit` is `"months"`, the new `age_years` is `age / 12`; otherwise it's `age`, unchanged.
+-   The second pipeline only **checks** the result and isn't saved: it keeps the rows in months, shows three columns, and prints the first 6.
+-   24 months became 2 years and 7 months became 0.58 years. One of these patients has no age (`NA`), and it stays `NA`: missing in, missing out.
+:::
+
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: what would have happened in later analyses if we had skipped this step?
 
@@ -351,6 +481,13 @@ linelist_clean <- linelist_clean %>%
 summary(linelist_clean$wt_kg)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `wt_kg <= 0` is TRUE for the 34 weights that are zero or below. For those, `if_else()` puts `NA`; every other weight is kept as it was.
+-   `summary()` now shows a smallest weight of 1 kg and 34 `NA`s. The rows are still there, with all their other information.
+:::
+
 ::: callout-note
 ## 🔁 The base R way: `ifelse()` (one letter shorter, one big difference)
 
@@ -364,6 +501,14 @@ Base R has `ifelse()`, and you will see it everywhere. It works the same way **u
 if_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
 ifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `is.na(linelist_clean$onset_date)` is TRUE where the onset date is missing. Then the hospital date is used; otherwise the onset date.
+-   This code runs outside `mutate()`, so each column is pulled out with `$`.
+-   Both lines pick the same values. `if_else()` prints them as dates (`"2014-05-13"`); `ifelse()` prints `16203`, the same date as a number of days since 1 January 1970.
+:::
 
 `ifelse()` silently turned the dates into **numbers** (days since 1 January 1970). `if_else()` keeps the type, and gives an error instead of a surprise when the two values have different types. That strictness is why we use `if_else()` in this workshop.
 :::
@@ -396,6 +541,13 @@ The four 999s are now `NA` (31 missing ages in total), and the 27 Fahrenheit tem
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   A comparison with a missing value gives a missing answer: `NA <= 0` is `NA`, not TRUE or FALSE. So `if_else()` gives `NA` for those rows, and missing values stay missing unless you deal with them on purpose (Session 3).
+-   Prefer `NA` to deleting rows. A patient with an impossible weight still has a real age, outcome, and dates that you want to keep.
+:::
+
 # Part 6: Recoding categories with `case_when()`
 
 `case_when()` is `if_else()` for **many** conditions. R checks each line in order and uses the first one that is TRUE:
@@ -423,6 +575,14 @@ linelist_clean <- linelist_clean %>%
 
 linelist_clean %>% count(gender)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `case_when()` checks each line in order: rows where `gender` is `"m"` get `"male"`, rows where it's `"f"` get `"female"`.
+-   The result overwrites the `gender` column. `count(gender)` checks it: 3140 female, 3147 male, and 317 `NA`.
+-   The 317 missing values matched neither line, and there's no `.default`, so they stay `NA`.
+:::
 
 Any row that matches no condition becomes `NA` — here, that is the rows that were already missing.
 
@@ -454,6 +614,16 @@ linelist_clean <- linelist_clean %>%
 # Check: every old value next to its new value
 linelist_clean %>% count(hospital, hospital_name)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `hosp_info` lists the 6 correct hospital names. `count(hospital)` shows 14 different values in the linelist, including misspellings and `NA`.
+-   Each `str_detect(hospital, "...")` line is TRUE when the hospital name **contains** that piece of text, so `"Central"` catches both "Central Hospital" and "Central Hopital". `"Military|Mitylira"` catches either spelling.
+-   The result goes into a **new** column, `hospital_name`; the original `hospital` column stays as it was, so you can compare the two.
+-   `.default = "Other/Unknown"` catches everything else: the hospital called "Other" and the missing values.
+-   `count(hospital, hospital_name)` lists every old value next to its new one (14 rows), so you can check that each spelling landed in the right place.
+:::
 
 ::: callout-note
 ## Other useful text functions (stringr)
@@ -541,6 +711,14 @@ measles_clean %>% count(district)
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   `str_detect()` is case-sensitive: `"north"` does not contain `"North"`. That's why TRY IT 7 runs `str_to_title()` first.
+-   All the stringr text functions start with `str_`. In Positron, type `str_` and the list of them pops up.
+-   The order of the lines in `case_when()` matters. If a value could match two lines, it gets the first one.
+:::
+
 # Part 7: Creating new variables
 
 ## BMI
@@ -571,6 +749,14 @@ linelist_clean <- linelist_clean %>%
 summary(linelist_clean$bmi)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   BMI is weight in kg divided by height in metres, squared. `ht_cm / 100` turns centimetres into metres, `^2` squares it, and `round(..., 1)` keeps one decimal.
+-   The first `summary()` shows a maximum BMI of 1250 and 34 `NA`s: the weights you set to `NA` in Part 5 give a missing BMI.
+-   In the second block, `bmi < 10 | bmi > 60` is TRUE when the BMI is below 10 **or** above 60. Those 1348 values become `NA`, so 1382 BMIs are missing in total, and the rest lie between 10.9 and 60.
+:::
+
 About 1,400 BMIs are now `NA`, because many height and weight values in this teaching dataset are unrealistic. Setting only the bad value to `NA` (instead of filtering out those rows) keeps everything else we know about each patient.
 
 ## Age groups
@@ -595,6 +781,14 @@ linelist_clean <- linelist_clean %>%
 linelist_clean %>% count(age_cat)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Each line checks one upper limit. A patient aged 25 fails `age_years < 18`, passes `age_years < 30`, and gets "18-29". `case_when()` stops at the first TRUE line.
+-   The last line, `age_years >= 80`, is written out in full so that missing ages match no line and stay `NA`.
+-   `count(age_cat)` shows most patients are children: 4055 are under 18. The 100 patients with no age are `NA`.
+:::
+
 Because `case_when()` stops at the first TRUE line, `age_years < 30` only catches ages 18–29 (younger ages were already caught by the line above).
 
 `count()` lists the groups in alphabetical order ("18-29" before "Under 18"). In Session 5 you will learn how to put them in a sensible order with factors.
@@ -615,6 +809,15 @@ cut(linelist_clean$age_years,
     right  = FALSE) %>%
   table(useNA = "ifany")
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `breaks` gives the edges of the groups: 0, 18, 30, ... and `Inf` (infinity), so there's no upper limit for the last group.
+-   `labels` names the 8 groups, in order. There is always one label fewer than there are breaks.
+-   `right = FALSE` puts each break into the group **above** it, so 18 goes into "18-29".
+-   The result is piped into `table(useNA = "ifany")`, which counts each group, including the missing ages.
+:::
 
 The same counts as `case_when()`, and already in the right order, because `cut()` returns a **factor** (Session 5). Forgetting `right = FALSE` is the classic mistake: then an 18-year-old lands in "Under 18".
 :::
@@ -656,6 +859,13 @@ measles_clean %>% count(age_cat)
 
 "died" and "recovered" now match "Died" and "Recovered" (52 died, 1095 recovered, 68 missing). The 31 missing ages (the 27 "unknown" plus the four 999s) stay `NA` because the last condition is written out in full.
 :::
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   R follows the usual maths order: brackets first, then `^`, then `*` and `/`, then `+` and `-`. So `wt_kg / (ht_cm / 100)^2` divides the weight by the **squared** height.
+-   `|` means "or" and `&` means "and". You can combine as many conditions as you need.
 :::
 
 # Part 8: One pipeline and saving your work
@@ -717,6 +927,14 @@ linelist_clean <- linelist_raw %>%
 glimpse(linelist_clean)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   This pipeline starts again from `linelist_raw`, so it doesn't depend on anything you ran before. Running this one block gives you the whole clean dataset.
+-   It does every step from Parts 3 to 7, in order: `clean_names()`, then `rename()`, then one big `mutate()`. The `#` comments mark the groups of steps.
+-   `glimpse()` shows the result: 6604 rows and 16 columns, the original 12 plus `age_years`, `hospital_name`, `bmi`, and `age_cat`.
+:::
+
 Inside one `mutate()`, later lines can use columns made on earlier lines (`bmi` is created, then fixed).
 
 ## Save your work
@@ -732,6 +950,14 @@ Pattern: `export(DATA, here("FOLDER", "FILE_NAME.rds"))`
 ```{r}
 export(linelist_clean, here("processed_data", "linelist_clean.rds"))
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `export()` takes the data first, then the path to save it to. Like `import()`, it picks the file type from the ending: `.rds` here.
+-   Nothing prints. The file appears in the `processed_data/` folder in the **Explorer**.
+-   If a file with that name already exists (like the ready-made copy), `export()` replaces it without asking.
+:::
 
 `.rds` is R's own file format. It keeps everything exactly as it is in R — dates stay dates and missing values stay `NA` — so it's the best choice for a file you will open in R again. (We compare `.rds` and `.csv` in Session 3.)
 
@@ -760,6 +986,13 @@ Same pattern as for `linelist_clean`: `export(DATA, here("FOLDER", "FILE_NAME.rd
 
 1.  Rewrite all of your measles TRY ITs as **one** pipeline that starts from `measles_raw` (like Part 8). It should give the same result — see the solutions file.
 2.  Brought your own data? Fix the problems on your own problem list, then `export()` the clean version to `processed_data/`.
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   Keeping the whole cleaning in one script means anyone can see every change you made to the data, and rerun it if the raw data is updated.
+-   Use `.rds` for files you'll open in R again, and `.csv` or `.xlsx` for sharing with people who use Excel. `export()` makes any of them: just change the ending.
 :::
 
 # Key points

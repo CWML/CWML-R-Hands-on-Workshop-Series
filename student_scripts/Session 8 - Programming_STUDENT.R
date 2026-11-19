@@ -11,6 +11,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Run a block:     highlight several lines (a whole function or loop), then Cmd/Ctrl + Enter
@@ -26,10 +28,10 @@
 # 🎯 Goal: Load packages and import the data.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio, janitor; import combined_linelist.rds as linelist
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor; import combined_linelist.rds as linelist
 
 
-# ✏️ TRY IT (1 min): import processed_data/measles_final.rds as measles
+# ✏️ TRY IT 1 (1 min): import processed_data/measles_final.rds as measles
 #    ✅ Check: in the Variables pane, measles shows 1163 rows and 14 columns
 
 
@@ -55,16 +57,16 @@
 #    - Changing the function but not re-running the block: R still uses the old version.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: write c_to_f(temp_c) and test it on 38 and on c(36.8, 38.5, 40.1)
+# 👀 Follow along 2.1: write c_to_f(temp_c) and test it on 38 and on c(36.8, 38.5, 40.1)
 
 
-# 👀 Follow along: use c_to_f() inside mutate() to add temp_f to linelist
+# 👀 Follow along 2.2: use c_to_f() inside mutate() to add temp_f to linelist
 
 
-# 👀 Follow along: add a digits = 1 default argument with round()
+# 👀 Follow along 2.3: add a digits = 1 default argument with round()
 
 
-# ✏️ TRY IT (4 min): write f_to_c(temp_f) that converts Fahrenheit to Celsius:
+# ✏️ TRY IT 2 (4 min): write f_to_c(temp_f) that converts Fahrenheit to Celsius:
 #    (temp_f - 32) * 5 / 9, rounded to 1 decimal. Test it on 98.6 and 104.7.
 #    ✅ Check: f_to_c(98.6) is 37 and f_to_c(104.7) is 40.4
 
@@ -87,18 +89,18 @@
 #      Name it district_name instead.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: write pct(x, digits = 1) that returns round(mean(x, na.rm = TRUE) * 100, digits)
+# 👀 Follow along 3.1: write pct(x, digits = 1) that returns round(mean(x, na.rm = TRUE) * 100, digits)
 #    and use it in summarise() by hospital
 
 
-# 👀 Follow along: write hospital_summary(data, hospital) and try it on two hospitals
+# 👀 Follow along 3.2: write hospital_summary(data, hospital) and try it on two hospitals
 
 
-# 👀 Follow along: write make_epicurve(data, hospital) that returns a weekly epicurve
+# 👀 Follow along 3.3: write make_epicurve(data, hospital) that returns a weekly epicurve
 #    for one hospital, with the hospital's name in the title
 
 
-# ✏️ TRY IT (6 min):
+# ✏️ TRY IT 3 (6 min):
 #    a) write rate_per_10k(cases, population) that returns cases / population * 10000,
 #       rounded to 1 decimal. Use it in mutate() after count(district, population).
 #    b) write district_summary(data, district_name) that returns the number of cases and
@@ -124,19 +126,19 @@
 #      a helpful error:  if (!is.numeric(temp_c)) stop("temp_c must be a number")
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: fever_status(temp) with if / else; test it on 39.2 and 36.9
+# 👀 Follow along 4.1: fever_status(temp) with if / else; test it on 39.2 and 36.9
 
 
-# 👀 Follow along: what happens with fever_status(c(39.2, 36.9))?
+# 👀 Follow along 4.2: what happens with fever_status(c(39.2, 36.9))?
 
 
-# 👀 Follow along: the vectorized version with if_else(), used in mutate() on linelist
+# 👀 Follow along 4.3: the vectorized version with if_else(), used in mutate() on linelist
 
 
-# 👀 Follow along: add an input check with stop() to c_to_f(), and try c_to_f("38")
+# 👀 Follow along 4.4: add an input check with stop() to c_to_f(), and try c_to_f("38")
 
 
-# ✏️ TRY IT (5 min):
+# ✏️ TRY IT 4 (5 min):
 #    a) write a one-value fever_status() with if / else and test it on 38.5
 #    b) write the vectorized version with if_else(), use it in mutate() on measles$temp_c,
 #       and count() the result
@@ -163,20 +165,20 @@
 #      already repeat work for you. Use a loop to repeat a WHOLE task.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: a loop that prints two hospital names
+# 👀 Follow along 5.1: a loop that prints two hospital names
 
 
-# 👀 Follow along: make the hospitals vector (no "Other/Unknown"), then loop and print
+# 👀 Follow along 5.2: make the hospitals vector (no "Other/Unknown"), then loop and print
 #    the number of cases at each
 
 
-# 👀 Follow along: save the counts in case_counts
+# 👀 Follow along 5.3: save the counts in case_counts
 
 
-# 👀 Follow along: THE PAYOFF: loop over hospitals and ggsave() one epicurve each to outputs/
+# 👀 Follow along 5.4: THE PAYOFF: loop over hospitals and ggsave() one epicurve each to outputs/
 
 
-# ✏️ TRY IT (6 min): write make_measles_epicurve(data, district_name) for weekly cases by
+# ✏️ TRY IT 5 (6 min): write make_measles_epicurve(data, district_name) for weekly cases by
 #    report_date in one district. Then loop over the five districts (not "Unknown") and
 #    save each plot to outputs/ as measles_central.png, measles_east.png, ...
 #    ✅ Check: five new .png files in the outputs folder
@@ -202,20 +204,20 @@
 #    function: sapply(DATA, mean, na.rm = TRUE)
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: map_dbl() for the mean of age_years, bmi, and temp
+# 👀 Follow along 6.1: map_dbl() for the mean of age_years, bmi, and temp
 
 
-# 👀 Follow along: map() to make a list of epicurves, one per hospital; look at the first
+# 👀 Follow along 6.2: map() to make a list of epicurves, one per hospital; look at the first
 
 
-# 👀 Follow along: walk() to save them all (the same as the Part 5 loop)
+# 👀 Follow along 6.3: walk() to save them all (the same as the Part 5 loop)
 
 
-# 🔁 Follow along: the base R way. sapply() and lapply() on age_years, bmi, and temp
+# 🔁 Follow along 6.4: the base R way. sapply() and lapply() on age_years, bmi, and temp
 #    with mean and with range. Which one returns a matrix?
 
 
-# ✏️ TRY IT (5 min):
+# ✏️ TRY IT 6 (5 min):
 #    a) use map_dbl() to find the mean of age_years, temp_c, and days_in_hospital in measles
 #    b) replace your district loop with walk()
 #    ✅ Check: a) 8.75, 38.82, 4.94   b) the same five .png files

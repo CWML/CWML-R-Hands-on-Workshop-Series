@@ -525,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Shorten Part 5 by skipping the step-by-step <code>select()</code> and showing only “the whole thing as one pipeline”. Do <strong>not</strong> cut the Part 7 TRY IT: every later session starts from <code>measles_final.rds</code> (ready-made copies are in <code>processed_data/</code> for anyone who doesn’t finish).</p>
+<p><strong>Short on time?</strong> Shorten Part 5 by skipping the step-by-step <code>select()</code> and showing only “the whole thing as one pipeline”. Do <strong>not</strong> cut TRY IT 7 (saving the measles data): every later session starts from <code>measles_final.rds</code> (ready-made copies are in <code>processed_data/</code> for anyone who doesn’t finish).</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -554,6 +554,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
+<p>The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.2 = Part 5, second prompt).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -567,31 +568,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>Import the measles data</td>
+<td>1. Import the measles data</td>
 <td><code>measles_clean</code> 1215 rows; <code>district_info</code> 5 rows</td>
 </tr>
 <tr class="even">
-<td>Missing values in the measles data</td>
+<td>2. Missing values in the measles data</td>
 <td><code>days_in_hospital</code> has 766 NAs — never hospitalized, not a mistake</td>
 </tr>
 <tr class="odd">
-<td>Measles rows with no ID</td>
+<td>3. Measles rows with no ID</td>
 <td><code>filter(is.na(patient_id)) %&gt;% mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))</code> — 37 rows</td>
 </tr>
 <tr class="even">
-<td>Measles duplicates</td>
+<td>4. Measles duplicates</td>
 <td>1178 rows after <code>filter()</code>, 1163 after <code>distinct()</code> — 15 duplicates removed</td>
 </tr>
 <tr class="odd">
-<td>Replace missing text</td>
+<td>5. Replace missing text</td>
 <td><code>mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))</code>; district Unknown (34); <code>days_in_hospital</code> is numeric so it is skipped</td>
 </tr>
 <tr class="even">
-<td>Join the district information</td>
+<td>6. Join the district information</td>
 <td>Still 1163 rows; the 34 “Unknown” district rows have no match, so <code>population</code> is NA</td>
 </tr>
 <tr class="odd">
-<td>Save the measles data</td>
+<td>7. Save the measles data</td>
 <td>Three <code>export()</code> lines: <code>measles_final.rds</code>, <code>measles_final.csv</code>, <code>measles_missing_ids.csv</code></td>
 </tr>
 <tr class="even">

@@ -18,7 +18,25 @@ subtitle: "The grammar of graphics, histograms, mapping vs setting, scatter plot
 **Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 6 - Plotting Basics_STUDENT.R`. This session starts from `combined_linelist.rds` and `measles_final.rds`, the files you saved in Session 3. If you missed it, ready-made copies are already in the `processed_data/` folder.
 :::
 
+**Where this session fits.** Today is about one step, **Visualize** (highlighted): turning the clean data into plots that show its patterns. Session 7 continues with more kinds of plots and with saving them to files.
+
+::: workflow
+1.  [Import]{.step}
+2.  [Inspect]{.step}
+3.  [Clean]{.step}
+4.  [Combine]{.step}
+5.  [Reshape]{.step}
+6.  [Summarize]{.step}
+7.  [Visualize]{.step .today}
+8.  [Save and share]{.step}
+9.  [Automate]{.step}
+:::
+
 # Part 1: Set up
+
+::: follow-along
+**👀 Follow along 1.1** — Load tidyverse, here, and rio; import `combined_linelist.rds` as `linelist`, and put `age_cat` and `outcome` in order with `fct_relevel()` (same as Session 5).
+:::
 
 ```{r}
 #| message: false
@@ -34,10 +52,19 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
   )
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The three `library()` lines load today's packages. **ggplot2**, the plotting package, is part of the tidyverse, so `library(tidyverse)` loads it.
+-   `import(...)` reads `combined_linelist.rds`, the finished data from Session 3: 6451 rows, one per case.
+-   The pipe passes the data straight to `mutate()`, where `fct_relevel()` sets the order of the categories in `age_cat` and `outcome`. That order isn't saved in the file, so we set it again after every import. ggplot uses it for the order of bars, boxes, and legend entries.
+-   `linelist <-` saves the result.
+:::
+
 The factor order from Session 5 isn't saved in the file, so we set it again right after importing.
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): import and order the measles data
+## ✏️ TRY IT 1 (3 min): import and order the measles data
 
 Import `measles_final.rds` as `measles` and `fct_relevel()` `age_cat` ("Under 5", "5-9", "10-14", "15+", "Unknown") and `vaccinated` ("Yes", "No", "Unknown"), in one pipeline.
 
@@ -74,6 +101,10 @@ Every ggplot is built from the same parts, added together with `+`:
 
 Build it up one piece at a time, and run the code after every `+` so you can see what each layer adds:
 
+::: follow-along
+**👀 Follow along 2.1** — Build a plot in three steps: 1. `ggplot(data = linelist)`, 2. add `aes(x = age_years)`, 3. add `geom_histogram()` (the next three code blocks).
+:::
+
 ```{r}
 #| fig-alt: "An empty gray plot panel. ggplot() with only data draws a blank canvas."
 # 1. Data only: an empty canvas
@@ -93,6 +124,15 @@ ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `ggplot(data = linelist)` says which data frame to use, and draws an empty canvas. ggplot doesn't know yet what to draw.
+-   `mapping = aes(x = age_years)` says which column goes where: `age_years` on the x-axis. ggplot now draws the axis, covering ages 0 to 84, but still no shapes.
+-   `+ geom_histogram()` adds a layer that draws bars. ggplot counts how many patients fall in each age range and puts that count on the y-axis for you: you don't have to make a `count` column.
+-   The message "using `bins = 30`" means ggplot split the ages into 30 bars because you didn't choose a width. The warning "Removed 96 rows" means 96 patients have no age, so they can't be drawn.
+:::
+
 ::: callout-important
 ## `+` not `%>%`
 
@@ -100,7 +140,7 @@ Layers of a ggplot are joined with `+`. Using `%>%` between ggplot layers is the
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (2 min): build a plot in three steps
+## ✏️ TRY IT 2 (2 min): build a plot in three steps
 
 Build a histogram of `measles` `temp_c` in the same three steps: data, then `aes()`, then `geom_histogram()`.
 
@@ -123,11 +163,23 @@ Step 1 is a blank canvas, step 2 adds the temperature axis, and only step 3 (the
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   The package is called **ggplot2**, but the function is `ggplot()`. The "gg" stands for the **grammar of graphics**: the idea that any plot can be described by its data, which columns go where (aesthetics), and which shapes are drawn (geometries).
+-   Plots appear in Positron's **Plots** pane. Its arrows take you back to earlier plots, so you can compare versions.
+-   Plotting doesn't change your data. You can experiment as much as you like.
+:::
+
 # Part 3: Histograms
 
 A histogram shows the **distribution** of one number: the values are grouped into ranges ("bins"), and each bar's height is how many values fall in that range.
 
 R warned us above that it picked 30 bins. Choose the bin width yourself:
+
+::: follow-along
+**👀 Follow along 3.1** — Age histogram with `binwidth = 5` (then try 1 and 10).
+:::
 
 ```{r}
 #| fig-alt: "Histogram of patient ages in 5-year bins. The tallest bar is around age 5 (about 1,200 patients), and the counts decrease steadily with age."
@@ -137,15 +189,35 @@ ggplot(data = linelist, mapping = aes(x = age_years)) +
 
 Each bar is now 5 years wide. Try `binwidth = 1` and `binwidth = 10` — what changes?
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `binwidth = 5` makes every bar 5 years wide, instead of 30 bars of whatever width fits the data.
+-   ggplot centers the bars on 0, 5, 10, and so on. So the tallest bar covers ages 2.5 to 7.5, and holds 1190 patients. To start the bars at 0, 5, 10 instead, add `boundary = 0`.
+-   Narrow bins show more detail but look noisy; wide bins look smooth but hide detail. There's no single right width, so try a few.
+:::
+
 ## Fixed colors
 
 Inside `geom_histogram()`, `fill` is the inside color and `color` is the outline. A white outline separates the bars.
+
+::: follow-along
+**👀 Follow along 3.2** — Add `fill = "#2a78d6"` and `color = "white"`.
+:::
 
 ```{r}
 #| fig-alt: "The same 5-year age histogram with blue bars and white outlines between them."
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fill` and `color` are given inside `geom_histogram()`, so they apply to every bar. `fill` colors the inside of the bars, and `color` the outline.
+-   `"#2a78d6"` is a **hex code** for a blue: a `#`, then two characters each for the amount of red, green, and blue.
+-   The white outline draws a thin line between neighboring bars, so you can tell them apart.
+:::
 
 ::: callout-note
 ## Colors in R
@@ -154,7 +226,7 @@ Use a name (`"steelblue"`, `"gray50"`) or a hex code (`"#2a78d6"`). Run `colors(
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): measles ages
+## ✏️ TRY IT 3 (3 min): measles ages
 
 Make a histogram of `measles` `age_years` with `binwidth = 1`, a fill color, and a white outline. Which age has the most cases?
 
@@ -173,12 +245,23 @@ The tallest bar is age 2 (102 cases), and most cases are ages 1–5. ggplot can'
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   A **histogram** is for one **number**, like age: the bars touch because the ranges follow each other. For **categories**, like hospital or outcome, you use a **bar chart** instead (Session 7).
+-   When ggplot can't draw some rows, because a value is missing, it drops them and tells you how many in a warning. Read the number: it's a quick check that it's the count of missing values you expected.
+:::
+
 # Part 4: Mapping vs setting
 
 This is the key idea of ggplot:
 
 -   **Mapping** — *inside* `aes()`: a **column** controls the color. Different values get different colors, and you get a legend.
 -   **Setting** — *outside* `aes()`: one **fixed** color for everything.
+
+::: follow-along
+**👀 Follow along 4.1** — Age histogram with `fill = outcome` inside `aes()`.
+:::
 
 ```{r}
 #| fig-alt: "Age histogram in 5-year bins with each bar split by outcome (Recover, Death, Unknown) in ggplot's default colors. All three outcomes follow the same age pattern."
@@ -187,12 +270,60 @@ ggplot(data = linelist, mapping = aes(x = age_years, fill = outcome)) +
   geom_histogram(binwidth = 5, color = "white")
 ```
 
+::: {.callout-tip icon=false}
+## 🧩 Reading a function call
+
+Here is the plot you just made, taken apart:
+
+``` r
+ggplot(data = linelist, mapping = aes(x = age_years, fill = outcome)) +
+  geom_histogram(binwidth = 5, color = "white")
+```
+
+| Piece | What it is | What it does |
+|---|---|---|
+| `ggplot(...)` | the function that starts every plot | sets up the canvas |
+| `data = linelist` | the first argument of `ggplot()` | which data frame to draw from |
+| `mapping = aes(...)` | the second argument: the **aesthetic mapping** | links columns to parts of the plot |
+| `x = age_years` | inside `aes()` | age goes on the x-axis |
+| `fill = outcome` | inside `aes()`, so a **mapping** | the `outcome` column decides each bar's color |
+| `+` | joins layers | adds the next layer to the plot |
+| `geom_histogram(...)` | a **geometry** layer | draws the data as a histogram |
+| `binwidth = 5` | an argument of `geom_histogram()` | each bar covers 5 years |
+| `color = "white"` | outside `aes()`, so a **setting** | a white outline on every bar |
+
+Unlike one function inside another, a ggplot reads from **left to right**, one layer after the other: "Take `linelist`, put age on the x-axis and color by outcome, **then** draw a histogram with 5-year bins and white outlines."
+:::
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fill = outcome` is inside `aes()`, so it's a **mapping**: the `outcome` column decides each bar's color.
+-   ggplot gives each outcome a default color (pink-red for Recover, green for Death, blue for Unknown) and adds a legend. The bars are **stacked**: each bar's full height is still every patient of that age, split into the three outcomes.
+-   The colors follow the order you set with `fct_relevel()`. In Session 7 you choose the colors yourself.
+:::
+
+::: follow-along
+**👀 Follow along 4.2** — The same with `fill = "#2a78d6"` in `geom_histogram()`.
+:::
+
 ```{r}
 #| fig-alt: "Age histogram in 5-year bins with every bar the same blue, set with a fixed fill color."
 # Setting: every bar is blue
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fill = "#2a78d6"` now sits inside `geom_histogram()`, outside `aes()`. That makes it a **setting**: one fixed color for every bar, and no legend.
+-   Nothing else changed. Where you put `fill` decides whether a column controls the color or you do.
+:::
+
+::: follow-along
+**👀 Follow along 4.3** — What happens with `fill = "blue"` inside `aes()`? Open the box below and try it.
+:::
 
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: what happens if you put `fill = "blue"` *inside* `aes()`? Try it!
@@ -204,6 +335,13 @@ ggplot(data = linelist, mapping = aes(x = age_years, fill = "blue")) +
 ```
 
 The bars are pink-red and the legend says "blue"! ggplot treated "blue" as data — a column whose every value is the word "blue" — and gave it the first default color.
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   Inside `aes()`, ggplot expects a column name. `"blue"` is text, not a column, so ggplot treats it like a column where every row says "blue": one group, which gets the first default color.
+-   To make the bars blue, move `fill = "blue"` out of `aes()` and into `geom_histogram()`.
+:::
 :::
 
 ::: callout-warning
@@ -213,7 +351,7 @@ The bars are pink-red and the legend says "blue"! ggplot treated "blue" as data 
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): mapping fill
+## ✏️ TRY IT 4 (3 min): mapping fill
 
 Make a histogram of `measles` `temp_c` with `binwidth = 0.2`, then map `fill = fever` inside `aes()`. Why are there two "humps"?
 
@@ -239,13 +377,28 @@ The small hump near 37 °C is the 99 patients without fever; the big hump near 3
 
 A scatter plot shows the **relationship** between two numbers: one point per row.
 
+::: follow-along
+**👀 Follow along 5.1** — `age_years` vs `wt_kg` with `geom_point()`.
+:::
+
 ```{r}
 #| fig-alt: "Scatter plot of weight in kg against age in years for every patient. Weight rises steeply through childhood and more slowly in adults; the points overlap into a dense black mass."
 ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `aes(x = age_years, y = wt_kg)` maps two columns: age across, weight up.
+-   `geom_point()` draws one point per row, so one point per patient. 6322 patients have both an age and a weight; ggplot warns that it removed the other 129 rows.
+:::
+
 With 6,000+ points, many sit on top of each other. Make them smaller and see-through with `size` and `alpha` (0 = invisible, 1 = solid):
+
+::: follow-along
+**👀 Follow along 5.2** — Add `size = 1` and `alpha = 0.3`; then map `color = gender` (the next two code blocks).
+:::
 
 ```{r}
 #| fig-alt: "The same weight-by-age scatter plot with smaller, semi-transparent points, so crowded areas look darker and individual points are easier to see."
@@ -261,9 +414,21 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg, color = gender))
   geom_point(size = 1, alpha = 0.4)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `size = 1` makes the points smaller, and `alpha = 0.3` makes them 70% see-through. Where many points overlap, the color builds up and looks darker, so you can see where most patients are.
+-   These are **settings**, so they go in `geom_point()`, outside `aes()`.
+-   In the second plot, `color = gender` is inside `aes()`: a **mapping**. Each gender gets its own color and a legend entry. Points use `color`; bars and boxes use `fill` for the inside.
+:::
+
 ## Add a trend line
 
 `geom_smooth()` adds a trend line on top of the points. `method = "lm"` draws a straight line (linear model); `se = FALSE` hides the confidence band.
+
+::: follow-along
+**👀 Follow along 5.3** — Add `geom_smooth(method = "lm", se = FALSE, color = "#eb6834")`.
+:::
 
 ```{r}
 #| fig-alt: "Weight-by-age scatter plot with semi-transparent points and an orange straight trend line rising from about 33 kg at age 0 to about 130 kg at age 85. The straight line misses the curved shape of the points."
@@ -272,9 +437,22 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `geom_smooth()` adds a second layer on top of the points. Both layers use the same `aes()` from `ggplot()`, so the line uses the same x and y.
+-   `method = "lm"` draws the straight line that fits the points best (a **linear model**). `se = FALSE` hides the gray band that shows how uncertain the line is.
+-   The line starts at about 34 kg at age 0 and rises about 1.2 kg per year of age. A straight line can't bend, so it misses how fast children grow.
+-   The message "`geom_smooth()` using formula = 'y ~ x'" just tells you what the line fits: y (weight) from x (age).
+:::
+
 ## Filter right inside `ggplot()`
 
 You can pipe data into `ggplot()`, so you can `filter()` first without making a new object:
+
+::: follow-along
+**👀 Follow along 5.4** — Only patients with fever: `filter()` first, then `ggplot()`.
+:::
 
 ```{r}
 #| fig-alt: "Weight-by-age scatter plot for patients with fever only, showing the same curved pattern as for all patients."
@@ -284,10 +462,19 @@ linelist %>%
   geom_point(size = 1, alpha = 0.3)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `linelist %>% filter(fever == "yes")` keeps the 5077 patients with fever. The pipe then passes them into `ggplot()` as its data.
+-   There's no `data =` in `ggplot()`, because the pipe already supplies the data.
+-   After `ggplot()`, layers are joined with `+`. The rule: `%>%` before `ggplot()`, `+` after it.
+-   `linelist` itself isn't changed: the filter only applies to this plot.
+:::
+
 Notice the switch: `%>%` **into** `ggplot()`, then `+` **between** layers.
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): a scatter plot
+## ✏️ TRY IT 5 (4 min): a scatter plot
 
 For hospitalized patients only (`filter(!is.na(days_in_hospital))`), plot `age_years` (x) against `days_in_hospital` (y) with `alpha`, and add a trend line. Is there a relationship?
 
@@ -309,6 +496,13 @@ The trend line is almost flat: older and younger patients stay in hospital about
 :::
 :::
 
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   Each geometry has its own aesthetics. Points use `color`, `size`, `shape`, and `alpha`; bars and boxes use `fill` for the inside and `color` for the outline. The help page (for example `?geom_point`) lists them under **Aesthetics**.
+-   A trend line shows a pattern, not a cause. Here, weight rises with age because children grow, not because of the outbreak.
+:::
+
 # Part 6: Box plots
 
 A box plot compares the **distribution of a number across groups**:
@@ -318,15 +512,30 @@ A box plot compares the **distribution of a number across groups**:
 -   The whiskers reach the most extreme values within 1.5 × IQR of the box
 -   Points beyond the whiskers are possible **outliers**
 
+::: follow-along
+**👀 Follow along 6.1** — `age_years` by `gender` with `geom_boxplot()`.
+:::
+
 ```{r}
 #| fig-alt: "Box plots of age for each gender (female, male, Unknown). Males have a higher median age (17) than females (11), and every group has high outliers."
 ggplot(data = linelist, mapping = aes(x = gender, y = age_years)) +
   geom_boxplot()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `aes(x = gender, y = age_years)` puts the groups on the x-axis and the number on the y-axis.
+-   `geom_boxplot()` draws one box per group: female, male, and Unknown. The thick line in the male box (median 17) sits higher than in the female box (median 11).
+:::
+
 ## Clean it up
 
 Remove the "Unknown" group, color the boxes, and drop the legend (the x-axis already names the groups):
+
+::: follow-along
+**👀 Follow along 6.2** — Filter out "Unknown", add `fill = gender`, and remove the legend.
+:::
 
 ```{r}
 #| fig-alt: "Box plots of age for female (red) and male (teal) patients, without a legend. The male box sits higher, with a median of 17 versus 11."
@@ -337,9 +546,21 @@ linelist %>%
   theme(legend.position = "none")
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `filter(gender != "Unknown")` keeps every row where gender is **not** "Unknown". `!=` means "not equal".
+-   `fill = gender` inside `aes()` colors each box by gender.
+-   `theme(legend.position = "none")` removes the legend. The x-axis already names each box, so a legend would only repeat it.
+:::
+
 ## Add the mean
 
 `stat_summary()` calculates a statistic for each group and draws it. Here, the mean as a diamond:
+
+::: follow-along
+**👀 Follow along 6.3** — Add the mean with `stat_summary()`.
+:::
 
 ```{r}
 #| fig-alt: "Box plots of age for female and male patients with a white diamond marking each mean. The means (about 13 and 20) sit slightly above the medians (11 and 17) because ages are right-skewed."
@@ -350,6 +571,14 @@ linelist %>%
   stat_summary(fun = mean, geom = "point", shape = 23, size = 3, fill = "white") +
   theme(legend.position = "none")
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `stat_summary()` calculates one number for each group and draws it. `fun = mean` calculates the mean age, and `geom = "point"` draws it as a point.
+-   `shape = 23` is a diamond that can be filled, `size = 3` makes it bigger, and `fill = "white"` makes it white so it stands out against the box.
+-   The means are 12.7 years (female) and 19.5 (male).
+:::
 
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: why is the mean (diamond) above the median (line)?
@@ -362,7 +591,7 @@ The ages are right-skewed: a few older patients pull the mean up. For example, t
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): a box plot
+## ✏️ TRY IT 6 (4 min): a box plot
 
 Make a box plot of `days_in_hospital` by `vaccinated` (hospitalized patients only), with the mean and no legend.
 
@@ -389,6 +618,10 @@ The medians are 4 days (Yes) and 5 days (No, Unknown), and the means are all abo
 
 ## `labs()`
 
+::: follow-along
+**👀 Follow along 7.1** — Add `labs()` to the box plot.
+:::
+
 ```{r}
 #| fig-alt: "Box plots of age by gender titled Age distribution by gender, with the subtitle Cases with known gender, axis labels Gender and Age (years), and a source caption."
 linelist %>%
@@ -405,9 +638,21 @@ linelist %>%
   theme(legend.position = "none")
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `labs()` sets the text around the plot: the `title`, a `subtitle`, the `x` and `y` axis labels, and a `caption` at the bottom, often used for the data source.
+-   Each label is text, so it's in quotes. Lining up the `=` signs is optional: it only makes the code easier to read.
+-   `labs()` is one more layer, added with `+`. The data and the boxes stay the same.
+:::
+
 ## Themes
 
 A theme changes the look of everything that isn't data: background, grid lines, fonts. Try `theme_minimal()`, `theme_classic()`, `theme_bw()`, and `theme_light()`.
+
+::: follow-along
+**👀 Follow along 7.2** — Try `theme_minimal()`, `theme_classic()`, and `theme_bw()` on the age histogram.
+:::
 
 ```{r}
 #| fig-alt: "Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme with larger text."
@@ -421,6 +666,14 @@ ggplot(data = linelist, mapping = aes(x = age_years)) +
   theme_minimal(base_size = 14)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `theme_minimal()` is a **complete theme**: it restyles everything that isn't data. Here it removes the gray background.
+-   `base_size = 14` sets the size of all the text at once (the default is 11).
+-   Swap in `theme_classic()` or `theme_bw()` to compare: only the look changes, never the data.
+:::
+
 `base_size` makes all the text bigger — useful for slides.
 
 ::: callout-warning
@@ -433,6 +686,10 @@ A complete theme like `theme_minimal()` resets everything, so put it **before** 
 
 A plot can be saved with `<-` and built on later:
 
+::: follow-along
+**👀 Follow along 7.3** — Save a plot as `age_plot`, then add `labs()` and a theme to it.
+:::
+
 ```{r}
 #| fig-alt: "Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme."
 age_plot <- ggplot(data = linelist, mapping = aes(x = age_years)) +
@@ -443,8 +700,16 @@ age_plot +
   theme_minimal()
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `age_plot <- ggplot(...) + geom_histogram(...)` saves the plot as an object instead of drawing it. `age_plot` appears in the **Variables** pane.
+-   `age_plot + labs(...) + theme_minimal()` adds layers to the saved plot and draws the result. `age_plot` itself doesn't change unless you save again with `<-`.
+-   This way you can try different labels and themes without retyping the whole plot.
+:::
+
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (5 min): finish a plot
+## ✏️ TRY IT 7 (5 min): finish a plot
 
 Finish one of your measles plots with a title, subtitle, axis labels, a caption, and a theme. Save it as `my_plot`.
 
@@ -472,6 +737,20 @@ my_plot
 
 This is one example — any measles plot works. `fill = "Fever"` inside `labs()` renames the legend title. Saving the plot as `my_plot` stores it in the **Variables** pane, and typing its name draws it.
 :::
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know: which plot for which question?
+
+| Your question | Plot | Geometry |
+|---|---|---|
+| How is one number spread out? | Histogram | `geom_histogram()` |
+| Are two numbers related? | Scatter plot | `geom_point()` |
+| Does a number differ between groups? | Box plot | `geom_boxplot()` |
+| How many in each category? | Bar chart (Session 7) | `geom_bar()` |
+| How do cases change over time? | Epidemic curve (Session 7) | `geom_histogram()` with dates |
+
+To save a plot as an image file, use `ggsave()`: that's in Session 7.
 :::
 
 ::: callout-tip

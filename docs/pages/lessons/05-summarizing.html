@@ -500,9 +500,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Before you start:</strong> open the workshop folder in Positron (<strong>File → Open Folder…</strong>) and open <code>student_scripts/Session 5 - Summarizing_STUDENT.R</code>. This session starts from the files you saved in Session 3: <code>processed_data/combined_linelist.rds</code> and <code>processed_data/measles_final.rds</code>. Missed Session 3? Ready-made copies are already in <code>processed_data/</code>.</p>
 </div>
 </div>
+<p><strong>Where this session fits.</strong> Today covers <strong>Summarize</strong> and <strong>Save and share</strong> (highlighted): turning thousands of rows into counts, percentages, and statistics, and saving a finished table to Word.</p>
+<div class="workflow">
+<ol type="1">
+<li><span class="step">Import</span></li>
+<li><span class="step">Inspect</span></li>
+<li><span class="step">Clean</span></li>
+<li><span class="step">Combine</span></li>
+<li><span class="step">Reshape</span></li>
+<li><span class="step today">Summarize</span></li>
+<li><span class="step">Visualize</span></li>
+<li><span class="step today">Save and share</span></li>
+<li><span class="step">Automate</span></li>
+</ol>
+</div>
 <p>There are many packages for summary tables. This session uses three that cover almost every need: <strong>dplyr</strong> (<code>count()</code>/<code>summarise()</code>) for flexible summaries you can plot, <strong>janitor</strong> (<code>tabyl()</code>) for quick cross-tabs, and <strong>gtsummary</strong> for tables you publish.</p>
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
+<div class="follow-along">
+<p><strong>👀 Follow along 1.1</strong> — Load today’s packages and import <code>processed_data/combined_linelist.rds</code> as <code>linelist</code> (with <code>trust = TRUE</code>).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
@@ -537,6 +554,23 @@ $ vomit             &lt;chr&gt; "yes", "Unknown", "Unknown", "no", "yes", "yes",
 $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 36.4…</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The <code>library()</code> lines load today’s five packages. <strong>gtsummary</strong> is new: it makes the Table 1 in Part 6.</li>
+<li><code>import(here("processed_data", "combined_linelist.rds"), trust = TRUE)</code> reads the file you saved at the end of Session 3. An <code>.rds</code> file can hold more than plain data, so rio asks you to confirm that you trust it: <code>trust = TRUE</code>.</li>
+<li><code>glimpse()</code> shows 6451 rows and 19 columns. <code>age_cat</code> and <code>outcome</code> are text (<code>&lt;chr&gt;</code>), so they sort alphabetically. Part 2 fixes that.</li>
+</ul>
+</div>
+</div>
 <p>This is the dataset you finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature).</p>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -544,14 +578,14 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (1 min): import the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 1 (1 min): import the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Import <code>processed_data/measles_final.rds</code> (with <code>trust = TRUE</code>) as <code>measles</code>.</p>
 <p>✅ <strong>Check:</strong> in the <strong>Variables</strong> pane, <code>measles</code> shows 1163 rows and 14 columns</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -560,7 +594,7 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
@@ -579,6 +613,9 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <section id="part-2-putting-categories-in-order-factors" class="level1">
 <h1>Part 2: Putting categories in order (factors)</h1>
 <p>R sorts text <strong>alphabetically</strong>:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.1</strong> — <code>count()</code> the age groups. What order are they in?</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(age_cat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -594,7 +631,27 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 9  Unknown   96</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>count(age_cat)</code> lists the age groups in <strong>alphabetical</strong> order. Numbers sort before letters, so “18-29” comes first, and the biggest group, “Under 18” (3962 cases), ends up after “80+”.</li>
+<li>This order would carry into every table and plot, which is why you set a better one next.</li>
+</ul>
+</div>
+</div>
 <p>“Under 18” should come first, and “Unknown” last. A <strong>factor</strong> is a text column with a set order of categories (called <strong>levels</strong>). <code>fct_relevel()</code> from the forcats package (part of the tidyverse) sets that order:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.2</strong> — Put <code>age_cat</code> and <code>outcome</code> in order with <code>fct_relevel()</code> (the next two code blocks).</p>
+<p>Pattern: <code>DATA &lt;- DATA %&gt;% mutate(COLUMN = fct_relevel(COLUMN, "LEVEL_1", "LEVEL_2", ...))</code></p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_cat =</span> <span class="fu">fct_relevel</span>(age_cat,</span>
@@ -624,6 +681,24 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_relevel</span>(outcome, <span class="st">"Recover"</span>, <span class="st">"Death"</span>, <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>fct_relevel(age_cat, "Under 18", "18-29", ...)</code> turns <code>age_cat</code> into a factor and sets its levels in the order you list them. <code>mutate()</code> puts the result back in the same column, and <code>linelist &lt;-</code> saves it.</li>
+<li><code>count(age_cat)</code> now goes from youngest to oldest, with “Unknown” last. The counts didn’t change, only the order.</li>
+<li>The second block does the same for <code>outcome</code>: Recover, Death, Unknown.</li>
+<li>Each level has to be spelled exactly as in the data, capitals included.</li>
+</ul>
+</div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -664,6 +739,9 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>In other people’s code you will see <code>factor(x, levels = c(...))</code>. It sets the order too, but a misspelled level is <strong>not</strong> ignored with a warning: every value that doesn’t match becomes <code>NA</code>, silently.</p>
+<div class="follow-along">
+<p><strong>🔁 Follow along 2.3</strong> — The base R way: <code>factor()</code> with the right levels, then with “death” misspelled.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Recover"</span>, <span class="st">"Death"</span>, <span class="st">"Death"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Recover"</span>, <span class="st">"Death"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -676,6 +754,22 @@ Levels: Recover Death</code></pre>
 Levels: Recover death</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The first line makes a factor with the levels Recover, Death. R prints the values, then a <code>Levels:</code> line with their order.</li>
+<li>In the second line, “death” (lower case) matches none of the values, so both “Death” values become <code>&lt;NA&gt;</code>, and R doesn’t warn you. <code>fct_relevel()</code> would have.</li>
+</ul>
+</div>
+</div>
 <p><code>levels(x)</code> shows the order of any factor. The forcats functions are safer for day-to-day work; <code>factor()</code> is what you need to read.</p>
 </div>
 </div>
@@ -685,7 +779,7 @@ Levels: Recover death</code></pre>
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): order the measles categories
+<span class="screen-reader-only">Important</span>✏️ TRY IT 2 (3 min): order the measles categories
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -697,7 +791,7 @@ Levels: Recover death</code></pre>
 </ul>
 <p>✅ <strong>Check:</strong> <code>count(age_cat)</code> now starts with “Under 5”</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -706,7 +800,7 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
@@ -732,11 +826,30 @@ Levels: Recover death</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>A factor stores each value as a number that points to its list of levels: that’s how it remembers the order. <code>levels(x)</code> shows the list, and <code>as.character(x)</code> turns a factor back into plain text.</li>
+<li>The order matters in statistics too: in a regression model, the <strong>first</strong> level is the reference group that the others are compared with.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="part-3-counting-and-percentages-with-count" class="level1">
 <h1>Part 3: Counting and percentages with <code>count()</code></h1>
 <section id="counts-and-cross-tabs" class="level2">
 <h2 class="anchored" data-anchor-id="counts-and-cross-tabs">Counts and cross-tabs</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.1</strong> — <code>count(outcome)</code>, then <code>count(age_cat, outcome)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">count</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -775,10 +888,29 @@ Levels: Recover death</code></pre>
 24  Unknown Unknown   30</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>count(outcome)</code> gives one row per outcome: Recover 2158, Death 2840, Unknown 1453. The rows follow the factor order you set in Part 2.</li>
+<li><code>count(age_cat, outcome)</code> counts every combination of age group and outcome that occurs: 24 rows. Combinations with no cases, such as 80+ and Death, are left out.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="percentages" class="level2">
 <h2 class="anchored" data-anchor-id="percentages">Percentages</h2>
 <p><code>count()</code> makes a column called <code>n</code>. Divide by the total to get a proportion, and use <code>scales::percent()</code> to show it nicely:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.2</strong> — Add a percent column to <code>count(outcome)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(outcome) <span class="sc">%&gt;%</span></span>
@@ -790,10 +922,30 @@ Levels: Recover death</code></pre>
 3 Unknown 1453   22.5%</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>count(outcome)</code> puts the counts in a column called <code>n</code>.</li>
+<li>Inside <code>mutate()</code>, <code>sum(n)</code> is the total of that column (6451), so <code>n / sum(n)</code> is each outcome’s share: 2840 / 6451 = 0.440 for Death.</li>
+<li><code>scales::percent(..., accuracy = 0.1)</code> shows 0.440 as “44.0%”. <code>accuracy = 0.1</code> means one decimal place. The result is text: easy to read, but not for further calculations.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="percentages-within-groups-group_by" class="level2">
 <h2 class="anchored" data-anchor-id="percentages-within-groups-group_by">Percentages within groups: <code>group_by()</code></h2>
 <p><code>group_by()</code> makes the next steps happen <strong>separately for each group</strong>. Here, <code>sum(n)</code> becomes the total <em>within each age group</em>, so each age group adds up to 100%:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.3</strong> — Percentages within each age group with <code>group_by()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_cat) <span class="sc">%&gt;%</span></span>
@@ -818,7 +970,25 @@ Levels: Recover death</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>group_by(age_cat)</code> splits the rows into one group per age group. The data looks the same, but the next steps run once for each group.</li>
+<li><code>count(outcome)</code> then counts the outcomes inside each age group.</li>
+<li>In <code>mutate()</code>, <code>sum(n)</code> is now the total <strong>of that age group</strong>, so each age group adds up to 100%. For example, 44.3% of the under-18s died (1755 of 3962).</li>
+<li><code>ungroup()</code> removes the grouping, so later steps work on all the rows again.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -827,7 +997,7 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Without grouping, the percentages are out of all 6,451 cases, so all the rows together add up to 100%. With <code>group_by(age_cat)</code>, each age group adds up to 100% on its own.</p>
 </div>
@@ -857,6 +1027,9 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Base R makes a cross-table with <code>table()</code> (from Session 1), and turns it into proportions with <code>prop.table()</code>. <code>margin = 1</code> makes each <strong>row</strong> add up to 1, like <code>group_by(age_cat)</code> above:</p>
+<div class="follow-along">
+<p><strong>🔁 Follow along 3.4</strong> — The base R way: <code>table()</code> of age group by outcome, then <code>prop.table(margin = 1)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>age_outcome <span class="ot">&lt;-</span> <span class="fu">table</span>(linelist<span class="sc">$</span>age_cat, linelist<span class="sc">$</span>outcome)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>age_outcome</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -888,6 +1061,23 @@ Levels: Recover death</code></pre>
   Unknown     31.2  37.5    31.2</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>table(linelist$age_cat, linelist$outcome)</code> makes a cross-table: age groups down the side, outcomes across the top, and a count in each cell. It’s saved as <code>age_outcome</code> so you can reuse it.</li>
+<li><code>prop.table(age_outcome, margin = 1)</code> divides each cell by its row total, so each row adds up to 1. <code>* 100</code> and <code>round(..., 1)</code> turn that into percentages: the same numbers as the <code>group_by()</code> version (44.3 for Under 18 and Death).</li>
+<li>Unlike <code>count()</code>, <code>table()</code> shows combinations with no cases as 0.</li>
+</ul>
+</div>
+</div>
 <p>The result is a <code>table</code>, not a data frame, so it doesn’t work with <code>filter()</code>, <code>mutate()</code>, or ggplot. That is why we use <code>count()</code> in this workshop.</p>
 </div>
 </div>
@@ -897,7 +1087,7 @@ Levels: Recover death</code></pre>
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): vaccination coverage
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (5 min): vaccination coverage
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -907,7 +1097,7 @@ Levels: Recover death</code></pre>
 </ol>
 <p>✅ <strong>Check:</strong> a) Yes 23.8% b) 10-14 is lowest at 21.2%</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -916,7 +1106,7 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
@@ -962,11 +1152,30 @@ Levels: Recover death</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Always ask “percent of what?”</strong> Of all cases, of each age group, or only of cases with a known value? Here the “Unknown” outcomes are part of the total, so leaving them out would change every percentage.</li>
+<li><code>scales::percent()</code> gives text. To plot or calculate with a percentage, keep the plain proportion (<code>n / sum(n)</code>) as well.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-4-summary-statistics-with-summarise" class="level1">
 <h1>Part 4: Summary statistics with <code>summarise()</code></h1>
 <p><code>summarise()</code> collapses many rows into <strong>one row</strong> of results. You name each new column on the left of <code>=</code>.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.1</strong> — <code>summarise()</code> the number of cases and the mean, SD, and median age for everyone.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -981,9 +1190,30 @@ Levels: Recover death</code></pre>
 </div>
 </div>
 <p><code>na.rm = TRUE</code> means “skip missing values”. Without it, one <code>NA</code> makes the whole result <code>NA</code>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>summarise()</code> collapses all 6451 rows into one row. Each <code>name = calculation</code> inside it makes one column of the result.</li>
+<li><code>n()</code> counts the rows: 6451.</li>
+<li><code>mean()</code> is the average age (about 16.1 years). <code>sd()</code> is the standard deviation (about 12.6): how spread out the ages are. <code>median()</code> is the middle value: 13.</li>
+<li>96 patients have no age, so without <code>na.rm = TRUE</code> the mean, SD, and median would all be <code>NA</code>.</li>
+</ul>
+</div>
+</div>
 <section id="by-group" class="level2">
 <h2 class="anchored" data-anchor-id="by-group">By group</h2>
 <p>Add <code>group_by()</code> first to get <strong>one row per group</strong>:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.2</strong> — The same by outcome, plus the mean BMI and mean temperature.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
@@ -1003,6 +1233,89 @@ Levels: Recover death</code></pre>
 3 Unknown  1453     16.2         14     30.4      38.6</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧩 Reading a function call
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here is a shorter version of the code above, taken apart:</p>
+<p><code>linelist %&gt;% group_by(outcome) %&gt;% summarise(n = n(), mean_age = mean(age_years, na.rm = TRUE))</code></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Piece</th>
+<th>What it is</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>linelist</code></td>
+<td>the data</td>
+<td>where the steps start</td>
+</tr>
+<tr class="even">
+<td><code>%&gt;%</code></td>
+<td>the pipe</td>
+<td>passes the result on its left into the next function, as its first argument</td>
+</tr>
+<tr class="odd">
+<td><code>group_by(outcome)</code></td>
+<td>a dplyr function</td>
+<td>splits the rows into one group per outcome</td>
+</tr>
+<tr class="even">
+<td><code>summarise(...)</code></td>
+<td>a dplyr function</td>
+<td>collapses each group into one row of results</td>
+</tr>
+<tr class="odd">
+<td><code>n = n()</code></td>
+<td>a new column called <code>n</code>, made by the function <code>n()</code></td>
+<td>counts the rows in each group</td>
+</tr>
+<tr class="even">
+<td><code>mean_age = mean(age_years, ...)</code></td>
+<td>a new column called <code>mean_age</code>, made by <code>mean()</code></td>
+<td>the average age in each group</td>
+</tr>
+<tr class="odd">
+<td><code>na.rm = TRUE</code></td>
+<td>a named argument of <code>mean()</code></td>
+<td>“remove NAs”: skip the missing ages</td>
+</tr>
+</tbody>
+</table>
+<p>Inside <code>summarise()</code>, the name on the <strong>left</strong> of <code>=</code> is the new column, and the calculation is on the <strong>right</strong>. With the pipe, R runs the steps from <strong>left to right</strong>. Read each <code>%&gt;%</code> as “and then”: “take <code>linelist</code>, and then group it by outcome, and then summarise: <code>n</code> is the number of rows, and <code>mean_age</code> is the mean of <code>age_years</code>, skipping missing values.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>group_by(outcome)</code> before <code>summarise()</code> gives one row <strong>per outcome</strong> instead of one row for everyone.</li>
+<li>Each row is calculated only from its own group: 2158 patients who recovered, 2840 who died, and 1453 with an unknown outcome.</li>
+<li>In this fictional dataset the groups are very similar: the median age is 13 for both recovered and died, and the mean temperature is 38.6 °C in all three groups.</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1020,6 +1333,9 @@ Levels: Recover death</code></pre>
 <section id="the-same-calculation-on-many-columns-across" class="level2">
 <h2 class="anchored" data-anchor-id="the-same-calculation-on-many-columns-across">The same calculation on many columns: <code>across()</code></h2>
 <p>You met <code>across()</code> in Session 3. In <code>summarise()</code> it saves a lot of typing:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.3</strong> — <code>across()</code>: the mean of <code>age_years</code>, <code>bmi</code>, and <code>temp</code> by outcome.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
@@ -1033,10 +1349,30 @@ Levels: Recover death</code></pre>
 3 Unknown      16.2  30.4  38.6</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>across(c(age_years, bmi, temp), ...)</code> does the same calculation on each of the three columns.</li>
+<li><code>~ mean(.x, na.rm = TRUE)</code> is the calculation. The <code>~</code> starts a short formula, and <code>.x</code> stands for “the current column”: first <code>age_years</code>, then <code>bmi</code>, then <code>temp</code>.</li>
+<li>The results keep the original column names, so each of <code>age_years</code>, <code>bmi</code>, and <code>temp</code> now holds a mean.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="percentages-of-yes" class="level2">
 <h2 class="anchored" data-anchor-id="percentages-of-yes">Percentages of “yes”</h2>
 <p><code>fever == "yes"</code> is TRUE or FALSE for each row (vectorization, from Session 4). <code>sum()</code> counts the TRUEs, and <code>mean()</code> gives the proportion that are TRUE:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.4</strong> — The percentage with fever, cough, and vomiting by outcome, with <code>round(mean(fever == "yes") * 100, 1)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(outcome) <span class="sc">%&gt;%</span></span>
@@ -1056,6 +1392,24 @@ Levels: Recover death</code></pre>
 3 Unknown    1453    1124      77.4      84.2      46.5</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>fever == "yes"</code> is TRUE for each patient with fever and FALSE for everyone else.</li>
+<li><code>sum(fever == "yes")</code> counts the TRUEs (each TRUE counts as 1): 1708 of the patients who recovered had fever.</li>
+<li><code>mean(fever == "yes")</code> is the share that are TRUE: 1708 / 2158 = 0.791. <code>* 100</code> and <code>round(..., 1)</code> turn that into 79.1.</li>
+<li>Patients whose fever is “Unknown” count as “not yes”, so these percentages are out of <strong>all</strong> patients in the group.</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1067,6 +1421,9 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Two base R functions do what <code>group_by()</code> + <code>summarise()</code> does for <strong>one</strong> statistic:</p>
+<div class="follow-along">
+<p><strong>🔁 Follow along 4.5</strong> — The base R way: median age by outcome with <code>tapply()</code> and <code>aggregate()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(linelist<span class="sc">$</span>age_years, linelist<span class="sc">$</span>outcome, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># a named vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1079,6 +1436,23 @@ Levels: Recover death</code></pre>
 1 Recover        13
 2   Death        13
 3 Unknown        14</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)</code> splits <code>age_years</code> by outcome and runs <code>median()</code> on each piece. The result is a named vector: 13, 13, 14.</li>
+<li><code>aggregate(age_years ~ outcome, data = linelist, FUN = median)</code> gives the same medians as a data frame. Read <code>age_years ~ outcome</code> as “age_years by outcome”.</li>
+<li>Before calculating, <code>aggregate()</code> quietly leaves out the 96 rows with no age. Here that doesn’t change the medians.</li>
+</ul>
 </div>
 </div>
 <p>Read <code>tapply(X, GROUP, FUNCTION)</code> as “apply FUNCTION to X, split by GROUP”. <code>aggregate()</code> with a formula silently drops rows with a missing value, one reason <code>summarise()</code> (where you choose with <code>na.rm</code>) is clearer.</p>
@@ -1103,14 +1477,14 @@ Levels: Recover death</code></pre>
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): statistics by outcome
+<span class="screen-reader-only">Important</span>✏️ TRY IT 4 (4 min): statistics by outcome
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>For each measles outcome, calculate the number of cases, mean and median age, mean temperature, and mean days in hospital (careful: NAs!).</p>
 <p>✅ <strong>Check:</strong> Recovered n = 1048, median age 7; Died n = 50, median age 5</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1119,7 +1493,7 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
@@ -1152,7 +1526,7 @@ Levels: Recover death</code></pre>
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): case rates by district
+<span class="screen-reader-only">Important</span>✏️ TRY IT 5 (4 min): case rates by district
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1160,7 +1534,7 @@ Levels: Recover death</code></pre>
 <p><strong>Hint:</strong> <code>count(district, population)</code> gives both columns; then <code>mutate()</code> and <code>arrange(desc())</code>.</p>
 <p>✅ <strong>Check:</strong> East has the highest rate (22.8); Central the lowest (5.2)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1169,7 +1543,7 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-35" class="callout-35-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
@@ -1192,11 +1566,30 @@ Levels: Recover death</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Mean or median?</strong> A few large values pull the mean up, but barely move the median. Ages here are skewed toward children: the mean age is 16.1, the median 13. For skewed numbers like ages, incomes, or days in hospital, the median is usually the better summary.</li>
+<li><code>n()</code> counts all rows, including rows with missing values. To count only the non-missing values of a column, use <code>sum(!is.na(x))</code>.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-5-quick-tables-with-tabyl" class="level1">
 <h1>Part 5: Quick tables with <code>tabyl()</code></h1>
 <p><code>tabyl()</code> from janitor makes frequency tables with percentages in one step:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.1</strong> — <code>tabyl(outcome)</code>, then <code>tabyl(age_cat, outcome)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> <span class="fu">tabyl</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1219,6 +1612,22 @@ Levels: Recover death</code></pre>
   Unknown      30    36      30</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>tabyl(outcome)</code> counts each outcome (<code>n</code>) and adds its share (<code>percent</code>) as a proportion: 0.3345 for Recover means 33.5%.</li>
+<li><code>tabyl(age_cat, outcome)</code> makes a cross-table: the first column goes down the side, the second across the top, and each cell is a count. Unlike <code>count()</code>, it’s wide, like a table in a paper, and it shows empty combinations as 0.</li>
+</ul>
+</div>
+</div>
 <p>The <code>adorn_</code> functions add totals and percentages. <strong>The order matters:</strong></p>
 <ol type="1">
 <li><code>adorn_totals()</code> — needs the raw counts, so it goes first</li>
@@ -1227,6 +1636,9 @@ Levels: Recover death</code></pre>
 <li><code>adorn_ns()</code> — adds the counts back in brackets</li>
 <li><code>adorn_title()</code> — adds a title, last</li>
 </ol>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.2</strong> — <code>tabyl(age_cat, outcome)</code> with all five <code>adorn_</code> functions.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(age_cat, outcome) <span class="sc">%&gt;%</span></span>
@@ -1249,20 +1661,39 @@ Levels: Recover death</code></pre>
            Total  33.5% (2,158) 44.0% (2,840) 22.5% (1,453)</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>adorn_totals("row")</code> adds a <strong>Total</strong> row at the bottom, from the raw counts.</li>
+<li><code>adorn_percentages("row")</code> turns each count into its share of the row, so each row adds up to 100%.</li>
+<li><code>adorn_pct_formatting(digits = 1)</code> shows those shares as percentages with one decimal.</li>
+<li><code>adorn_ns()</code> adds the counts back in brackets: “44.3% (1,755)” means 1755 under-18s died, 44.3% of that age group.</li>
+<li><code>adorn_title("combined")</code> puts both variable names in the top-left corner: <code>age_cat/outcome</code>.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): vaccination and death
+<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (4 min): vaccination and death
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Make a <code>tabyl()</code> of <code>vaccinated</code> by <code>outcome</code> in <code>measles</code>, with row percentages and counts. What do you notice about deaths?</p>
 <p>✅ <strong>Check:</strong> 6.3% of unvaccinated cases died, vs 0.7% of vaccinated cases</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1271,7 +1702,7 @@ Levels: Recover death</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
@@ -1296,6 +1727,9 @@ Levels: Recover death</code></pre>
 <section id="part-6-table-1-with-gtsummary" class="level1">
 <h1>Part 6: Table 1 with <code>gtsummary</code></h1>
 <p>Most papers start with a “Table 1” that describes the study population. <code>tbl_summary()</code> makes one from a data frame: it detects which columns are numbers and which are categories.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.1</strong> — A basic <code>tbl_summary(by = outcome)</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -1303,23 +1737,23 @@ Levels: Recover death</code></pre>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, gender, age_years, age_cat, bmi, hospital_name, fever, cough, temp) <span class="sc">%&gt;%</span></span>
 <span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="oyoqisfcmb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oyoqisfcmb table {
+<div id="jamazikymx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jamazikymx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oyoqisfcmb thead, #oyoqisfcmb tbody, #oyoqisfcmb tfoot, #oyoqisfcmb tr, #oyoqisfcmb td, #oyoqisfcmb th {
+#jamazikymx thead, #jamazikymx tbody, #jamazikymx tfoot, #jamazikymx tr, #jamazikymx td, #jamazikymx th {
   border-style: none;
 }
 
-#oyoqisfcmb p {
+#jamazikymx p {
   margin: 0;
   padding: 0;
 }
 
-#oyoqisfcmb .gt_table {
+#jamazikymx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1345,12 +1779,12 @@ Levels: Recover death</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_caption {
+#jamazikymx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oyoqisfcmb .gt_title {
+#jamazikymx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1362,7 +1796,7 @@ Levels: Recover death</code></pre>
   border-bottom-width: 0;
 }
 
-#oyoqisfcmb .gt_subtitle {
+#jamazikymx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1374,7 +1808,7 @@ Levels: Recover death</code></pre>
   border-top-width: 0;
 }
 
-#oyoqisfcmb .gt_heading {
+#jamazikymx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1386,13 +1820,13 @@ Levels: Recover death</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_bottom_border {
+#jamazikymx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_col_headings {
+#jamazikymx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1407,7 +1841,7 @@ Levels: Recover death</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_col_heading {
+#jamazikymx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1427,7 +1861,7 @@ Levels: Recover death</code></pre>
   overflow-x: hidden;
 }
 
-#oyoqisfcmb .gt_column_spanner_outer {
+#jamazikymx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1439,15 +1873,15 @@ Levels: Recover death</code></pre>
   padding-right: 4px;
 }
 
-#oyoqisfcmb .gt_column_spanner_outer:first-child {
+#jamazikymx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oyoqisfcmb .gt_column_spanner_outer:last-child {
+#jamazikymx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oyoqisfcmb .gt_column_spanner {
+#jamazikymx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1459,11 +1893,11 @@ Levels: Recover death</code></pre>
   width: 100%;
 }
 
-#oyoqisfcmb .gt_spanner_row {
+#jamazikymx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oyoqisfcmb .gt_group_heading {
+#jamazikymx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1489,7 +1923,7 @@ Levels: Recover death</code></pre>
   text-align: left;
 }
 
-#oyoqisfcmb .gt_empty_group_heading {
+#jamazikymx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1504,15 +1938,15 @@ Levels: Recover death</code></pre>
   vertical-align: middle;
 }
 
-#oyoqisfcmb .gt_from_md > :first-child {
+#jamazikymx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oyoqisfcmb .gt_from_md > :last-child {
+#jamazikymx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oyoqisfcmb .gt_row {
+#jamazikymx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1531,7 +1965,7 @@ Levels: Recover death</code></pre>
   overflow-x: hidden;
 }
 
-#oyoqisfcmb .gt_stub {
+#jamazikymx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1544,7 +1978,7 @@ Levels: Recover death</code></pre>
   padding-right: 5px;
 }
 
-#oyoqisfcmb .gt_stub_row_group {
+#jamazikymx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1558,15 +1992,15 @@ Levels: Recover death</code></pre>
   vertical-align: top;
 }
 
-#oyoqisfcmb .gt_row_group_first td {
+#jamazikymx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oyoqisfcmb .gt_row_group_first th {
+#jamazikymx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oyoqisfcmb .gt_summary_row {
+#jamazikymx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1576,16 +2010,16 @@ Levels: Recover death</code></pre>
   padding-right: 5px;
 }
 
-#oyoqisfcmb .gt_first_summary_row {
+#jamazikymx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_first_summary_row.thick {
+#jamazikymx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oyoqisfcmb .gt_last_summary_row {
+#jamazikymx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1595,7 +2029,7 @@ Levels: Recover death</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_grand_summary_row {
+#jamazikymx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1605,7 +2039,7 @@ Levels: Recover death</code></pre>
   padding-right: 5px;
 }
 
-#oyoqisfcmb .gt_first_grand_summary_row {
+#jamazikymx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1615,7 +2049,7 @@ Levels: Recover death</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_last_grand_summary_row_top {
+#jamazikymx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1625,11 +2059,11 @@ Levels: Recover death</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_striped {
+#jamazikymx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oyoqisfcmb .gt_table_body {
+#jamazikymx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1638,7 +2072,7 @@ Levels: Recover death</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_footnotes {
+#jamazikymx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1652,7 +2086,7 @@ Levels: Recover death</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_footnote {
+#jamazikymx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1661,7 +2095,7 @@ Levels: Recover death</code></pre>
   padding-right: 5px;
 }
 
-#oyoqisfcmb .gt_sourcenotes {
+#jamazikymx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1675,7 +2109,7 @@ Levels: Recover death</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oyoqisfcmb .gt_sourcenote {
+#jamazikymx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1683,72 +2117,72 @@ Levels: Recover death</code></pre>
   padding-right: 5px;
 }
 
-#oyoqisfcmb .gt_left {
+#jamazikymx .gt_left {
   text-align: left;
 }
 
-#oyoqisfcmb .gt_center {
+#jamazikymx .gt_center {
   text-align: center;
 }
 
-#oyoqisfcmb .gt_right {
+#jamazikymx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oyoqisfcmb .gt_font_normal {
+#jamazikymx .gt_font_normal {
   font-weight: normal;
 }
 
-#oyoqisfcmb .gt_font_bold {
+#jamazikymx .gt_font_bold {
   font-weight: bold;
 }
 
-#oyoqisfcmb .gt_font_italic {
+#jamazikymx .gt_font_italic {
   font-style: italic;
 }
 
-#oyoqisfcmb .gt_super {
+#jamazikymx .gt_super {
   font-size: 65%;
 }
 
-#oyoqisfcmb .gt_footnote_marks {
+#jamazikymx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oyoqisfcmb .gt_asterisk {
+#jamazikymx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oyoqisfcmb .gt_indent_1 {
+#jamazikymx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oyoqisfcmb .gt_indent_2 {
+#jamazikymx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oyoqisfcmb .gt_indent_3 {
+#jamazikymx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oyoqisfcmb .gt_indent_4 {
+#jamazikymx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oyoqisfcmb .gt_indent_5 {
+#jamazikymx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oyoqisfcmb .katex-display {
+#jamazikymx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oyoqisfcmb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jamazikymx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1970,7 +2404,29 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>filter(outcome != "Unknown")</code> keeps the 4998 patients with a known outcome, and <code>fct_drop()</code> removes the now-empty “Unknown” level.</li>
+<li><code>select()</code> chooses what goes in the table: each selected column becomes one variable in Table 1. <code>by = outcome</code> makes the outcomes the column groups.</li>
+<li><code>tbl_summary()</code> works out each column’s type. Categories (like <code>gender</code>) show count (%). Numbers (like <code>age_years</code>) show the median and, in brackets, the 25th and 75th percentiles: 13 (6, 23) years for patients who recovered.</li>
+<li>The headers show the size of each group: N = 2,158 recovered and N = 2,840 died.</li>
+<li>Two kinds of “Unknown” appear: our own “Unknown” text values, shown as a category (86 recovered patients have an unknown gender), and gtsummary’s row for missing values, which it also calls “Unknown” (30 missing ages). The next step sorts this out.</li>
+</ul>
+</div>
+</div>
 <p>“Unknown” shows up as a category. In Session 3 we replaced <code>NA</code> with “Unknown” so missing values show up in counts — but <code>tbl_summary()</code> has its own <strong>Missing</strong> row, so turn “Unknown” back into <code>NA</code> for this table with <code>na_if()</code>:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.2</strong> — The same table with <code>na_if()</code>, so “Unknown” counts as missing.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -1979,23 +2435,23 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
 <span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="gslmljldja" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gslmljldja table {
+<div id="apakgcdjgk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#apakgcdjgk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gslmljldja thead, #gslmljldja tbody, #gslmljldja tfoot, #gslmljldja tr, #gslmljldja td, #gslmljldja th {
+#apakgcdjgk thead, #apakgcdjgk tbody, #apakgcdjgk tfoot, #apakgcdjgk tr, #apakgcdjgk td, #apakgcdjgk th {
   border-style: none;
 }
 
-#gslmljldja p {
+#apakgcdjgk p {
   margin: 0;
   padding: 0;
 }
 
-#gslmljldja .gt_table {
+#apakgcdjgk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2021,12 +2477,12 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-left-color: #D3D3D3;
 }
 
-#gslmljldja .gt_caption {
+#apakgcdjgk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gslmljldja .gt_title {
+#apakgcdjgk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2038,7 +2494,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-width: 0;
 }
 
-#gslmljldja .gt_subtitle {
+#apakgcdjgk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2050,7 +2506,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-width: 0;
 }
 
-#gslmljldja .gt_heading {
+#apakgcdjgk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2062,13 +2518,13 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#gslmljldja .gt_bottom_border {
+#apakgcdjgk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gslmljldja .gt_col_headings {
+#apakgcdjgk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2083,7 +2539,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#gslmljldja .gt_col_heading {
+#apakgcdjgk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2103,7 +2559,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#gslmljldja .gt_column_spanner_outer {
+#apakgcdjgk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2115,15 +2571,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 4px;
 }
 
-#gslmljldja .gt_column_spanner_outer:first-child {
+#apakgcdjgk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gslmljldja .gt_column_spanner_outer:last-child {
+#apakgcdjgk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gslmljldja .gt_column_spanner {
+#apakgcdjgk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2135,11 +2591,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   width: 100%;
 }
 
-#gslmljldja .gt_spanner_row {
+#apakgcdjgk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gslmljldja .gt_group_heading {
+#apakgcdjgk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2165,7 +2621,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   text-align: left;
 }
 
-#gslmljldja .gt_empty_group_heading {
+#apakgcdjgk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2180,15 +2636,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: middle;
 }
 
-#gslmljldja .gt_from_md > :first-child {
+#apakgcdjgk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gslmljldja .gt_from_md > :last-child {
+#apakgcdjgk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gslmljldja .gt_row {
+#apakgcdjgk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2207,7 +2663,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#gslmljldja .gt_stub {
+#apakgcdjgk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2220,7 +2676,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#gslmljldja .gt_stub_row_group {
+#apakgcdjgk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2234,15 +2690,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: top;
 }
 
-#gslmljldja .gt_row_group_first td {
+#apakgcdjgk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gslmljldja .gt_row_group_first th {
+#apakgcdjgk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gslmljldja .gt_summary_row {
+#apakgcdjgk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2252,16 +2708,16 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#gslmljldja .gt_first_summary_row {
+#apakgcdjgk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gslmljldja .gt_first_summary_row.thick {
+#apakgcdjgk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gslmljldja .gt_last_summary_row {
+#apakgcdjgk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2271,7 +2727,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#gslmljldja .gt_grand_summary_row {
+#apakgcdjgk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2281,7 +2737,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#gslmljldja .gt_first_grand_summary_row {
+#apakgcdjgk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2291,7 +2747,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-color: #D3D3D3;
 }
 
-#gslmljldja .gt_last_grand_summary_row_top {
+#apakgcdjgk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2301,11 +2757,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#gslmljldja .gt_striped {
+#apakgcdjgk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gslmljldja .gt_table_body {
+#apakgcdjgk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2314,7 +2770,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#gslmljldja .gt_footnotes {
+#apakgcdjgk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2328,7 +2784,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#gslmljldja .gt_footnote {
+#apakgcdjgk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2337,7 +2793,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#gslmljldja .gt_sourcenotes {
+#apakgcdjgk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2351,7 +2807,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#gslmljldja .gt_sourcenote {
+#apakgcdjgk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2359,72 +2815,72 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#gslmljldja .gt_left {
+#apakgcdjgk .gt_left {
   text-align: left;
 }
 
-#gslmljldja .gt_center {
+#apakgcdjgk .gt_center {
   text-align: center;
 }
 
-#gslmljldja .gt_right {
+#apakgcdjgk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gslmljldja .gt_font_normal {
+#apakgcdjgk .gt_font_normal {
   font-weight: normal;
 }
 
-#gslmljldja .gt_font_bold {
+#apakgcdjgk .gt_font_bold {
   font-weight: bold;
 }
 
-#gslmljldja .gt_font_italic {
+#apakgcdjgk .gt_font_italic {
   font-style: italic;
 }
 
-#gslmljldja .gt_super {
+#apakgcdjgk .gt_super {
   font-size: 65%;
 }
 
-#gslmljldja .gt_footnote_marks {
+#apakgcdjgk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gslmljldja .gt_asterisk {
+#apakgcdjgk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gslmljldja .gt_indent_1 {
+#apakgcdjgk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gslmljldja .gt_indent_2 {
+#apakgcdjgk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gslmljldja .gt_indent_3 {
+#apakgcdjgk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gslmljldja .gt_indent_4 {
+#apakgcdjgk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gslmljldja .gt_indent_5 {
+#apakgcdjgk .gt_indent_5 {
   text-indent: 25px;
 }
 
-#gslmljldja .katex-display {
+#apakgcdjgk .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#gslmljldja div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#apakgcdjgk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2622,6 +3078,24 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>mutate(across(where(is.character), ~ na_if(.x, "Unknown")))</code> goes through every text column (<code>where(is.character)</code>) and replaces the value “Unknown” with <code>NA</code>.</li>
+<li>Gender’s unknowns (86 and 139) move from a category into the missing-values row.</li>
+<li><code>fever</code> and <code>cough</code> now only have “yes” and “no”, so gtsummary shows them on one line: the number with “yes”. For fever that’s 1,708 (82%) of the patients who recovered. The percentage is now out of patients whose fever status is known, which is why it’s higher than the 79.1% in Part 4.</li>
+<li><code>age_cat</code> is a factor, not text, so <code>where(is.character)</code> skips it and its “Unknown” stays a category.</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2639,6 +3113,9 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 </div>
 <section id="customize-it" class="level2">
 <h2 class="anchored" data-anchor-id="customize-it">Customize it</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.3</strong> — A customized <code>table1</code> with labels, mean (SD), an overall column, bold labels, and a caption; then save it to <code>outputs/table1.docx</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -2665,23 +3142,23 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="lmyyueiqzo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lmyyueiqzo table {
+<div id="xavmsoclfj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xavmsoclfj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lmyyueiqzo thead, #lmyyueiqzo tbody, #lmyyueiqzo tfoot, #lmyyueiqzo tr, #lmyyueiqzo td, #lmyyueiqzo th {
+#xavmsoclfj thead, #xavmsoclfj tbody, #xavmsoclfj tfoot, #xavmsoclfj tr, #xavmsoclfj td, #xavmsoclfj th {
   border-style: none;
 }
 
-#lmyyueiqzo p {
+#xavmsoclfj p {
   margin: 0;
   padding: 0;
 }
 
-#lmyyueiqzo .gt_table {
+#xavmsoclfj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2707,12 +3184,12 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-left-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_caption {
+#xavmsoclfj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lmyyueiqzo .gt_title {
+#xavmsoclfj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2724,7 +3201,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-width: 0;
 }
 
-#lmyyueiqzo .gt_subtitle {
+#xavmsoclfj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2736,7 +3213,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-width: 0;
 }
 
-#lmyyueiqzo .gt_heading {
+#xavmsoclfj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2748,13 +3225,13 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_bottom_border {
+#xavmsoclfj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_col_headings {
+#xavmsoclfj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2769,7 +3246,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_col_heading {
+#xavmsoclfj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2789,7 +3266,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#lmyyueiqzo .gt_column_spanner_outer {
+#xavmsoclfj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2801,15 +3278,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 4px;
 }
 
-#lmyyueiqzo .gt_column_spanner_outer:first-child {
+#xavmsoclfj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lmyyueiqzo .gt_column_spanner_outer:last-child {
+#xavmsoclfj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lmyyueiqzo .gt_column_spanner {
+#xavmsoclfj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2821,11 +3298,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   width: 100%;
 }
 
-#lmyyueiqzo .gt_spanner_row {
+#xavmsoclfj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lmyyueiqzo .gt_group_heading {
+#xavmsoclfj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2851,7 +3328,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   text-align: left;
 }
 
-#lmyyueiqzo .gt_empty_group_heading {
+#xavmsoclfj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2866,15 +3343,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: middle;
 }
 
-#lmyyueiqzo .gt_from_md > :first-child {
+#xavmsoclfj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lmyyueiqzo .gt_from_md > :last-child {
+#xavmsoclfj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lmyyueiqzo .gt_row {
+#xavmsoclfj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2893,7 +3370,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#lmyyueiqzo .gt_stub {
+#xavmsoclfj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2906,7 +3383,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#lmyyueiqzo .gt_stub_row_group {
+#xavmsoclfj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2920,15 +3397,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: top;
 }
 
-#lmyyueiqzo .gt_row_group_first td {
+#xavmsoclfj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lmyyueiqzo .gt_row_group_first th {
+#xavmsoclfj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lmyyueiqzo .gt_summary_row {
+#xavmsoclfj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2938,16 +3415,16 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#lmyyueiqzo .gt_first_summary_row {
+#xavmsoclfj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_first_summary_row.thick {
+#xavmsoclfj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lmyyueiqzo .gt_last_summary_row {
+#xavmsoclfj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2957,7 +3434,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_grand_summary_row {
+#xavmsoclfj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2967,7 +3444,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#lmyyueiqzo .gt_first_grand_summary_row {
+#xavmsoclfj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2977,7 +3454,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_last_grand_summary_row_top {
+#xavmsoclfj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2987,11 +3464,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_striped {
+#xavmsoclfj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lmyyueiqzo .gt_table_body {
+#xavmsoclfj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3000,7 +3477,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_footnotes {
+#xavmsoclfj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3014,7 +3491,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_footnote {
+#xavmsoclfj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3023,7 +3500,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#lmyyueiqzo .gt_sourcenotes {
+#xavmsoclfj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3037,7 +3514,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#lmyyueiqzo .gt_sourcenote {
+#xavmsoclfj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3045,72 +3522,72 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#lmyyueiqzo .gt_left {
+#xavmsoclfj .gt_left {
   text-align: left;
 }
 
-#lmyyueiqzo .gt_center {
+#xavmsoclfj .gt_center {
   text-align: center;
 }
 
-#lmyyueiqzo .gt_right {
+#xavmsoclfj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lmyyueiqzo .gt_font_normal {
+#xavmsoclfj .gt_font_normal {
   font-weight: normal;
 }
 
-#lmyyueiqzo .gt_font_bold {
+#xavmsoclfj .gt_font_bold {
   font-weight: bold;
 }
 
-#lmyyueiqzo .gt_font_italic {
+#xavmsoclfj .gt_font_italic {
   font-style: italic;
 }
 
-#lmyyueiqzo .gt_super {
+#xavmsoclfj .gt_super {
   font-size: 65%;
 }
 
-#lmyyueiqzo .gt_footnote_marks {
+#xavmsoclfj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lmyyueiqzo .gt_asterisk {
+#xavmsoclfj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lmyyueiqzo .gt_indent_1 {
+#xavmsoclfj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lmyyueiqzo .gt_indent_2 {
+#xavmsoclfj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lmyyueiqzo .gt_indent_3 {
+#xavmsoclfj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lmyyueiqzo .gt_indent_4 {
+#xavmsoclfj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lmyyueiqzo .gt_indent_5 {
+#xavmsoclfj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lmyyueiqzo .katex-display {
+#xavmsoclfj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lmyyueiqzo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xavmsoclfj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3298,20 +3775,39 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_flex_table</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  flextable<span class="sc">::</span><span class="fu">save_as_docx</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="st">"table1.docx"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>label = list(gender ~ "Gender", ...)</code> gives each row a readable name. Read each <code>~</code> as “gets the label”.</li>
+<li><code>statistic = all_continuous() ~ "{mean} ({sd})"</code> shows mean (SD) instead of median and percentiles for every number column. gtsummary fills in the words in <code>{ }</code>.</li>
+<li><code>missing_text = "Missing"</code> renames gtsummary’s missing-values row from “Unknown” to “Missing”, so it can’t be confused with a category.</li>
+<li><code>add_overall()</code> adds a column for all patients together, <code>bold_labels()</code> makes the variable names bold, and <code>modify_caption()</code> adds the title (the <code>**</code> make it bold).</li>
+<li>In the second block, <code>as_flex_table()</code> turns the table into a flextable, and <code>flextable::save_as_docx()</code> writes it to the Word file <code>outputs/table1.docx</code>.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (6 min): a measles Table 1
+<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (6 min): a measles Table 1
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Make a <code>tbl_summary()</code> of measles cases by outcome (leave out “Unknown” outcomes) with <code>sex</code>, <code>age_years</code>, <code>age_cat</code>, <code>vaccinated</code>, <code>rash</code>, <code>temp_c</code>, and <code>days_in_hospital</code>. Give the rows nice labels and add an overall column.</p>
 <p>✅ <strong>Check:</strong> the column headers say Overall N = 1,098, Recovered N = 1,048, Died N = 50</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -3320,7 +3816,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>measles_table1 <span class="ot">&lt;-</span> measles <span class="sc">%&gt;%</span></span>
@@ -3346,23 +3842,23 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>measles_table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="idqucprmmn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#idqucprmmn table {
+<div id="simangwxrb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#simangwxrb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#idqucprmmn thead, #idqucprmmn tbody, #idqucprmmn tfoot, #idqucprmmn tr, #idqucprmmn td, #idqucprmmn th {
+#simangwxrb thead, #simangwxrb tbody, #simangwxrb tfoot, #simangwxrb tr, #simangwxrb td, #simangwxrb th {
   border-style: none;
 }
 
-#idqucprmmn p {
+#simangwxrb p {
   margin: 0;
   padding: 0;
 }
 
-#idqucprmmn .gt_table {
+#simangwxrb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3388,12 +3884,12 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-left-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_caption {
+#simangwxrb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#idqucprmmn .gt_title {
+#simangwxrb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3405,7 +3901,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-width: 0;
 }
 
-#idqucprmmn .gt_subtitle {
+#simangwxrb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3417,7 +3913,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-width: 0;
 }
 
-#idqucprmmn .gt_heading {
+#simangwxrb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3429,13 +3925,13 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_bottom_border {
+#simangwxrb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_col_headings {
+#simangwxrb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3450,7 +3946,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_col_heading {
+#simangwxrb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3470,7 +3966,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#idqucprmmn .gt_column_spanner_outer {
+#simangwxrb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3482,15 +3978,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 4px;
 }
 
-#idqucprmmn .gt_column_spanner_outer:first-child {
+#simangwxrb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#idqucprmmn .gt_column_spanner_outer:last-child {
+#simangwxrb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#idqucprmmn .gt_column_spanner {
+#simangwxrb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3502,11 +3998,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   width: 100%;
 }
 
-#idqucprmmn .gt_spanner_row {
+#simangwxrb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#idqucprmmn .gt_group_heading {
+#simangwxrb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3532,7 +4028,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   text-align: left;
 }
 
-#idqucprmmn .gt_empty_group_heading {
+#simangwxrb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3547,15 +4043,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: middle;
 }
 
-#idqucprmmn .gt_from_md > :first-child {
+#simangwxrb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#idqucprmmn .gt_from_md > :last-child {
+#simangwxrb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#idqucprmmn .gt_row {
+#simangwxrb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3574,7 +4070,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   overflow-x: hidden;
 }
 
-#idqucprmmn .gt_stub {
+#simangwxrb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3587,7 +4083,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#idqucprmmn .gt_stub_row_group {
+#simangwxrb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3601,15 +4097,15 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   vertical-align: top;
 }
 
-#idqucprmmn .gt_row_group_first td {
+#simangwxrb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#idqucprmmn .gt_row_group_first th {
+#simangwxrb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#idqucprmmn .gt_summary_row {
+#simangwxrb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3619,16 +4115,16 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#idqucprmmn .gt_first_summary_row {
+#simangwxrb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_first_summary_row.thick {
+#simangwxrb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#idqucprmmn .gt_last_summary_row {
+#simangwxrb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3638,7 +4134,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_grand_summary_row {
+#simangwxrb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3648,7 +4144,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#idqucprmmn .gt_first_grand_summary_row {
+#simangwxrb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3658,7 +4154,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-top-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_last_grand_summary_row_top {
+#simangwxrb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3668,11 +4164,11 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_striped {
+#simangwxrb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#idqucprmmn .gt_table_body {
+#simangwxrb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3681,7 +4177,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-bottom-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_footnotes {
+#simangwxrb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3695,7 +4191,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_footnote {
+#simangwxrb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3704,7 +4200,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#idqucprmmn .gt_sourcenotes {
+#simangwxrb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3718,7 +4214,7 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   border-right-color: #D3D3D3;
 }
 
-#idqucprmmn .gt_sourcenote {
+#simangwxrb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3726,72 +4222,72 @@ N = 2,840<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
   padding-right: 5px;
 }
 
-#idqucprmmn .gt_left {
+#simangwxrb .gt_left {
   text-align: left;
 }
 
-#idqucprmmn .gt_center {
+#simangwxrb .gt_center {
   text-align: center;
 }
 
-#idqucprmmn .gt_right {
+#simangwxrb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#idqucprmmn .gt_font_normal {
+#simangwxrb .gt_font_normal {
   font-weight: normal;
 }
 
-#idqucprmmn .gt_font_bold {
+#simangwxrb .gt_font_bold {
   font-weight: bold;
 }
 
-#idqucprmmn .gt_font_italic {
+#simangwxrb .gt_font_italic {
   font-style: italic;
 }
 
-#idqucprmmn .gt_super {
+#simangwxrb .gt_super {
   font-size: 65%;
 }
 
-#idqucprmmn .gt_footnote_marks {
+#simangwxrb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#idqucprmmn .gt_asterisk {
+#simangwxrb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#idqucprmmn .gt_indent_1 {
+#simangwxrb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#idqucprmmn .gt_indent_2 {
+#simangwxrb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#idqucprmmn .gt_indent_3 {
+#simangwxrb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#idqucprmmn .gt_indent_4 {
+#simangwxrb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#idqucprmmn .gt_indent_5 {
+#simangwxrb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#idqucprmmn .katex-display {
+#simangwxrb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#idqucprmmn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#simangwxrb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3959,6 +4455,23 @@ N = 50<span class="gt_footnote_marks" style="white-space:nowrap;font-style:itali
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>A Table 1 usually shows categories as n (%) and numbers as median (IQR) or mean (SD), and reports missing values. Many journals, and the CONSORT guidelines for trials, advise against p-values in a Table 1 that describes the groups.</li>
+<li>If something in the Word table needs to change, change the code and save the table again, rather than editing the Word file by hand. That way the table always matches the data.</li>
+<li>gtsummary can also make tables of regression results (<code>tbl_regression()</code>), with the same style.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">

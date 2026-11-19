@@ -497,6 +497,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Before you start:</strong> open the workshop folder in Positron (<strong>File → Open Folder…</strong>) and open <code>student_scripts/Session 3 - Missing Data, Joins, and Export_STUDENT.R</code>. We start from <code>processed_data/linelist_clean.rds</code> and <code>processed_data/measles_clean.rds</code>, which you saved at the end of Session 2. Missed Session 2? Ready-made copies of both files are already in <code>processed_data/</code>.</p>
 </div>
 </div>
+<p><strong>Where this session fits.</strong> Today finishes <strong>Clean</strong> (missing values, rows with no ID, and duplicates), then covers <strong>Combine</strong> (adding a second dataset with a join) and <strong>Save and share</strong> (exporting the finished data).</p>
+<div class="workflow">
+<ol type="1">
+<li><span class="step">Import</span></li>
+<li><span class="step">Inspect</span></li>
+<li><span class="step today">Clean</span></li>
+<li><span class="step today">Combine</span></li>
+<li><span class="step">Reshape</span></li>
+<li><span class="step">Summarize</span></li>
+<li><span class="step">Visualize</span></li>
+<li><span class="step today">Save and share</span></li>
+<li><span class="step">Automate</span></li>
+</ol>
+</div>
 <p>Today you finish <strong>two</strong> datasets side by side, so they are ready for analysis:</p>
 <ul>
 <li><code>linelist_clean</code> → <code>linelist_final</code> → <code>combined_linelist</code> (follow along)</li>
@@ -504,15 +518,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
+<div class="follow-along">
+<p><strong>👀 Follow along 1.1</strong> — Load today’s packages: tidyverse, here, rio, janitor, and skimr.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"linelist_clean.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>case_info      <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"case_info.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The same five <code>library()</code> lines as last session. Packages stay loaded only until you close Positron or restart R, so every session starts with them.</li>
+</ul>
+</div>
+</div>
+<div class="follow-along">
+<p><strong>👀 Follow along 1.2</strong> — Import <code>processed_data/linelist_clean.rds</code> (<code>linelist_clean</code>) and <code>raw_data/case_info.csv</code> (<code>case_info</code>).</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"linelist_clean.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>case_info      <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"case_info.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist_clean</code> is the cleaned linelist you saved at the end of Session 2: 6604 rows and 16 columns, with the dates still dates and the missing values still <code>NA</code>. That’s what <code>.rds</code> files keep.</li>
+<li><code>case_info</code> comes straight from the raw data: 5888 rows and 7 columns. It has one row per case, with its <code>case_id</code> and its symptoms (<code>fever</code>, <code>chills</code>, <code>cough</code>, <code>aches</code>, <code>vomit</code>) and temperature (<code>temp</code>). We join it to the linelist in Part 6.</li>
+<li>The extra spaces after <code>case_info</code> only line up the <code>&lt;-</code> arrows to make the code easier to read. R ignores them.</li>
+</ul>
+</div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -560,14 +613,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (2 min): import the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 1 (2 min): import the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Import <code>processed_data/measles_clean.rds</code> (as <code>measles_clean</code>, with <code>trust = TRUE</code>) and <code>raw_data/district_info.csv</code> (as <code>district_info</code>).</p>
 <p>✅ <strong>Check:</strong> <code>measles_clean</code> has 1215 rows; <code>district_info</code> has 5 rows</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -576,17 +629,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_clean.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>district_info <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"district_info.csv"</span>))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_clean.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>district_info <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"district_info.csv"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1215</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>district_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>district_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  district population n_clinics
 1    North     185000        12
@@ -605,8 +658,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-2-where-is-data-missing" class="level1">
 <h1>Part 2: Where is data missing?</h1>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.1</strong> — Count the missing values in each column with <code>colSums(is.na(linelist_clean))</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(linelist_clean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(linelist_clean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          case_id date_of_infection        onset_date     hospital_date 
               130              2315               286                 0 
@@ -619,7 +675,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>is.na()</code> gives TRUE for every missing cell; <code>colSums()</code> adds up each column (TRUE counts as 1). You get one number per column.</li>
+<li><code>case_id</code> is missing for 130 rows, <code>outcome</code> for 1493, and <code>bmi</code> for 1382: the impossible BMIs you set to <code>NA</code> in Session 2 are counted here too.</li>
+<li><code>hospital_name</code> has 0, because in Session 2 every missing or unclear hospital became “Other/Unknown”; the original <code>hospital</code> column still has its 1509 NAs.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -628,7 +701,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>No!</p>
 <ul>
@@ -656,32 +729,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.2</strong> — How many rows would <code>drop_na(bmi)</code> remove? Compare <code>nrow()</code> before and after.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop_na() example: how many rows would we lose?</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop_na() example: how many rows would we lose?</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6604</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(bmi) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(bmi) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5222</code></pre>
 </div>
 </div>
 <p><code>drop_na(bmi)</code> would throw away 1382 patients — more than one in five. That is why we don’t do it here.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>nrow(linelist_clean)</code> counts all rows: 6604.</li>
+<li><code>linelist_clean %&gt;% drop_na(bmi) %&gt;% nrow()</code> removes every row where <code>bmi</code> is missing, then counts what’s left: 5222.</li>
+<li>Nothing is saved, because there is no <code>&lt;-</code>. This only shows what <code>drop_na()</code> <em>would</em> do, so you can decide before you lose data.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (2 min): missing values in the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 2 (2 min): missing values in the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Count the missing values in each column of <code>measles_clean</code>. Which column has missing values that are <strong>not</strong> a mistake?</p>
 <p>✅ <strong>Check:</strong> <code>days_in_hospital</code> has the most NAs (766)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -690,10 +783,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(measles_clean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(measles_clean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      patient_id      report_date         district              sex 
               37               29               34               40 
@@ -709,16 +802,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>R has one missing-value marker, <code>NA</code>, but a dataset often hides missing values in other ways: an empty cell, a space, “N/A”, “unknown”, or a code like 999 (as in the measles ages). Look for those with <code>count()</code> and turn them into <code>NA</code> before counting what’s missing.</li>
+<li>Most summary functions return <code>NA</code> if any value is missing: <code>mean(c(1, NA, 3))</code> is <code>NA</code>. Add <code>na.rm = TRUE</code> to skip the missing values: <code>mean(c(1, NA, 3), na.rm = TRUE)</code> is 2.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="part-3-rows-with-no-id" class="level1">
 <h1>Part 3: Rows with no ID</h1>
 <p>In Part 6 we join <code>case_info</code> on <code>case_id</code>, so rows without an ID can’t be linked. Instead of deleting them, we save them <strong>separately</strong> with new IDs so they are not lost.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.1</strong> — Create <code>missing_ids</code>: <code>filter(is.na(case_id))</code>, then give each row a new <code>case_id</code> with <code>paste0()</code>, <code>sprintf()</code>, and <code>row_number()</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">case_id =</span> <span class="fu">paste0</span>(<span class="st">"ID"</span>, <span class="fu">sprintf</span>(<span class="st">"%05d"</span>, <span class="fu">row_number</span>())))</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="sc">%&gt;%</span> <span class="fu">select</span>(case_id, gender, age_years, outcome) <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">case_id =</span> <span class="fu">paste0</span>(<span class="st">"ID"</span>, <span class="fu">sprintf</span>(<span class="st">"%05d"</span>, <span class="fu">row_number</span>())))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="sc">%&gt;%</span> <span class="fu">select</span>(case_id, gender, age_years, outcome) <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  case_id gender age_years outcome
 1 ID00001   male      0.75 Recover
@@ -728,7 +840,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 ID00005   male      0.00 Recover
 6 ID00006 female      1.00   Death</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(missing_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(missing_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 130</code></pre>
 </div>
@@ -738,13 +850,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>sprintf("%05d", 1)</code> pads a number with zeros to 5 digits: <code>"00001"</code></li>
 <li><code>paste0()</code> glues text together: <code>"ID"</code> + <code>"00001"</code> = <code>"ID00001"</code></li>
 </ul>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>filter(is.na(case_id))</code> keeps only the 130 rows with no ID.</li>
+<li><code>mutate(case_id = ...)</code> overwrites the empty <code>case_id</code> column with new IDs, built from the three functions above: ID00001 for the first row up to ID00130 for the last.</li>
+<li>The new IDs start with “ID” so nobody can mistake them for real case IDs.</li>
+<li>The last two lines show 6 of the rows (only four columns, so they fit) and count them: 130.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): measles rows with no ID
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (3 min): measles rows with no ID
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -752,7 +882,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Pattern: <code>paste0("NEW-", sprintf("%04d", row_number()))</code></p>
 <p>✅ <strong>Check:</strong> <code>measles_missing_ids</code> has 37 rows</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -761,14 +891,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>measles_missing_ids <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(patient_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">patient_id =</span> <span class="fu">paste0</span>(<span class="st">"NEW-"</span>, <span class="fu">sprintf</span>(<span class="st">"%04d"</span>, <span class="fu">row_number</span>())))</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_missing_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>measles_missing_ids <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(patient_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">patient_id =</span> <span class="fu">paste0</span>(<span class="st">"NEW-"</span>, <span class="fu">sprintf</span>(<span class="st">"%04d"</span>, <span class="fu">row_number</span>())))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_missing_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37</code></pre>
 </div>
@@ -783,30 +913,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-4-duplicates" class="level1">
 <h1>Part 4: Duplicates</h1>
 <p><code>distinct()</code> keeps one copy of each row that appears more than once.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.1</strong> — Create <code>linelist_final</code>: keep the rows that have a <code>case_id</code> with <code>filter(!is.na(case_id))</code>, then remove exact copies with <code>distinct()</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span>     <span class="co"># keep rows that HAVE an ID (! means "not")</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span>     <span class="co"># keep rows that HAVE an ID (! means "not")</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6604</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6451</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>!</code> means “not”, so <code>!is.na(case_id)</code> is TRUE for rows that <strong>have</strong> an ID. <code>filter()</code> keeps those: 6604 − 130 = 6474 rows.</li>
+<li><code>distinct()</code> then keeps one copy of every row that appears more than once, leaving 6451. That’s 23 copies removed. (Session 1 found 25 duplicate rows; the other 2 were among the rows with no ID, which are already set aside in <code>missing_ids</code>.)</li>
+<li>The two <code>nrow()</code> lines show the counts before (6604) and after (6451).</li>
+</ul>
+</div>
+</div>
 <p>Removing exact copies is safe. But some <strong>IDs</strong> still appear more than once, with different details:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.2</strong> — Do any IDs still appear more than once? <code>get_dupes(case_id)</code></p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span> <span class="fu">get_dupes</span>(case_id) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span> <span class="fu">get_dupes</span>(case_id) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1106</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_dupes</span>(case_id) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, dupe_count, gender, age_years, onset_date, outcome) <span class="sc">%&gt;%</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_dupes</span>(case_id) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, dupe_count, gender, age_years, onset_date, outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  case_id dupe_count gender age_years onset_date outcome
 1  04c762          3 female         3 2014-11-08 Recover
@@ -818,20 +971,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>These rows are <strong>not</strong> exact copies (every column the same), so <code>distinct()</code> keeps them. Deciding which record is correct needs a person — in a real project, you would ask whoever collected the data. We keep them for this workshop.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>get_dupes(case_id)</code> (janitor) checks only the <code>case_id</code> column, not the whole row. It returns every row whose ID appears more than once, with a <code>dupe_count</code> column saying how many times.</li>
+<li>The first line counts those rows: 1106 rows, sharing 543 IDs.</li>
+<li>The second pipeline shows the first 6, with a few columns picked by <code>select()</code>, so you can compare the records that share an ID.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): measles duplicates
+<span class="screen-reader-only">Important</span>✏️ TRY IT 4 (3 min): measles duplicates
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Create <code>measles_final</code> from <code>measles_clean</code>: keep rows that have a <code>patient_id</code>, then remove exact duplicates. How many rows did <code>distinct()</code> remove?</p>
 <p>✅ <strong>Check:</strong> 1178 rows after <code>filter()</code>, 1163 after <code>distinct()</code></p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -840,20 +1010,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(patient_id))</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(patient_id))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1178</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1163</code></pre>
 </div>
@@ -864,24 +1034,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Two kinds of duplicates need different handling. <strong>Exact copies</strong> (every column the same) are usually the same record entered twice, so <code>distinct()</code> can remove them safely. <strong>Repeated IDs with different details</strong> may be two patients given the same ID, or one patient updated later. Don’t delete those without checking.</li>
+<li><code>distinct(case_id, .keep_all = TRUE)</code> would keep only the first row for each ID. It’s quick, but it decides for you which record survives.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="part-5-replacing-missing-values-and-choosing-columns" class="level1">
 <h1>Part 5: Replacing missing values and choosing columns</h1>
 <section id="replace_na-with-across" class="level2">
 <h2 class="anchored" data-anchor-id="replace_na-with-across"><code>replace_na()</code> with <code>across()</code></h2>
 <p><code>across()</code> applies the same function to many columns at once. Here: for every <strong>text</strong> column, replace <code>NA</code> with <code>"Unknown"</code>.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.1</strong> — Replace <code>NA</code> with “Unknown” in every text column of <code>linelist_final</code>. Check with <code>count(gender)</code> and <code>count(outcome)</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_final <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">replace_na</span>(.x, <span class="st">"Unknown"</span>)))</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span> <span class="fu">count</span>(gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_final <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">replace_na</span>(.x, <span class="st">"Unknown"</span>)))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span> <span class="fu">count</span>(gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   gender    n
 1 Unknown  304
 2  female 3073
 3    male 3074</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span> <span class="fu">count</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="sc">%&gt;%</span> <span class="fu">count</span>(outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  outcome    n
 1   Death 2840
@@ -890,6 +1079,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Read <code>~ replace_na(.x, "Unknown")</code> as: “for each column (<code>.x</code>), replace its NAs with Unknown”. <code>where(is.character)</code> picks only text columns, so number and date columns keep their NAs.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>where(is.character)</code> picks the text columns: <code>case_id</code>, <code>outcome</code>, <code>gender</code>, <code>hospital</code>, <code>age_unit</code>, <code>hospital_name</code>, and <code>age_cat</code>.</li>
+<li><code>across(...)</code> runs <code>replace_na(.x, "Unknown")</code> on each of them, and <code>mutate()</code> saves the result back into the same columns.</li>
+<li><code>count(gender)</code> now shows Unknown 304 instead of <code>NA</code>, and <code>count(outcome)</code> shows Unknown 1453. The numbers didn’t change, only the label.</li>
+<li>Why bother? Text “Unknown” shows up in tables and plots as a category of its own, while <code>NA</code> is easy to drop by accident (as <code>table()</code> did in Session 1).</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -907,13 +1114,16 @@ Note
 <section id="select-choose-and-order-columns" class="level2">
 <h2 class="anchored" data-anchor-id="select-choose-and-order-columns"><code>select()</code>: choose and order columns</h2>
 <p>We no longer need the original <code>hospital</code>, <code>age</code>, and <code>age_unit</code> columns — <code>hospital_name</code> and <code>age_years</code> replace them. <code>select()</code> keeps columns in the order you list them.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.2</strong> — <code>select()</code> <code>case_id</code>, <code>gender</code>, <code>age_years</code>, <code>age_cat</code>, <code>wt_kg</code>, <code>ht_cm</code>, <code>bmi</code>, the four date columns, <code>hospital_name</code>, and <code>outcome</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_final <span class="sc">%&gt;%</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>         date_of_infection, onset_date, hospital_date, date_of_outcome,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>         hospital_name, outcome)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_final <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>         date_of_infection, onset_date, hospital_date, date_of_outcome,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>         hospital_name, outcome)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 6,451
 Columns: 13
@@ -930,6 +1140,23 @@ $ hospital_date     &lt;date&gt; 2014-05-15, 2014-05-14, 2014-05-18, 2014-05-20,
 $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 2014-05…
 $ hospital_name     &lt;chr&gt; "Other/Unknown", "Other/Unknown", "St. Mark's Matern…
 $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Recover…</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>select()</code> keeps the 13 columns you list, in that order, and drops the other 3 (<code>hospital</code>, <code>age</code>, and <code>age_unit</code>).</li>
+<li>A long list can go over several lines. R knows the command isn’t finished until the closing bracket.</li>
+<li><code>glimpse()</code> confirms the result: 6451 rows and 13 columns, with each column’s type.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -949,13 +1176,13 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 <section id="the-whole-thing-as-one-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="the-whole-thing-as-one-pipeline">The whole thing as one pipeline</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">replace_na</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>         date_of_infection, onset_date, hospital_date, date_of_outcome,</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>         hospital_name, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>linelist_final <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">replace_na</span>(.x, <span class="st">"Unknown"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         date_of_infection, onset_date, hospital_date, date_of_outcome,</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>         hospital_name, outcome)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -963,14 +1190,14 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (3 min): replace missing text
+<span class="screen-reader-only">Important</span>✏️ TRY IT 5 (3 min): replace missing text
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Replace <code>NA</code> with “Unknown” in every text column of <code>measles_final</code>. Why does <code>days_in_hospital</code> still have NAs?</p>
 <p>✅ <strong>Check:</strong> <code>count(district)</code> now shows Unknown (34) instead of NA</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -979,13 +1206,13 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">replace_na</span>(.x, <span class="st">"Unknown"</span>)))</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>measles_final <span class="sc">%&gt;%</span> <span class="fu">count</span>(district)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">replace_na</span>(.x, <span class="st">"Unknown"</span>)))</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>measles_final <span class="sc">%&gt;%</span> <span class="fu">count</span>(district)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  district   n
 1  Central 110
@@ -1009,11 +1236,14 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 <section id="how-joins-work" class="level2">
 <h2 class="anchored" data-anchor-id="how-joins-work">How joins work</h2>
 <p>A join combines two data frames by matching rows on a <strong>key</strong> column that both share. A tiny example first:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.1</strong> — A tiny example. Make <code>patients</code> (id 1, 2, 3) and <code>labs</code> (id 2, 3, 4) with <code>tibble()</code>, then try four joins on them.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Ben"</span>, <span class="st">"Cho"</span>))</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>labs     <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="at">result =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>, <span class="st">"positive"</span>))</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)    <span class="co"># all patients; NA where no lab result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Ben"</span>, <span class="st">"Cho"</span>))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>labs     <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="at">result =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>, <span class="st">"positive"</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)    <span class="co"># all patients; NA where no lab result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
      id name  result  
@@ -1022,7 +1252,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 2     2 Ben   positive
 3     3 Cho   negative</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)   <span class="co"># only ids in BOTH</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)   <span class="co"># only ids in BOTH</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
      id name  result  
@@ -1030,7 +1260,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 1     2 Ben   positive
 2     3 Cho   negative</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)    <span class="co"># everyone from both</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)    <span class="co"># everyone from both</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
      id name  result  
@@ -1040,12 +1270,30 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 3     3 Cho   negative
 4     4 &lt;NA&gt;  positive</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)    <span class="co"># patients with NO lab result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)    <span class="co"># patients with NO lab result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
      id name 
   &lt;dbl&gt; &lt;chr&gt;
 1     1 Ana  </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>tibble()</code> makes a small data frame, just like <code>data.frame()</code> in Session 1.</li>
+<li><code>patients</code> has ids 1, 2, 3 and <code>labs</code> has ids 2, 3, 4, so ids 2 and 3 are in both, 1 is only in <code>patients</code>, and 4 is only in <code>labs</code>.</li>
+<li><code>left_join()</code> keeps all 3 patients; Ana (id 1) gets <code>NA</code> for <code>result</code> because she has no lab. <code>inner_join()</code> keeps only the 2 ids in both. <code>full_join()</code> keeps all 4 ids. <code>anti_join()</code> returns the 1 patient with no lab.</li>
+<li><code>by = "id"</code> names the <strong>key</strong>: the column used to match rows. It must exist in both data frames.</li>
+</ul>
 </div>
 </div>
 <table class="caption-top table">
@@ -1094,21 +1342,24 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <div class="callout-body-container callout-body">
 <p>Base R joins with one function, <code>merge()</code>. The <code>all</code> arguments choose the type of join:</p>
+<div class="follow-along">
+<p><strong>🔁 Follow along 6.2</strong> — The base R way: <code>merge()</code> with and without <code>all.x = TRUE</code>, then find patients with no lab result with <code>%in%</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)                <span class="co"># inner join (the default!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)                <span class="co"># inner join (the default!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id name   result
 1  2  Ben positive
 2  3  Cho negative</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)  <span class="co"># left join</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)  <span class="co"># left join</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id name   result
 1  1  Ana     &lt;NA&gt;
 2  2  Ben positive
 3  3  Cho negative</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)    <span class="co"># full join</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)    <span class="co"># full join</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id name   result
 1  1  Ana     &lt;NA&gt;
@@ -1119,16 +1370,33 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <p>Watch out: <code>merge()</code> keeps only matching rows <strong>unless you say otherwise</strong>, and it sorts the result by the key. <code>%in%</code> asks “is each value found in the other vector?”, and gives one TRUE/FALSE per value. It is the base R way to find rows with no match:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>patients<span class="sc">$</span>id <span class="sc">%in%</span> labs<span class="sc">$</span>id</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>patients<span class="sc">$</span>id <span class="sc">%in%</span> labs<span class="sc">$</span>id</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE  TRUE  TRUE</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>patients[<span class="sc">!</span>patients<span class="sc">$</span>id <span class="sc">%in%</span> labs<span class="sc">$</span>id, ]   <span class="co"># the same as anti_join()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>patients[<span class="sc">!</span>patients<span class="sc">$</span>id <span class="sc">%in%</span> labs<span class="sc">$</span>id, ]   <span class="co"># the same as anti_join()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
      id name 
   &lt;dbl&gt; &lt;chr&gt;
 1     1 Ana  </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>merge(patients, labs, by = "id")</code> gives 2 rows: like <code>inner_join()</code>, it keeps only the matches unless you ask for more. <code>all.x = TRUE</code> keeps every row of the first data frame (a left join), and <code>all = TRUE</code> keeps every row of both (a full join).</li>
+<li><code>patients$id %in% labs$id</code> checks each patient id against the lab ids: FALSE TRUE TRUE (only id 1 has no lab).</li>
+<li><code>!</code> flips that to TRUE FALSE FALSE, and <code>patients[ROWS, ]</code> keeps the rows where it’s TRUE: Ana. The empty space after the comma means “all columns”. You’ll learn this bracket style in Session 4.</li>
+</ul>
 </div>
 </div>
 <p><code>%in%</code> is worth learning well: you will use it inside <code>filter()</code> too, for example <code>filter(district %in% c("North", "South"))</code>.</p>
@@ -1137,8 +1405,12 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </section>
 <section id="join-the-case-information" class="level2">
 <h2 class="anchored" data-anchor-id="join-the-case-information">Join the case information</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.3</strong> — Create <code>combined_linelist</code> by <code>left_join()</code>-ing <code>case_info</code> to <code>linelist_final</code>.</p>
+<p>Pattern: <code>NEW_DATA &lt;- MAIN_DATA %&gt;% left_join(OTHER_DATA, by = "KEY_COLUMN")</code></p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(case_info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(case_info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 5,888
 Columns: 7
@@ -1150,10 +1422,10 @@ $ aches   &lt;chr&gt; "no", "Unknown", "Unknown", "no", "no", "no", "Unknown", "
 $ vomit   &lt;chr&gt; "yes", "Unknown", "Unknown", "no", "yes", "yes", "Unknown", "y…
 $ temp    &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 36.4, 35.9, 36…</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>combined_linelist <span class="ot">&lt;-</span> linelist_final <span class="sc">%&gt;%</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(case_info, <span class="at">by =</span> <span class="st">"case_id"</span>)</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(combined_linelist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>combined_linelist <span class="ot">&lt;-</span> linelist_final <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(case_info, <span class="at">by =</span> <span class="st">"case_id"</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(combined_linelist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 6,451
 Columns: 19
@@ -1178,50 +1450,143 @@ $ vomit             &lt;chr&gt; "yes", "Unknown", "Unknown", "no", "yes", "yes",
 $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 36.4…</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧩 Reading a function call
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here is the join you just ran, taken apart:</p>
+<p><code>combined_linelist &lt;- linelist_final %&gt;% left_join(case_info, by = "case_id")</code></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Piece</th>
+<th>What it is</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>combined_linelist &lt;-</code></td>
+<td>a new object and the assignment arrow</td>
+<td>saves the joined data under a new name, so <code>linelist_final</code> stays as it was</td>
+</tr>
+<tr class="even">
+<td><code>linelist_final %&gt;%</code></td>
+<td>the main data frame, then the pipe</td>
+<td>passes <code>linelist_final</code> in as the <strong>first</strong> argument of <code>left_join()</code>: the data frame whose rows are all kept</td>
+</tr>
+<tr class="odd">
+<td><code>left_join(...)</code></td>
+<td>a function from dplyr (part of the tidyverse)</td>
+<td>adds columns from a second data frame to the first</td>
+</tr>
+<tr class="even">
+<td><code>case_info</code></td>
+<td>the second argument</td>
+<td>the data frame the new columns come from</td>
+</tr>
+<tr class="odd">
+<td><code>by = "case_id"</code></td>
+<td>a named argument</td>
+<td>the key: rows are matched where <code>case_id</code> is the same in both</td>
+</tr>
+</tbody>
+</table>
+<p>Without the pipe, the same line is <code>left_join(linelist_final, case_info, by = "case_id")</code>. Read it aloud as: “<code>combined_linelist</code> gets: take <code>linelist_final</code>, and then left-join <code>case_info</code> to it, matching on <code>case_id</code>.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>glimpse(case_info)</code> shows the 7 columns you’re about to add: <code>case_id</code> plus the symptoms and <code>temp</code>.</li>
+<li>The join goes through <code>linelist_final</code> row by row, finds the row in <code>case_info</code> with the same <code>case_id</code>, and copies its other 6 columns across.</li>
+<li><code>combined_linelist</code> has 6451 rows (the same as <code>linelist_final</code>) and 19 columns: the 13 you kept plus 6 from <code>case_info</code>. <code>case_id</code> appears only once.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="check-the-join" class="level2">
 <h2 class="anchored" data-anchor-id="check-the-join">Check the join</h2>
 <p>Always check the number of rows. A left join should <strong>not</strong> add rows — if it does, the key appears more than once in the second data frame.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.4</strong> — Check the join with <code>nrow()</code> and <code>anti_join()</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6451</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(combined_linelist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(combined_linelist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6451</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cases with no matching case_info (should be 0)</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(linelist_final, case_info, <span class="at">by =</span> <span class="st">"case_id"</span>) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cases with no matching case_info (should be 0)</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(linelist_final, case_info, <span class="at">by =</span> <span class="st">"case_id"</span>) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span>linelist_final<span class="sc">$</span>case_id <span class="sc">%in%</span> case_info<span class="sc">$</span>case_id)   <span class="co"># the same check in base R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span>linelist_final<span class="sc">$</span>case_id <span class="sc">%in%</span> case_info<span class="sc">$</span>case_id)   <span class="co"># the same check in base R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is case_id unique in case_info?</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>case_info <span class="sc">%&gt;%</span> <span class="fu">get_dupes</span>(case_id) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is case_id unique in case_info?</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>case_info <span class="sc">%&gt;%</span> <span class="fu">get_dupes</span>(case_id) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p>Same number of rows before and after, every case matched, and <code>case_id</code> is unique in <code>case_info</code>: the join worked.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The two <code>nrow()</code> lines both give 6451: the join added columns, not rows.</li>
+<li><code>anti_join(linelist_final, case_info, by = "case_id")</code> returns the cases that found no match in <code>case_info</code>; <code>nrow()</code> counts them: 0. The <code>%in%</code> line does the same check in base R and also gives 0.</li>
+<li><code>get_dupes(case_id)</code> on <code>case_info</code> finds no repeated IDs (it prints “No duplicate combinations found” and returns 0 rows). That matters: if an ID appeared twice in <code>case_info</code>, the left join would copy that case into two rows.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): join the district information
+<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (4 min): join the district information
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Add <code>district_info</code> to <code>measles_final</code> with <code>left_join()</code> (the key is <code>district</code>). Did the number of rows change? Which rows got no population, and why?</p>
-<p>HINT: <code>anti_join(measles_final, district_info, by = "district") %&gt;% count(district)</code></p>
+<p>Pattern: <code>anti_join(measles_final, district_info, by = "district") %&gt;% count(district)</code></p>
 <p>✅ <strong>Check:</strong> still 1163 rows; the 34 “Unknown” district rows have no population</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1230,17 +1595,17 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-34" class="callout-34-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(district_info, <span class="at">by =</span> <span class="st">"district"</span>)</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(district_info, <span class="at">by =</span> <span class="st">"district"</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1163</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(measles_final, district_info, <span class="at">by =</span> <span class="st">"district"</span>) <span class="sc">%&gt;%</span> <span class="fu">count</span>(district)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(measles_final, district_info, <span class="at">by =</span> <span class="st">"district"</span>) <span class="sc">%&gt;%</span> <span class="fu">count</span>(district)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  district  n
 1  Unknown 34</code></pre>
@@ -1250,6 +1615,23 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Before any join, ask two questions: Is the key spelled and formatted the same way in both data frames (“ID001” won’t match “id001” or “ID 001”)? And is the key unique in the data frame you’re adding? If not, rows multiply.</li>
+<li>When the key has different names in the two data frames, give both: <code>by = c("case_id" = "id")</code>.</li>
+<li>Joins are how you link different sources: lab results to patients, census figures to counties, survey answers to participants.</li>
+</ul>
 </div>
 </div>
 </section>
@@ -1289,14 +1671,34 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </tbody>
 </table>
 <p>We save the combined dataset both ways: <code>.rds</code> to keep working in R, <code>.csv</code> to share.</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 7.1</strong> — Save <code>combined_linelist</code> as <code>.rds</code>, and <code>linelist_final</code>, <code>missing_ids</code>, and <code>combined_linelist</code> as <code>.csv</code>, all in <code>processed_data/</code>.</p>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To keep working in R (Sessions 4–8 start from this file)</span></span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.rds"</span>))</span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To share</span></span>
-<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(linelist_final,    <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"linelist_final.csv"</span>))</span>
-<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(missing_ids,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"missing_ids.csv"</span>))</span>
-<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To keep working in R (Sessions 4–8 start from this file)</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.rds"</span>))</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To share</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(linelist_final,    <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"linelist_final.csv"</span>))</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(missing_ids,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"missing_ids.csv"</span>))</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>export(DATA, PATH)</code> writes a data frame to a file. Like <code>import()</code>, it chooses the format from the ending you give: <code>.rds</code> or <code>.csv</code>.</li>
+<li><code>here("processed_data", ...)</code> builds the path, so the files land in <code>processed_data/</code> on any computer. If a file with that name already exists, it’s replaced without asking.</li>
+<li>Nothing prints. Look in the <strong>Explorer</strong>: four files in <code>processed_data/</code>. The <code>.csv</code> copy of <code>combined_linelist</code> is about six times bigger than the <code>.rds</code> copy (about 780 KB vs 130 KB), because <code>.rds</code> files are compressed.</li>
+</ul>
+</div>
 </div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1304,14 +1706,14 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (2 min): save the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (2 min): save the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Save <code>measles_final</code> as <code>processed_data/measles_final.rds</code> <strong>and</strong> <code>measles_final.csv</code>, and <code>measles_missing_ids</code> as <code>processed_data/measles_missing_ids.csv</code>.</p>
 <p>✅ <strong>Check:</strong> three new files in <code>processed_data/</code> (look in the <strong>Explorer</strong>). You need <code>measles_final.rds</code> in Sessions 4–8!</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1320,12 +1722,12 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div id="callout-38" class="callout-38-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>))</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.csv"</span>))</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_missing_ids, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_missing_ids.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>))</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.csv"</span>))</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_missing_ids, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_missing_ids.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>.rds</code> file keeps the dates, number columns, and <code>NA</code>s exactly as they are, so every later session starts from it. The <code>.csv</code> files are for sharing.</p>
 </div>

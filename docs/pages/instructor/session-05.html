@@ -490,7 +490,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Make the Part 4 “case rates by district” TRY IT homework (nothing later depends on it). Don’t cut the measles Table 1 in Part 6 — it’s the payoff of the session.</p>
+<p><strong>Short on time?</strong> Make TRY IT 5 (case rates by district) homework (nothing later depends on it). Don’t cut TRY IT 7 (the measles Table 1) — it’s the payoff of the session.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -510,14 +510,15 @@ ul.task-list li input[type="checkbox"] {
 <li><em>How is this different from <code>count(age_cat, outcome)</code> without <code>group_by()</code>?</em> — Without grouping, the percentages are out of all 6,451 cases, so all rows together add up to 100%. With grouping, each age group adds up to 100%.</li>
 </ul>
 <p>Stress <code>ungroup()</code>: a grouped data frame stays grouped and can surprise them later.</p>
-<p><strong>Part 4 — <code>summarise()</code>.</strong> Show what happens without <code>na.rm = TRUE</code> (the whole result becomes <code>NA</code>). Connect <code>mean(fever == "yes")</code> to Session 4’s vectorization: TRUE/FALSE, <code>sum()</code> counts the TRUEs, <code>mean()</code> gives the proportion. In the “statistics by outcome” TRY IT, <code>days_in_hospital</code> needs <code>na.rm = TRUE</code> because non-hospitalized patients have <code>NA</code>. In the district rates TRY IT, point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the “Unknown” district gets no rate.</p>
-<p><strong>Part 5 — <code>tabyl()</code>.</strong> Spend a moment on the order of the <code>adorn_</code> functions — totals must come before percentages because they need the raw counts. The vaccination-and-death TRY IT (6.3% vs 0.7%) is a good moment to discuss what this data does and doesn’t show: it’s fictional practice data, the numbers of deaths are small (2 vaccinated deaths), and a crude cross-tab doesn’t adjust for anything (e.g.&nbsp;age).</p>
+<p><strong>Part 4 — <code>summarise()</code>.</strong> Show what happens without <code>na.rm = TRUE</code> (the whole result becomes <code>NA</code>). Connect <code>mean(fever == "yes")</code> to Session 4’s vectorization: TRUE/FALSE, <code>sum()</code> counts the TRUEs, <code>mean()</code> gives the proportion. In TRY IT 4 (statistics by outcome), <code>days_in_hospital</code> needs <code>na.rm = TRUE</code> because non-hospitalized patients have <code>NA</code>. In TRY IT 5 (district rates), point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the “Unknown” district gets no rate.</p>
+<p><strong>Part 5 — <code>tabyl()</code>.</strong> Spend a moment on the order of the <code>adorn_</code> functions — totals must come before percentages because they need the raw counts. TRY IT 6 (vaccination and death: 6.3% vs 0.7%) is a good moment to discuss what this data does and doesn’t show: it’s fictional practice data, the numbers of deaths are small (2 vaccinated deaths), and a crude cross-tab doesn’t adjust for anything (e.g.&nbsp;age).</p>
 <p><strong>Part 6 — Table 1.</strong> Explain why we turn “Unknown” back into <code>NA</code> with <code>na_if()</code>: in Session 3 we replaced <code>NA</code> with “Unknown” so missing values show up in counts, but <code>tbl_summary()</code> has its own Missing row. <code>na_if()</code> with <code>where(is.character)</code> only touches text columns, so factor columns (<code>age_cat</code>, <code>vaccinated</code>) keep “Unknown” as a category. Mention <code>add_p()</code> but only for analyses where a statistical test is planned. The Word export uses <code>as_flex_table() %&gt;% flextable::save_as_docx()</code>; have learners find <code>outputs/table1.docx</code> in the <strong>Explorer</strong> and open it. For the measles Table 1, point out that “Missing” days in hospital means <em>not hospitalized</em>, not lost data.</p>
 <p><strong>Wrap-up.</strong> Recap: <code>fct_relevel()</code>, <code>count()</code>, <code>group_by()</code>, <code>summarise()</code>, <code>across()</code>, <code>tabyl()</code> + <code>adorn_*()</code>, <code>tbl_summary()</code>. Preview <strong>Session 6 — Plotting basics:</strong> <code>ggplot2</code> from the ground up — histograms, scatter plots, and box plots.</p>
 <p><strong>🔁 Base R boxes (about 2 minutes each).</strong> Three short demos: <code>factor()</code>, <code>table()</code> + <code>prop.table()</code>, and <code>tapply()</code> / <code>aggregate()</code>. The goal is <em>reading</em> knowledge: learners will meet these in papers’ code, help pages, and AI answers. One point per box: <code>factor()</code> turns misspelled levels into <code>NA</code> without a warning; a <code>table</code> is not a data frame; <code>aggregate()</code> drops rows with missing values. If time is short, show them as “here’s what this looks like in base R” without asking learners to type along.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
+<p>The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.3 = Part 5, third prompt).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -531,31 +532,31 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Import the measles data</td>
+<td>1. Import the measles data</td>
 <td>1163 rows, 14 columns</td>
 </tr>
 <tr class="even">
-<td>Order the measles categories</td>
+<td>2. Order the measles categories</td>
 <td>One <code>mutate()</code> with three <code>fct_relevel()</code> lines; <code>count(age_cat)</code> starts with Under 5 (369)</td>
 </tr>
 <tr class="odd">
-<td>Vaccination coverage</td>
+<td>3. Vaccination coverage</td>
 <td>a) Yes 23.8% (277); b) 10-14 lowest at 21.2%</td>
 </tr>
 <tr class="even">
-<td>Statistics by outcome</td>
+<td>4. Statistics by outcome</td>
 <td>Recovered n = 1048, median age 7; Died n = 50, median age 5 (Unknown n = 65)</td>
 </tr>
 <tr class="odd">
-<td>Case rates by district</td>
+<td>5. Case rates by district</td>
 <td>East highest 22.8 per 10,000; Central lowest 5.2; Unknown has no rate</td>
 </tr>
 <tr class="even">
-<td>Vaccination and death</td>
+<td>6. Vaccination and death</td>
 <td>6.3% of unvaccinated (45/709) vs 0.7% of vaccinated (2/277) died — fictional practice data</td>
 </tr>
 <tr class="odd">
-<td>A measles Table 1</td>
+<td>7. A measles Table 1</td>
 <td>Overall N = 1,098, Recovered N = 1,048, Died N = 50; 697 “Missing” days in hospital = not hospitalized</td>
 </tr>
 </tbody>

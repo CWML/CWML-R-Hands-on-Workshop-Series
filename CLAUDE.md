@@ -41,6 +41,17 @@ match across all of them.
   "🤔 Think about it" questions, "⚠️ Common mistakes" warning boxes, "🔁 The base R way"
   boxes, ⭐ Bonus, and Key points. Student scripts use 📖 notes and `Pattern:` comment lines,
   never `_` / `FUNCTION_NAME` blanks.
+- **Numbering:** Follow alongs are numbered by part (5.3 = Part 5, third one), TRY ITs 1, 2, 3…
+  straight through the session. The same labels appear in the student script, the solutions,
+  the lesson page (a `::: follow-along` box above the code, with the script's `Pattern:` line),
+  and the instructor answer table.
+- **Explanations are on the lesson page, for everyone** (librarians teach from it and patrons
+  reread it), not on the instructor pages:
+  - a `::: workflow` strip after "In this session" (Import → … → Automate, today's steps
+    marked `.today` and named in the sentence above it); the home page has the full strip
+  - an **open** "🔍 What this code does" callout after every Follow along's code
+  - "📖 Good to know" callouts with background at the end of a part
+  - one "🧩 Reading a function call" box per session, breaking down its key call
 - **Lesson pages speak to the learner** ("you"); timing, teaching notes, and "ask the class"
   prompts go on the instructor pages.
 - **IDE is Positron** for everyone, not RStudio: open the folder with File → Open Folder;

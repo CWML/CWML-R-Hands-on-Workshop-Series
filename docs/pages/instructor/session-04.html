@@ -490,7 +490,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Do the Part 7 TRY IT (district × vaccination table) together as a live demo instead of a solo exercise, and leave the ⭐ Bonus as homework. Don’t cut the Part 4 TRY IT — the base-R NA trap is the key lesson of the session.</p>
+<p><strong>Short on time?</strong> Do TRY IT 7 (district × vaccination table) together as a live demo instead of a solo exercise, and leave the ⭐ Bonus as homework. Don’t cut TRY IT 4 — the base-R NA trap is the key lesson of the session.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -505,7 +505,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Why this session matters.</strong> Sessions 1–3 used tidyverse functions that hide how R stores data. This session opens the hood. Vectors and vectorization explain <em>why</em> <code>mutate()</code> works on a whole column at once; base-R subsetting is everywhere in other people’s code, help pages, and Stack Overflow answers, and learners need it to write functions in Session 8; and reshaping is needed for many summaries and plots.</p>
 <p><strong>Part 2 — Vectors and types.</strong> Point out that <code>c(1, 2, "unknown")</code> is exactly why one “unknown” turned the whole <code>age</code> column into text in Session 1. Show that <code>ages</code> and the other objects appear in the <strong>Variables</strong> pane, which also shows each vector’s type and length.</p>
 <p><strong>Part 3 — Vectorization.</strong> Stress that <code>mutate()</code> is just a vectorized calculation on a column — no loop needed. Point out that <code>sum()</code>/<code>mean()</code> of a comparison counts/gives proportions; they will use <code>mean(fever == "yes") * 100</code> inside <code>summarise()</code> in Session 5.</p>
-<p><strong>Part 4 — Subsetting with base R.</strong> Rows first, then columns — have learners say it out loud. A common slip is forgetting the comma (<code>df[1:3]</code> picks columns). Spend time on the NA warning box: <code>nrow(linelist[linelist$temp &gt; 40, ])</code> gives <strong>244</strong>, <code>nrow(filter(linelist, temp &gt; 40))</code> gives <strong>93</strong> — base R adds a row of NAs for each of the 151 missing temperatures. The Part 4 TRY IT (c) repeats this trap on the measles data (225 vs 196, 29 missing ages), so let learners discover it before you explain.</p>
+<p><strong>Part 4 — Subsetting with base R.</strong> Rows first, then columns — have learners say it out loud. A common slip is forgetting the comma (<code>df[1:3]</code> picks columns). Spend time on the NA warning box: <code>nrow(linelist[linelist$temp &gt; 40, ])</code> gives <strong>244</strong>, <code>nrow(filter(linelist, temp &gt; 40))</code> gives <strong>93</strong> — base R adds a row of NAs for each of the 151 missing temperatures. TRY IT 4 (c) repeats this trap on the measles data (225 vs 196, 29 missing ages), so let learners discover it before you explain.</p>
 <p><strong>Part 5 — Lists.</strong> The one data structure the tidyverse sessions never show, and the one learners hit first in real analyses: every test and model result is a list, and so is every Bioconductor object. Use the box analogy: <code>[[ ]]</code> takes the item out of the box, <code>[ ]</code> gives a smaller box. Show <code>is.list(linelist)</code> — the “aha” that a data frame is a list of columns explains <code>$</code>, <code>[[ ]]</code>, and (in Session 8) why <code>map()</code> runs once per column. For <code>t.test()</code>, say explicitly that the statistics come later; the point here is the <em>shape</em> of the result. Expect the “exactly 2 levels” error if someone forgets to filter out “Unknown” — it’s a useful mistake.</p>
 <p><strong>Part 6 — Tidy data and <code>pivot_longer()</code>.</strong> Point out that “observation” depends on the question: wide symptoms are fine for one symptom at a time, but long format lets one <code>count()</code> handle all five. <code>nrow(symptoms_long)</code> is 32255 = 6451 patients × 5 symptoms. The plot is a preview of Session 6 — don’t explain ggplot yet.</p>
 <p><strong>Part 7 — <code>pivot_wider()</code>.</strong> Emphasize the rule of thumb: long for R, wide for people. Mention <code>values_fill = 0</code> (the hospital × outcome table has no empty combinations, so it isn’t needed here).</p>
@@ -513,6 +513,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
+<p>The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.3 = Part 5, third prompt).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -526,31 +527,31 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Import the measles data</td>
+<td>1. Import the measles data</td>
 <td><code>measles &lt;- import(here("processed_data", "measles_final.rds"), trust = TRUE)</code> — 1163 rows, 14 columns</td>
 </tr>
 <tr class="even">
-<td>Types in the measles data</td>
+<td>2. Types in the measles data</td>
 <td><code>"numeric"</code>, <code>"character"</code>, <code>"Date"</code>; length 1163</td>
 </tr>
 <tr class="odd">
-<td>Vectorized calculations</td>
+<td>3. Vectorized calculations</td>
 <td>a) starts 100.94, 101.12; b) 565 cases ≥ 39 °C; c) 0.238 (23.8%) vaccinated</td>
 </tr>
 <tr class="even">
-<td>Subsetting the measles data</td>
+<td>4. Subsetting the measles data</td>
 <td>a) first ID MS-0931; b) 38.75; c) base R 225 vs <code>filter()</code> 196 — 29 NA rows from missing ages; fix with <code>&amp; !is.na(measles$age_years)</code></td>
 </tr>
 <tr class="odd">
-<td>A test result is a list</td>
+<td>5. A test result is a list</td>
 <td><code>t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))</code>; p-value 0.565; means 38.80 (No) and 38.84 (Yes)</td>
 </tr>
 <tr class="even">
-<td>Measles symptoms long</td>
+<td>6. Measles symptoms long</td>
 <td>2326 rows (1163 × 2); fever yes 1064, rash yes 976</td>
 </tr>
 <tr class="odd">
-<td>District × vaccination table</td>
+<td>7. District × vaccination table</td>
 <td>6 rows (5 districts + Unknown), columns No / Unknown / Yes; North 205 / 49 / 88</td>
 </tr>
 </tbody>

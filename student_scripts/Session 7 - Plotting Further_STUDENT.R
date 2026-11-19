@@ -11,6 +11,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Stuck?           put up your red sticky note, or check
@@ -29,11 +31,11 @@
 #        vacc_colors <- c("Yes" = "#2a78d6", "No" = "#eb6834", "Unknown" = "#9a9a95")
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio; import combined_linelist.rds as linelist
+# 👀 Follow along 1.1: load tidyverse, here, rio; import combined_linelist.rds as linelist
 #    and fct_relevel() age_cat and outcome (same as Session 6)
 
 
-# ✏️ TRY IT (3 min): import measles_final.rds as measles, fct_relevel() age_cat and
+# ✏️ TRY IT 1 (3 min): import measles_final.rds as measles, fct_relevel() age_cat and
 #    vaccinated (same as Session 6), and save vacc_colors (above)
 #    ✅ Check: vacc_colors prints three named colors
 
@@ -54,16 +56,16 @@
 #    - y = NULL in labs() removes an axis title you don't need.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: geom_bar() with x = hospital_name, then y = hospital_name
+# 👀 Follow along 2.1: geom_bar() with x = hospital_name, then y = hospital_name
 
 
-# 👀 Follow along: order the bars with fct_rev(fct_infreq(hospital_name)), add a fill color and labs()
+# 👀 Follow along 2.2: order the bars with fct_rev(fct_infreq(hospital_name)), add a fill color and labs()
 
 
-# 👀 Follow along: x = age_cat, fill = outcome with position = "stack", "fill", and "dodge"
+# 👀 Follow along 2.3: x = age_cat, fill = outcome with position = "stack", "fill", and "dodge"
 
 
-# ✏️ TRY IT (3 min): a horizontal bar chart of measles cases by district, longest bar on top
+# ✏️ TRY IT 2 (3 min): a horizontal bar chart of measles cases by district, longest bar on top
 #    ✅ Check: North is at the top; Unknown is at the bottom
 
 
@@ -78,10 +80,10 @@
 #    - fct_reorder(CATEGORY, NUMBER) sorts the bars by the number.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: create death_by_age (percentage who died per age group), then geom_col()
+# 👀 Follow along 3.1: create death_by_age (percentage who died per age group), then geom_col()
 
 
-# ✏️ TRY IT (5 min):
+# ✏️ TRY IT 3 (5 min):
 #    a) calculate cases per 10,000 people by district (Session 5), leaving out "Unknown"
 #    b) plot it with geom_col(), using x = fct_reorder(district, rate_per_10k)
 #    ✅ Check: bars from Central (lowest, 5.2) to East (highest, 22.8)
@@ -100,11 +102,11 @@
 #    - Long x-axis labels: theme(axis.text.x = element_text(angle = 45, hjust = 1))
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: save outcome_colors, then a 100% bar chart of outcome by age_cat
+# 👀 Follow along 4.1: save outcome_colors, then a 100% bar chart of outcome by age_cat
 #    with scale_fill_manual(), a white outline, and a percent y-axis
 
 
-# ✏️ TRY IT (4 min): a 100% bar chart of vaccinated by age_cat, with vacc_colors,
+# ✏️ TRY IT 4 (4 min): a 100% bar chart of vaccinated by age_cat, with vacc_colors,
 #    a percent y-axis, labels, and theme_minimal()
 #    ✅ Check: every bar reaches 100%; "Yes" is blue in every bar
 
@@ -122,16 +124,16 @@
 #    - Plots reveal problems that tables hide: look at the whole range first!
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: geom_histogram() of onset_date with binwidth = 7. What's going on before 2014?
+# 👀 Follow along 5.1: geom_histogram() of onset_date with binwidth = 7. What's going on before 2014?
 
 
-# 👀 Follow along: keep onset dates from 2014, add scale_x_date() and labs()
+# 👀 Follow along 5.2: keep onset dates from 2014, add scale_x_date() and labs()
 
 
-# 👀 Follow along: fill by outcome with outcome_colors
+# 👀 Follow along 5.3: fill by outcome with outcome_colors
 
 
-# ✏️ TRY IT (5 min): a weekly epicurve of measles report_date, filled by vaccinated,
+# ✏️ TRY IT 5 (5 min): a weekly epicurve of measles report_date, filled by vaccinated,
 #    with vacc_colors and scale_x_date(date_breaks = "1 month", date_labels = "%b").
 #    HINT: filter(!is.na(report_date)) first. When did the outbreak peak?
 #    ✅ Check: the peak is in the second half of March (about 115 cases in one week)
@@ -149,13 +151,13 @@
 #    - facet_grid(ROWS ~ COLUMNS) makes a grid from two variables.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: the epicurve with facet_wrap(~ hospital_name) (leave out "Other/Unknown")
+# 👀 Follow along 6.1: the epicurve with facet_wrap(~ hospital_name) (leave out "Other/Unknown")
 
 
-# 👀 Follow along: an age histogram with facet_wrap(~ gender) (leave out "Unknown")
+# 👀 Follow along 6.2: an age histogram with facet_wrap(~ gender) (leave out "Unknown")
 
 
-# ✏️ TRY IT (4 min): facet your measles epicurve by district (leave out "Unknown").
+# ✏️ TRY IT 6 (4 min): facet your measles epicurve by district (leave out "Unknown").
 #    Did every district peak at the same time?
 #    ✅ Check: five panels; every district peaks in March
 
@@ -172,10 +174,10 @@
 #      inches; dpi = 300 is print quality.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: save the epicurve as an object, then ggsave() it to outputs/epicurve.png
+# 👀 Follow along 7.1: save the epicurve as an object, then ggsave() it to outputs/epicurve.png
 
 
-# ✏️ TRY IT (3 min): save your measles epicurve to outputs/measles_epicurve.png,
+# ✏️ TRY IT 7 (3 min): save your measles epicurve to outputs/measles_epicurve.png,
 #    8 inches wide, 5 inches high, dpi = 300
 #    ✅ Check: open the file from the Explorer (outputs folder). Does it look right?
 

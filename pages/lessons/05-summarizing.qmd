@@ -19,9 +19,27 @@ subtitle: "Factors, counts and percentages, group_by() and summarise(), tabyl() 
 **Before you start:** open the workshop folder in Positron (**File → Open Folder...**) and open `student_scripts/Session 5 - Summarizing_STUDENT.R`. This session starts from the files you saved in Session 3: `processed_data/combined_linelist.rds` and `processed_data/measles_final.rds`. Missed Session 3? Ready-made copies are already in `processed_data/`.
 :::
 
+**Where this session fits.** Today covers **Summarize** and **Save and share** (highlighted): turning thousands of rows into counts, percentages, and statistics, and saving a finished table to Word.
+
+::: workflow
+1.  [Import]{.step}
+2.  [Inspect]{.step}
+3.  [Clean]{.step}
+4.  [Combine]{.step}
+5.  [Reshape]{.step}
+6.  [Summarize]{.step .today}
+7.  [Visualize]{.step}
+8.  [Save and share]{.step .today}
+9.  [Automate]{.step}
+:::
+
 There are many packages for summary tables. This session uses three that cover almost every need: **dplyr** (`count()`/`summarise()`) for flexible summaries you can plot, **janitor** (`tabyl()`) for quick cross-tabs, and **gtsummary** for tables you publish.
 
 # Part 1: Set up
+
+::: follow-along
+**👀 Follow along 1.1** — Load today's packages and import `processed_data/combined_linelist.rds` as `linelist` (with `trust = TRUE`).
+:::
 
 ```{r}
 #| message: false
@@ -36,10 +54,18 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 glimpse(linelist)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The `library()` lines load today's five packages. **gtsummary** is new: it makes the Table 1 in Part 6.
+-   `import(here("processed_data", "combined_linelist.rds"), trust = TRUE)` reads the file you saved at the end of Session 3. An `.rds` file can hold more than plain data, so rio asks you to confirm that you trust it: `trust = TRUE`.
+-   `glimpse()` shows 6451 rows and 19 columns. `age_cat` and `outcome` are text (`<chr>`), so they sort alphabetically. Part 2 fixes that.
+:::
+
 This is the dataset you finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature).
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (1 min): import the measles data
+## ✏️ TRY IT 1 (1 min): import the measles data
 
 Import `processed_data/measles_final.rds` (with `trust = TRUE`) as `measles`.
 
@@ -61,11 +87,28 @@ dim(measles)
 
 R sorts text **alphabetically**:
 
+::: follow-along
+**👀 Follow along 2.1** — `count()` the age groups. What order are they in?
+:::
+
 ```{r}
 linelist %>% count(age_cat)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `count(age_cat)` lists the age groups in **alphabetical** order. Numbers sort before letters, so "18-29" comes first, and the biggest group, "Under 18" (3962 cases), ends up after "80+".
+-   This order would carry into every table and plot, which is why you set a better one next.
+:::
+
 "Under 18" should come first, and "Unknown" last. A **factor** is a text column with a set order of categories (called **levels**). `fct_relevel()` from the forcats package (part of the tidyverse) sets that order:
+
+::: follow-along
+**👀 Follow along 2.2** — Put `age_cat` and `outcome` in order with `fct_relevel()` (the next two code blocks).
+
+Pattern: `DATA <- DATA %>% mutate(COLUMN = fct_relevel(COLUMN, "LEVEL_1", "LEVEL_2", ...))`
+:::
 
 ```{r}
 linelist <- linelist %>%
@@ -87,6 +130,15 @@ linelist <- linelist %>%
   mutate(outcome = fct_relevel(outcome, "Recover", "Death", "Unknown"))
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fct_relevel(age_cat, "Under 18", "18-29", ...)` turns `age_cat` into a factor and sets its levels in the order you list them. `mutate()` puts the result back in the same column, and `linelist <-` saves it.
+-   `count(age_cat)` now goes from youngest to oldest, with "Unknown" last. The counts didn't change, only the order.
+-   The second block does the same for `outcome`: Recover, Death, Unknown.
+-   Each level has to be spelled exactly as in the data, capitals included.
+:::
+
 ::: callout-note
 A `.csv` file can't store factor order at all. An `.rds` file can, but the files we saved in Session 3 contain plain text columns, so you set the order again after importing.
 :::
@@ -102,16 +154,27 @@ A `.csv` file can't store factor order at all. An `.rds` file can, but the files
 
 In other people's code you will see `factor(x, levels = c(...))`. It sets the order too, but a misspelled level is **not** ignored with a warning: every value that doesn't match becomes `NA`, silently.
 
+::: follow-along
+**🔁 Follow along 2.3** — The base R way: `factor()` with the right levels, then with "death" misspelled.
+:::
+
 ```{r}
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "Death"))
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "death"))   # oops: NA, no warning
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   The first line makes a factor with the levels Recover, Death. R prints the values, then a `Levels:` line with their order.
+-   In the second line, "death" (lower case) matches none of the values, so both "Death" values become `<NA>`, and R doesn't warn you. `fct_relevel()` would have.
+:::
+
 `levels(x)` shows the order of any factor. The forcats functions are safer for day-to-day work; `factor()` is what you need to read.
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (3 min): order the measles categories
+## ✏️ TRY IT 2 (3 min): order the measles categories
 
 In `measles`, use `fct_relevel()` on:
 
@@ -139,9 +202,21 @@ One `mutate()` can change several columns at once. The age groups now go from yo
 :::
 :::
 
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   A factor stores each value as a number that points to its list of levels: that's how it remembers the order. `levels(x)` shows the list, and `as.character(x)` turns a factor back into plain text.
+-   The order matters in statistics too: in a regression model, the **first** level is the reference group that the others are compared with.
+:::
+
 # Part 3: Counting and percentages with `count()`
 
 ## Counts and cross-tabs
+
+::: follow-along
+**👀 Follow along 3.1** — `count(outcome)`, then `count(age_cat, outcome)`.
+:::
 
 ```{r}
 linelist %>% count(outcome)
@@ -150,9 +225,20 @@ linelist %>% count(outcome)
 linelist %>% count(age_cat, outcome)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `count(outcome)` gives one row per outcome: Recover 2158, Death 2840, Unknown 1453. The rows follow the factor order you set in Part 2.
+-   `count(age_cat, outcome)` counts every combination of age group and outcome that occurs: 24 rows. Combinations with no cases, such as 80+ and Death, are left out.
+:::
+
 ## Percentages
 
 `count()` makes a column called `n`. Divide by the total to get a proportion, and use `scales::percent()` to show it nicely:
+
+::: follow-along
+**👀 Follow along 3.2** — Add a percent column to `count(outcome)`.
+:::
 
 ```{r}
 linelist %>%
@@ -160,9 +246,21 @@ linelist %>%
   mutate(percent = scales::percent(n / sum(n), accuracy = 0.1))
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `count(outcome)` puts the counts in a column called `n`.
+-   Inside `mutate()`, `sum(n)` is the total of that column (6451), so `n / sum(n)` is each outcome's share: 2840 / 6451 = 0.440 for Death.
+-   `scales::percent(..., accuracy = 0.1)` shows 0.440 as "44.0%". `accuracy = 0.1` means one decimal place. The result is text: easy to read, but not for further calculations.
+:::
+
 ## Percentages within groups: `group_by()`
 
 `group_by()` makes the next steps happen **separately for each group**. Here, `sum(n)` becomes the total *within each age group*, so each age group adds up to 100%:
+
+::: follow-along
+**👀 Follow along 3.3** — Percentages within each age group with `group_by()`.
+:::
 
 ```{r}
 linelist %>%
@@ -171,6 +269,15 @@ linelist %>%
   mutate(percent = scales::percent(n / sum(n), accuracy = 0.1)) %>%
   ungroup()
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `group_by(age_cat)` splits the rows into one group per age group. The data looks the same, but the next steps run once for each group.
+-   `count(outcome)` then counts the outcomes inside each age group.
+-   In `mutate()`, `sum(n)` is now the total **of that age group**, so each age group adds up to 100%. For example, 44.3% of the under-18s died (1755 of 3962).
+-   `ungroup()` removes the grouping, so later steps work on all the rows again.
+:::
 
 ::: {.callout-note collapse="true" icon=false}
 ## 🤔 Think about it: how is this different from `count(age_cat, outcome)` without `group_by()`?
@@ -189,17 +296,29 @@ A grouped data frame stays grouped. End with `ungroup()` so later steps don't su
 
 Base R makes a cross-table with `table()` (from Session 1), and turns it into proportions with `prop.table()`. `margin = 1` makes each **row** add up to 1, like `group_by(age_cat)` above:
 
+::: follow-along
+**🔁 Follow along 3.4** — The base R way: `table()` of age group by outcome, then `prop.table(margin = 1)`.
+:::
+
 ```{r}
 age_outcome <- table(linelist$age_cat, linelist$outcome)
 age_outcome
 round(prop.table(age_outcome, margin = 1) * 100, 1)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `table(linelist$age_cat, linelist$outcome)` makes a cross-table: age groups down the side, outcomes across the top, and a count in each cell. It's saved as `age_outcome` so you can reuse it.
+-   `prop.table(age_outcome, margin = 1)` divides each cell by its row total, so each row adds up to 1. `* 100` and `round(..., 1)` turn that into percentages: the same numbers as the `group_by()` version (44.3 for Under 18 and Death).
+-   Unlike `count()`, `table()` shows combinations with no cases as 0.
+:::
+
 The result is a `table`, not a data frame, so it doesn't work with `filter()`, `mutate()`, or ggplot. That is why we use `count()` in this workshop.
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (5 min): vaccination coverage
+## ✏️ TRY IT 3 (5 min): vaccination coverage
 
 a)  What percentage of measles cases were vaccinated?
 b)  Within each age group, what percentage were vaccinated? Which age group has the lowest percentage?
@@ -227,9 +346,21 @@ Fewer than a quarter of all cases were vaccinated. In b), each age group adds up
 :::
 :::
 
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   **Always ask "percent of what?"** Of all cases, of each age group, or only of cases with a known value? Here the "Unknown" outcomes are part of the total, so leaving them out would change every percentage.
+-   `scales::percent()` gives text. To plot or calculate with a percentage, keep the plain proportion (`n / sum(n)`) as well.
+:::
+
 # Part 4: Summary statistics with `summarise()`
 
 `summarise()` collapses many rows into **one row** of results. You name each new column on the left of `=`.
+
+::: follow-along
+**👀 Follow along 4.1** — `summarise()` the number of cases and the mean, SD, and median age for everyone.
+:::
 
 ```{r}
 linelist %>%
@@ -243,9 +374,22 @@ linelist %>%
 
 `na.rm = TRUE` means "skip missing values". Without it, one `NA` makes the whole result `NA`.
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `summarise()` collapses all 6451 rows into one row. Each `name = calculation` inside it makes one column of the result.
+-   `n()` counts the rows: 6451.
+-   `mean()` is the average age (about 16.1 years). `sd()` is the standard deviation (about 12.6): how spread out the ages are. `median()` is the middle value: 13.
+-   96 patients have no age, so without `na.rm = TRUE` the mean, SD, and median would all be `NA`.
+:::
+
 ## By group
 
 Add `group_by()` first to get **one row per group**:
+
+::: follow-along
+**👀 Follow along 4.2** — The same by outcome, plus the mean BMI and mean temperature.
+:::
 
 ```{r}
 linelist %>%
@@ -259,6 +403,34 @@ linelist %>%
   )
 ```
 
+::: {.callout-tip icon=false}
+## 🧩 Reading a function call
+
+Here is a shorter version of the code above, taken apart:
+
+`linelist %>% group_by(outcome) %>% summarise(n = n(), mean_age = mean(age_years, na.rm = TRUE))`
+
+| Piece | What it is | What it does |
+|---|---|---|
+| `linelist` | the data | where the steps start |
+| `%>%` | the pipe | passes the result on its left into the next function, as its first argument |
+| `group_by(outcome)` | a dplyr function | splits the rows into one group per outcome |
+| `summarise(...)` | a dplyr function | collapses each group into one row of results |
+| `n = n()` | a new column called `n`, made by the function `n()` | counts the rows in each group |
+| `mean_age = mean(age_years, ...)` | a new column called `mean_age`, made by `mean()` | the average age in each group |
+| `na.rm = TRUE` | a named argument of `mean()` | "remove NAs": skip the missing ages |
+
+Inside `summarise()`, the name on the **left** of `=` is the new column, and the calculation is on the **right**. With the pipe, R runs the steps from **left to right**. Read each `%>%` as "and then": "take `linelist`, and then group it by outcome, and then summarise: `n` is the number of rows, and `mean_age` is the mean of `age_years`, skipping missing values."
+:::
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `group_by(outcome)` before `summarise()` gives one row **per outcome** instead of one row for everyone.
+-   Each row is calculated only from its own group: 2158 patients who recovered, 2840 who died, and 1453 with an unknown outcome.
+-   In this fictional dataset the groups are very similar: the median age is 13 for both recovered and died, and the mean temperature is 38.6 °C in all three groups.
+:::
+
 ::: callout-note
 ## Useful summary functions
 
@@ -269,15 +441,31 @@ linelist %>%
 
 You met `across()` in Session 3. In `summarise()` it saves a lot of typing:
 
+::: follow-along
+**👀 Follow along 4.3** — `across()`: the mean of `age_years`, `bmi`, and `temp` by outcome.
+:::
+
 ```{r}
 linelist %>%
   group_by(outcome) %>%
   summarise(across(c(age_years, bmi, temp), ~ mean(.x, na.rm = TRUE)))
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `across(c(age_years, bmi, temp), ...)` does the same calculation on each of the three columns.
+-   `~ mean(.x, na.rm = TRUE)` is the calculation. The `~` starts a short formula, and `.x` stands for "the current column": first `age_years`, then `bmi`, then `temp`.
+-   The results keep the original column names, so each of `age_years`, `bmi`, and `temp` now holds a mean.
+:::
+
 ## Percentages of "yes"
 
 `fever == "yes"` is TRUE or FALSE for each row (vectorization, from Session 4). `sum()` counts the TRUEs, and `mean()` gives the proportion that are TRUE:
+
+::: follow-along
+**👀 Follow along 4.4** — The percentage with fever, cough, and vomiting by outcome, with `round(mean(fever == "yes") * 100, 1)`.
+:::
 
 ```{r}
 linelist %>%
@@ -291,15 +479,36 @@ linelist %>%
   )
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `fever == "yes"` is TRUE for each patient with fever and FALSE for everyone else.
+-   `sum(fever == "yes")` counts the TRUEs (each TRUE counts as 1): 1708 of the patients who recovered had fever.
+-   `mean(fever == "yes")` is the share that are TRUE: 1708 / 2158 = 0.791. `* 100` and `round(..., 1)` turn that into 79.1.
+-   Patients whose fever is "Unknown" count as "not yes", so these percentages are out of **all** patients in the group.
+:::
+
 ::: callout-note
 ## 🔁 The base R way: `tapply()` and `aggregate()`
 
 Two base R functions do what `group_by()` + `summarise()` does for **one** statistic:
 
+::: follow-along
+**🔁 Follow along 4.5** — The base R way: median age by outcome with `tapply()` and `aggregate()`.
+:::
+
 ```{r}
 tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)   # a named vector
 aggregate(age_years ~ outcome, data = linelist, FUN = median)        # a data frame
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)` splits `age_years` by outcome and runs `median()` on each piece. The result is a named vector: 13, 13, 14.
+-   `aggregate(age_years ~ outcome, data = linelist, FUN = median)` gives the same medians as a data frame. Read `age_years ~ outcome` as "age_years by outcome".
+-   Before calculating, `aggregate()` quietly leaves out the 96 rows with no age. Here that doesn't change the medians.
+:::
 
 Read `tapply(X, GROUP, FUNCTION)` as "apply FUNCTION to X, split by GROUP". `aggregate()` with a formula silently drops rows with a missing value, one reason `summarise()` (where you choose with `na.rm`) is clearer.
 :::
@@ -311,7 +520,7 @@ Every result here is a data frame. Save it with `<-` and you can plot it (Sessio
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): statistics by outcome
+## ✏️ TRY IT 4 (4 min): statistics by outcome
 
 For each measles outcome, calculate the number of cases, mean and median age, mean temperature, and mean days in hospital (careful: NAs!).
 
@@ -337,7 +546,7 @@ Children who died were younger than children who recovered (median age 5 vs 7). 
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): case rates by district
+## ✏️ TRY IT 5 (4 min): case rates by district
 
 Calculate cases per 10,000 people by district (number of cases / population \* 10000), sorted highest first.
 
@@ -359,15 +568,34 @@ Central has the most people but the lowest rate: raw counts and rates can tell d
 :::
 :::
 
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   **Mean or median?** A few large values pull the mean up, but barely move the median. Ages here are skewed toward children: the mean age is 16.1, the median 13. For skewed numbers like ages, incomes, or days in hospital, the median is usually the better summary.
+-   `n()` counts all rows, including rows with missing values. To count only the non-missing values of a column, use `sum(!is.na(x))`.
+:::
+
 # Part 5: Quick tables with `tabyl()`
 
 `tabyl()` from janitor makes frequency tables with percentages in one step:
+
+::: follow-along
+**👀 Follow along 5.1** — `tabyl(outcome)`, then `tabyl(age_cat, outcome)`.
+:::
 
 ```{r}
 linelist %>% tabyl(outcome)
 
 linelist %>% tabyl(age_cat, outcome)
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `tabyl(outcome)` counts each outcome (`n`) and adds its share (`percent`) as a proportion: 0.3345 for Recover means 33.5%.
+-   `tabyl(age_cat, outcome)` makes a cross-table: the first column goes down the side, the second across the top, and each cell is a count. Unlike `count()`, it's wide, like a table in a paper, and it shows empty combinations as 0.
+:::
 
 The `adorn_` functions add totals and percentages. **The order matters:**
 
@@ -376,6 +604,10 @@ The `adorn_` functions add totals and percentages. **The order matters:**
 3.  `adorn_pct_formatting()` — shows them as percentages
 4.  `adorn_ns()` — adds the counts back in brackets
 5.  `adorn_title()` — adds a title, last
+
+::: follow-along
+**👀 Follow along 5.2** — `tabyl(age_cat, outcome)` with all five `adorn_` functions.
+:::
 
 ```{r}
 linelist %>%
@@ -387,8 +619,18 @@ linelist %>%
   adorn_title("combined")
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `adorn_totals("row")` adds a **Total** row at the bottom, from the raw counts.
+-   `adorn_percentages("row")` turns each count into its share of the row, so each row adds up to 100%.
+-   `adorn_pct_formatting(digits = 1)` shows those shares as percentages with one decimal.
+-   `adorn_ns()` adds the counts back in brackets: "44.3% (1,755)" means 1755 under-18s died, 44.3% of that age group.
+-   `adorn_title("combined")` puts both variable names in the top-left corner: `age_cat/outcome`.
+:::
+
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (4 min): vaccination and death
+## ✏️ TRY IT 6 (4 min): vaccination and death
 
 Make a `tabyl()` of `vaccinated` by `outcome` in `measles`, with row percentages and counts. What do you notice about deaths?
 
@@ -413,6 +655,10 @@ Unvaccinated cases died far more often than vaccinated cases (6.3% vs 0.7%). Rem
 
 Most papers start with a "Table 1" that describes the study population. `tbl_summary()` makes one from a data frame: it detects which columns are numbers and which are categories.
 
+::: follow-along
+**👀 Follow along 6.1** — A basic `tbl_summary(by = outcome)`.
+:::
+
 ```{r}
 linelist %>%
   filter(outcome != "Unknown") %>%
@@ -421,7 +667,21 @@ linelist %>%
   tbl_summary(by = outcome)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `filter(outcome != "Unknown")` keeps the 4998 patients with a known outcome, and `fct_drop()` removes the now-empty "Unknown" level.
+-   `select()` chooses what goes in the table: each selected column becomes one variable in Table 1. `by = outcome` makes the outcomes the column groups.
+-   `tbl_summary()` works out each column's type. Categories (like `gender`) show count (%). Numbers (like `age_years`) show the median and, in brackets, the 25th and 75th percentiles: 13 (6, 23) years for patients who recovered.
+-   The headers show the size of each group: N = 2,158 recovered and N = 2,840 died.
+-   Two kinds of "Unknown" appear: our own "Unknown" text values, shown as a category (86 recovered patients have an unknown gender), and gtsummary's row for missing values, which it also calls "Unknown" (30 missing ages). The next step sorts this out.
+:::
+
 "Unknown" shows up as a category. In Session 3 we replaced `NA` with "Unknown" so missing values show up in counts — but `tbl_summary()` has its own **Missing** row, so turn "Unknown" back into `NA` for this table with `na_if()`:
+
+::: follow-along
+**👀 Follow along 6.2** — The same table with `na_if()`, so "Unknown" counts as missing.
+:::
 
 ```{r}
 linelist %>%
@@ -432,6 +692,15 @@ linelist %>%
   tbl_summary(by = outcome)
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `mutate(across(where(is.character), ~ na_if(.x, "Unknown")))` goes through every text column (`where(is.character)`) and replaces the value "Unknown" with `NA`.
+-   Gender's unknowns (86 and 139) move from a category into the missing-values row.
+-   `fever` and `cough` now only have "yes" and "no", so gtsummary shows them on one line: the number with "yes". For fever that's 1,708 (82%) of the patients who recovered. The percentage is now out of patients whose fever status is known, which is why it's higher than the 79.1% in Part 4.
+-   `age_cat` is a factor, not text, so `where(is.character)` skips it and its "Unknown" stays a category.
+:::
+
 ::: callout-warning
 ## Common mistakes
 
@@ -439,6 +708,10 @@ linelist %>%
 :::
 
 ## Customize it
+
+::: follow-along
+**👀 Follow along 6.3** — A customized `table1` with labels, mean (SD), an overall column, bold labels, and a caption; then save it to `outputs/table1.docx` (the next two code blocks).
+:::
 
 ```{r}
 table1 <- linelist %>%
@@ -482,8 +755,18 @@ table1 %>%
   flextable::save_as_docx(path = here("outputs", "table1.docx"))
 ```
 
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `label = list(gender ~ "Gender", ...)` gives each row a readable name. Read each `~` as "gets the label".
+-   `statistic = all_continuous() ~ "{mean} ({sd})"` shows mean (SD) instead of median and percentiles for every number column. gtsummary fills in the words in `{ }`.
+-   `missing_text = "Missing"` renames gtsummary's missing-values row from "Unknown" to "Missing", so it can't be confused with a category.
+-   `add_overall()` adds a column for all patients together, `bold_labels()` makes the variable names bold, and `modify_caption()` adds the title (the `**` make it bold).
+-   In the second block, `as_flex_table()` turns the table into a flextable, and `flextable::save_as_docx()` writes it to the Word file `outputs/table1.docx`.
+:::
+
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT (6 min): a measles Table 1
+## ✏️ TRY IT 7 (6 min): a measles Table 1
 
 Make a `tbl_summary()` of measles cases by outcome (leave out "Unknown" outcomes) with `sex`, `age_years`, `age_cat`, `vaccinated`, `rash`, `temp_c`, and `days_in_hospital`. Give the rows nice labels and add an overall column.
 
@@ -519,6 +802,15 @@ measles_table1
 
 "Missing" for days in hospital doesn't mean the data were lost: those patients were never hospitalized. `age_cat` and `vaccinated` are factors, so `na_if()` (which only touches text columns here) leaves their "Unknown" level as a category.
 :::
+:::
+
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   A Table 1 usually shows categories as n (%) and numbers as median (IQR) or mean (SD), and reports missing values. Many journals, and the CONSORT guidelines for trials, advise against p-values in a Table 1 that describes the groups.
+-   If something in the Word table needs to change, change the code and save the table again, rather than editing the Word file by hand. That way the table always matches the data.
+-   gtsummary can also make tables of regression results (`tbl_regression()`), with the same style.
 :::
 
 ::: callout-tip

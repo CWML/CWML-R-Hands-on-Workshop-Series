@@ -506,8 +506,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Today’s goal:</strong> <em>“Your manager wants an epidemic curve for every hospital, every week.”</em> By the end of the session, one loop does it.</p>
 </div>
 </div>
+<p><strong>Where this session fits.</strong> Most data projects go through the same steps, whatever the topic. This session covers the last one, <strong>Automate</strong> (highlighted): turning steps you repeat into functions and loops, so one line of code redoes the whole job, for example next week’s epidemic curves.</p>
+<div class="workflow">
+<ol type="1">
+<li><span class="step">Import</span></li>
+<li><span class="step">Inspect</span></li>
+<li><span class="step">Clean</span></li>
+<li><span class="step">Combine</span></li>
+<li><span class="step">Reshape</span></li>
+<li><span class="step">Summarize</span></li>
+<li><span class="step">Visualize</span></li>
+<li><span class="step">Save and share</span></li>
+<li><span class="step today">Automate</span></li>
+</ol>
+</div>
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
+<div class="follow-along">
+<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, rio, and janitor, and import <code>combined_linelist.rds</code> as <code>linelist</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
@@ -516,20 +533,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The four <code>library()</code> lines load today’s packages: the tidyverse (which includes purrr, with <code>map()</code> and <code>walk()</code> for Part 6), here, rio, and janitor (for <code>make_clean_names()</code> in Part 5).</li>
+<li><code>import()</code> reads <code>combined_linelist.rds</code>, the file you saved in Session 3: 6451 rows and 19 columns.</li>
+<li><code>trust = TRUE</code> says you trust where the <code>.rds</code> file came from. An <code>.rds</code> file can hold more than plain data, so rio asks you to confirm.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (1 min): import the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 1 (1 min): import the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Import <code>processed_data/measles_final.rds</code> as <code>measles</code>.</p>
 <p>✅ <strong>Check:</strong> in the <strong>Variables</strong> pane, <code>measles</code> shows 1163 rows and 14 columns</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -538,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>measles <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
@@ -567,6 +601,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-shape-of-a-function" class="level2">
 <h2 class="anchored" data-anchor-id="the-shape-of-a-function">The shape of a function</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.1</strong> — Write <code>c_to_f(temp_c)</code> and test it on 38 and on <code>c(36.8, 38.5, 40.1)</code> (the next two code blocks).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>c_to_f <span class="ot">&lt;-</span> <span class="cf">function</span>(temp_c) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  temp_c <span class="sc">*</span> <span class="dv">9</span> <span class="sc">/</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">32</span></span>
@@ -588,7 +625,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1]  98.24 101.30 104.18</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>c_to_f(38)</code> runs the body with <code>temp_c</code> set to 38: 38 × 9 / 5 + 32 = 100.4.</li>
+<li><code>c_to_f(c(36.8, 38.5, 40.1))</code> converts all three at once: 98.24, 101.3, and 104.18. You didn’t write a loop: <code>*</code>, <code>/</code>, and <code>+</code> already work on every value in a vector, so your function does too.</li>
+<li><code>temp_c</code> only exists while the function runs. It doesn’t appear in the <strong>Variables</strong> pane.</li>
+</ul>
+</div>
+</div>
 <p>Because it’s vectorized, it works on a whole column inside <code>mutate()</code>:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.2</strong> — Use <code>c_to_f()</code> inside <code>mutate()</code> to add <code>temp_f</code> to <code>linelist</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temp_f =</span> <span class="fu">c_to_f</span>(temp)) <span class="sc">%&gt;%</span></span>
@@ -601,10 +658,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3  11f8ea 36.9  98.42</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>mutate(temp_f = c_to_f(temp))</code> gives the whole <code>temp</code> column to <code>c_to_f()</code> and stores the answers in a new column, <code>temp_f</code>. 36.8 °C becomes 98.24 °F.</li>
+<li><code>select()</code> and <code>head(3)</code> just keep the output short. <code>linelist</code> itself doesn’t change, because the result isn’t saved with <code>&lt;-</code>.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="default-values" class="level2">
 <h2 class="anchored" data-anchor-id="default-values">Default values</h2>
 <p>Give an argument a <strong>default</strong> with <code>=</code>. You can change it, but you don’t have to:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 2.3</strong> — Add a <code>digits = 1</code> default argument with <code>round()</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>c_to_f <span class="ot">&lt;-</span> <span class="cf">function</span>(temp_c, <span class="at">digits =</span> <span class="dv">1</span>) {</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(temp_c <span class="sc">*</span> <span class="dv">9</span> <span class="sc">/</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">32</span>, digits)</span>
@@ -617,6 +693,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c_to_f</span>(<span class="fl">38.37</span>, <span class="at">digits =</span> <span class="dv">0</span>)  <span class="co"># overrides it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 101</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>This new <code>c_to_f()</code> replaces the old one, because it’s saved under the same name.</li>
+<li><code>digits = 1</code> inside <code>function()</code> sets a <strong>default</strong>. <code>c_to_f(38.37)</code> doesn’t mention <code>digits</code>, so it uses 1 and gives 101.1.</li>
+<li><code>c_to_f(38.37, digits = 0)</code> overrides the default and rounds to a whole number: 101.</li>
+<li>Inside the body, <code>round(..., digits)</code> passes your choice on to <code>round()</code>.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -640,14 +734,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (4 min): Fahrenheit to Celsius
+<span class="screen-reader-only">Important</span>✏️ TRY IT 2 (4 min): Fahrenheit to Celsius
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Write <code>f_to_c(temp_f)</code> that converts Fahrenheit to Celsius: <code>(temp_f - 32) * 5 / 9</code>, rounded to 1 decimal. Test it on 98.6 and 104.7.</p>
 <p>✅ <strong>Check:</strong> <code>f_to_c(98.6)</code> is 37 and <code>f_to_c(104.7)</code> is 40.4</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -656,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>f_to_c <span class="ot">&lt;-</span> <span class="cf">function</span>(temp_f) {</span>
@@ -678,12 +772,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Functions you write live in R’s memory, like any object. They’re gone when R restarts, so keep them in your script, near the top, and run them before you use them.</li>
+<li>Give functions names that say what they do, such as <code>make_epicurve()</code> or <code>c_to_f()</code>. Avoid names that R already uses, like <code>mean</code> or <code>c</code>: your version would hide the original.</li>
+<li>In other people’s code you may see <code>return(x)</code>. It ends the function and gives back <code>x</code>. Without it, the function returns its last line. Both are fine.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-3-functions-that-use-data" class="level1">
 <h1>Part 3: Functions that use data</h1>
 <section id="a-calculation-used-in-many-places" class="level2">
 <h2 class="anchored" data-anchor-id="a-calculation-used-in-many-places">A calculation used in many places</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.1</strong> — Write <code>pct(x, digits = 1)</code>, which returns <code>round(mean(x, na.rm = TRUE) * 100, digits)</code>, and use it in <code>summarise()</code> by hospital.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pct <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">digits =</span> <span class="dv">1</span>) {</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">100</span>, digits)</span>
@@ -710,9 +824,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Compare with <a href="../../pages/lessons/05-summarizing.html">Session 5</a>, where we wrote <code>round(mean(...) * 100, 1)</code> every time.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>pct()</code> expects a vector of TRUE and FALSE. The <code>mean()</code> of TRUE/FALSE values is the share that are TRUE (TRUE counts as 1, FALSE as 0). <code>* 100</code> makes it a percentage, and <code>na.rm = TRUE</code> skips missing values.</li>
+<li><code>outcome == "Death"</code> is TRUE for every patient who died, so <code>pct(outcome == "Death")</code> is the percentage who died: 44.5% at Military Hospital.</li>
+<li><code>group_by(hospital_name)</code> makes <code>summarise()</code> do this once per hospital, giving 7 rows (including Other/Unknown).</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="a-function-that-takes-a-data-frame" class="level2">
 <h2 class="anchored" data-anchor-id="a-function-that-takes-a-data-frame">A function that takes a data frame</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.2</strong> — Write <code>hospital_summary(data, hospital)</code> and try it on two hospitals.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>hospital_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(data, hospital) {</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span></span>
@@ -735,9 +869,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>hospital</code> is an argument holding a <strong>value</strong> (the hospital’s name), so it can go straight into <code>filter()</code>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>hospital_summary()</code> takes two arguments: the data, and the name of one hospital.</li>
+<li>Inside, <code>filter(hospital_name == hospital)</code> keeps that hospital’s rows. <code>summarise()</code> then counts them and works out the death percentage with your own <code>pct()</code> function. A function can use other functions you wrote, as long as you’ve run them first.</li>
+<li>Same function, different input: Military Hospital has 896 cases (44.5% died) and Central Hospital has 454 (42.5%).</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="a-function-that-makes-a-plot" class="level2">
 <h2 class="anchored" data-anchor-id="a-function-that-makes-a-plot">A function that makes a plot</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 3.3</strong> — Write <code>make_epicurve(data, hospital)</code>, which returns a weekly epicurve for one hospital, with the hospital’s name in the title.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>make_epicurve <span class="ot">&lt;-</span> <span class="cf">function</span>(data, hospital) {</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span></span>
@@ -762,6 +916,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>paste("Weekly cases:", hospital)</code> builds the title from the argument, so every plot gets the right title.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The body is an ordinary plot pipeline. <code>filter()</code> keeps one hospital, and <code>geom_histogram(binwidth = 7)</code> puts each week’s cases into one bar.</li>
+<li><code>onset_date &gt;= as.Date("2014-01-01")</code> also drops onset dates before 2014, which would stretch the time axis back to 2012.</li>
+<li>A function returns its last value, and here that’s the plot, so <code>make_epicurve(linelist, "Military Hospital")</code> draws it. You could also save it first: <code>p &lt;- make_epicurve(linelist, "Military Hospital")</code>.</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -783,7 +954,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (6 min): measles functions
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (6 min): measles functions
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -793,7 +964,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>✅ <strong>Check:</strong> a) East is 22.8 b) <code>district_summary(measles, "North")</code> gives n 342, 25.7%</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -802,7 +973,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
@@ -850,6 +1021,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-4-if-else" class="level1">
 <h1>Part 4: <code>if</code> / <code>else</code></h1>
 <p><code>if</code> runs code only when a condition is TRUE. <code>else</code> runs when it’s FALSE:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.1</strong> — Write <code>fever_status(temp)</code> with <code>if</code> / <code>else</code>, and test it on 39.2 and 36.9.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fever_status <span class="ot">&lt;-</span> <span class="cf">function</span>(temp) {</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (temp <span class="sc">&gt;=</span> <span class="dv">38</span>) {</span>
@@ -868,8 +1042,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "no fever"</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>if (temp &gt;= 38)</code> asks one yes/no question. When the answer is TRUE, R runs the code in the first <code>{ }</code> and returns “fever”. When it’s FALSE, R runs the <code>else { }</code> part and returns “no fever”.</li>
+<li>39.2 is at least 38, so it’s “fever”. 36.9 isn’t, so it’s “no fever”.</li>
+</ul>
+</div>
+</div>
 <section id="if-works-on-one-value" class="level2">
 <h2 class="anchored" data-anchor-id="if-works-on-one-value"><code>if</code> works on ONE value</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.2</strong> — What happens with <code>fever_status(c(39.2, 36.9))</code>?</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fever_status</span>(<span class="fu">c</span>(<span class="fl">39.2</span>, <span class="fl">36.9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
@@ -877,7 +1070,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ! the condition has length &gt; 1</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>With two temperatures, <code>temp &gt;= 38</code> gives two answers (TRUE, FALSE), but <code>if</code> can only take one. R stops with “the condition has length &gt; 1”.</li>
+<li>This error is on purpose: it shows that <code>if</code> handles one value at a time.</li>
+</ul>
+</div>
+</div>
 <p><code>if</code> asks one yes/no question. For a whole column, use the <strong>vectorized</strong> <code>if_else()</code> from <a href="../../pages/lessons/02-cleaning.html">Session 2</a>:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.3</strong> — The vectorized version with <code>if_else()</code>, used in <code>mutate()</code> on <code>linelist</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fever_status <span class="ot">&lt;-</span> <span class="cf">function</span>(temp) {</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">if_else</span>(temp <span class="sc">&gt;=</span> <span class="dv">38</span>, <span class="st">"fever"</span>, <span class="st">"no fever"</span>)</span>
@@ -897,10 +1109,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3           &lt;NA&gt;  151</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>if_else(temp &gt;= 38, "fever", "no fever")</code> checks every value and picks an answer for each, so this <code>fever_status()</code> works on a whole vector: 39.2 and 36.9 give “fever” and “no fever”.</li>
+<li>In <code>mutate()</code>, it runs on the whole <code>temp</code> column: 4976 “fever”, 1324 “no fever”, and 151 <code>NA</code> where the temperature is missing. <code>if_else()</code> keeps missing values missing.</li>
+<li>This version replaces the one-value version, because it has the same name.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="where-if-shines-checking-inputs" class="level2">
 <h2 class="anchored" data-anchor-id="where-if-shines-checking-inputs">Where <code>if</code> shines: checking inputs</h2>
 <p><code>if</code> is perfect for questions with one answer, like “is the input a number?”. <code>stop()</code> ends the function with a helpful error message:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 4.4</strong> — Add an input check with <code>stop()</code> to <code>c_to_f()</code>, and try <code>c_to_f("38")</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>c_to_f <span class="ot">&lt;-</span> <span class="cf">function</span>(temp_c, <span class="at">digits =</span> <span class="dv">1</span>) {</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(temp_c)) {</span>
@@ -915,13 +1147,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ! temp_c must be a number, not character</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>is.numeric(temp_c)</code> asks “is this a number?”. The <code>!</code> turns the answer around, so the <code>if</code> is TRUE when the input is <strong>not</strong> a number.</li>
+<li><code>stop()</code> then ends the function straight away with your message. <code>class(temp_c)</code> adds the type that was given: “temp_c must be a number, not character”.</li>
+<li><code>"38"</code> is in quotes, so it’s text, and the function stops before doing any maths. Without the check, R would give a less helpful error: “non-numeric argument to binary operator”.</li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): fever status for the measles data
+<span class="screen-reader-only">Important</span>✏️ TRY IT 4 (5 min): fever status for the measles data
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -931,7 +1180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>✅ <strong>Check:</strong> a) <code>"fever"</code> b) 1015 “fever” and 148 “no fever”</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -940,7 +1189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>
@@ -976,11 +1225,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>if</code> needs exactly one TRUE or FALSE, so a missing value fails too: <code>if (NA)</code> gives “missing value where TRUE/FALSE needed”. When a value might be missing, check it first with <code>is.na()</code>.</li>
+<li><code>else if (...)</code> checks another condition when the first one is FALSE, like the lines of a <code>case_when()</code> for a single value.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-5-for-loops" class="level1">
 <h1>Part 5: <code>for</code> loops</h1>
 <p>A <code>for</code> loop runs the same code <strong>once for each value</strong> in a vector:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.1</strong> — A loop that prints two hospital names.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (h <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Central Hospital"</span>, <span class="st">"Military Hospital"</span>)) {</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(h)</span>
@@ -991,8 +1259,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Read it as: “for each <code>h</code> in this vector, run the code between <code>{ }</code>”. <code>h</code> takes each value in turn.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The first time through, <code>h</code> is “Central Hospital”; the second time, “Military Hospital”. Then the loop ends.</li>
+<li><code>print(h)</code> shows the current value. You can call the loop variable anything; <code>h</code> is short for hospital.</li>
+</ul>
+</div>
+</div>
 <section id="loop-over-every-hospital" class="level2">
 <h2 class="anchored" data-anchor-id="loop-over-every-hospital">Loop over every hospital</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.2</strong> — Make the <code>hospitals</code> vector (without “Other/Unknown”), then loop and print the number of cases at each.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>hospitals <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hospital_name <span class="sc">!=</span> <span class="st">"Other/Unknown"</span>) <span class="sc">%&gt;%</span></span>
@@ -1020,10 +1307,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Inside a loop, results are not printed automatically — use <code>print()</code>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The pipeline makes a vector of the six hospital names: <code>filter()</code> drops “Other/Unknown”, <code>distinct()</code> keeps each name once, <code>pull()</code> turns the column into a plain vector, and <code>sort()</code> puts it in alphabetical order.</li>
+<li>In the loop, <code>linelist$hospital_name == h</code> is TRUE for each case at hospital <code>h</code>, and <code>sum()</code> counts the TRUEs.</li>
+<li><code>paste()</code> joins the pieces into a sentence with spaces between them, and <code>print()</code> shows it: “Central Hospital has 454 cases”.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="save-the-results" class="level2">
 <h2 class="anchored" data-anchor-id="save-the-results">Save the results</h2>
 <p>To keep results, create an empty container <strong>before</strong> the loop and fill it inside:</p>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.3</strong> — Save the counts in <code>case_counts</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>case_counts <span class="ot">&lt;-</span> <span class="fu">c</span>()   <span class="co"># an empty vector</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1041,9 +1348,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                          1771                           422 </code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>case_counts &lt;- c()</code> makes an empty vector <strong>before</strong> the loop.</li>
+<li>Each time through, <code>case_counts[h] &lt;- ...</code> adds one count, labelled with the hospital’s name.</li>
+<li>After the loop, <code>case_counts</code> holds all six counts, from Central Hospital (454) to St.&nbsp;Mark’s Maternity Hospital (422). Unlike printed output, you can keep using them.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="the-payoff-one-epidemic-curve-per-hospital" class="level2">
 <h2 class="anchored" data-anchor-id="the-payoff-one-epidemic-curve-per-hospital">The payoff: one epidemic curve per hospital</h2>
+<div class="follow-along">
+<p><strong>👀 Follow along 5.4</strong> — The payoff: loop over <code>hospitals</code> and <code>ggsave()</code> one epicurve each to <code>outputs/</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (h <span class="cf">in</span> hospitals) {</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">make_epicurve</span>(linelist, h)</span>
@@ -1056,6 +1383,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>paste0()</code> glues the pieces with no spaces into <code>epicurve_st_marks_maternity_hospital.png</code></li>
 <li>Six files, one loop. Next week, re-run it with the new data — check the <strong>Explorer</strong> to see the new files in <code>outputs/</code></li>
 </ul>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Each time through, <code>p &lt;- make_epicurve(linelist, h)</code> makes that hospital’s plot and stores it in <code>p</code>.</li>
+<li><code>ggsave()</code> saves <code>p</code> in <code>outputs/</code> under the new file name, as an 8 × 5 inch image at 300 dpi (print quality).</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1075,14 +1418,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (6 min): one epicurve per district
+<span class="screen-reader-only">Important</span>✏️ TRY IT 5 (6 min): one epicurve per district
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Write <code>make_measles_epicurve(data, district_name)</code> for weekly cases by <code>report_date</code> in one district. Then loop over the five districts (not “Unknown”) and save each plot to <code>outputs/</code> as <code>measles_central.png</code>, <code>measles_east.png</code>, …</p>
 <p>✅ <strong>Check:</strong> five new .png files in the outputs folder</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1091,7 +1434,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>make_measles_epicurve <span class="ot">&lt;-</span> <span class="cf">function</span>(data, district_name) {</span>
@@ -1121,6 +1464,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Fixing a loop that goes wrong:</strong> set the loop variable by hand, for example <code>h &lt;- hospitals[1]</code>, then run the lines inside the loop one at a time. You’ll see exactly where it breaks.</li>
+<li>After the loop, the loop variable keeps its last value: here, <code>h</code> is “St.&nbsp;Mark’s Maternity Hospital”.</li>
+<li>To loop over positions (1, 2, 3, …) instead of values, use <code>for (i in seq_along(hospitals))</code>, then <code>hospitals[i]</code> inside the loop.</li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="part-6-iteration-the-tidyverse-way-map-and-walk" class="level1">
@@ -1131,6 +1491,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>map_dbl()</code> — the same, but return a <strong>number</strong> vector</li>
 <li><code>walk(x, f)</code> — run <code>f</code> on each element for its <strong>side effect</strong> (like saving a file), return nothing</li>
 </ul>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.1</strong> — <code>map_dbl()</code> for the mean of <code>age_years</code>, <code>bmi</code>, and <code>temp</code>.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The mean of three columns</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
@@ -1142,6 +1505,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>A data frame is a list of columns, so <code>map_dbl()</code> runs once per column. <code>~ mean(.x, na.rm = TRUE)</code> is a short function: <code>.x</code> is the current element — the same <code>~ .x</code> you used with <code>across()</code> in <a href="../../pages/lessons/03-missing-data-joins-export.html">Session 3</a>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>select()</code> keeps three columns. <code>map_dbl()</code> then runs <code>mean(.x, na.rm = TRUE)</code> on each one, with <code>.x</code> standing for the current column.</li>
+<li>The result is a number vector with one named value per column: a mean age of about 16.1 years, a mean BMI of about 30.6, and a mean temperature of about 38.6 °C.</li>
+</ul>
+</div>
+</div>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.2</strong> — <code>map()</code> to make a list of epicurves, one per hospital; look at the first.</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A list of six plots</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>epicurves <span class="ot">&lt;-</span> <span class="fu">map</span>(hospitals, <span class="sc">~</span> <span class="fu">make_epicurve</span>(linelist, .x))</span>
@@ -1158,12 +1540,108 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧩 Reading a function call
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here is the <code>map()</code> line you just ran, taken apart:</p>
+<p><code>epicurves &lt;- map(hospitals, ~ make_epicurve(linelist, .x))</code></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Piece</th>
+<th>What it is</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>epicurves</code></td>
+<td>the name of a new object</td>
+<td>holds the result</td>
+</tr>
+<tr class="even">
+<td><code>&lt;-</code></td>
+<td>the assignment arrow</td>
+<td>saves the result in <code>epicurves</code></td>
+</tr>
+<tr class="odd">
+<td><code>map(...)</code></td>
+<td>a function from the purrr package</td>
+<td>runs a function once for each element, and returns a list</td>
+</tr>
+<tr class="even">
+<td><code>hospitals</code></td>
+<td>the first argument of <code>map()</code></td>
+<td>the vector to go through: six hospital names</td>
+</tr>
+<tr class="odd">
+<td><code>~ make_epicurve(linelist, .x)</code></td>
+<td>the second argument: a short, nameless function</td>
+<td>what to do with each element</td>
+</tr>
+<tr class="even">
+<td><code>.x</code></td>
+<td>a placeholder</td>
+<td>the current hospital name, a different one each time</td>
+</tr>
+</tbody>
+</table>
+<p><code>map()</code> takes the first hospital, puts it in <code>.x</code>, runs <code>make_epicurve(linelist, "Central Hospital")</code>, and keeps the plot. Then it does the same for the next hospital, and so on. Read it aloud as: “for each of the hospitals, make an epicurve, and collect them in <code>epicurves</code>.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>map()</code> runs <code>make_epicurve(linelist, .x)</code> six times, once per hospital, and collects the six plots in a list called <code>epicurves</code>.</li>
+<li><code>length(epicurves)</code> is 6. <code>epicurves[[1]]</code> takes the first plot (Central Hospital) out of the list and draws it. <code>[[ ]]</code> pulls one element out of a list, as in <a href="../../pages/lessons/04-data-structures.html">Session 4</a>.</li>
+</ul>
+</div>
+</div>
+<div class="follow-along">
+<p><strong>👀 Follow along 6.3</strong> — <code>walk()</code> to save them all (the same as the Part 5 loop).</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save them all: the same as the for loop in Part 5, in one call</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">walk</span>(hospitals, <span class="sc">~</span> <span class="fu">ggsave</span>(</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="fu">paste0</span>(<span class="st">"epicurve_"</span>, <span class="fu">make_clean_names</span>(.x), <span class="st">".png"</span>)),</span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> <span class="fu">make_epicurve</span>(linelist, .x), <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">dpi =</span> <span class="dv">300</span></span>
 <span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>walk()</code> goes through <code>hospitals</code> like <code>map()</code>, but keeps nothing. It’s for work you do for its effect, like saving files.</li>
+<li>For each hospital <code>.x</code>, <code>ggsave()</code> makes the plot and saves it under the same file name as the Part 5 loop, so you get the same six files.</li>
+</ul>
+</div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1215,6 +1693,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<div class="follow-along">
+<p><strong>🔁 Follow along 6.4</strong> — The base R way: <code>sapply()</code> and <code>lapply()</code> on <code>age_years</code>, <code>bmi</code>, and <code>temp</code>, with <code>mean</code> and with <code>range</code>. Which one returns a matrix?</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>three_cols <span class="ot">&lt;-</span> linelist[, <span class="fu">c</span>(<span class="st">"age_years"</span>, <span class="st">"bmi"</span>, <span class="st">"temp"</span>)]</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1241,6 +1722,24 @@ $temp
 [2,]        84 60.0 40.8</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>linelist[, c("age_years", "bmi", "temp")]</code> keeps three columns with base R subsetting: all rows (nothing before the comma), these columns.</li>
+<li><code>sapply(three_cols, mean, na.rm = TRUE)</code> gives one number per column, the same as <code>map_dbl()</code>. <code>mean</code> has no brackets, because you hand over the function itself instead of running it.</li>
+<li><code>lapply(three_cols, range, na.rm = TRUE)</code> gives a list with two numbers (smallest and largest) per column: for example, ages run from 0 to 84.</li>
+<li><code>sapply(three_cols, range, na.rm = TRUE)</code> also gets two numbers per column, so it quietly builds a matrix with 2 rows and 3 columns.</li>
+</ul>
+</div>
+</div>
 <p>Extra arguments (<code>na.rm = TRUE</code>) go after the function name. <code>sapply()</code> <em>guesses</em> the shape of the result: a vector, a matrix, or a list. That guessing is why purrr has <code>map_dbl()</code>, <code>map_chr()</code>, and friends, which always return the type their name says. For your own functions, the base R shorthand is <code>\(x) mean(x, na.rm = TRUE)</code>, the same idea as <code>~ mean(.x, na.rm = TRUE)</code>.</p>
 </div>
 </div>
@@ -1250,7 +1749,7 @@ $temp
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT (5 min): map and walk
+<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (5 min): map and walk
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1260,7 +1759,7 @@ $temp
 </ol>
 <p>✅ <strong>Check:</strong> a) 8.75, 38.82, 4.94 b) the same five .png files</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1269,7 +1768,7 @@ $temp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a)</span></span>

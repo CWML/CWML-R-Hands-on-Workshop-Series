@@ -9,7 +9,7 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along: load packages; import linelist and order the categories
+# 👀 Follow along 1.1: load packages; import linelist and order the categories
 library(tidyverse)
 library(here)
 library(rio)
@@ -21,7 +21,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
     outcome = fct_relevel(outcome, "Recover", "Death", "Unknown")
   )
 
-# ✏️ TRY IT: import measles, order the categories, and save vacc_colors
+# ✏️ TRY IT 1: import measles, order the categories, and save vacc_colors
 measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE) %>%
   mutate(
     age_cat    = fct_relevel(age_cat, "Under 5", "5-9", "10-14", "15+", "Unknown"),
@@ -34,20 +34,20 @@ vacc_colors
 
 # ── PART 2: Bar charts of counts: geom_bar() ───────────────────────────────
 
-# 👀 Follow along: x, then y
+# 👀 Follow along 2.1: x, then y
 ggplot(data = linelist, mapping = aes(x = hospital_name)) +
   geom_bar()
 
 ggplot(data = linelist, mapping = aes(y = hospital_name)) +
   geom_bar()
 
-# 👀 Follow along: ordered bars
+# 👀 Follow along 2.2: ordered bars
 ggplot(data = linelist, mapping = aes(y = fct_rev(fct_infreq(hospital_name)))) +
   geom_bar(fill = "#2a78d6") +
   labs(title = "Cases by hospital", x = "Number of cases", y = NULL) +
   theme_minimal()
 
-# 👀 Follow along: stack, fill, dodge
+# 👀 Follow along 2.3: stack, fill, dodge
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "stack")
 
@@ -57,7 +57,7 @@ ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "dodge")
 
-# ✏️ TRY IT: measles cases by district, longest bar on top
+# ✏️ TRY IT 2: measles cases by district, longest bar on top
 ggplot(data = measles, mapping = aes(y = fct_rev(fct_infreq(district)))) +
   geom_bar(fill = "#2a78d6") +
   labs(title = "Measles cases by district", x = "Number of cases", y = NULL) +
@@ -66,7 +66,7 @@ ggplot(data = measles, mapping = aes(y = fct_rev(fct_infreq(district)))) +
 
 # ── PART 3: Bar charts of values: geom_col() ───────────────────────────────
 
-# 👀 Follow along: percentage who died per age group
+# 👀 Follow along 3.1: percentage who died per age group
 death_by_age <- linelist %>%
   filter(outcome != "Unknown", age_cat != "Unknown") %>%
   group_by(age_cat) %>%
@@ -82,7 +82,7 @@ ggplot(data = death_by_age, mapping = aes(x = age_cat, y = pct_death)) +
   labs(title = "Case fatality by age group", x = "Age group", y = "Deaths (% of cases)") +
   theme_minimal()
 
-# ✏️ TRY IT: case rates by district
+# ✏️ TRY IT 3: case rates by district
 # a)
 district_rates <- measles %>%
   filter(district != "Unknown") %>%
@@ -104,7 +104,7 @@ ggplot(data = district_rates, mapping = aes(x = fct_reorder(district, rate_per_1
 
 # ── PART 4: Choosing colors ────────────────────────────────────────────────
 
-# 👀 Follow along: outcome by age group with chosen colors
+# 👀 Follow along 4.1: outcome by age group with chosen colors
 outcome_colors <- c("Recover" = "#2a78d6", "Death" = "#eb6834", "Unknown" = "#9a9a95")
 
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
@@ -119,7 +119,7 @@ ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   ) +
   theme_minimal()
 
-# ✏️ TRY IT: vaccination by age group
+# ✏️ TRY IT 4: vaccination by age group
 ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
   geom_bar(position = "fill", color = "white") +
   scale_fill_manual(values = vacc_colors) +
@@ -135,13 +135,13 @@ ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
 
 # ── PART 5: Epidemic curves ────────────────────────────────────────────────
 
-# 👀 Follow along: all onset dates. What's going on before 2014?
+# 👀 Follow along 5.1: all onset dates. What's going on before 2014?
 ggplot(data = linelist, mapping = aes(x = onset_date)) +
   geom_histogram(binwidth = 7, fill = "#2a78d6", color = "white")
 # 538 onset dates fall in 2012–2013. Every one belongs to a case ID that appears
 # more than once: almost certainly data-entry errors in the year.
 
-# 👀 Follow along: from 2014, with a date axis
+# 👀 Follow along 5.2: from 2014, with a date axis
 linelist %>%
   filter(onset_date >= as.Date("2014-01-01")) %>%
   ggplot(mapping = aes(x = onset_date)) +
@@ -155,7 +155,7 @@ linelist %>%
   ) +
   theme_minimal()
 
-# 👀 Follow along: fill by outcome
+# 👀 Follow along 5.3: fill by outcome
 linelist %>%
   filter(onset_date >= as.Date("2014-01-01")) %>%
   ggplot(mapping = aes(x = onset_date, fill = outcome)) +
@@ -165,7 +165,7 @@ linelist %>%
   labs(x = "Week of onset", y = "Number of cases", fill = "Outcome") +
   theme_minimal()
 
-# ✏️ TRY IT: the measles epicurve
+# ✏️ TRY IT 5: the measles epicurve
 measles_epicurve <- measles %>%
   filter(!is.na(report_date)) %>%
   ggplot(mapping = aes(x = report_date, fill = vaccinated)) +
@@ -186,7 +186,7 @@ measles_epicurve
 
 # ── PART 6: Facets ─────────────────────────────────────────────────────────
 
-# 👀 Follow along: epicurve by hospital
+# 👀 Follow along 6.1: epicurve by hospital
 linelist %>%
   filter(onset_date >= as.Date("2014-01-01"), hospital_name != "Other/Unknown") %>%
   ggplot(mapping = aes(x = onset_date)) +
@@ -196,7 +196,7 @@ linelist %>%
   labs(title = "Weekly cases by hospital", x = "Week of onset", y = "Number of cases") +
   theme_minimal()
 
-# 👀 Follow along: age histogram by gender
+# 👀 Follow along 6.2: age histogram by gender
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = age_years)) +
@@ -205,7 +205,7 @@ linelist %>%
   labs(title = "Age distribution by gender", x = "Age (years)", y = "Number of cases") +
   theme_minimal()
 
-# ✏️ TRY IT: the measles epicurve by district
+# ✏️ TRY IT 6: the measles epicurve by district
 measles %>%
   filter(!is.na(report_date), district != "Unknown") %>%
   ggplot(mapping = aes(x = report_date, fill = vaccinated)) +
@@ -226,7 +226,7 @@ measles %>%
 
 # ── PART 7: Saving plots ───────────────────────────────────────────────────
 
-# 👀 Follow along: save the epicurve
+# 👀 Follow along 7.1: save the epicurve
 epicurve <- linelist %>%
   filter(onset_date >= as.Date("2014-01-01")) %>%
   ggplot(mapping = aes(x = onset_date)) +
@@ -237,7 +237,7 @@ epicurve <- linelist %>%
 ggsave(here("outputs", "epicurve.png"), plot = epicurve,
        width = 8, height = 5, dpi = 300)
 
-# ✏️ TRY IT: save the measles epicurve
+# ✏️ TRY IT 7: save the measles epicurve
 ggsave(here("outputs", "measles_epicurve.png"), plot = measles_epicurve,
        width = 8, height = 5, dpi = 300)
 

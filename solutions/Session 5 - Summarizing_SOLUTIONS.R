@@ -9,7 +9,7 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along: load packages; import combined_linelist.rds as linelist
+# 👀 Follow along 1.1: load packages; import combined_linelist.rds as linelist
 library(tidyverse)
 library(here)
 library(rio)
@@ -18,16 +18,16 @@ library(gtsummary)
 
 linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
 
-# ✏️ TRY IT: import measles_final.rds as measles
+# ✏️ TRY IT 1: import measles_final.rds as measles
 measles <- import(here("processed_data", "measles_final.rds"), trust = TRUE)
 
 
 # ── PART 2: Putting categories in order (factors) ──────────────────────────
 
-# 👀 Follow along: count(age_cat). What order are the groups in?
+# 👀 Follow along 2.1: count(age_cat). What order are the groups in?
 linelist %>% count(age_cat)   # alphabetical: "Under 18" ends up near the bottom
 
-# 👀 Follow along: fct_relevel() age_cat and outcome
+# 👀 Follow along 2.2: fct_relevel() age_cat and outcome
 linelist <- linelist %>%
   mutate(
     age_cat = fct_relevel(age_cat, "Under 18", "18-29", "30-39", "40-49",
@@ -37,11 +37,11 @@ linelist <- linelist %>%
 
 linelist %>% count(age_cat)
 
-# 🔁 Follow along: the base R way
+# 🔁 Follow along 2.3: the base R way
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "Death"))
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "death"))   # NA, no warning!
 
-# ✏️ TRY IT: fct_relevel() age_cat, vaccinated, and outcome in measles
+# ✏️ TRY IT 2: fct_relevel() age_cat, vaccinated, and outcome in measles
 measles <- measles %>%
   mutate(
     age_cat    = fct_relevel(age_cat, "Under 5", "5-9", "10-14", "15+", "Unknown"),
@@ -54,28 +54,28 @@ measles %>% count(age_cat)
 
 # ── PART 3: Counting and percentages with count() ──────────────────────────
 
-# 👀 Follow along: count(outcome), then count(age_cat, outcome)
+# 👀 Follow along 3.1: count(outcome), then count(age_cat, outcome)
 linelist %>% count(outcome)
 linelist %>% count(age_cat, outcome)
 
-# 👀 Follow along: count(outcome) with a percent column
+# 👀 Follow along 3.2: count(outcome) with a percent column
 linelist %>%
   count(outcome) %>%
   mutate(percent = scales::percent(n / sum(n), accuracy = 0.1))
 
-# 👀 Follow along: percentages within each age group with group_by()
+# 👀 Follow along 3.3: percentages within each age group with group_by()
 linelist %>%
   group_by(age_cat) %>%
   count(outcome) %>%
   mutate(percent = scales::percent(n / sum(n), accuracy = 0.1)) %>%
   ungroup()
 
-# 🔁 Follow along: the base R way
+# 🔁 Follow along 3.4: the base R way
 age_outcome <- table(linelist$age_cat, linelist$outcome)
 age_outcome
 round(prop.table(age_outcome, margin = 1) * 100, 1)   # each row adds up to 100
 
-# ✏️ TRY IT:
+# ✏️ TRY IT 3:
 # a)
 measles %>%
   count(vaccinated) %>%
@@ -91,7 +91,7 @@ measles %>%
 
 # ── PART 4: Summary statistics with summarise() ────────────────────────────
 
-# 👀 Follow along: summarise() for everyone
+# 👀 Follow along 4.1: summarise() for everyone
 linelist %>%
   summarise(
     n          = n(),
@@ -100,7 +100,7 @@ linelist %>%
     median_age = median(age_years, na.rm = TRUE)
   )
 
-# 👀 Follow along: by outcome
+# 👀 Follow along 4.2: by outcome
 linelist %>%
   group_by(outcome) %>%
   summarise(
@@ -111,12 +111,12 @@ linelist %>%
     mean_temp  = mean(temp, na.rm = TRUE)
   )
 
-# 👀 Follow along: across()
+# 👀 Follow along 4.3: across()
 linelist %>%
   group_by(outcome) %>%
   summarise(across(c(age_years, bmi, temp), ~ mean(.x, na.rm = TRUE)))
 
-# 👀 Follow along: percentage with each symptom by outcome
+# 👀 Follow along 4.4: percentage with each symptom by outcome
 linelist %>%
   group_by(outcome) %>%
   summarise(
@@ -127,11 +127,11 @@ linelist %>%
     pct_vomit = round(mean(vomit == "yes") * 100, 1)
   )
 
-# 🔁 Follow along: the base R way
+# 🔁 Follow along 4.5: the base R way
 tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)   # 13, 13, 14
 aggregate(age_years ~ outcome, data = linelist, FUN = median)
 
-# ✏️ TRY IT: summary statistics by measles outcome
+# ✏️ TRY IT 4: summary statistics by measles outcome
 measles %>%
   group_by(outcome) %>%
   summarise(
@@ -143,7 +143,7 @@ measles %>%
   )
 # Recovered n = 1048 (median age 7); Died n = 50 (median age 5): children who died were younger
 
-# ✏️ TRY IT: cases per 10,000 people by district
+# ✏️ TRY IT 5: cases per 10,000 people by district
 measles %>%
   count(district, population) %>%
   mutate(rate_per_10k = round(n / population * 10000, 1)) %>%
@@ -154,11 +154,11 @@ measles %>%
 
 # ── PART 5: Quick tables with tabyl() ──────────────────────────────────────
 
-# 👀 Follow along: tabyl(outcome), then tabyl(age_cat, outcome)
+# 👀 Follow along 5.1: tabyl(outcome), then tabyl(age_cat, outcome)
 linelist %>% tabyl(outcome)
 linelist %>% tabyl(age_cat, outcome)
 
-# 👀 Follow along: with all five adorn_ functions
+# 👀 Follow along 5.2: with all five adorn_ functions
 linelist %>%
   tabyl(age_cat, outcome) %>%
   adorn_totals("row") %>%
@@ -167,7 +167,7 @@ linelist %>%
   adorn_ns() %>%
   adorn_title("combined")
 
-# ✏️ TRY IT: vaccinated by outcome
+# ✏️ TRY IT 6: vaccinated by outcome
 measles %>%
   tabyl(vaccinated, outcome) %>%
   adorn_percentages("row") %>%
@@ -178,14 +178,14 @@ measles %>%
 
 # ── PART 6: Table 1 with gtsummary ─────────────────────────────────────────
 
-# 👀 Follow along: a basic tbl_summary(by = outcome)
+# 👀 Follow along 6.1: a basic tbl_summary(by = outcome)
 linelist %>%
   filter(outcome != "Unknown") %>%
   mutate(outcome = fct_drop(outcome)) %>%
   select(outcome, gender, age_years, age_cat, bmi, hospital_name, fever, cough, temp) %>%
   tbl_summary(by = outcome)
 
-# 👀 Follow along: the same with na_if() for "Unknown"
+# 👀 Follow along 6.2: the same with na_if() for "Unknown"
 linelist %>%
   filter(outcome != "Unknown") %>%
   mutate(outcome = fct_drop(outcome)) %>%
@@ -193,7 +193,7 @@ linelist %>%
   mutate(across(where(is.character), ~ na_if(.x, "Unknown"))) %>%
   tbl_summary(by = outcome)
 
-# 👀 Follow along: a customized table1, saved to Word
+# 👀 Follow along 6.3: a customized table1, saved to Word
 table1 <- linelist %>%
   filter(outcome != "Unknown") %>%
   mutate(outcome = fct_drop(outcome)) %>%
@@ -223,7 +223,7 @@ table1 %>%
   as_flex_table() %>%
   flextable::save_as_docx(path = here("outputs", "table1.docx"))
 
-# ✏️ TRY IT: a Table 1 for the measles cases
+# ✏️ TRY IT 7: a Table 1 for the measles cases
 measles_table1 <- measles %>%
   filter(outcome != "Unknown") %>%
   mutate(outcome = fct_drop(outcome)) %>%

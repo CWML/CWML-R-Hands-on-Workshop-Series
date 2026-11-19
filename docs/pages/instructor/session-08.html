@@ -489,7 +489,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Demo <code>walk()</code> but make the Part 6 TRY IT homework — part (b) just repeats the Part 5 district loop. Don’t cut the Part 5 loop: it is the payoff of the session.</p>
+<p><strong>Short on time?</strong> Demo <code>walk()</code> but make TRY IT 6 (map and walk) homework — part (b) just repeats the district loop from TRY IT 5. Don’t cut the Part 5 loop: it is the payoff of the session.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -504,7 +504,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
 <p><strong>The motivating example.</strong> Keep returning to it: <em>“Your manager wants an epidemic curve for every hospital, every week.”</em> By the end, one loop does it.</p>
 <p><strong>Part 2 — Writing your first function.</strong> Show that a function only exists after you run the whole block — it then appears in the <strong>Variables</strong> pane. When you change a function, re-run the block, or R keeps using the old version. Point out that <code>c_to_f()</code> is vectorized because the maths inside is, so it works inside <code>mutate()</code>. The <code>f_to_c(104.7)</code> result (40.4) is the Fahrenheit temperature learners found in the measles data in Session 1.</p>
-<p><strong>Part 3 — Functions that use data.</strong> Point out that <code>pct()</code> replaces the <code>round(mean(...) * 100, 1)</code> learners wrote over and over in Session 5, and that <code>paste("Weekly cases:", hospital)</code> gives every plot the right title. In the TRY IT, watch for learners naming the argument <code>district</code>: then <code>filter(district == district)</code> compares the column with itself and keeps every row — no error, just the wrong answer (n = 1163 instead of 342). That’s why the argument is called <code>district_name</code>. The lesson page has this as a warning box.</p>
+<p><strong>Part 3 — Functions that use data.</strong> Point out that <code>pct()</code> replaces the <code>round(mean(...) * 100, 1)</code> learners wrote over and over in Session 5, and that <code>paste("Weekly cases:", hospital)</code> gives every plot the right title. In TRY IT 3, watch for learners naming the argument <code>district</code>: then <code>filter(district == district)</code> compares the column with itself and keeps every row — no error, just the wrong answer (n = 1163 instead of 342). That’s why the argument is called <code>district_name</code>. The lesson page has this as a warning box.</p>
 <p><strong>Part 4 — <code>if</code> / <code>else</code>.</strong> Run <code>fever_status(c(39.2, 36.9))</code> live so learners see the error “the condition has length &gt; 1”: <code>if</code> asks one yes/no question. Then switch to the vectorized <code>if_else()</code> from Session 2. Present <code>stop()</code> input checks as where <code>if</code> really shines. (Both error chunks are deliberate; the lesson page shows the errors.)</p>
 <p><strong>Part 5 — <code>for</code> loops.</strong> Stress that inside a loop nothing prints automatically (<code>print()</code>), and that results need a container created <strong>before</strong> the loop. In the payoff loop, point out <code>make_clean_names()</code> turning “St.&nbsp;Mark’s Maternity Hospital” into <code>st_marks_maternity_hospital</code> and <code>paste0()</code> building the file name: six files, one loop — and next week you just re-run it. Have learners check the <strong>Explorer</strong> for the new files in <code>outputs/</code>. Remind them that <code>mutate()</code>, <code>group_by()</code> + <code>summarise()</code>, and <code>across()</code> already loop for them; a <code>for</code> loop is for repeating a <strong>whole task</strong>.</p>
 <p><strong>Part 6 — <code>map()</code> and <code>walk()</code>.</strong> Point out that a data frame is a list of columns, so <code>map_dbl()</code> runs once per column, and that <code>~ .x</code> is the same shorthand they used with <code>across()</code> in Session 3. Loop or <code>map()</code>? Both are fine — tell learners to use the one they can read.</p>
@@ -513,6 +513,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
+<p>The numbers match the TRY IT numbers in the lesson, the student script, and the solutions file. Follow-along prompts are numbered by part (Follow along 5.3 = Part 5, third prompt).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -526,27 +527,27 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Import the measles data</td>
+<td>1. Import the measles data</td>
 <td><code>measles &lt;- import(here("processed_data", "measles_final.rds"), trust = TRUE)</code> — 1163 rows, 14 columns</td>
 </tr>
 <tr class="even">
-<td>Fahrenheit to Celsius</td>
+<td>2. Fahrenheit to Celsius</td>
 <td><code>f_to_c(98.6)</code> is 37; <code>f_to_c(104.7)</code> is 40.4</td>
 </tr>
 <tr class="odd">
-<td>Measles functions</td>
+<td>3. Measles functions</td>
 <td>a) East has the highest rate, 22.8 per 10,000; b) <code>district_summary(measles, "North")</code>: n = 342, 25.7% vaccinated</td>
 </tr>
 <tr class="even">
-<td>Fever status</td>
+<td>4. Fever status</td>
 <td>a) <code>fever_status_one(38.5)</code> is <code>"fever"</code>; b) 1015 “fever”, 148 “no fever”</td>
 </tr>
 <tr class="odd">
-<td>One epicurve per district</td>
+<td>5. One epicurve per district</td>
 <td>Five files: <code>measles_central.png</code>, <code>measles_east.png</code>, <code>measles_north.png</code>, <code>measles_south.png</code>, <code>measles_west.png</code></td>
 </tr>
 <tr class="even">
-<td>Map and walk</td>
+<td>6. Map and walk</td>
 <td>a) 8.75, 38.82, 4.94; b) the same five files</td>
 </tr>
 </tbody>

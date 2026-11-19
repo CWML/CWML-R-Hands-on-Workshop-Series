@@ -11,6 +11,8 @@
 #   ⚠️ Common mistakes        what usually goes wrong
 #
 #   Pattern: lines show the shape of the code. Replace the words in CAPITALS.
+#   Numbers:  Follow along 5.3 and TRY IT 5 have the same numbers on the course
+#             website, so you can always find your place in either one.
 #
 #   Run a line:      put your cursor on it, press Cmd + Return (Mac) or Ctrl + Enter (Windows)
 #   Insert a pipe:   Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
@@ -34,14 +36,14 @@
 #    - Missed Session 2? Ready-made copies of these files are already in processed_data/.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio, janitor, skimr
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr
 
 
-# 👀 Follow along: import processed_data/linelist_clean.rds (linelist_clean)
+# 👀 Follow along 1.2: import processed_data/linelist_clean.rds (linelist_clean)
 #    and raw_data/case_info.csv (case_info)
 
 
-# ✏️ TRY IT (2 min): import processed_data/measles_clean.rds (measles_clean)
+# ✏️ TRY IT 1 (2 min): import processed_data/measles_clean.rds (measles_clean)
 #    and raw_data/district_info.csv (district_info)
 #    ✅ Check: measles_clean has 1215 rows; district_info has 5 rows
 
@@ -61,13 +63,13 @@
 #        3. Replace them, e.g. with "Unknown" for categories (Part 5).
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: colSums(is.na(linelist_clean))
+# 👀 Follow along 2.1: colSums(is.na(linelist_clean))
 
 
-# 👀 Follow along: how many rows would drop_na(bmi) remove? Compare nrow() before and after.
+# 👀 Follow along 2.2: how many rows would drop_na(bmi) remove? Compare nrow() before and after.
 
 
-# ✏️ TRY IT (2 min): count the missing values in each column of measles_clean.
+# ✏️ TRY IT 2 (2 min): count the missing values in each column of measles_clean.
 #    Which column has missing values that are NOT a mistake?
 #    ✅ Check: days_in_hospital has the most NAs (766)
 
@@ -84,11 +86,11 @@
 #    - paste0() glues text together: paste0("ID", "00001") gives "ID00001".
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: create missing_ids: filter(is.na(case_id)), then give each row
+# 👀 Follow along 3.1: create missing_ids: filter(is.na(case_id)), then give each row
 #    a new case_id with paste0("ID", sprintf("%05d", row_number()))
 
 
-# ✏️ TRY IT (3 min): create measles_missing_ids: the rows of measles_clean with no
+# ✏️ TRY IT 3 (3 min): create measles_missing_ids: the rows of measles_clean with no
 #    patient_id, with new IDs NEW-0001, NEW-0002, ...
 #    Pattern: paste0("NEW-", sprintf("%04d", row_number()))
 #    ✅ Check: measles_missing_ids has 37 rows
@@ -106,14 +108,14 @@
 #      of the row is different. Those need a person to decide which is right.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: create linelist_final: filter(!is.na(case_id)), then distinct().
+# 👀 Follow along 4.1: create linelist_final: filter(!is.na(case_id)), then distinct().
 #    Compare nrow() before and after.
 
 
-# 👀 Follow along: do any IDs still appear more than once? get_dupes(case_id)
+# 👀 Follow along 4.2: do any IDs still appear more than once? get_dupes(case_id)
 
 
-# ✏️ TRY IT (3 min): create measles_final from measles_clean: keep rows that have a
+# ✏️ TRY IT 4 (3 min): create measles_final from measles_clean: keep rows that have a
 #    patient_id, then remove exact duplicates. How many rows did distinct() remove?
 #    ✅ Check: 1178 rows after filter(), 1163 after distinct()
 
@@ -132,15 +134,15 @@
 #      select(-COLUMN) drops a column; select(COLUMN, everything()) moves it first.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: replace NA with "Unknown" in every text column of linelist_final.
+# 👀 Follow along 5.1: replace NA with "Unknown" in every text column of linelist_final.
 #    Check with count(gender) and count(outcome).
 
 
-# 👀 Follow along: select() case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,
+# 👀 Follow along 5.2: select() case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,
 #    date_of_infection, onset_date, hospital_date, date_of_outcome, hospital_name, outcome
 
 
-# ✏️ TRY IT (3 min): replace NA with "Unknown" in every text column of measles_final
+# ✏️ TRY IT 5 (3 min): replace NA with "Unknown" in every text column of measles_final
 #    Why does days_in_hospital still have NAs?
 #    ✅ Check: count(district) now shows Unknown (34) instead of NA
 
@@ -164,22 +166,22 @@
 #      A$id %in% B$id gives TRUE/FALSE for each id: is it found in B?
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: a tiny example. Make patients (id 1, 2, 3) and labs (id 2, 3, 4)
+# 👀 Follow along 6.1: a tiny example. Make patients (id 1, 2, 3) and labs (id 2, 3, 4)
 #    with tibble(), then try all four joins on them.
 
 
-# 🔁 Follow along: the base R way. merge() with and without all.x = TRUE,
+# 🔁 Follow along 6.2: the base R way. merge() with and without all.x = TRUE,
 #    then find patients with no lab result with %in%
 
 
-# 👀 Follow along: create combined_linelist by left_join()-ing case_info to linelist_final
+# 👀 Follow along 6.3: create combined_linelist by left_join()-ing case_info to linelist_final
 #    Pattern: NEW_DATA <- MAIN_DATA %>% left_join(OTHER_DATA, by = "KEY_COLUMN")
 
 
-# 👀 Follow along: check the join with nrow() and anti_join()
+# 👀 Follow along 6.4: check the join with nrow() and anti_join()
 
 
-# ✏️ TRY IT (4 min): add district_info to measles_final with left_join() (the key is district)
+# ✏️ TRY IT 6 (4 min): add district_info to measles_final with left_join() (the key is district)
 #    Did the number of rows change? Which rows got no population, and why?
 #    HINT: anti_join(measles_final, district_info, by = "district") %>% count(district)
 #    ✅ Check: still 1163 rows; the 34 "Unknown" district rows have no population
@@ -197,11 +199,11 @@
 #    export() picks the type from the file extension, just like import().
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along: save combined_linelist as .rds, and linelist_final, missing_ids,
+# 👀 Follow along 7.1: save combined_linelist as .rds, and linelist_final, missing_ids,
 #    and combined_linelist as .csv, all in processed_data/
 
 
-# ✏️ TRY IT (2 min): save measles_final as processed_data/measles_final.rds AND
+# ✏️ TRY IT 7 (2 min): save measles_final as processed_data/measles_final.rds AND
 #    measles_final.csv, and measles_missing_ids as processed_data/measles_missing_ids.csv
 #    ✅ Check: three new files in processed_data/. You need measles_final.rds in Sessions 4–8!
 

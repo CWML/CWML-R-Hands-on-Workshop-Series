@@ -9,19 +9,19 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along: load tidyverse, here, rio, janitor, skimr
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr
 library(tidyverse)
 library(here)
 library(rio)
 library(janitor)
 library(skimr)
 
-# 👀 Follow along: import processed_data/linelist_clean.rds (linelist_clean)
+# 👀 Follow along 1.2: import processed_data/linelist_clean.rds (linelist_clean)
 #    and raw_data/case_info.csv (case_info)
 linelist_clean <- import(here("processed_data", "linelist_clean.rds"), trust = TRUE)
 case_info      <- import(here("raw_data", "case_info.csv"))
 
-# ✏️ TRY IT: import processed_data/measles_clean.rds and raw_data/district_info.csv
+# ✏️ TRY IT 1: import processed_data/measles_clean.rds and raw_data/district_info.csv
 measles_clean <- import(here("processed_data", "measles_clean.rds"), trust = TRUE)
 district_info <- import(here("raw_data", "district_info.csv"))
 
@@ -31,28 +31,28 @@ district_info         # 5 rows
 
 # ── PART 2: Where is data missing? ─────────────────────────────────────────
 
-# 👀 Follow along: colSums(is.na(linelist_clean))
+# 👀 Follow along 2.1: colSums(is.na(linelist_clean))
 colSums(is.na(linelist_clean))
 
-# 👀 Follow along: how many rows would drop_na(bmi) remove?
+# 👀 Follow along 2.2: how many rows would drop_na(bmi) remove?
 nrow(linelist_clean)                        # 6604
 linelist_clean %>% drop_na(bmi) %>% nrow()  # 5222: we would lose 1382 patients
 
-# ✏️ TRY IT: count the missing values in each column of measles_clean
+# ✏️ TRY IT 2: count the missing values in each column of measles_clean
 colSums(is.na(measles_clean))
 # days_in_hospital (766): patients who were never hospitalized have no hospital days.
 
 
 # ── PART 3: Rows with no ID ────────────────────────────────────────────────
 
-# 👀 Follow along: create missing_ids
+# 👀 Follow along 3.1: create missing_ids
 missing_ids <- linelist_clean %>%
   filter(is.na(case_id)) %>%
   mutate(case_id = paste0("ID", sprintf("%05d", row_number())))
 
 nrow(missing_ids)   # 130
 
-# ✏️ TRY IT: create measles_missing_ids with new IDs NEW-0001, NEW-0002, ...
+# ✏️ TRY IT 3: create measles_missing_ids with new IDs NEW-0001, NEW-0002, ...
 measles_missing_ids <- measles_clean %>%
   filter(is.na(patient_id)) %>%
   mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))
@@ -62,7 +62,7 @@ nrow(measles_missing_ids)   # 37
 
 # ── PART 4: Duplicates ─────────────────────────────────────────────────────
 
-# 👀 Follow along: create linelist_final: filter(!is.na(case_id)), then distinct()
+# 👀 Follow along 4.1: create linelist_final: filter(!is.na(case_id)), then distinct()
 linelist_final <- linelist_clean %>%
   filter(!is.na(case_id)) %>%
   distinct()
@@ -70,10 +70,10 @@ linelist_final <- linelist_clean %>%
 nrow(linelist_clean)   # 6604
 nrow(linelist_final)   # 6451
 
-# 👀 Follow along: do any IDs still appear more than once? get_dupes(case_id)
+# 👀 Follow along 4.2: do any IDs still appear more than once? get_dupes(case_id)
 linelist_final %>% get_dupes(case_id)   # yes: same ID, different details
 
-# ✏️ TRY IT: create measles_final: keep rows with a patient_id, then distinct()
+# ✏️ TRY IT 4: create measles_final: keep rows with a patient_id, then distinct()
 measles_final <- measles_clean %>%
   filter(!is.na(patient_id))
 
@@ -87,20 +87,20 @@ nrow(measles_final)   # 1163: distinct() removed 15 duplicate rows
 
 # ── PART 5: Replacing missing values and choosing columns ──────────────────
 
-# 👀 Follow along: replace NA with "Unknown" in every text column of linelist_final
+# 👀 Follow along 5.1: replace NA with "Unknown" in every text column of linelist_final
 linelist_final <- linelist_final %>%
   mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))
 
 linelist_final %>% count(gender)
 linelist_final %>% count(outcome)
 
-# 👀 Follow along: select() and order the columns
+# 👀 Follow along 5.2: select() and order the columns
 linelist_final <- linelist_final %>%
   select(case_id, gender, age_years, age_cat, wt_kg, ht_cm, bmi,
          date_of_infection, onset_date, hospital_date, date_of_outcome,
          hospital_name, outcome)
 
-# ✏️ TRY IT: replace NA with "Unknown" in every text column of measles_final
+# ✏️ TRY IT 5: replace NA with "Unknown" in every text column of measles_final
 measles_final <- measles_final %>%
   mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))
 
@@ -111,7 +111,7 @@ measles_final %>% count(district)   # Unknown (34)
 
 # ── PART 6: Joining datasets ───────────────────────────────────────────────
 
-# 👀 Follow along: a tiny example
+# 👀 Follow along 6.1: a tiny example
 patients <- tibble(id = c(1, 2, 3), name = c("Ana", "Ben", "Cho"))
 labs     <- tibble(id = c(2, 3, 4), result = c("positive", "negative", "positive"))
 
@@ -120,24 +120,24 @@ inner_join(patients, labs, by = "id")   # only ids 2 and 3
 full_join(patients, labs, by = "id")    # ids 1–4
 anti_join(patients, labs, by = "id")    # Ana: no lab result
 
-# 🔁 Follow along: the base R way
+# 🔁 Follow along 6.2: the base R way
 merge(patients, labs, by = "id")                # inner join (the default!)
 merge(patients, labs, by = "id", all.x = TRUE)  # left join
 merge(patients, labs, by = "id", all = TRUE)    # full join
 patients$id %in% labs$id                        # FALSE TRUE TRUE
 patients[!patients$id %in% labs$id, ]           # Ana: the same as anti_join()
 
-# 👀 Follow along: create combined_linelist
+# 👀 Follow along 6.3: create combined_linelist
 combined_linelist <- linelist_final %>%
   left_join(case_info, by = "case_id")
 
-# 👀 Follow along: check the join
+# 👀 Follow along 6.4: check the join
 nrow(linelist_final)      # 6451
 nrow(combined_linelist)   # 6451: no rows added
 anti_join(linelist_final, case_info, by = "case_id") %>% nrow()   # 0: every case matched
 sum(!linelist_final$case_id %in% case_info$case_id)               # 0: the same check in base R
 
-# ✏️ TRY IT: add district_info to measles_final
+# ✏️ TRY IT 6: add district_info to measles_final
 measles_final <- measles_final %>%
   left_join(district_info, by = "district")
 
@@ -148,14 +148,14 @@ anti_join(measles_final, district_info, by = "district") %>% count(district)
 
 # ── PART 7: Exporting ──────────────────────────────────────────────────────
 
-# 👀 Follow along: .rds for R, .csv for sharing
+# 👀 Follow along 7.1: .rds for R, .csv for sharing
 export(combined_linelist, here("processed_data", "combined_linelist.rds"))
 
 export(linelist_final,    here("processed_data", "linelist_final.csv"))
 export(missing_ids,       here("processed_data", "missing_ids.csv"))
 export(combined_linelist, here("processed_data", "combined_linelist.csv"))
 
-# ✏️ TRY IT: save the measles files
+# ✏️ TRY IT 7: save the measles files
 export(measles_final,       here("processed_data", "measles_final.rds"))
 export(measles_final,       here("processed_data", "measles_final.csv"))
 export(measles_missing_ids, here("processed_data", "measles_missing_ids.csv"))
