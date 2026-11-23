@@ -362,8 +362,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#windows-users-installing-rtools-required-for-compiling-r-packages" id="toc-windows-users-installing-rtools-required-for-compiling-r-packages" class="nav-link active" data-scroll-target="#windows-users-installing-rtools-required-for-compiling-r-packages">Windows users – installing Rtools (required for compiling R packages)</a></li>
+  <li><a href="#reading-error-messages" id="toc-reading-error-messages" class="nav-link active" data-scroll-target="#reading-error-messages">Reading error messages</a>
+  <ul class="collapse">
+  <li><a href="#the-parts-of-an-error" id="toc-the-parts-of-an-error" class="nav-link" data-scroll-target="#the-parts-of-an-error">The parts of an error</a></li>
+  <li><a href="#five-steps-when-you-get-an-error" id="toc-five-steps-when-you-get-an-error" class="nav-link" data-scroll-target="#five-steps-when-you-get-an-error">Five steps when you get an error</a></li>
+  <li><a href="#common-errors-in-this-workshop" id="toc-common-errors-in-this-workshop" class="nav-link" data-scroll-target="#common-errors-in-this-workshop">Common errors in this workshop</a></li>
+  </ul></li>
+  <li><a href="#installing-packages" id="toc-installing-packages" class="nav-link" data-scroll-target="#installing-packages">Installing packages</a>
+  <ul class="collapse">
+  <li><a href="#windows-users-installing-rtools-required-for-compiling-r-packages" id="toc-windows-users-installing-rtools-required-for-compiling-r-packages" class="nav-link" data-scroll-target="#windows-users-installing-rtools-required-for-compiling-r-packages">Windows users – installing Rtools (required for compiling R packages)</a></li>
   <li><a href="#mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages" id="toc-mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages" class="nav-link" data-scroll-target="#mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages">Mac users – installing gfortran and Xcode Command Line Tools (required for compiling R packages)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -374,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Troubleshooting</h1>
-<p class="subtitle lead">Fixing package installation problems on Windows and Mac</p>
+<p class="subtitle lead">Reading error messages, and fixing package installation problems on Windows and Mac</p>
 </div>
 
 
@@ -391,15 +400,139 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>This page has two parts: how to read an R error message and fix the most common ones, and how to fix packages that won’t install.</p>
+<section id="reading-error-messages" class="level2">
+<h2 class="anchored" data-anchor-id="reading-error-messages">Reading error messages</h2>
+<p>Everyone who writes R gets error messages, every day. An error isn’t a sign that you’re doing badly: it’s R telling you exactly where it got stuck. Session 1 showed the difference between an <strong>error</strong> (R stopped), a <strong>warning</strong> (R finished, but something may be wrong), and a <strong>message</strong> (just information).</p>
+<section id="the-parts-of-an-error" class="level3">
+<h3 class="anchored" data-anchor-id="the-parts-of-an-error">The parts of an error</h3>
+<p>Here is an error from Session 2, when a column name has a typo:</p>
+<pre><code>Error in `mutate()`:
+ℹ In argument: `x = mean(agee)`.
+Caused by error:
+! object 'agee' not found</code></pre>
+<ul>
+<li><strong><code>Error in mutate()</code></strong> — the function that stopped. Look for it in your code.</li>
+<li><strong><code>ℹ In argument:</code></strong> — the exact piece of code inside that function.</li>
+<li><strong><code>Caused by error:</code> / <code>!</code></strong> — the actual problem. Read this line first: there’s no column or object called <code>agee</code>.</li>
+<li>Lines starting with <strong><code>ℹ</code></strong> are hints, and <strong><code>✖</code></strong> lines say what went wrong. Tidyverse messages often suggest the fix.</li>
+</ul>
+</section>
+<section id="five-steps-when-you-get-an-error" class="level3">
+<h3 class="anchored" data-anchor-id="five-steps-when-you-get-an-error">Five steps when you get an error</h3>
+<ol type="1">
+<li><strong>Read the last line first</strong> (the one with <code>!</code>). It usually says what’s wrong.</li>
+<li><strong>Find the function</strong> named after <code>Error in</code>, and look at that line of your code.</li>
+<li><strong>Check the spelling</strong> of every name: columns, objects, functions. R treats <code>Age</code> and <code>age</code> as different names.</li>
+<li><strong>Run the code piece by piece.</strong> In a pipeline, select the lines up to just before a <code>%&gt;%</code> and run them. Add one line at a time until the error appears.</li>
+<li><strong>Still stuck?</strong> Search for the exact message in quotes (leave out your own object names), check the function’s help page with <code>?function_name</code>, or ask: a person, or an <a href="../pages/ai-assistants.html">AI assistant</a> (with care).</li>
+</ol>
+</section>
+<section id="common-errors-in-this-workshop" class="level3">
+<h3 class="anchored" data-anchor-id="common-errors-in-this-workshop">Common errors in this workshop</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What R says</th>
+<th>What it usually means</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>object 'linelst' not found</code></td>
+<td>A typo in a name, or you never ran the line that creates it</td>
+<td>Check the spelling; run the line with <code>&lt;-</code> first</td>
+</tr>
+<tr class="even">
+<td><code>could not find function "clean_names"</code></td>
+<td>The package isn’t loaded</td>
+<td>Run <code>library(janitor)</code> (each session starts with the <code>library()</code> lines)</td>
+</tr>
+<tr class="odd">
+<td><code>could not find function "%&gt;%"</code></td>
+<td>The tidyverse isn’t loaded</td>
+<td>Run <code>library(tidyverse)</code></td>
+</tr>
+<tr class="even">
+<td><code>there is no package called ‘tidyvers’</code></td>
+<td>A typo, or the package isn’t installed</td>
+<td>Check the spelling, or run <code>install.packages("tidyverse")</code> once</td>
+</tr>
+<tr class="odd">
+<td><code>No such file: .../raw_data/linelist.xlsx</code></td>
+<td>The file name or folder is wrong, or Positron didn’t open the workshop folder</td>
+<td>Check the name in the <strong>Explorer</strong>; open the folder with <strong>File → Open Folder…</strong></td>
+</tr>
+<tr class="even">
+<td><code>Can't select columns that don't exist.</code> <code>✖ Column `Age` doesn't exist.</code></td>
+<td>A column name is misspelled</td>
+<td>Check with <code>names(DATA)</code>; after <code>clean_names()</code> names are lower case</td>
+</tr>
+<tr class="odd">
+<td><code>We detected a named input.</code> <code>ℹ Did you mean `age_years == 5`?</code></td>
+<td><code>=</code> instead of <code>==</code> in <code>filter()</code></td>
+<td>Use <code>==</code> to compare, <code>=</code> only to name things</td>
+</tr>
+<tr class="even">
+<td><code>unexpected ')'</code> or <code>unexpected numeric constant</code></td>
+<td>A bracket too many, or a missing comma</td>
+<td>Count the brackets; put a comma between arguments</td>
+</tr>
+<tr class="odd">
+<td><code>non-numeric argument to binary operator</code></td>
+<td>Maths on text, for example <code>"38" + 1</code></td>
+<td>Convert with <code>as.numeric()</code> (Session 2)</td>
+</tr>
+<tr class="even">
+<td><code>`mapping` must be created by `aes()`.</code> R then asks whether you used <code>%&gt;%</code> instead of <code>+</code></td>
+<td><code>%&gt;%</code> between ggplot layers</td>
+<td>Join ggplot layers with <code>+</code></td>
+</tr>
+<tr class="odd">
+<td><code>Cannot use `+` with a single argument</code></td>
+<td>A <code>+</code> at the start of a line in a ggplot</td>
+<td>Put <code>+</code> at the <strong>end</strong> of the line before</td>
+</tr>
+<tr class="even">
+<td>The Console shows <code>+</code> and waits</td>
+<td>The command isn’t finished: an open bracket or quote, or a <code>%&gt;%</code> at the end of the last line</td>
+<td>Press <strong>Esc</strong>, then fix the code</td>
+</tr>
+</tbody>
+</table>
+<p>And one <strong>warning</strong> you’ll see often: <code>NAs introduced by coercion</code> means <code>as.numeric()</code> met text it couldn’t turn into a number (like “unknown”) and made it <code>NA</code>. That’s often what you want, but check how many <code>NA</code>s you got.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>No error doesn’t mean right
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Code can run without an error and still give a wrong answer: a misspelled category in <code>case_when()</code> or <code>filter()</code> silently matches nothing. Check results with <code>count()</code> and <code>summary()</code> after each step (Sessions 2, 3, and 8 show examples).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="installing-packages" class="level2">
+<h2 class="anchored" data-anchor-id="installing-packages">Installing packages</h2>
 <p>Some R packages have to be compiled when you install them. If <code>install.packages()</code> fails with errors about compilers, <code>make</code>, <code>gfortran</code>, or missing files like <code>cmath</code>, follow the steps for your computer below.</p>
-<section id="windows-users-installing-rtools-required-for-compiling-r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="windows-users-installing-rtools-required-for-compiling-r-packages">Windows users – installing Rtools (required for compiling R packages)</h2>
+<section id="windows-users-installing-rtools-required-for-compiling-r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="windows-users-installing-rtools-required-for-compiling-r-packages">Windows users – installing Rtools (required for compiling R packages)</h3>
 <p>Some R packages are available only as source code. On Windows you need Rtools (a collection of compilers and build utilities) so that R can install those packages. macOS and Linux already ship suitable build tools; Windows does not.</p>
 <ol type="1">
 <li>Do I already have Rtools?</li>
 </ol>
 <p>In a fresh R session (the Positron Console) run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">"make"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">"make"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>If you get a blank result (““), R cannot find make ⇒ Rtools is missing. • If you see a full path containing rtools….exe, you’re all set! NO NEED TO GO ANY FURTHER!</li>
 </ul>
@@ -407,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Find the Rtools version that matches your R</li>
 </ol>
 <p>Check your R version:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>R.version.string</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R.version.string</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Your R version Install this Rtools 4.5.x Rtools45 4.4.x Rtools44 4.3.x Rtools43 4.2.x Rtools42 (no longer needed if you upgraded R)</li>
 </ul>
@@ -429,13 +562,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>After installation open a new R session (or reboot) and run:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">"make"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  make </span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; "C:\\rtools45\\usr\\bin\\make.exe"   # or rtools44 / rtools43</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">"make"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  make </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; "C:\\rtools45\\usr\\bin\\make.exe"   # or rtools44 / rtools43</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
-<section id="mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages">Mac users – installing gfortran and Xcode Command Line Tools (required for compiling R packages)</h2>
+<section id="mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="mac-users-installing-gfortran-and-xcode-command-line-tools-required-for-compiling-r-packages">Mac users – installing gfortran and Xcode Command Line Tools (required for compiling R packages)</h3>
 <ul>
 <li><p>macOS users – installing gfortran (required for compiling R packages)</p></li>
 <li><p>Some R packages require a Fortran compiler to install from source.</p></li>
@@ -446,7 +579,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Do I already have gfortran?</li>
 </ol>
 <p>In a fresh R session (the Positron Console) run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">"gfortran"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">"gfortran"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><p>If you get a blank result (““), gfortran is missing ⇒ you need to install it.</p></li>
 <li><p>If you see a path like /opt/gfortran/bin/gfortran, you’re all set! NO NEED TO GO ANY FURTHER!</p></li>
@@ -521,7 +654,7 @@ found fatal error: 'cstring' file not found </code></pre>
 </ol>
 <section id="step-1---remove-the-old-command-line-tools" class="level4">
 <h4 class="anchored" data-anchor-id="step-1---remove-the-old-command-line-tools">Step 1 - Remove the old Command Line Tools:</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rm <span class="at">-rf</span> /Library/Developer/CommandLineTools </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rm <span class="at">-rf</span> /Library/Developer/CommandLineTools </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>You will be prompted for your Mac password.</li>
 <li>Type it and press Enter (you will not see the password as you type - this is normal).</li>
@@ -529,7 +662,7 @@ found fatal error: 'cstring' file not found </code></pre>
 </section>
 <section id="step-2---reinstall-the-command-line-tools" class="level4">
 <h4 class="anchored" data-anchor-id="step-2---reinstall-the-command-line-tools">Step 2 - Reinstall the Command Line Tools:</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>A popup window will appear.</li>
 <li>Click Install and wait for it to finish.</li>
@@ -538,7 +671,7 @@ found fatal error: 'cstring' file not found </code></pre>
 </section>
 <section id="step-3---verify-the-installation-was-successful" class="level4">
 <h4 class="anchored" data-anchor-id="step-3---verify-the-installation-was-successful">Step 3 - Verify the installation was successful:</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">-p</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">-p</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>You should see:</li>
 </ul>
@@ -565,6 +698,7 @@ found fatal error: 'cstring' file not found </code></pre>
 <p>Mac (any version) = any Xcode Command Line Tools</p>
 
 
+</section>
 </section>
 </section>
 

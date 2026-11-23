@@ -6,7 +6,9 @@ subtitle: "Where to go next, and where to get help"
 ## Getting help
 
 -   **In R:** type `?function_name` in the Console (for example `?mutate`) to open its help page.
--   **Setup problems:** see [Troubleshooting](troubleshooting.qmd) for installing Rtools (Windows) and the Xcode Command Line Tools and gfortran (Mac).
+-   **Error messages:** see [Troubleshooting](troubleshooting.qmd#reading-error-messages) for how to read an error, and the most common ones in this workshop.
+-   **Setup problems:** the same [Troubleshooting](troubleshooting.qmd) page covers installing Rtools (Windows) and the Xcode Command Line Tools and gfortran (Mac).
+-   **AI assistants:** see [Using AI assistants with R](ai-assistants.qmd): how to ask a good question, how to check the code you get, and how to keep patient data out of your prompts (including Yale's rules).
 -   **During the workshop:** put up your red sticky note!
 
 ## Free books and guides

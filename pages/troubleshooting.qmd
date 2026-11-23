@@ -1,12 +1,69 @@
 ---
 title: "Troubleshooting"
-subtitle: "Fixing package installation problems on Windows and Mac"
+subtitle: "Reading error messages, and fixing package installation problems on Windows and Mac"
 ---
+
+This page has two parts: how to read an R error message and fix the most common ones, and how to fix packages that won't install.
+
+## Reading error messages
+
+Everyone who writes R gets error messages, every day. An error isn't a sign that you're doing badly: it's R telling you exactly where it got stuck. Session 1 showed the difference between an **error** (R stopped), a **warning** (R finished, but something may be wrong), and a **message** (just information).
+
+### The parts of an error
+
+Here is an error from Session 2, when a column name has a typo:
+
+```
+Error in `mutate()`:
+ℹ In argument: `x = mean(agee)`.
+Caused by error:
+! object 'agee' not found
+```
+
+-   **`Error in mutate()`** — the function that stopped. Look for it in your code.
+-   **`ℹ In argument:`** — the exact piece of code inside that function.
+-   **`Caused by error:` / `!`** — the actual problem. Read this line first: there's no column or object called `agee`.
+-   Lines starting with **`ℹ`** are hints, and **`✖`** lines say what went wrong. Tidyverse messages often suggest the fix.
+
+### Five steps when you get an error
+
+1.  **Read the last line first** (the one with `!`). It usually says what's wrong.
+2.  **Find the function** named after `Error in`, and look at that line of your code.
+3.  **Check the spelling** of every name: columns, objects, functions. R treats `Age` and `age` as different names.
+4.  **Run the code piece by piece.** In a pipeline, select the lines up to just before a `%>%` and run them. Add one line at a time until the error appears.
+5.  **Still stuck?** Search for the exact message in quotes (leave out your own object names), check the function's help page with `?function_name`, or ask: a person, or an [AI assistant](ai-assistants.qmd) (with care).
+
+### Common errors in this workshop
+
+| What R says | What it usually means | Fix |
+|---|---|---|
+| `object 'linelst' not found` | A typo in a name, or you never ran the line that creates it | Check the spelling; run the line with `<-` first |
+| `could not find function "clean_names"` | The package isn't loaded | Run `library(janitor)` (each session starts with the `library()` lines) |
+| `could not find function "%>%"` | The tidyverse isn't loaded | Run `library(tidyverse)` |
+| `there is no package called ‘tidyvers’` | A typo, or the package isn't installed | Check the spelling, or run `install.packages("tidyverse")` once |
+| `No such file: .../raw_data/linelist.xlsx` | The file name or folder is wrong, or Positron didn't open the workshop folder | Check the name in the **Explorer**; open the folder with **File → Open Folder...** |
+| `Can't select columns that don't exist.` ``✖ Column `Age` doesn't exist.`` | A column name is misspelled | Check with `names(DATA)`; after `clean_names()` names are lower case |
+| `We detected a named input.` ``ℹ Did you mean `age_years == 5`?`` | `=` instead of `==` in `filter()` | Use `==` to compare, `=` only to name things |
+| `unexpected ')'` or `unexpected numeric constant` | A bracket too many, or a missing comma | Count the brackets; put a comma between arguments |
+| `non-numeric argument to binary operator` | Maths on text, for example `"38" + 1` | Convert with `as.numeric()` (Session 2) |
+| `` `mapping` must be created by `aes()`. `` R then asks whether you used `%>%` instead of `+` | `%>%` between ggplot layers | Join ggplot layers with `+` |
+| `` Cannot use `+` with a single argument `` | A `+` at the start of a line in a ggplot | Put `+` at the **end** of the line before |
+| The Console shows `+` and waits | The command isn't finished: an open bracket or quote, or a `%>%` at the end of the last line | Press **Esc**, then fix the code |
+
+And one **warning** you'll see often: `NAs introduced by coercion` means `as.numeric()` met text it couldn't turn into a number (like "unknown") and made it `NA`. That's often what you want, but check how many `NA`s you got.
+
+::: callout-tip
+## No error doesn't mean right
+
+Code can run without an error and still give a wrong answer: a misspelled category in `case_when()` or `filter()` silently matches nothing. Check results with `count()` and `summary()` after each step (Sessions 2, 3, and 8 show examples).
+:::
+
+## Installing packages
 
 Some R packages have to be compiled when you install them. If `install.packages()` fails with errors about compilers, `make`, `gfortran`, or missing files like `cmath`, follow the steps for your computer below.
 
 
-## Windows users – installing Rtools (required for compiling R packages)
+### Windows users – installing Rtools (required for compiling R packages)
 
 Some R packages are available only as source code. On Windows you need
 Rtools (a collection of compilers and build utilities) so that R can
@@ -61,7 +118,7 @@ Sys.which("make")
 
 ---
 
-## Mac users – installing gfortran and Xcode Command Line Tools (required for compiling R packages)
+### Mac users – installing gfortran and Xcode Command Line Tools (required for compiling R packages)
 
 -   macOS users – installing gfortran (required for compiling R
     packages)

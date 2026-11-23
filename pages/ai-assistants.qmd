@@ -1,0 +1,118 @@
+---
+title: "Using AI Assistants with R"
+subtitle: "How to get useful help from a chatbot, check what it gives you, and keep patient data safe"
+---
+
+::: callout-note
+## Last checked: November 2026
+
+AI tools, and the rules for using them, change quickly. This page doesn't recommend a particular tool: the advice works for any chat assistant. For Yale's current rules, follow the links in [At Yale](#at-yale) below.
+:::
+
+AI assistants (chatbots that can write code) can explain an error message, remind you of a function name, or draft a plot in seconds. They can also write code that looks right, runs without an error, and gives the wrong answer. This page is about getting the first without the second.
+
+## The rule: AI drafts, you verify
+
+Treat anything an AI assistant writes as a **draft from a fast, confident helper who has never seen your data**. You are responsible for every line you run.
+
+AI assistants often:
+
+-   **make up functions or arguments** that don't exist, or that belong to a different package
+-   **use older code** than this workshop (for example `gather()` instead of `pivot_longer()`)
+-   **guess your column names** and categories, because they can't see your data
+-   **give a silently wrong answer**: code that runs, but filters on a misspelled category or joins on the wrong column, so some rows are lost or counted twice
+
+The habits from the workshop's ✅ Checks are exactly the habits you need here: run the code one step at a time, then check the result with `count()`, `summary()`, `nrow()`, or a plot, and compare it with something you already know.
+
+## Uses, ranked by risk
+
+Some uses are easy to check; others aren't. Start at the top of this list.
+
+| Use | Risk | How you check it |
+|---|---|---|
+| **Explain an error message** you got | Low | The fix either works or it doesn't |
+| **Explain code** you already have ("what does each line do?") | Low | Compare with the help page (`?function_name`) |
+| **Find a function** ("how do I count categories with dplyr?") | Low | Look it up in the help page or a cheat sheet |
+| **Change how a plot looks** (colors, labels, themes) | Low to medium | You can see the result |
+| **Write data cleaning code** (recoding, filtering, joins) | Medium | `count()` before and after every step; check row numbers after joins |
+| **Write analysis code** (statistics, models) | High | Hard to check on your own: ask someone who knows the method |
+| **Choose a method or interpret results** | High | Don't rely on AI for this: talk to a statistician or your team |
+
+## A four-part prompt
+
+The more an assistant knows about your setup, the less it has to guess. A good question has four parts:
+
+1.  **Your setup:** "I'm using R with the tidyverse in Positron."
+2.  **Your data's structure:** the column names and types, **not the rows** (see the next section).
+3.  **Your goal:** what you want, and what a correct result would look like.
+4.  **What you tried:** your code, and the exact error message or the wrong result.
+
+For example:
+
+```
+I'm using R with the tidyverse (dplyr, ggplot2) in Positron.
+
+My data frame `linelist` has these columns (from glimpse()):
+$ case_id       <chr>
+$ age_years     <dbl>
+$ hospital_name <chr>
+$ outcome       <chr>   values: "Recover", "Death", "Unknown"
+
+I want the percentage of patients who died at each hospital,
+leaving out "Unknown" outcomes. Each hospital should add up to 100%.
+
+I tried:
+linelist %>% count(hospital_name, outcome) %>% mutate(pct = n / sum(n))
+but the percentages are tiny and don't add up to 100% for each hospital.
+```
+
+Ask for an explanation along with the code ("explain each line"), so you can check it and learn from it.
+
+## Share structure, not rows
+
+**Never paste rows of patient data into an AI assistant**, and never upload a file of patient data, unless you are using a tool that your institution has approved for that kind of data. Even data without names can identify people (a rare diagnosis, an exact date, a small town).
+
+Usually the assistant doesn't need any rows. It needs the **structure**: the column names and types. This prints them without a single value:
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(rio)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
+
+glimpse(linelist[0, ])
+```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `linelist[0, ]` keeps **zero rows** and all the columns (base R subsetting from Session 4).
+-   `glimpse()` then lists every column name with its type (`<chr>` text, `<dbl>` number, `<date>`), but there are no rows to show values from.
+-   Plain `glimpse(linelist)` would print the first values of every column: don't paste that if the data is about real people.
+:::
+
+If the assistant needs to see example values, **make up a few rows** with the same columns (`data.frame()` from Session 4), and describe the categories in words, as in the example prompt above.
+
+## At Yale {#at-yale}
+
+As of November 2026, Yale's guidance says (follow the links for the current rules and the details):
+
+-   For work in the **health sciences**, public AI tools such as ChatGPT must not be used, and only tools listed in Yale's AI Tool Registry may be used for university work. See [Choosing the right AI tool for clinical health care and research](https://ai.yale.edu/yales-ai-tools-and-resources/health-sciences/choosing-the-right-ai-tool).
+-   **Clarity** is Yale's AI platform. It's approved for low, medium, and most high-risk data, but protected health information (ePHI) may only be used in specific Health agents, after an access request is approved. See [Clarity security](https://ai.yale.edu/yales-ai-tools-and-resources/clarity-platform/security).
+-   If your data comes under a **data use agreement**, check that the agreement allows you to use it with an AI tool. Clarity's security page notes this too.
+
+Not at Yale? Ask your institution's IT or privacy office which tools are approved for which kinds of data.
+
+## Before you run AI-written code
+
+-   [ ] Can I explain what each line does? If not, ask the assistant, or look it up with `?function_name`.
+-   [ ] Do the functions exist in the packages I've loaded?
+-   [ ] Did I run it one step at a time and look at the result after each step?
+-   [ ] Did I check the numbers: rows before and after, `count()` of every recoded column, a result I already know?
+-   [ ] Did I keep patient data out of the prompt?
+
+## Learning with AI, not instead of it
+
+An assistant can write a whole TRY IT for you, but then you haven't practised it. Try each exercise yourself first. When you're stuck, ask for a **hint** or an **explanation** instead of the answer, or paste your own code and ask what's wrong with it. The goal is code you understand, because you're the one who has to check it.
