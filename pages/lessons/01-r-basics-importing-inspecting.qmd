@@ -12,11 +12,13 @@ subtitle: "Objects, functions, packages, and project folders, then your first da
 ::: callout-note
 ## In this session you will learn to
 
-1.  Create objects, use vectors, and call functions
+1.  Create objects and call functions
 2.  Install packages (once) and load them (every session)
-3.  Open the workshop's project folder and explain why `here()` makes file paths work on any computer
+3.  Open the workshop's project folder and use `here()` to build file paths that work on any computer
 4.  Import a data file with `import()` and `here()`
-5.  Inspect a dataset and write down a list of the problems that need cleaning
+5.  Inspect a dataset with `dim()`, `glimpse()`, `skim()`, and `count()`
+6.  Tell errors, warnings, and messages apart, and fix code that doesn't run
+7.  Write down a list of the problems that need cleaning
 
 **Before you start:** complete the [Setup](../setup.qmd) and open `student_scripts/Session 1 - R Basics, Importing, and Inspecting_STUDENT.R`.
 :::
@@ -41,7 +43,7 @@ Before we open any data, a few building blocks you'll use in every line of R. Ty
 
 ## Objects and the assignment arrow `<-`
 
-`<-` stores a value in an **object** so you can use it later. Read it as "gets". The object appears in the **Variables** pane.
+`<-` stores a value in an **object** so you can use it later. Read it as "gets". The object appears in the **Variables** pane. Shortcut: **Option + -** (Mac) or **Alt + -** (Windows) types `<-` for you.
 
 ::: follow-along
 **👀 Follow along 1.1** — Store a number in an object called `my_age`, then add 5 to it.
@@ -65,7 +67,7 @@ my_age + 5
 
 ## Vectors
 
-`c()` combines values into a **vector**. Every value in a vector has the same type.
+`c()` combines values into a **vector**. Every value in a vector has the same type. Text values need quotes: `c("Central Hospital", "Other")`.
 
 ::: follow-along
 **👀 Follow along 1.2** — Make a vector of ages with `c()`, then find the `mean()`.
@@ -84,28 +86,12 @@ mean(ages)
 -   Most R functions work on a whole vector at once, so you rarely handle values one by one.
 :::
 
-::: follow-along
-**👀 Follow along 1.3** — Make a vector of hospital names (text needs quotes!) and find its `length()`.
-:::
-
-```{r}
-hospitals <- c("Central Hospital", "Military Hospital", "Other")
-length(hospitals)
-```
-
-::: {.callout-note icon=false}
-## 🔍 What this code does
-
--   The hospital names are text, so each one is in quotes. Without quotes, R would look for an object called `Central` and give an error.
--   `length(hospitals)` counts the values in the vector: 3. It counts values, not letters.
-:::
-
 ## Functions and arguments
 
 A **function** does something to its inputs (**arguments**): `function_name(argument1, argument2, ...)`. Arguments can be named.
 
 ::: follow-along
-**👀 Follow along 1.4** — Use `round(3.14159)` with and without `digits = 2`.
+**👀 Follow along 1.3** — Use `round(3.14159)` with and without `digits = 2`.
 :::
 
 ```{r}
@@ -131,11 +117,24 @@ Type `?round` in the Console to open the help page for any function.
 
 A **data frame** is a table: each **column** is a variable (a vector), each **row** is an observation. (Later you'll also see **tibbles**: the tidyverse version of a data frame, which prints more neatly.)
 
-::: follow-along
-**👀 Follow along 1.5** — Make a small data frame with `data.frame()`, then pull out one column with `$`.
+Here is a small data frame called `patients`, drawn as boxes. Each **column** is a vector, so every value in it has the same type: `name` is all text and `age` is all numbers. Each **row** is one patient.
 
-Pattern: `data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))`
-:::
+```{=html}
+<div class="df-diagram" role="img" aria-label="Diagram of a data frame called patients with two columns and three rows. The name column holds text: Ana, Ben, Cho. The age column holds numbers: 34, 51, 27. Each column is one vector with a single type, and each row is one patient.">
+  <div class="df-col df-text">
+    <div class="df-head">name</div>
+    <div class="df-cell">"Ana"</div><div class="df-cell">"Ben"</div><div class="df-cell">"Cho"</div>
+    <div class="df-type">text</div>
+  </div>
+  <div class="df-col df-num">
+    <div class="df-head">age</div>
+    <div class="df-cell">34</div><div class="df-cell">51</div><div class="df-cell">27</div>
+    <div class="df-type">numbers</div>
+  </div>
+</div>
+```
+
+This is the code that makes it. **You don't need to type it**: you'll build data frames yourself in Session 4. Notice `$`, which pulls out one column; you'll use it often.
 
 ```{r}
 patients <- data.frame(
@@ -147,18 +146,11 @@ patients
 patients$age        # $ pulls out one column
 ```
 
-::: {.callout-note icon=false}
-## 🔍 What this code does
-
--   `data.frame()` builds a table from vectors. Each `column_name = c(...)` becomes one column: `name` holds text and `age` holds numbers.
--   Every column must have the same length (3 here), because each row is one patient.
--   `patients$age` pulls out the `age` column as a vector: `34 51 27`. You can give it to any function, for example `mean(patients$age)`.
-:::
-
 ::: callout-warning
 ## Common mistakes
 
 -   R is **case-sensitive**: `Age` and `age` are different
+-   Object names can't start with a number or contain spaces: `age2` and `my_age` work, `2age` and `my age` don't. Avoid names R already uses, such as `c`, `mean`, or `data`
 -   Text needs quotes (`"Central Hospital"`); object names do not (`my_age`)
 -   Every `(` needs a `)` — Positron highlights the matching pair
 -   `#` starts a comment; R ignores the rest of the line
@@ -219,7 +211,6 @@ library(tidyverse)   # data wrangling (dplyr) and plotting (ggplot2)
 library(here)        # file paths that work on any computer
 library(rio)         # import() and export() for almost any file type
 library(skimr)       # skim() for a quick data summary
-library(janitor)     # get_dupes() today; clean_names() in Session 2
 ```
 
 ::: {.callout-note icon=false}
@@ -235,7 +226,29 @@ library(janitor)     # get_dupes() today; clean_names() in Session 2
 ## Common mistakes
 
 -   Package names need quotes in `install.packages()` but **not** in `library()`.
--   Red text is not always an error! Messages like "Attaching core tidyverse packages" are normal. An error starts with **Error**.
+-   Red text is not always an error! See the next section.
+:::
+
+## Error, warning, or message?
+
+You just saw red text in the Console. Red text comes in three kinds, and each one asks something different of you:
+
+| Kind | How to spot it | What happened | What to do |
+|---|---|---|---|
+| **Error** | starts with `Error` | R stopped. The line did nothing. | Read the message, fix the code, run it again |
+| **Warning** | starts with `Warning` | R finished, but something may be off | Check the result: did values turn into `NA`, or did rows disappear? |
+| **Message** | anything else, like the list from `library(tidyverse)` | Information only | Nothing |
+
+The message after `Error` usually tells you what's wrong, for example `could not find function "Count"` (R is case-sensitive: the function is `count()`). You'll practise reading them in TRY IT 5.
+
+::: callout-tip
+## Asking for help
+
+Stuck? Put up your red sticky note. When you ask someone for help, in class, by email, or online, include three things:
+
+1.  **Which line** you ran (copy it)
+2.  **What you expected** to happen
+3.  **The exact message** R gave you (copy it, don't retype it)
 :::
 
 ::: {.callout-note icon=false}
@@ -311,23 +324,6 @@ here::here("raw_data", "linelist_raw.xlsx")    # full path to a file inside it
 
 `here::here()` means "the `here()` function from the here package". The `::` lets you use a function before loading its package.
 
-::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 2 (1 min): a path to the practice data
-
-Build the path to the practice data, `raw_data/measles_raw.csv`.
-
-✅ **Check:** the output ends in `.../raw_data/measles_raw.csv`
-
-::: {.callout-note collapse="true" icon=false}
-## Show solution
-
-```{r}
-#| eval: false
-here::here("raw_data", "measles_raw.csv")
-```
-:::
-:::
-
 ::: {.callout-note icon=false}
 ## 📖 Good to know
 
@@ -378,25 +374,6 @@ R runs it from the **inside out**: first `here()` builds the path, then `import(
 -   The result is a **data frame**: the same kind of table as `patients` in Part 1, only bigger. Each row is one patient (a case), and each column is one piece of information about them.
 :::
 
-The same function works for other file types:
-
-::: follow-along
-**👀 Follow along 4.2** — Import `raw_data/case_info.csv` (`case_info`) and `raw_data/hosp_info.txt` (`hosp_info`).
-:::
-
-```{r}
-case_info <- import(here("raw_data", "case_info.csv"))   # comma-separated
-hosp_info <- import(here("raw_data", "hosp_info.txt"))   # tab-separated text
-```
-
-::: {.callout-note icon=false}
-## 🔍 What this code does
-
--   Same pattern, different file types: `import()` chooses how to read each file from its ending. `.csv` is comma-separated values; this `.txt` file is separated by tabs.
--   `case_info` has 5888 rows and 7 columns of extra details about each case. We join it to the linelist in Session 3.
--   `hosp_info` is a small look-up table (6 rows): the correct name and some facts about each hospital. We use it in Session 2 to fix the hospital names.
-:::
-
 ::: callout-warning
 ## Common mistakes
 
@@ -414,7 +391,7 @@ hosp_info <- import(here("raw_data", "hosp_info.txt"))   # tab-separated text
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 3 (2 min): import the practice data
+## ✏️ TRY IT 2 (2 min): import the practice data
 
 Import the practice data `raw_data/measles_raw.csv` and call it `measles_raw`.
 
@@ -439,32 +416,24 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 
 # Part 5: Inspecting data
 
-**Always look before you clean.** Inspecting tells you whether the data imported correctly and what needs fixing.
+**Always look before you clean.** Inspecting tells you whether the data imported correctly and what needs fixing. These are the questions to answer, for this dataset and for any dataset you work with later:
+
+1.  How many rows and columns are there? Is that what you expected? (`dim()`)
+2.  Are the column names easy to use? Are the column types right: numbers, dates, text? (`glimpse()`)
+3.  Which columns have missing values? Are there impossible values? (`skim()`)
+4.  Are the categories spelled consistently? (`count()`)
+5.  Are there duplicate rows? (Session 3 shows how to check.)
+
+Write down every problem you find. The answers become your problem list in Part 6.
 
 ## Size and structure
 
 ::: follow-along
-**👀 Follow along 5.1** — Size and structure of `linelist_raw`: `view()`, `dim()`, `names()`, `head()`, and `glimpse()` (the next three code blocks).
+**👀 Follow along 5.1** — The size and structure of `linelist_raw` with `dim()` and `glimpse()`.
 :::
-
-```{r}
-#| eval: false
-view(linelist_raw)       # opens the Data Explorer (or click the table icon next to it in the Variables pane)
-```
 
 ```{r}
 dim(linelist_raw)        # rows, columns
-names(linelist_raw)      # column names
-```
-
-::: {.callout-note collapse="true" icon=false}
-## 🤔 Think about it: what is wrong with these column names?
-
-Spaces, dots, capitals, and a mix of styles (`Case ID`, `date.onset`, `OUTCOME`). They are hard to type and need special handling. We fix all of them in Session 2 with one function.
-:::
-
-```{r}
-head(linelist_raw)       # first 6 rows
 glimpse(linelist_raw)    # every column, its type, and the first few values
 ```
 
@@ -473,11 +442,15 @@ In `glimpse()`, the type is shown in angle brackets: `<chr>` text, `<dbl>` numbe
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `view()` opens the data like a spreadsheet in the Data Explorer. You can sort and filter there to look around; that doesn't change the data.
 -   `dim()` gives the size: rows first, then columns (6604 12).
--   `names()` lists the 12 column names exactly as they're spelled. Code has to use exactly this spelling.
--   `head()` shows the first 6 rows. `head(linelist_raw, 10)` shows 10.
--   `glimpse()` turns the table on its side: one line per column, with its type and the first few values. It's the easiest way to see every column of a wide dataset.
+-   `glimpse()` turns the table on its side: one line per column, with its name, its type, and the first few values. It's the easiest way to see every column of a wide dataset.
+-   The column names are listed exactly as they're spelled. Code has to use exactly this spelling.
+:::
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: what is wrong with these column names?
+
+Spaces, dots, capitals, and a mix of styles (`Case ID`, `date.onset`, `OUTCOME`). They are hard to type and need special handling. We fix all of them in Session 2 with one function.
 :::
 
 ::: {.callout-note collapse="true" icon=false}
@@ -488,27 +461,14 @@ In `glimpse()`, the type is shown in angle brackets: `<chr>` text, `<dbl>` numbe
 -   There is an `age_unit` column — are all ages in years?
 :::
 
-::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 4 (3 min): size and structure
+::: callout-tip
+## Other ways to look (reading only)
 
-Use `dim()` and `glimpse()` on `measles_raw`.
+You don't need to type these, but you'll see them in other people's code:
 
-a)  Which column should be a number but is stored as text (`<chr>`)?
-b)  Which column names will need backticks?
-
-✅ **Check:** `dim()` gives 1215 11
-
-::: {.callout-note collapse="true" icon=false}
-## Show solution
-
-```{r}
-dim(measles_raw)
-glimpse(measles_raw)
-```
-
-a)  `Age (years)` is `<chr>` — it contains "unknown" and the code "999"
-b)  Names with spaces or symbols need backticks: `` `Patient ID` ``, `` `Report Date` ``, `` `Age (years)` ``, `` `Vaccinated?` ``, `` `Temp (C)` ``, `` `Days in Hospital` ``
-:::
+-   `view(linelist_raw)` opens the data like a spreadsheet in the Data Explorer. You can also click the table icon next to `linelist_raw` in the **Variables** pane. Sorting and filtering there doesn't change the data.
+-   `names(linelist_raw)` lists only the column names.
+-   `head(linelist_raw)` shows the first 6 rows; `head(linelist_raw, 10)` shows 10.
 :::
 
 ## Summary of every column
@@ -530,6 +490,34 @@ Look at the `n_missing` column, the minimum of `wt_kg` (below zero!), and the ma
 -   `n_missing` is the number of missing values in each column; `complete_rate` is the share that is filled in.
 -   For numbers, `p0` is the smallest value, `p50` the median, and `p100` the largest. Here the smallest weight is -11 kg and the tallest height is 295 cm: both impossible.
 -   For text, `n_unique` is the number of different values. A high number in a column that should have only a few categories is a sign of misspellings.
+:::
+
+::: {.callout-important .tryit icon=false}
+## ✏️ TRY IT 3 (4 min): size, structure, and summary
+
+Use `dim()`, `glimpse()`, and `skim()` on `measles_raw`.
+
+a)  Which column should be a number but is stored as text (`<chr>`)?
+b)  Which column names will need backticks?
+c)  In `skim()`, find `Temp (C)`. What is its largest value (`p100`)? What do you think happened?
+d)  How many rows have no `Patient ID`?
+
+✅ **Check:** `dim()` gives 1215 11; the largest `Temp (C)` shows as 105; `Patient ID` has 37 missing values
+
+::: {.callout-note collapse="true" icon=false}
+## Show solution
+
+```{r}
+dim(measles_raw)
+glimpse(measles_raw)
+skim(measles_raw)
+```
+
+a)  `Age (years)` is `<chr>`: it contains "unknown" and the code "999"
+b)  Names with spaces or symbols need backticks: `` `Patient ID` ``, `` `Report Date` ``, `` `Age (years)` ``, `` `Vaccinated?` ``, `` `Temp (C)` ``, `` `Days in Hospital` ``
+c)  105 (104.7, rounded) is impossible in °C. It's about 40 °C written in **Fahrenheit**: a few temperatures were entered in °F.
+d)  37 (`n_missing` for `Patient ID`)
+:::
 :::
 
 ## Categories: `count()`
@@ -562,11 +550,7 @@ count(linelist_raw, age_unit)
 ::: callout-note
 ## 🔁 The base R way: `table()`
 
-You will often see base R's `table()` in other people's code. It counts too, but **it hides missing values** unless you ask for them:
-
-::: follow-along
-**🔁 Follow along 5.4** — The base R way: `table()` OUTCOME, with and without `useNA = "ifany"`.
-:::
+You will often see base R's `table()` in other people's code. It counts too, but **it hides missing values** unless you ask for them. (Reading only: you don't need to type this.)
 
 ```{r}
 table(linelist_raw$OUTCOME)                   # where are the missing outcomes?
@@ -585,12 +569,13 @@ table(linelist_raw$OUTCOME, useNA = "ifany")  # there they are: 1493
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 5 (3 min): categories
+## ✏️ TRY IT 4 (3 min): categories
 
-a)  `count()` District, SEX, and `` `Vaccinated?` `` in `measles_raw`. How many different ways is "North" written? How many ways is "No" written?
-b)  Now try `table(measles_raw$District)`. What is missing compared with `count()`?
+`count()` District, SEX, and `` `Vaccinated?` `` in `measles_raw`. How many different ways is "North" written? How many ways is "No" written?
 
-✅ **Check:** a) `count(District)` shows 18 rows (including NA) b) `table()` has no `NA`: 34 cases disappear
+⭐ If you have time: try `table(measles_raw$District)`. What is missing compared with `count()`?
+
+✅ **Check:** `count(District)` shows 18 rows (including NA)
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
@@ -600,139 +585,45 @@ count(measles_raw, District)
 count(measles_raw, SEX)
 count(measles_raw, `Vaccinated?`)
 
-table(measles_raw$District)                   # b) no NA!
+table(measles_raw$District)                   # ⭐ no NA!
 table(measles_raw$District, useNA = "ifany")
 ```
 
-"North" is written 4 ways ("North", "north", "Nroth", "North District"), and so is "No" ("No", "no", "N", "NO"). `table()` silently drops the 34 cases with no district; `useNA = "ifany"` brings them back. It also sorts lower-case values first, so "central" and "Central" are listed apart.
+"North" is written 4 ways ("North", "north", "Nroth", "North District"), and so is "No" ("No", "no", "N", "NO"). ⭐ `table()` silently drops the 34 cases with no district; `useNA = "ifany"` brings them back.
 :::
 :::
 
-## Zooming in: `filter()` and `arrange()`
+## When the code doesn't work
 
--   `filter()` keeps **rows** that meet a condition
--   `arrange()` sorts rows (`desc()` for largest first)
-
-Each one takes the data first. Column names with spaces need **backticks**: `` `Case ID` ``. (The backtick key is at the top left of most keyboards.) Another reason to clean the names!
-
-`linelist_raw` is a regular data frame, so R prints **every** row it gets — all 6,604 of them, with 12 columns each! To do **two** things, such as filtering and then showing only the first 10 rows, put one function **inside** another. R runs the inside first:
-
-::: follow-along
-**👀 Follow along 5.5** — Use `filter()`, `arrange()`, and `head()` to find the patients with ages in months, the smallest weights, and the tallest patients (the next two code blocks).
-:::
-
-```{r}
-# How many patients have ages in months?
-nrow(filter(linelist_raw, age_unit == "months"))
-
-# Show the first 10 of them
-head(filter(linelist_raw, age_unit == "months"), 10)
-```
-
-```{r}
-# Impossible weights: sort smallest first, then show the first 10 rows
-head(arrange(linelist_raw, wt_kg), 10)
-
-# Tallest patients: desc() sorts largest first
-head(arrange(linelist_raw, desc(ht_cm)), 10)
-```
-
-::: {.callout-note icon=false}
-## 🔍 What this code does
-
--   `filter(linelist_raw, age_unit == "months")` keeps only the rows where `age_unit` is exactly "months". `==` asks "is it equal?" for every row, and `filter()` keeps the rows where the answer is TRUE.
--   `nrow()` counts the rows that are left: 37. `head(..., 10)` shows only the first 10 of them.
--   `arrange(linelist_raw, wt_kg)` sorts all rows by weight, smallest first, so the impossible weights (down to -11 kg) come to the top. `desc(ht_cm)` sorts largest first, so the 295 cm height comes to the top.
--   None of these change `linelist_raw`. They show a changed copy and then forget it. To keep a result, save it with `<-`.
-:::
-
-::: callout-note
-## Reading code from the inside out
-
-`head(arrange(linelist_raw, wt_kg), 10)` reads: take `linelist_raw`, **arrange** it by weight, then take the **head**. Two steps are manageable, but with three or four the brackets pile up. In Session 2 you'll learn the **pipe** `%>%`, which writes the same steps in order, from left to right.
-:::
-
-::: callout-note
-## Conditions you can use in `filter()`
-
-`==` equal · `!=` not equal · `>` `<` `>=` `<=` · `%in% c(...)` one of several values · `is.na()` missing · `&` and · `|` or
-
-Use `==` (two equals signs) to compare. One `=` is for naming arguments.
-:::
+Everyone's code breaks, all the time, including your instructors'. The skill is reading what R tells you. Look back at [Error, warning, or message?](#error-warning-or-message) in Part 2 if you need to.
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 6 (3 min): zooming in
+## ✏️ TRY IT 5 (5 min): fix the broken code
 
-Sort `measles_raw` by `` `Temp (C)` ``, largest first, and show only the top 10 rows. What is the highest temperature? What do you think happened?
-
-Pattern: `head(arrange(DATA, desc(COLUMN)), 10)`
-
-✅ **Check:** the top value is 104.7
-
-::: {.callout-note collapse="true" icon=false}
-## Show solution
-
-```{r}
-head(arrange(measles_raw, desc(`Temp (C)`)), 10)
-```
-
-104.7 is about 40 °C written in **Fahrenheit**. A few temperatures were entered in °F instead of °C.
-:::
-:::
-
-## Missing values and duplicates
-
-::: follow-along
-**👀 Follow along 5.6** — Missing values with `colSums(is.na())`, rows with no Case ID, and duplicates with `sum(duplicated())` and `get_dupes()`.
-:::
-
-```{r}
-# Missing values in each column
-colSums(is.na(linelist_raw))
-
-# How many rows have no Case ID? Count the rows that filter() keeps
-nrow(filter(linelist_raw, is.na(`Case ID`)))
-
-# How many rows are exact copies of an earlier row?
-sum(duplicated(linelist_raw))
-```
+Your student script has these four lines. Run them one at a time. For each one: is it an error or a warning? What does the message say? Then fix the code and run it again.
 
 ```{r}
 #| eval: false
-# Look at the duplicated rows (shows every copy, plus a dupe_count column)
-get_dupes(linelist_raw)
+Count(measles_raw, District)
+count(measles_raw, district)
+measles_raw <- import(here("raw_data", "measles_raw.cvs"))
+mean(measles_raw$`Age (years)`)
 ```
 
-::: {.callout-note icon=false}
-## 🔍 What this code does
-
--   `is.na(linelist_raw)` checks every cell and gives TRUE where a value is missing. `colSums()` adds up each column, counting each TRUE as 1. The result is the number of missing values per column, for example 1493 in `OUTCOME`.
--   `` filter(linelist_raw, is.na(`Case ID`)) `` keeps the rows with no Case ID, and `nrow()` counts them: 130.
--   `duplicated()` marks every row that is an exact copy of an earlier row (every column the same), and `sum()` counts them: 25. The first copy of each row isn't counted.
--   `get_dupes()` (janitor) shows every row that has a copy, side by side, with a `dupe_count` column. Here that's 50 rows: each of the 25 duplicates and its original.
-:::
-
-::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 7 (3 min): missing values and duplicates
-
-In `measles_raw`:
-
-a)  How many rows have a missing `` `Patient ID` ``?
-b)  How many rows are exact duplicates?
-c)  Which column has the most missing values? Is that a mistake, or does it make sense?
-
-✅ **Check:** a) 37 b) 15
+✅ **Check:** three errors and one warning. Once fixed, the first two lines show the same 18 rows.
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
 
-```{r}
-nrow(filter(measles_raw, is.na(`Patient ID`)))
-sum(duplicated(measles_raw))
-colSums(is.na(measles_raw))
-```
+1.  **Error:** `could not find function "Count"`. R is case-sensitive, and the function is `count()`.
+2.  **Error:** ``Column `district` is not found``. The column is called `District`, with a capital D.
+3.  **Error:** `No such file: .../raw_data/measles_raw.cvs`. The file ending is misspelled: it should be `.csv`.
+4.  **Warning:** `argument is not numeric or logical: returning NA`, and the result is `NA`. There's no typo here: `Age (years)` is stored as **text**, so R can't take its mean. That's a problem with the data, not the code, and it's already on the problem list. You'll fix it in Session 2.
 
-c)  `Days in Hospital` has the most (766). That makes sense: patients who were never hospitalized have no hospital days. **Missing is not always an error!**
+```{r}
+count(measles_raw, District)
+measles_raw <- import(here("raw_data", "measles_raw.csv"))
+```
 :::
 :::
 
@@ -742,36 +633,23 @@ c)  `Days in Hospital` has the most (766). That makes sense: patients who were n
 **👀 Follow along 6.1** — The problem list for `linelist_raw`, filled in together.
 :::
 
-::: {.callout-note icon=false}
-## 📖 Good to know: a checklist for any new dataset
+Here is everything we found in `linelist_raw`, and where each problem gets fixed. This list is the to-do list for Session 2.
 
-Use these questions on your own data, too. The answers become your problem list.
-
-1.  How many rows and columns are there? Is that what you expected?
-2.  Are the column types right (numbers, dates, text)?
-3.  Which columns have missing values, and do they make sense?
-4.  Are the categories spelled consistently (`count()`)?
-5.  Are there impossible values (`skim()`, `arrange()`)?
-6.  Are there duplicate rows?
-:::
-
-Here is everything we found in `linelist_raw`. This list is the to-do list for Session 2.
-
-| \# | Problem | How we found it |
-|----|---------|-----------------|
-| 1 | Column names have spaces, dots, and capitals | `names()` |
-| 2 | Date columns are different types (`date.onset` is text) | `glimpse()` |
-| 3 | `age` is stored as text, and 37 ages are in **months** not years | `glimpse()`, `count()` |
-| 4 | Hospital names are misspelled ("Hopital") or inconsistent ("Regional MC"), and many are missing | `count()` |
-| 5 | Gender and outcome have missing values | `count()`, `skim()` |
-| 6 | Impossible weights (negative, 0) and heights (4 cm, 295 cm) | `skim()`, `arrange()` |
-| 7 | 130 rows have no Case ID | `is.na()` |
-| 8 | 25 rows are duplicates | `duplicated()` |
+| \# | Problem | How we found it | Fixed in |
+|----|---------|-----------------|----------|
+| 1 | Column names have spaces, dots, and capitals | `glimpse()` | Session 2: `clean_names()` |
+| 2 | Date columns are different types (`date.onset` is text) | `glimpse()` | Session 2: `as.Date()` |
+| 3 | `age` is stored as text, and 37 ages are in **months** not years | `glimpse()`, `count()` | Session 2: `as.numeric()`, `if_else()` |
+| 4 | Hospital names are misspelled ("Hopital") or inconsistent ("Regional MC"), and many are missing | `count()` | Session 2: `case_when()` |
+| 5 | Gender and outcome have missing values | `count()`, `skim()` | Session 3 |
+| 6 | Impossible weights (negative, 0) and heights (4 cm, 295 cm) | `skim()` | Session 2: `if_else()` |
+| 7 | 130 rows have no Case ID | `skim()` | Session 3 |
+| 8 | Duplicate rows? Not checked yet | | Session 3 |
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 8 (10 min): the measles problem list
+## ✏️ TRY IT 6 (10 min): the measles problem list
 
-Write a numbered problem list for `measles_raw` in your student script, using everything you found in the TRY ITs. Save it — you will fix these problems in Session 2!
+Write a numbered problem list for `measles_raw` in your student script, using everything you found in TRY ITs 3–5 and the questions at the start of Part 5. Start it in class and **finish it at home**. Save it: you will fix these problems in Session 2!
 
 ✅ **Check:** you should find at least 8 problems
 
@@ -786,24 +664,24 @@ Write a numbered problem list for `measles_raw` in your student script, using ev
 6.  Outcome has inconsistent capitalization and 68 missing values
 7.  Some temperatures were entered in Fahrenheit (values around 97–105)
 8.  37 rows have no Patient ID
-9.  15 rows are duplicates
-10. `Report Date`, District, and SEX have some missing values
+9.  `Report Date`, District, and SEX have some missing values
+10. Duplicate rows: not checked yet (Session 3)
 :::
 :::
 
 ::: callout-tip
 ## ⭐ Bonus: your own data
 
-Brought your own dataset? Put the file in the `raw_data/` folder, then: `import()` it; look at it with `dim()`, `glimpse()`, and `skim()`; `count()` its text columns to look for misspellings; check for missing values and duplicates; and write its problem list.
+Brought your own dataset? Put the file in the `raw_data/` folder, then: `import()` it; look at it with `dim()`, `glimpse()`, and `skim()`; `count()` its text columns to look for misspellings; and write its problem list, using the questions at the start of Part 5.
 :::
 
 # Key points
 
--   `<-` saves a value in an object; `c()` makes a vector; functions take arguments.
+-   `<-` saves a value in an object; functions take arguments.
 -   **Install** a package once with `install.packages()`; **load** it every session with `library()`.
 -   A **project folder** plus `here()` makes file paths work on any computer.
 -   `import(here("folder", "file"))` reads almost any file type.
--   **Look before you clean:** `glimpse()`, `skim()`, `count()`, `filter()`, `arrange()`, `is.na()`, and `duplicated()` find the problems.
--   To do two steps, put one function inside another: `head(arrange(data, column), 10)`. Wrap long output in `head()`.
+-   **Look before you clean:** `dim()`, `glimpse()`, `skim()`, and `count()` find most problems.
+-   An **error** stops the code; a **warning** means check the result; a **message** is information. Read the message: it usually says what's wrong.
 
-**Next: Session 2 — Cleaning.** We start with the **pipe** `%>%`, then fix the problem list with `clean_names()`, `mutate()`, `if_else()`, and `case_when()`.
+**Next: Session 2 — Cleaning.** We start with the **pipe** `%>%`, `filter()`, and `arrange()`, then fix the problem list with `clean_names()`, `mutate()`, `if_else()`, and `case_when()`.

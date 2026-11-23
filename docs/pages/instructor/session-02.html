@@ -450,8 +450,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>2</td>
-<td>The pipe <code>%&gt;%</code></td>
-<td>8 min</td>
+<td>The pipe <code>%&gt;%</code>, <code>filter()</code>, and <code>arrange()</code></td>
+<td>12 min</td>
 </tr>
 <tr class="odd">
 <td>3</td>
@@ -491,7 +491,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>104 min</strong></td>
+<td><strong>108 min</strong></td>
 </tr>
 </tbody>
 </table>
@@ -509,7 +509,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
 <p><strong>Overall rhythm.</strong> Learners build <strong>two</strong> cleaned datasets side by side: <code>linelist_clean</code> with you (Follow along), and <code>measles_clean</code> in the TRY ITs. Both are built <strong>one step at a time</strong>: each part takes the current object, adds one fix, and saves it back with <code>&lt;-</code>. Part 8 then shows the same linelist steps as one pipeline — the version you would keep in a real project. If a learner’s object gets into a bad state, they can re-run from Part 3 (<code>linelist_clean &lt;- linelist_raw %&gt;% clean_names()</code>). The filled-in script is <code>solutions/Session 2 - Cleaning_SOLUTIONS.R</code>.</p>
 <p><strong>Part 1 — Set up.</strong> Briefly put up the Session 1 problem list and the “Fixed in” column; emphasize <em>never edit the raw data file</em>.</p>
-<p><strong>Part 2 — The pipe.</strong> New to learners today (Session 1 deliberately used one function inside another). Start from the Session 1 code <code>head(arrange(linelist_raw, wt_kg), 3)</code> and read it aloud from the inside out, then type the pipe version and read it as “and then”. Point out that the data no longer goes inside each function: <code>count(linelist_raw, hospital)</code> becomes <code>linelist_raw %&gt;% count(hospital)</code>. Show the keyboard shortcut. <code>select()</code> is introduced here too (it was left out of Session 1). The two common slips: <code>%&gt;%</code> at the start of a line, and a trailing <code>%&gt;%</code> on the last line (the Console shows <code>+</code> and waits — press Esc).</p>
+<p><strong>Part 2 — The pipe, <code>filter()</code>, and <code>arrange()</code>.</strong> All three are new today: Session 1 used one function at a time. Start from <code>count(linelist_raw, age_unit)</code>, which learners know, and show that <code>linelist_raw %&gt;% count(age_unit)</code> does the same; then read <code>linelist_raw %&gt;% arrange(wt_kg) %&gt;% head(3)</code> aloud as “and then”. Show the keyboard shortcut. <code>filter()</code> and <code>arrange()</code> find two of the problems from the Session 1 list (37 ages in months, impossible heights). <code>select()</code> is introduced here too. The two common slips: <code>%&gt;%</code> at the start of a line, and a trailing <code>%&gt;%</code> on the last line (the Console shows <code>+</code> and waits — press Esc).</p>
 <p><strong>Part 3 — Column names.</strong> Show <code>names()</code> before and after <code>clean_names()</code>. Point out that backticks are no longer needed. Stress that in <code>rename()</code> the <strong>new</strong> name goes on the left.</p>
 <p><strong>Part 4 — Types.</strong> Point out the <em>“NAs introduced by coercion”</em> warning when learners convert measles <code>age_years</code>: it is expected (the 27 “unknown” values) — a warning is not an error. The TRY IT’s <code>summary()</code> showing a max of 999 sets up Part 5. A common slip is forgetting the <code>&lt;-</code>, so nothing is saved.</p>
 <p><strong>Part 5 — <code>if_else()</code>.</strong> Ask the class (a “Think about it” on the lesson page):</p>
@@ -549,8 +549,8 @@ ul.task-list li input[type="checkbox"] {
 <td><code>measles_raw &lt;- import(here("raw_data", "measles_raw.csv"))</code> — 1215 rows, 11 columns</td>
 </tr>
 <tr class="even">
-<td>2. The pipe</td>
-<td><code>measles_raw %&gt;% select(...) %&gt;% arrange(desc(...)) %&gt;% head(10)</code> — two columns, top temperature 104.7</td>
+<td>2. The pipe, <code>filter()</code>, and <code>arrange()</code></td>
+<td>a) <code>measles_raw %&gt;% select(...) %&gt;% arrange(desc(...)) %&gt;% head(10)</code> — two columns, top temperature 104.7 b) <code>filter(`Temp (C)` &gt; 45) %&gt;% nrow()</code> — 27</td>
 </tr>
 <tr class="odd">
 <td>3. Clean the measles column names</td>

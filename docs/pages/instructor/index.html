@@ -400,6 +400,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#the-teaching-rhythm" id="toc-the-teaching-rhythm" class="nav-link active" data-scroll-target="#the-teaching-rhythm">The teaching rhythm</a></li>
+  <li><a href="#teaching-with-two-instructors" id="toc-teaching-with-two-instructors" class="nav-link" data-scroll-target="#teaching-with-two-instructors">Teaching with two instructors</a>
+  <ul class="collapse">
+  <li><a href="#the-parking-lot" id="toc-the-parking-lot" class="nav-link" data-scroll-target="#the-parking-lot">The parking lot</a></li>
+  <li><a href="#keep-time" id="toc-keep-time" class="nav-link" data-scroll-target="#keep-time">Keep time</a></li>
+  </ul></li>
   <li><a href="#live-coding-tips" id="toc-live-coding-tips" class="nav-link" data-scroll-target="#live-coding-tips">Live coding tips</a></li>
   <li><a href="#sticky-notes-and-helpers" id="toc-sticky-notes-and-helpers" class="nav-link" data-scroll-target="#sticky-notes-and-helpers">Sticky notes and helpers</a></li>
   <li><a href="#before-the-workshop" id="toc-before-the-workshop" class="nav-link" data-scroll-target="#before-the-workshop">Before the workshop</a></li>
@@ -442,6 +447,63 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Show the answer</strong> (or ask a learner to show theirs), then move on.</li>
 </ol>
 <p>This is the approach used by <a href="https://carpentries.org/">The Carpentries</a>: short demonstrations followed straight away by practice, so problems surface while they are still easy to fix.</p>
+</section>
+<section id="teaching-with-two-instructors" class="level2">
+<h2 class="anchored" data-anchor-id="teaching-with-two-instructors">Teaching with two instructors</h2>
+<p>The workshop is taught by two instructors with two screens: <strong>screen 1</strong> shows Positron, <strong>screen 2</strong> shows the lesson page on this website. Give each instructor a clear role, so learners never have to choose whom to listen to.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Lead</th>
+<th>Co-instructor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Screen</strong></td>
+<td>Screen 1 (Positron)</td>
+<td>Screen 2 (the lesson page)</td>
+</tr>
+<tr class="even">
+<td><strong>During a Follow along</strong></td>
+<td>Types <strong>and</strong> explains, so what learners see and hear always match</td>
+<td>Scrolls the lesson page to the current Follow along or TRY IT, and otherwise stays quiet</td>
+</tr>
+<tr class="odd">
+<td><strong>During a TRY IT</strong></td>
+<td>Helps learners with red sticky notes</td>
+<td>Helps learners with red sticky notes; keeps time</td>
+</tr>
+<tr class="even">
+<td><strong>Questions</strong></td>
+<td>Answers questions about what’s on screen now</td>
+<td>Writes other questions in the <strong>parking lot</strong> and passes on the ones that matter now</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Don’t explain to the whole room while the other instructor is typing.</strong> Save asides for a TRY IT, when everyone is working on their own anyway.</li>
+<li><strong>Point to the numbers:</strong> “we’re on Follow along 3.2”, “do TRY IT 2”. Learners find the same number in their script and on screen 2.</li>
+<li><strong>Point to the explanations:</strong> the 🔍 “What this code does” and 📖 “Good to know” boxes explain the <em>why</em>, so you don’t have to say all of it out loud.</li>
+</ul>
+<section id="the-parking-lot" class="level3">
+<h3 class="anchored" data-anchor-id="the-parking-lot">The parking lot</h3>
+<p>Keep a shared document or a whiteboard for questions that don’t belong to the current part:</p>
+<ul>
+<li><strong>Answered later today or in a later session:</strong> “Great question, we’ll get there in Session 3. I’ll park it.” Come back to it then.</li>
+<li><strong>Off-topic or about someone’s own data:</strong> answer it after class or by email.</li>
+</ul>
+</section>
+<section id="keep-time" class="level3">
+<h3 class="anchored" data-anchor-id="keep-time">Keep time</h3>
+<p>Each session’s instructor page has a <strong>Start by</strong> time for every part, and a list of what to skip when you’re behind. The co-instructor watches the clock and gives the lead a signal (“five minutes left in this part”). If you run out of time, <strong>stop at the end of a part</strong> and point learners to the rest of the lesson page. Don’t speed through the remaining parts.</p>
+</section>
 </section>
 <section id="live-coding-tips" class="level2">
 <h2 class="anchored" data-anchor-id="live-coding-tips">Live coding tips</h2>
@@ -489,7 +551,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>1</td>
 <td><a href="../../pages/instructor/session-01.html">R basics, importing, and inspecting data</a></td>
-<td>90 min</td>
+<td>75 min</td>
 <td><code>raw_data/</code></td>
 </tr>
 <tr class="even">
@@ -536,7 +598,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Each session is planned for about 90 minutes including the TRY ITs. Real sessions with beginners often run long, so each session page lists what to cut if you’re short on time.</p>
+<p>Sessions run 90 minutes. Session 1 is planned for 75 minutes of content, which leaves time for questions; the other sessions are being tightened the same way. Each session page lists what to skip if you’re short on time.</p>
 <p>Every session starts from a file that is already in the repository, so learners who missed the previous session can still join.</p>
 </section>
 <section id="the-materials" class="level2">

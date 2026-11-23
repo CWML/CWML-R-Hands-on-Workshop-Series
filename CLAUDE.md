@@ -24,9 +24,15 @@ Sessions: 1 R basics, importing, inspecting · 2 Cleaning · 3 Missing data, joi
 4 Data structures (vectors, lists, subsetting, pivoting) · 5 Summarizing ·
 6 Plotting basics · 7 Plotting further · 8 Programming (optional).
 
-Session 1 order: R basics → packages → project folders and `here()` → importing → inspecting →
-problem list. **Session 1 uses no pipe**: one function at a time, nesting for two steps
-(`head(arrange(data, col), 10)`). The pipe `%>%` (and `select()`) is taught in Session 2, Part 2.
+Session 1 order: R basics → packages and "error, warning, or message?" → project folders and
+`here()` → importing → inspecting (`dim()`, `glimpse()`, `skim()`, `count()`) → "fix the broken
+code" → problem list. **Session 1 uses no pipe**: one function at a time (`import(here(...))` is
+the only nesting). The pipe `%>%`, `filter()`, `arrange()`, and `select()` are taught in
+Session 2, Part 2; building a `data.frame()` in Session 4; missing values and duplicates in Session 3.
+
+**Pacing:** plan about 75 minutes of content per 90-minute session, so there is time for
+questions. Each instructor page has "Start by" times per part and a "Running behind? Skip in
+this order" list. Base R 🔁 demos are reading only, except in Session 4 where base R is the topic.
 
 ## Keep these in sync
 

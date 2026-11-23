@@ -10,7 +10,7 @@ subtitle: "Cleaning your data"
 | Part | Topic | Time (incl. TRY IT) |
 |------|-------|---------------------|
 | 1 | Set up and recall the problem list | 8 min |
-| 2 | The pipe `%>%` | 8 min |
+| 2 | The pipe `%>%`, `filter()`, and `arrange()` | 12 min |
 | 3 | Column names: `clean_names()` and `rename()` | 10 min |
 | 4 | Fixing types with `mutate()` | 11 min |
 | 5 | Fixing values with `if_else()` (+ 🔁 `ifelse()` demo) | 15 min |
@@ -18,7 +18,7 @@ subtitle: "Cleaning your data"
 | 7 | Creating new variables (+ 🔁 `cut()` demo) | 15 min |
 | 8 | One pipeline and saving your work | 10 min |
 |   | Wrap-up and preview | 5 min |
-|   | **Total** | **104 min** |
+|   | **Total** | **108 min** |
 
 **Short on time?** This session is now the longest of the series. Do TRY IT 7 (district) together together as a live-coded demo instead of solo work, or assign it as homework. Do **not** cut TRY IT 9 (saving `measles_clean.rds`) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in `processed_data/`. The two 🔁 base R demos (`ifelse()`, `cut()`) can also be skipped and left for learners to read.
 
@@ -34,7 +34,7 @@ subtitle: "Cleaning your data"
 
 **Part 1 — Set up.** Briefly put up the Session 1 problem list and the "Fixed in" column; emphasize *never edit the raw data file*.
 
-**Part 2 — The pipe.** New to learners today (Session 1 deliberately used one function inside another). Start from the Session 1 code `head(arrange(linelist_raw, wt_kg), 3)` and read it aloud from the inside out, then type the pipe version and read it as "and then". Point out that the data no longer goes inside each function: `count(linelist_raw, hospital)` becomes `linelist_raw %>% count(hospital)`. Show the keyboard shortcut. `select()` is introduced here too (it was left out of Session 1). The two common slips: `%>%` at the start of a line, and a trailing `%>%` on the last line (the Console shows `+` and waits — press Esc).
+**Part 2 — The pipe, `filter()`, and `arrange()`.** All three are new today: Session 1 used one function at a time. Start from `count(linelist_raw, age_unit)`, which learners know, and show that `linelist_raw %>% count(age_unit)` does the same; then read `linelist_raw %>% arrange(wt_kg) %>% head(3)` aloud as "and then". Show the keyboard shortcut. `filter()` and `arrange()` find two of the problems from the Session 1 list (37 ages in months, impossible heights). `select()` is introduced here too. The two common slips: `%>%` at the start of a line, and a trailing `%>%` on the last line (the Console shows `+` and waits — press Esc).
 
 **Part 3 — Column names.** Show `names()` before and after `clean_names()`. Point out that backticks are no longer needed. Stress that in `rename()` the **new** name goes on the left.
 
@@ -71,7 +71,7 @@ The numbers match the TRY IT numbers in the lesson, the student script, and the 
 | TRY IT | Answer |
 |---|---|
 | 1. Import the practice data | `measles_raw <- import(here("raw_data", "measles_raw.csv"))` — 1215 rows, 11 columns |
-| 2. The pipe | `measles_raw %>% select(...) %>% arrange(desc(...)) %>% head(10)` — two columns, top temperature 104.7 |
+| 2. The pipe, `filter()`, and `arrange()` | a) `measles_raw %>% select(...) %>% arrange(desc(...)) %>% head(10)` — two columns, top temperature 104.7 b) `` filter(`Temp (C)` > 45) %>% nrow() `` — 27 |
 | 3. Clean the measles column names | `measles_raw %>% clean_names()` — `temp_c` and `vaccinated` |
 | 4. Fix the measles types | `as.Date(report_date)`, `as.numeric(age_years)`; 27 "unknown" become NA; max age 999 |
 | 5. 999 and Fahrenheit | `if_else(age_years == 999, NA, age_years)`; `if_else(temp_c > 45, round((temp_c - 32) * 5 / 9, 1), temp_c)` — max age 52 (31 NA), max temp 40.9 |

@@ -435,85 +435,101 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../pages/lessons/01-r-basics-importing-inspecting.html">→ Open the Session 1 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 75 minutes, which leaves about 15 minutes for questions in a 90-minute session.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>R basics</td>
-<td>12 min</td>
+<td>R basics (1 TRY IT)</td>
+<td>10 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>Installing and loading packages</td>
-<td>8 min</td>
+<td>Packages; error, warning, or message?</td>
+<td>10 min</td>
+<td>0:10</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Project folders and <code>here()</code></td>
-<td>10 min</td>
+<td>7 min</td>
+<td>0:20</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Importing data</td>
-<td>10 min</td>
+<td>Importing data (1 TRY IT)</td>
+<td>8 min</td>
+<td>0:27</td>
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>Inspecting data (4 TRY ITs)</td>
-<td>30 min</td>
+<td>Inspecting data (3 TRY ITs)</td>
+<td>25 min</td>
+<td>0:35</td>
 </tr>
 <tr class="even">
 <td>6</td>
-<td>The problem list (class + TRY IT)</td>
-<td>15 min</td>
+<td>The problem list (class + start TRY IT 6)</td>
+<td>10 min</td>
+<td>1:00</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>Wrap-up and preview</td>
 <td>5 min</td>
+<td>1:10</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>90 min</strong></td>
+<td><strong>75 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Make TRY IT 8 (the measles problem list) homework — learners need it at the start of Session 2.</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 6 (the measles problem list): start it, then assign the rest as homework. Learners need it at the start of Session 2.</li>
+<li>The ⭐ part of TRY IT 4 (<code>table()</code>).</li>
+<li>The 🧩 “Reading a function call” box in Part 4: point to it on screen 2 and move on.</li>
+</ol>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page. Everything they need is there.</p>
 </section>
 <section id="why-this-order" class="level2">
 <h2 class="anchored" data-anchor-id="why-this-order">Why this order</h2>
-<p>The session starts with the <strong>basics of the language</strong> (objects, vectors, functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. The <strong>pipe</strong> <code>%&gt;%</code> is taught at the start of Session 2, together with the tidyverse cleaning it is used for, so Session 1 calls one function at a time.</p>
+<p>The session starts with the <strong>basics of the language</strong> (objects and functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. Session 1 calls one function at a time. The <strong>pipe</strong> <code>%&gt;%</code>, <code>filter()</code>, and <code>arrange()</code> are taught at the start of Session 2. Building data frames by hand is in Session 4, and missing values and duplicates are in Session 3.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
 <ul>
 <li>Check that everyone ran the <a href="../../pages/setup.html">Setup</a> test. Anyone who didn’t should start <code>install.packages()</code> <strong>at the very beginning</strong> of class — it can take several minutes, and Part 1 (R basics) needs no packages, so they can follow along while it installs. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools (<a href="../../pages/troubleshooting.html">Troubleshooting</a>).</li>
 <li>Hand out the green and red sticky notes and explain them.</li>
+<li>Set up the questions <strong>parking lot</strong> (see the <a href="../../pages/instructor/index.html#teaching-with-two-instructors">Instructor Guide</a>).</li>
 </ul>
 </section>
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
-<p><strong>Part 1 — R basics.</strong> Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (<code>Mean(ages)</code>) to show that R is case-sensitive. The data frame example uses base R’s <code>data.frame()</code>, because no packages are loaded yet; mention that the tidyverse version, the <strong>tibble</strong>, shows up later.</p>
-<p><strong>Part 2 — Packages.</strong> Learners who did the setup only need the <code>library()</code> lines.</p>
-<p><strong>Part 3 — Project folders and <code>here()</code>.</strong> Show that <code>here::here()</code> points at the workshop folder because it’s open in Positron (and has a <code>.here</code> file). The workshop uses Positron for everyone, so the setup and pane names are the same on every laptop.</p>
+<p><strong>Part 1 — R basics.</strong> Keep this brisk (about 10 minutes); learners practise all of it in every later session. Have someone make a deliberate mistake (<code>Mean(ages)</code>) to show that R is case-sensitive. The data frame diagram is <strong>reading only</strong>: point to it on screen 2 and explain “each column is one type”. Nobody types <code>data.frame()</code> today.</p>
+<p><strong>Part 2 — Packages, and error, warning, or message.</strong> Learners who did the setup only need the <code>library()</code> lines. Use the red text that <code>library(tidyverse)</code> just printed to introduce the table: “this red text is a message, nothing to do”. Point out the “Asking for help” box: it’s how you want questions phrased during the course.</p>
+<p><strong>Part 3 — Project folders and <code>here()</code>.</strong> Show that <code>here::here()</code> points at the workshop folder because it’s open in Positron (and has a <code>.here</code> file). There is no TRY IT here; learners use <code>here()</code> in the import TRY IT next.</p>
 <p><strong>Positron vs RStudio names:</strong> if learners follow older tutorials, Positron’s <strong>Variables</strong> pane is RStudio’s <strong>Environment</strong> pane, and the <strong>Explorer</strong> is the <strong>Files</strong> pane.</p>
-<p><strong>Part 5 — Inspecting.</strong> This is the longest part. The “Think about it” questions on the lesson page are prompts to ask the class:</p>
+<p><strong>Part 5 — Inspecting.</strong> This is the longest part. Start by reading the five questions at the top of Part 5 aloud: everything after answers one of them. The “Think about it” questions on the lesson page are prompts to ask the class:</p>
 <ul>
 <li><em>What is wrong with these column names?</em> — spaces, dots, capitals, mixed styles.</li>
 <li><em>Which column types look wrong?</em> — <code>date.onset</code> is text, <code>age</code> is text, and <code>age_unit</code> hints that some ages aren’t in years.</li>
 </ul>
-<p>After <code>skim()</code>, point at the <code>n_missing</code> column, the negative minimum of <code>wt_kg</code>, and the near-300 cm maximum of <code>ht_cm</code>.</p>
-<p>The <strong>🔁 base R <code>table()</code></strong> box takes 2 minutes. The point is not to learn a second counting function but to <em>recognize</em> it in other people’s code, and to know its trap: it hides <code>NA</code> unless you add <code>useNA = "ifany"</code>. TRY IT (b) lets learners find this themselves.</p>
-<p><strong>Zooming in</strong> uses one function inside another, such as <code>head(arrange(linelist_raw, wt_kg), 10)</code>. Read it aloud from the inside out (“arrange the data, <em>then</em> take the head”). Let learners feel that the brackets get awkward: it sets up the pipe at the start of Session 2.</p>
-<p><strong>Part 6 — The problem list.</strong> Build the list <strong>with the class</strong> — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2’s TRY ITs work through it.</p>
+<p>After <code>skim()</code>, point at the <code>n_missing</code> column, the negative minimum of <code>wt_kg</code>, and the near-300 cm maximum of <code>ht_cm</code>. The 🔁 <code>table()</code> box and “Other ways to look” (<code>view()</code>, <code>names()</code>, <code>head()</code>) are <strong>reading only</strong>: mention them in one sentence each.</p>
+<p><strong>TRY IT 5 — fix the broken code.</strong> Give learners the time to struggle a little, then go through the four lines together and read each message aloud. The point of line 4 is that a warning can reveal a <strong>data</strong> problem rather than a typo.</p>
+<p><strong>Part 6 — The problem list.</strong> Build the list <strong>with the class</strong>: ask learners to call out what they found before showing the table. The “Fixed in” column previews Session 2. Duplicates are on the list as “not checked yet”: Session 3 checks them.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -535,31 +551,23 @@ ul.task-list li input[type="checkbox"] {
 <td><code>mean(my_temps)</code> is 38.5</td>
 </tr>
 <tr class="even">
-<td>2. Path to the practice data</td>
-<td><code>here::here("raw_data", "measles_raw.csv")</code></td>
+<td>2. Import</td>
+<td><code>import(here("raw_data", "measles_raw.csv"))</code>: 1215 rows, 11 columns</td>
 </tr>
 <tr class="odd">
-<td>3. Import</td>
-<td>1215 rows, 11 columns</td>
+<td>3. Size, structure, and summary</td>
+<td><code>Age (years)</code> is text; six names need backticks; the largest <code>Temp (C)</code> is 105 (104.7, a Fahrenheit value); 37 missing Patient IDs</td>
 </tr>
 <tr class="even">
-<td>4. Size and structure</td>
-<td><code>Age (years)</code> is text; six names need backticks</td>
+<td>4. Categories</td>
+<td>District has 18 values; “North” and “No” are each written 4 ways. ⭐ <code>table()</code> drops the 34 <code>NA</code> districts</td>
 </tr>
 <tr class="odd">
-<td>5. Categories</td>
-<td>a) District has 18 values; “North” and “No” are each written 4 ways b) <code>table()</code> drops the 34 <code>NA</code> districts</td>
+<td>5. Fix the broken code</td>
+<td><code>count()</code> not <code>Count()</code>; <code>District</code> not <code>district</code>; <code>.csv</code> not <code>.cvs</code>; the warning from <code>mean()</code> is a data problem (<code>Age (years)</code> is text)</td>
 </tr>
 <tr class="even">
-<td>6. Zooming in</td>
-<td><code>head(arrange(measles_raw, desc(`Temp (C)`)), 10)</code>: highest temperature 104.7 — Fahrenheit (27 temperatures in °F)</td>
-</tr>
-<tr class="odd">
-<td>7. Missing values and duplicates</td>
-<td>37 missing IDs, 15 duplicates; <code>Days in Hospital</code> has 766 NAs (not hospitalized)</td>
-</tr>
-<tr class="even">
-<td>8. Problem list</td>
+<td>6. Problem list</td>
 <td>At least 8 problems — see the lesson’s solution</td>
 </tr>
 </tbody>

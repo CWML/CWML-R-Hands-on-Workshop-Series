@@ -510,13 +510,22 @@ Think of a list as a box of items: `[[ ]]` takes **an item out of the box**; `[ 
 
 ## A data frame is a list
 
-A data frame is a list of columns that all have the same length:
+A data frame is a list of columns that all have the same length. You saw one drawn as boxes in Session 1; now build it yourself:
 
 ::: follow-along
-**👀 Follow along 5.2** — `is.list(linelist)` and `length(linelist)`. A data frame is a list!
+**👀 Follow along 5.2** — Build the small `patients` data frame with `data.frame()` and pull out one column with `$`. Then `is.list(linelist)` and `length(linelist)`: a data frame is a list!
+
+Pattern: `data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))`
 :::
 
 ```{r}
+patients <- data.frame(
+  name = c("Ana", "Ben", "Cho"),
+  age  = c(34, 51, 27)
+)
+patients
+patients$age         # $ pulls out one column
+
 is.list(linelist)
 length(linelist)     # the number of columns
 ```
@@ -524,6 +533,8 @@ length(linelist)     # the number of columns
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
+-   `data.frame()` builds a table from vectors. Each `column_name = c(...)` becomes one column: `name` holds text and `age` holds numbers. Every column must have the same length (3 here), because each row is one patient.
+-   `patients$age` pulls out the `age` column as a vector: `34 51 27`, the same way `$` takes an element out of a list.
 -   `is.list(linelist)` is TRUE: a data frame is a list whose elements are its columns.
 -   So `length(linelist)` counts the columns, 19, not the rows. Use `nrow()` for the number of rows.
 :::

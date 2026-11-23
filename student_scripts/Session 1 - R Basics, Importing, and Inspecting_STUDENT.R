@@ -23,20 +23,23 @@
 
 
 # ── PART 1: R basics ───────────────────────────────────────────────────────
-# 🎯 Goal: Create objects, use functions, and build a small data frame.
+# 🎯 Goal: Create objects and use functions.
 #
 # 📖 What you need to know
 #    - <- stores a value in an object: my_age <- 35. Read it as "my_age gets 35".
 #      The object then appears in the Variables pane.
-#    - c() combines values into a vector: c(2, 18, 56)
+#      Shortcut: Option + - (Mac) or Alt + - (Windows) types <- for you.
+#    - c() combines values into a vector: c(2, 18, 56). Text needs quotes: c("Ana", "Ben")
 #    - A function does something to its inputs (arguments): round(3.14159, digits = 2)
 #      Type ?round in the Console to see the help page for any function.
-#    - A data frame is a table: each column is a vector, each row is one
-#      observation. data$column pulls out one column. data.frame() makes one.
-#      (A tibble is the tidyverse version of a data frame: you'll meet them later.)
+#    - A data frame is a table: each column is a vector (one type per column),
+#      each row is one observation. data$column pulls out one column.
+#      (See the diagram on the course website. You'll build data frames in Session 4.)
 #
 # ⚠️ Common mistakes
 #    - R is case-sensitive: Age and age are different objects.
+#    - Names can't start with a number or contain spaces: age2 and my_age work,
+#      2age and my age don't. Avoid names R already uses, like c, mean, or data.
 #    - Text needs quotes ("Central Hospital"); object names don't (my_age).
 #    - Every ( needs a ). Positron highlights the matching bracket.
 # ────────────────────────────────────────────────────────────────────────────
@@ -48,14 +51,7 @@
 # 👀 Follow along 1.2: make a vector of ages with c(), then find the mean()
 
 
-# 👀 Follow along 1.3: make a vector of hospital names and find its length()
-
-
-# 👀 Follow along 1.4: round(3.14159) with and without digits = 2
-
-
-# 👀 Follow along 1.5: make a small data frame with data.frame(), then pull out one column with $
-#    Pattern: data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))
+# 👀 Follow along 1.3: round(3.14159) with and without digits = 2
 
 
 # ✏️ TRY IT 1 (2 min): store three temperatures, 38.5, 39.1, and 37.9, in an object
@@ -77,12 +73,16 @@
 #        here       file paths that work on any computer
 #        rio        import() and export() for almost any file type
 #        skimr      skim(), a quick summary of a whole dataset
-#        janitor    tools for cleaning, like get_dupes() today
 #
 # ⚠️ Common mistakes
 #    - Package names need quotes in install.packages() but NOT in library().
-#    - Red text is not always an error! Messages like "Attaching core tidyverse
-#      packages" are normal. An error starts with "Error".
+#    - Red text is not always an error! There are three kinds:
+#        Error     starts with "Error". R stopped. Read the message, fix the code, run again.
+#        Warning   starts with "Warning". R finished, but check the result
+#                  (did values turn into NA, or did rows disappear?).
+#        Message   anything else, like the list after library(tidyverse). Just information.
+#    - Asking for help? Give: the line you ran, what you expected, and the exact
+#      message R gave you (copy it).
 # ────────────────────────────────────────────────────────────────────────────
 
 # Install (run once; skip this if you did the pre-workshop setup)
@@ -92,7 +92,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    Pattern: library(PACKAGE_NAME)
 
 
-# ✅ Check: run all five lines. You should see no line that starts with "Error".
+# ✅ Check: run all four lines. You should see no line that starts with "Error".
 
 
 
@@ -118,11 +118,6 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    Pattern: here::here("FOLDER", "FILE_NAME.EXTENSION")
 
 
-# ✏️ TRY IT 2 (1 min): build the path to the practice data, raw_data/measles_raw.csv
-#    ✅ Check: the output ends in .../raw_data/measles_raw.csv
-
-
-
 # ── PART 4: Importing data ─────────────────────────────────────────────────
 # 🎯 Goal: Read data files into R with import() + here().
 #
@@ -143,10 +138,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    Pattern: NEW_NAME <- import(here("FOLDER", "FILE_NAME.EXTENSION"))
 
 
-# 👀 Follow along 4.2: import raw_data/case_info.csv (case_info) and raw_data/hosp_info.txt (hosp_info)
-
-
-# ✏️ TRY IT 3 (2 min): import the practice data raw_data/measles_raw.csv and call it measles_raw
+# ✏️ TRY IT 2 (2 min): import the practice data raw_data/measles_raw.csv and call it measles_raw
 #    ✅ Check: in the Variables pane, measles_raw shows 1215 rows and 11 columns
 
 
@@ -155,97 +147,66 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 # 🎯 Goal: Look at the data before changing anything, and find its problems.
 #
 # 📖 What you need to know
-#    Size and structure
-#      view()      opens the Data Explorer, a spreadsheet view of the data
-#      dim()       number of rows and columns
-#      names()     the column names
-#      head()      the first 6 rows
-#      glimpse()   every column, its type, and its first few values
-#                  <chr> = text, <dbl> = number, <date> = date, <dttm> = date-time
-#      skim()      a summary of every column, including missing values, min, and max
+#    Questions to answer for any dataset:
+#      1. How many rows and columns? Is that what you expected?        dim()
+#      2. Are the column names easy to use? Are the types right?       glimpse()
+#      3. Which columns have missing values? Any impossible values?    skim()
+#      4. Are the categories spelled consistently?                      count()
+#      5. Are there duplicate rows?                                     (Session 3)
 #
-#    Categories
-#      count(DATA, COLUMN)   every distinct value in a column and how often it
-#                  appears. The fastest way to find misspellings!
-#      🔁 Base R:  table(data$COLUMN) counts too, but HIDES missing values.
-#                  Add useNA = "ifany" to see them.
-#
-#    Zooming in (the data always goes first)
-#      filter(DATA, CONDITION)   keeps ROWS that meet a condition
-#      arrange(DATA, COLUMN)     sorts rows; desc(COLUMN) sorts largest first
-#      head(DATA, 10)            shows only the first 10 rows
-#      Conditions: == equal, != not equal, > < >= <=, is.na() missing
-#
-#    Two steps at once: put one function INSIDE another. R runs the inside first.
-#      head(arrange(linelist_raw, wt_kg), 10)   sort by weight, THEN show 10 rows
-#      linelist_raw is a regular data frame, so R prints ALL 6,604 rows unless you
-#      wrap the code in head(..., 10). (In Session 2 the pipe %>% makes this easier.)
-#
-#    Missing values and duplicates
-#      colSums(is.na(data))    the number of missing values in each column
-#      sum(duplicated(data))   the number of rows that are exact copies of another row
-#      get_dupes(data)         shows the duplicated rows
+#    dim()       number of rows and columns
+#    glimpse()   every column, its type, and its first few values
+#                <chr> = text, <dbl> = number, <date> = date, <dttm> = date-time
+#    skim()      a summary of every column: n_missing, and for numbers the
+#                smallest (p0) and largest (p100) value
+#    count(DATA, COLUMN)   every distinct value in a column and how often it
+#                appears. The fastest way to find misspellings!
+#    🔁 Base R:  table(data$COLUMN) counts too, but HIDES missing values
+#                (add useNA = "ifany"). See the 🔁 box on the course website.
 #
 # ⚠️ Common mistakes
 #    - Column names with spaces or symbols need backticks: `Case ID`, `Temp (C)`.
 #      (The backtick key is at the top left of most keyboards.)
-#    - Use == (two equals signs) to compare. One = is for naming arguments.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 5.1: size and structure of linelist_raw: view(), dim(), names(), head(), glimpse()
+# 👀 Follow along 5.1: the size and structure of linelist_raw with dim() and glimpse()
 
 
-# ✏️ TRY IT 4 (3 min): use dim() and glimpse() on measles_raw
+# 👀 Follow along 5.2: skim(linelist_raw). Look at n_missing, and the min (p0) and
+#    max (p100) of wt_kg and ht_cm.
+
+
+# ✏️ TRY IT 3 (4 min): use dim(), glimpse(), and skim() on measles_raw
 #    a) Which column should be a number but is stored as text (<chr>)?
 #    b) Which column names will need backticks?
-#    ✅ Check: dim() gives 1215 11
+#    c) In skim(), find `Temp (C)`. What is its largest value (p100)? What happened?
+#    d) How many rows have no `Patient ID`?
+#    ✅ Check: dim() gives 1215 11; the largest Temp (C) shows as 105;
+#              Patient ID has 37 missing values
 
-
-
-# 👀 Follow along 5.2: skim(linelist_raw). Look at n_missing, and the min and max of wt_kg and ht_cm.
 
 
 # 👀 Follow along 5.3: count() the hospital, Gender, OUTCOME, and age_unit columns
 #    Pattern: count(DATA, COLUMN)
 
 
-# 🔁 Follow along 5.4: the base R way. table() OUTCOME, with and without useNA = "ifany"
-
-
-# ✏️ TRY IT 5 (3 min):
-#    a) count() District, SEX, and `Vaccinated?` in measles_raw
-#       How many different ways is "North" written? How many ways is "No" written?
-#    b) Now try table(measles_raw$District). What is missing compared with count()?
-#    ✅ Check: a) count(District) shows 18 rows (including NA)
-#              b) table() has no NA: 34 cases disappear
+# ✏️ TRY IT 4 (3 min): count() District, SEX, and `Vaccinated?` in measles_raw
+#    How many different ways is "North" written? How many ways is "No" written?
+#    ⭐ If you have time: try table(measles_raw$District). What is missing
+#       compared with count()?
+#    ✅ Check: count(District) shows 18 rows (including NA)
 
 
 
-# 👀 Follow along 5.5: use filter(), arrange(), and head() to find
-#    - how many patients have ages in months, and the first 10 of them
-#    - the smallest weights (any impossible values?)
-#    - the tallest patients
-#    Pattern: nrow(filter(DATA, CONDITION))
-#    Pattern: head(arrange(DATA, COLUMN), 10)
-
-
-# ✏️ TRY IT 6 (3 min): sort measles_raw by `Temp (C)`, largest first, and show only
-#    the top 10 rows. What is the highest temperature? What happened?
-#    Pattern: head(arrange(DATA, desc(COLUMN)), 10)
-#    ✅ Check: the top value is 104.7
-
-
-
-# 👀 Follow along 5.6: missing values with colSums(is.na()), rows with no Case ID
-#    (nrow(filter(...))),
-#    and duplicates with sum(duplicated()) and get_dupes()
-
-
-# ✏️ TRY IT 7 (3 min): in measles_raw,
-#    a) how many rows have a missing `Patient ID`?
-#    b) how many rows are exact duplicates?
-#    c) which column has the most missing values? Is that a mistake, or does it make sense?
-#    ✅ Check: a) 37   b) 15
+# ✏️ TRY IT 5 (5 min): fix the broken code
+#    Run these four lines one at a time. For each one: is it an error or a
+#    warning? What does the message say? Then fix the code and run it again.
+#    ✅ Check: three errors and one warning. Once fixed, the first two lines
+#              show the same 18 rows.
+Count(measles_raw, District)
+count(measles_raw, district)
+measles_raw <- import(here("raw_data", "measles_raw.cvs"))
+mean(measles_raw$`Age (years)`)
 
 
 
@@ -254,6 +215,7 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: the problem list for linelist_raw (fill it in with the class)
+#    Problem                                     Fixed in
 # 1.
 # 2.
 # 3.
@@ -264,8 +226,10 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 # 8.
 
 
-# ✏️ TRY IT 8 (10 min): write a problem list for measles_raw, using everything you
-#    found in the TRY ITs above. Save this file: you will fix these problems in Session 2!
+# ✏️ TRY IT 6 (10 min): write a problem list for measles_raw, using everything you
+#    found in TRY ITs 3-5 and the questions at the top of Part 5.
+#    Start it in class and finish it at home. Save this file: you will fix these
+#    problems in Session 2!
 #    ✅ Check: you should find at least 8 problems. Compare with the solutions file.
 # 1.
 # 2.
@@ -285,7 +249,5 @@ install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", 
 #    1. import() it
 #    2. look at it with dim(), glimpse(), and skim()
 #    3. count() its text columns to look for misspellings
-#    4. check for missing values and duplicates
-#    5. write its problem list
+#    4. write its problem list, using the questions at the top of Part 5
 #________________________________________________________________________________
-

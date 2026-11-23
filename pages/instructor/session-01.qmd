@@ -7,50 +7,57 @@ subtitle: "R basics, importing, and inspecting data"
 
 ## Timing
 
-| Part | Topic | Time (incl. TRY IT) |
-|------|-------|---------------------|
-| 1 | R basics | 12 min |
-| 2 | Installing and loading packages | 8 min |
-| 3 | Project folders and `here()` | 10 min |
-| 4 | Importing data | 10 min |
-| 5 | Inspecting data (4 TRY ITs) | 30 min |
-| 6 | The problem list (class + TRY IT) | 15 min |
-|   | Wrap-up and preview | 5 min |
-|   | **Total** | **90 min** |
+The plan below adds up to about 75 minutes, which leaves about 15 minutes for questions in a 90-minute session.
 
-**Short on time?** Make TRY IT 8 (the measles problem list) homework — learners need it at the start of Session 2.
+| Part | Topic | Time (incl. TRY IT) | Start by |
+|------|-------|---------------------|----------|
+| 1 | R basics (1 TRY IT) | 10 min | 0:00 |
+| 2 | Packages; error, warning, or message? | 10 min | 0:10 |
+| 3 | Project folders and `here()` | 7 min | 0:20 |
+| 4 | Importing data (1 TRY IT) | 8 min | 0:27 |
+| 5 | Inspecting data (3 TRY ITs) | 25 min | 0:35 |
+| 6 | The problem list (class + start TRY IT 6) | 10 min | 1:00 |
+|   | Wrap-up and preview | 5 min | 1:10 |
+|   | **Total** | **75 min** | |
+
+**Running behind? Skip in this order:**
+
+1.  TRY IT 6 (the measles problem list): start it, then assign the rest as homework. Learners need it at the start of Session 2.
+2.  The ⭐ part of TRY IT 4 (`table()`).
+3.  The 🧩 "Reading a function call" box in Part 4: point to it on screen 2 and move on.
+
+**Never speed-run.** If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page. Everything they need is there.
 
 ## Why this order
 
-The session starts with the **basics of the language** (objects, vectors, functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. The **pipe** `%>%` is taught at the start of Session 2, together with the tidyverse cleaning it is used for, so Session 1 calls one function at a time.
+The session starts with the **basics of the language** (objects and functions), then the tools learners will use every day: packages, the project folder, importing, and inspecting. Session 1 calls one function at a time. The **pipe** `%>%`, `filter()`, and `arrange()` are taught at the start of Session 2. Building data frames by hand is in Session 4, and missing values and duplicates are in Session 3.
 
 ## Before you start
 
 -   Check that everyone ran the [Setup](../setup.qmd) test. Anyone who didn't should start `install.packages()` **at the very beginning** of class — it can take several minutes, and Part 1 (R basics) needs no packages, so they can follow along while it installs. Windows users may need Rtools and Mac users may need the Xcode Command Line Tools ([Troubleshooting](../troubleshooting.qmd)).
 -   Hand out the green and red sticky notes and explain them.
+-   Set up the questions **parking lot** (see the [Instructor Guide](index.qmd#teaching-with-two-instructors)).
 
 ## Teaching notes by part
 
-**Part 1 — R basics.** Keep this brisk (about 10 minutes); learners will practice all of it in every later session. Have someone make a deliberate mistake (`Mean(ages)`) to show that R is case-sensitive. The data frame example uses base R's `data.frame()`, because no packages are loaded yet; mention that the tidyverse version, the **tibble**, shows up later.
+**Part 1 — R basics.** Keep this brisk (about 10 minutes); learners practise all of it in every later session. Have someone make a deliberate mistake (`Mean(ages)`) to show that R is case-sensitive. The data frame diagram is **reading only**: point to it on screen 2 and explain "each column is one type". Nobody types `data.frame()` today.
 
-**Part 2 — Packages.** Learners who did the setup only need the `library()` lines.
+**Part 2 — Packages, and error, warning, or message.** Learners who did the setup only need the `library()` lines. Use the red text that `library(tidyverse)` just printed to introduce the table: "this red text is a message, nothing to do". Point out the "Asking for help" box: it's how you want questions phrased during the course.
 
-**Part 3 — Project folders and `here()`.** Show that `here::here()` points at the workshop folder because it's open in Positron (and has a `.here` file). The workshop uses Positron for everyone, so the setup and pane names are the same on every laptop.
+**Part 3 — Project folders and `here()`.** Show that `here::here()` points at the workshop folder because it's open in Positron (and has a `.here` file). There is no TRY IT here; learners use `here()` in the import TRY IT next.
 
 **Positron vs RStudio names:** if learners follow older tutorials, Positron's **Variables** pane is RStudio's **Environment** pane, and the **Explorer** is the **Files** pane.
 
-**Part 5 — Inspecting.** This is the longest part. The "Think about it" questions on the lesson page are prompts to ask the class:
+**Part 5 — Inspecting.** This is the longest part. Start by reading the five questions at the top of Part 5 aloud: everything after answers one of them. The "Think about it" questions on the lesson page are prompts to ask the class:
 
 -   *What is wrong with these column names?* — spaces, dots, capitals, mixed styles.
 -   *Which column types look wrong?* — `date.onset` is text, `age` is text, and `age_unit` hints that some ages aren't in years.
 
-After `skim()`, point at the `n_missing` column, the negative minimum of `wt_kg`, and the near-300 cm maximum of `ht_cm`.
+After `skim()`, point at the `n_missing` column, the negative minimum of `wt_kg`, and the near-300 cm maximum of `ht_cm`. The 🔁 `table()` box and "Other ways to look" (`view()`, `names()`, `head()`) are **reading only**: mention them in one sentence each.
 
-The **🔁 base R `table()`** box takes 2 minutes. The point is not to learn a second counting function but to *recognize* it in other people's code, and to know its trap: it hides `NA` unless you add `useNA = "ifany"`. TRY IT (b) lets learners find this themselves.
+**TRY IT 5 — fix the broken code.** Give learners the time to struggle a little, then go through the four lines together and read each message aloud. The point of line 4 is that a warning can reveal a **data** problem rather than a typo.
 
-**Zooming in** uses one function inside another, such as `head(arrange(linelist_raw, wt_kg), 10)`. Read it aloud from the inside out ("arrange the data, *then* take the head"). Let learners feel that the brackets get awkward: it sets up the pipe at the start of Session 2.
-
-**Part 6 — The problem list.** Build the list **with the class** — ask learners to call out what they found before showing the table. Make sure they save their measles problem list: Session 2's TRY ITs work through it.
+**Part 6 — The problem list.** Build the list **with the class**: ask learners to call out what they found before showing the table. The "Fixed in" column previews Session 2. Duplicates are on the list as "not checked yet": Session 3 checks them.
 
 ## TRY IT answers at a glance
 
@@ -59,10 +66,8 @@ The numbers match the TRY IT numbers in the lesson, the student script, and the 
 | TRY IT | Answer |
 |---|---|
 | 1. Objects and functions | `mean(my_temps)` is 38.5 |
-| 2. Path to the practice data | `here::here("raw_data", "measles_raw.csv")` |
-| 3. Import | 1215 rows, 11 columns |
-| 4. Size and structure | `Age (years)` is text; six names need backticks |
-| 5. Categories | a) District has 18 values; "North" and "No" are each written 4 ways b) `table()` drops the 34 `NA` districts |
-| 6. Zooming in | `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``: highest temperature 104.7 — Fahrenheit (27 temperatures in °F) |
-| 7. Missing values and duplicates | 37 missing IDs, 15 duplicates; `Days in Hospital` has 766 NAs (not hospitalized) |
-| 8. Problem list | At least 8 problems — see the lesson's solution |
+| 2. Import | `import(here("raw_data", "measles_raw.csv"))`: 1215 rows, 11 columns |
+| 3. Size, structure, and summary | `Age (years)` is text; six names need backticks; the largest `Temp (C)` is 105 (104.7, a Fahrenheit value); 37 missing Patient IDs |
+| 4. Categories | District has 18 values; "North" and "No" are each written 4 ways. ⭐ `table()` drops the 34 `NA` districts |
+| 5. Fix the broken code | `count()` not `Count()`; `District` not `district`; `.csv` not `.cvs`; the warning from `mean()` is a data problem (`Age (years)` is text) |
+| 6. Problem list | At least 8 problems — see the lesson's solution |

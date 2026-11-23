@@ -88,7 +88,7 @@ Still on the problem list from Session 1:
 |----|------------------------------------------|----------|
 | 5  | Gender and outcome have missing values   | Part 5   |
 | 7  | 130 rows have no Case ID                 | Part 3   |
-| 8  | 25 rows are duplicates                   | Part 4   |
+| 8  | Duplicate rows? Not checked yet          | Part 4   |
 
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT 1 (2 min): import the measles data
@@ -268,7 +268,7 @@ nrow(linelist_final)
 ## 🔍 What this code does
 
 -   `!` means "not", so `!is.na(case_id)` is TRUE for rows that **have** an ID. `filter()` keeps those: 6604 − 130 = 6474 rows.
--   `distinct()` then keeps one copy of every row that appears more than once, leaving 6451. That's 23 copies removed. (Session 1 found 25 duplicate rows; the other 2 were among the rows with no ID, which are already set aside in `missing_ids`.)
+-   `distinct()` then keeps one copy of every row that appears more than once, leaving 6451. That's 23 copies removed. (`sum(duplicated(linelist_clean))` counts 25 exact copies in all; the other 2 were among the rows with no ID, which are already set aside in `missing_ids`.)
 -   The two `nrow()` lines show the counts before (6604) and after (6451).
 :::
 
@@ -319,7 +319,7 @@ measles_final <- measles_final %>%
 nrow(measles_final)
 ```
 
-`distinct()` removed 15 rows (1178 − 1163) — the 15 duplicates you found in Session 1.
+`distinct()` removed 15 rows (1178 − 1163): the measles data had 15 exact duplicate rows.
 :::
 :::
 
@@ -356,7 +356,7 @@ Read `~ replace_na(.x, "Unknown")` as: "for each column (`.x`), replace its NAs 
 -   `where(is.character)` picks the text columns: `case_id`, `outcome`, `gender`, `hospital`, `age_unit`, `hospital_name`, and `age_cat`.
 -   `across(...)` runs `replace_na(.x, "Unknown")` on each of them, and `mutate()` saves the result back into the same columns.
 -   `count(gender)` now shows Unknown 304 instead of `NA`, and `count(outcome)` shows Unknown 1453. The numbers didn't change, only the label.
--   Why bother? Text "Unknown" shows up in tables and plots as a category of its own, while `NA` is easy to drop by accident (as `table()` did in Session 1).
+-   Why bother? Text "Unknown" shows up in tables and plots as a category of its own, while `NA` is easy to drop by accident (as `table()` does without `useNA`; see Session 1).
 :::
 
 ::: callout-note
@@ -450,7 +450,7 @@ anti_join(patients, labs, by = "id")    # patients with NO lab result
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `tibble()` makes a small data frame, just like `data.frame()` in Session 1.
+-   `tibble()` makes a small data frame by hand, like `data.frame()` in the Session 1 diagram.
 -   `patients` has ids 1, 2, 3 and `labs` has ids 2, 3, 4, so ids 2 and 3 are in both, 1 is only in `patients`, and 4 is only in `labs`.
 -   `left_join()` keeps all 3 patients; Ana (id 1) gets `NA` for `result` because she has no lab. `inner_join()` keeps only the 2 ids in both. `full_join()` keeps all 4 ids. `anti_join()` returns the 1 patient with no lab.
 -   `by = "id"` names the **key**: the column used to match rows. It must exist in both data frames.

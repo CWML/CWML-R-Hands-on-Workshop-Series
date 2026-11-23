@@ -70,7 +70,7 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   Both files are imported fresh from `raw_data/`, exactly as in Session 1. Today you clean a **copy** in R; the files themselves never change.
+-   Both files are imported fresh from `raw_data/`, the same way you imported data in Session 1. Today you clean a **copy** in R; the files themselves never change.
 -   `hosp_info` is a small look-up table: one row for each of the 6 hospitals, with its correct name. You'll use it in Part 6 to fix the misspelled hospital names.
 -   The extra spaces before `<-` only line the two lines up so they're easier to read. R ignores them.
 :::
@@ -86,7 +86,7 @@ The problem list from Session 1 is today's to-do list:
 | 5  | Gender and outcome have missing values                             | Session 3 |
 | 6  | Impossible weights and heights                                     | Parts 5, 7 |
 | 7  | 130 rows have no Case ID                                           | Session 3 |
-| 8  | 25 rows are duplicates                                             | Session 3 |
+| 8  | Duplicate rows? Not checked yet                                    | Session 3 |
 
 ::: callout-important
 ## Never edit the raw data file
@@ -110,46 +110,71 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 :::
 :::
 
-# Part 2: The pipe `%>%`
+# Part 2: The pipe `%>%`, `filter()`, and `arrange()`
 
-In Session 1, doing two things at once meant putting one function inside another:
+In Session 1 you used one function at a time, with the data first: `count(linelist_raw, age_unit)`. Real work needs several steps in a row. The **pipe** `%>%` passes the data from one step to the next, **in order, from left to right**. Read it as **"and then"**.
 
 ::: follow-along
-**👀 Follow along 2.1** — Sort by weight and show 3 rows: first with one function inside another, then with the pipe (the next two code blocks).
+**👀 Follow along 2.1** — `count()` with the pipe, then sort by weight and show 3 rows.
 
 Pattern: `DATA %>% STEP_1() %>% STEP_2()`
 :::
 
 ```{r}
-head(arrange(linelist_raw, wt_kg), 3)
-```
+linelist_raw %>% count(age_unit)
 
-You read that from the **inside out**: arrange the data, *then* take the head. Every extra step adds another layer of brackets. The **pipe** `%>%` writes the same steps **in order, from left to right**:
-
-```{r}
 linelist_raw %>% arrange(wt_kg) %>% head(3)
 ```
 
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   Both code blocks do exactly the same thing and give the same 3 rows: the data sorted by weight, smallest first.
--   In the first block, R starts with the innermost function, `arrange()`, and hands its result to `head()`.
--   In the second, `linelist_raw %>%` passes the data into `arrange(wt_kg)`, and that result goes into `head(3)`. You never write `linelist_raw` inside the brackets: the pipe fills in the first argument for you.
+-   `linelist_raw %>% count(age_unit)` is the same as `count(linelist_raw, age_unit)` from Session 1. The pipe fills in the data as the **first argument**, so you don't write it inside the brackets.
+-   `linelist_raw %>% arrange(wt_kg) %>% head(3)` reads: take `linelist_raw`, **and then** sort it by weight (smallest first), **and then** show the first 3 rows.
 -   The first two rows share the Case ID 6056ba and both have a weight of -11 kg: an impossible value, and an ID that appears twice. You fix the weights in Part 5; repeated IDs and duplicates come up in Session 3.
 :::
 
-The pipe takes the result on its left and passes it in as the **first argument** of the function on its right. Read it as **"and then"**: *take `linelist_raw`, and then arrange it by weight, and then show the first 3 rows.*
+-   Keyboard shortcut for `%>%`: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows)
 
--   Keyboard shortcut: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows)
--   With the pipe, you don't write the data inside each function: `count(linelist_raw, hospital)` becomes `linelist_raw %>% count(hospital)`
+## Keeping rows: `filter()`. Sorting rows: `arrange()`
+
+-   `filter()` keeps the **rows** that meet a condition
+-   `arrange()` sorts the rows; `desc()` sorts largest first
+
+::: follow-along
+**👀 Follow along 2.2** — How many patients have ages in months? Then the 3 tallest patients.
+
+Pattern: `DATA %>% filter(CONDITION)`
+:::
+
+```{r}
+linelist_raw %>% filter(age_unit == "months") %>% nrow()
+
+linelist_raw %>% arrange(desc(ht_cm)) %>% head(3)
+```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `filter(age_unit == "months")` keeps only the rows where `age_unit` is exactly "months". `==` asks "is it equal?" for every row, and `filter()` keeps the rows where the answer is TRUE. `nrow()` then counts them: 37.
+-   `arrange(desc(ht_cm))` sorts by height, tallest first. The top heights, 295, 287, and 272 cm, are impossible. They're on the problem list.
+-   None of this changes `linelist_raw`. To keep a result, save it with `<-`.
+:::
+
+::: callout-note
+## Conditions you can use in `filter()`
+
+`==` equal · `!=` not equal · `>` `<` `>=` `<=` · `%in% c(...)` one of several values · `is.na()` missing · `&` and · `|` or
+
+Use `==` (two equals signs) to compare. One `=` is for naming arguments.
+:::
 
 ## Longer pipelines
 
 Put each step on its own line, with the `%>%` at the **end** of the line. `select()` keeps only the **columns** you name:
 
 ::: follow-along
-**👀 Follow along 2.2** — A longer pipeline, one step per line: `select()` `Case ID`, `wt_kg`, and `ht_cm`, then `arrange()` by `wt_kg`, then `head(5)`.
+**👀 Follow along 2.3** — A longer pipeline, one step per line: `select()` `Case ID`, `wt_kg`, and `ht_cm`, then `arrange()` by `wt_kg`, then `head(5)`.
 :::
 
 ```{r}
@@ -165,10 +190,8 @@ linelist_raw %>%
 -   `` select(`Case ID`, wt_kg, ht_cm) `` keeps only these three columns, in this order. `Case ID` has a space in it, so it needs backticks.
 -   `arrange(wt_kg)` sorts the rows by weight, smallest first, and `head(5)` keeps the first 5.
 -   Each line ends with `%>%`, so R knows the next line continues the same pipeline. The text after `#` is a comment for people; R ignores it.
--   Nothing is saved: the result prints and is gone. To keep a result, start the pipeline with `NEW_NAME <-`.
+-   Without the pipe, you'd have to put each function inside the next one: `head(arrange(select(linelist_raw, ...), wt_kg), 5)`, which you read from the inside out. The pipe keeps the steps in the order they happen.
 :::
-
-That is three steps, readable top to bottom. Written the Session 1 way, it would be `head(arrange(select(linelist_raw, ...), wt_kg), 5)`.
 
 ::: callout-note
 You may also see `|>`, the pipe built into R itself. For this workshop they do the same thing.
@@ -182,11 +205,14 @@ You may also see `|>`, the pipe built into R itself. For this workshop they do t
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 2 (3 min): the pipe
+## ✏️ TRY IT 2 (4 min): the pipe, `filter()`, and `arrange()`
 
-In Session 1 you wrote `` head(arrange(measles_raw, desc(`Temp (C)`)), 10) ``. Rewrite it with the pipe, and add a `select()` step so you only see `` `Patient ID` `` and `` `Temp (C)` ``.
+a)  Show the `` `Patient ID` `` and `` `Temp (C)` `` columns of `measles_raw`, sorted by temperature, largest first. Show only the top 10 rows.
+b)  How many rows have a `` `Temp (C)` `` above 45?
 
-✅ **Check:** two columns, and the top temperature is 104.7
+Pattern: `DATA %>% select(COLUMN_1, COLUMN_2) %>% arrange(desc(COLUMN)) %>% head(10)`
+
+✅ **Check:** a) two columns, and the top temperature is 104.7 b) 27
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
@@ -196,9 +222,11 @@ measles_raw %>%
   select(`Patient ID`, `Temp (C)`) %>%
   arrange(desc(`Temp (C)`)) %>%
   head(10)
+
+measles_raw %>% filter(`Temp (C)` > 45) %>% nrow()
 ```
 
-Same answer as in Session 1, but now you can read it in order. From here on, almost every piece of code in the workshop uses the pipe.
+These are the Fahrenheit temperatures you found with `skim()` in Session 1: 27 of them. You'll convert them in Part 5. From here on, almost every piece of code in the workshop uses the pipe.
 :::
 :::
 

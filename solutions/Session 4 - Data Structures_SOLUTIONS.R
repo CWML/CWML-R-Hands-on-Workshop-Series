@@ -120,7 +120,14 @@ patient["age"]       # a smaller list
 length(patient)      # 4
 str(patient)
 
-# 👀 Follow along 5.2: a data frame is a list
+# 👀 Follow along 5.2: build a data frame; a data frame is a list
+patients <- data.frame(
+  name = c("Ana", "Ben", "Cho"),
+  age  = c(34, 51, 27)
+)
+patients
+patients$age         # 34 51 27
+
 is.list(linelist)    # TRUE
 length(linelist)     # 19 columns
 

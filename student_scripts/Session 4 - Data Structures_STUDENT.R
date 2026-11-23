@@ -183,7 +183,10 @@
 #    (two dates). Print it, then use $, [[ ]], [ ], length(), and str() on it.
 
 
-# 👀 Follow along 5.2: is.list(linelist) and length(linelist). A data frame is a list!
+# 👀 Follow along 5.2: build a small data frame called patients with data.frame()
+#    (name: Ana, Ben, Cho; age: 34, 51, 27) and pull out age with $.
+#    Then is.list(linelist) and length(linelist). A data frame is a list!
+#    Pattern: data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))
 
 
 # 👀 Follow along 5.3: t.test() of age_years by gender (leave out "Unknown"), saved as age_test.

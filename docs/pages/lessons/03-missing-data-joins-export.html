@@ -602,7 +602,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td>8</td>
-<td>25 rows are duplicates</td>
+<td>Duplicate rows? Not checked yet</td>
 <td>Part 4</td>
 </tr>
 </tbody>
@@ -942,7 +942,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>!</code> means “not”, so <code>!is.na(case_id)</code> is TRUE for rows that <strong>have</strong> an ID. <code>filter()</code> keeps those: 6604 − 130 = 6474 rows.</li>
-<li><code>distinct()</code> then keeps one copy of every row that appears more than once, leaving 6451. That’s 23 copies removed. (Session 1 found 25 duplicate rows; the other 2 were among the rows with no ID, which are already set aside in <code>missing_ids</code>.)</li>
+<li><code>distinct()</code> then keeps one copy of every row that appears more than once, leaving 6451. That’s 23 copies removed. (<code>sum(duplicated(linelist_clean))</code> counts 25 exact copies in all; the other 2 were among the rows with no ID, which are already set aside in <code>missing_ids</code>.)</li>
 <li>The two <code>nrow()</code> lines show the counts before (6604) and after (6451).</li>
 </ul>
 </div>
@@ -1028,7 +1028,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 1163</code></pre>
 </div>
 </div>
-<p><code>distinct()</code> removed 15 rows (1178 − 1163) — the 15 duplicates you found in Session 1.</p>
+<p><code>distinct()</code> removed 15 rows (1178 − 1163): the measles data had 15 exact duplicate rows.</p>
 </div>
 </div>
 </div>
@@ -1093,7 +1093,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>where(is.character)</code> picks the text columns: <code>case_id</code>, <code>outcome</code>, <code>gender</code>, <code>hospital</code>, <code>age_unit</code>, <code>hospital_name</code>, and <code>age_cat</code>.</li>
 <li><code>across(...)</code> runs <code>replace_na(.x, "Unknown")</code> on each of them, and <code>mutate()</code> saves the result back into the same columns.</li>
 <li><code>count(gender)</code> now shows Unknown 304 instead of <code>NA</code>, and <code>count(outcome)</code> shows Unknown 1453. The numbers didn’t change, only the label.</li>
-<li>Why bother? Text “Unknown” shows up in tables and plots as a category of its own, while <code>NA</code> is easy to drop by accident (as <code>table()</code> did in Session 1).</li>
+<li>Why bother? Text “Unknown” shows up in tables and plots as a category of its own, while <code>NA</code> is easy to drop by accident (as <code>table()</code> does without <code>useNA</code>; see Session 1).</li>
 </ul>
 </div>
 </div>
@@ -1289,7 +1289,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>tibble()</code> makes a small data frame, just like <code>data.frame()</code> in Session 1.</li>
+<li><code>tibble()</code> makes a small data frame by hand, like <code>data.frame()</code> in the Session 1 diagram.</li>
 <li><code>patients</code> has ids 1, 2, 3 and <code>labs</code> has ids 2, 3, 4, so ids 2 and 3 are in both, 1 is only in <code>patients</code>, and 4 is only in <code>labs</code>.</li>
 <li><code>left_join()</code> keeps all 3 patients; Ana (id 1) gets <code>NA</code> for <code>result</code> because she has no lab. <code>inner_join()</code> keeps only the 2 ids in both. <code>full_join()</code> keeps all 4 ids. <code>anti_join()</code> returns the 1 patient with no lab.</li>
 <li><code>by = "id"</code> names the <strong>key</strong>: the column used to match rows. It must exist in both data frames.</li>

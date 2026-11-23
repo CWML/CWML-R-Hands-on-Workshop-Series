@@ -46,20 +46,22 @@
 
 
 
-# ── PART 2: The pipe %>% ───────────────────────────────────────────────────
+# ── PART 2: The pipe %>%, filter(), and arrange() ──────────────────────────
 # 🎯 Goal: Write several steps in order, from left to right, with the pipe.
 #
 # 📖 What you need to know
-#    - In Session 1, two steps meant one function inside another:
-#        head(arrange(linelist_raw, wt_kg), 3)      read from the INSIDE OUT
-#    - The pipe %>% writes the same steps IN ORDER:
+#    - The pipe %>% passes the data from one step to the next, IN ORDER.
+#      Read it as "and then":
 #        linelist_raw %>% arrange(wt_kg) %>% head(3)
-#      Read it as "and then": take linelist_raw, AND THEN arrange it, AND THEN show 3 rows.
-#    - The pipe passes the result on its left in as the FIRST argument of the next
-#      function, so you don't write the data inside each function:
-#        count(linelist_raw, hospital)   is the same as   linelist_raw %>% count(hospital)
-#    - select(COLUMN_1, COLUMN_2) keeps only the columns you name.
-#    - Shortcut: Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
+#        take linelist_raw, AND THEN sort it by weight, AND THEN show 3 rows.
+#    - The pipe fills in the data as the FIRST argument of the next function:
+#        count(linelist_raw, age_unit)   is the same as   linelist_raw %>% count(age_unit)
+#    - filter(CONDITION) keeps the ROWS that meet a condition
+#      Conditions: == equal, != not equal, > < >= <=, %in% c(...), is.na() missing
+#      Use == (two equals signs) to compare. One = is for naming arguments.
+#    - arrange(COLUMN) sorts rows; arrange(desc(COLUMN)) sorts largest first
+#    - select(COLUMN_1, COLUMN_2) keeps only the COLUMNS you name.
+#    - Shortcut for %>%: Shift + Cmd + M (Mac) or Shift + Ctrl + M (Windows)
 #    - You may also see |>, the pipe built into R. It does the same thing.
 #
 # ⚠️ Common mistakes
@@ -68,19 +70,24 @@
 #      Console). Press Esc and remove it.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 2.1: head(arrange(linelist_raw, wt_kg), 3), then the same with the pipe
+# 👀 Follow along 2.1: count(age_unit) with the pipe, then sort by weight and show 3 rows
 #    Pattern: DATA %>% STEP_1() %>% STEP_2()
 
 
-# 👀 Follow along 2.2: a longer pipeline, one step per line:
+# 👀 Follow along 2.2: how many patients have ages in months? Then the 3 tallest patients
+#    Pattern: DATA %>% filter(CONDITION)
+
+
+# 👀 Follow along 2.3: a longer pipeline, one step per line:
 #    select() Case ID, wt_kg, and ht_cm, then arrange() by wt_kg, then head(5)
 
 
-# ✏️ TRY IT 2 (3 min): in Session 1 you wrote
-#      head(arrange(measles_raw, desc(`Temp (C)`)), 10)
-#    Rewrite it with the pipe, and add a select() step so you only see
-#    `Patient ID` and `Temp (C)`.
-#    ✅ Check: two columns, and the top temperature is 104.7
+# ✏️ TRY IT 2 (4 min): in measles_raw,
+#    a) show `Patient ID` and `Temp (C)`, sorted by temperature, largest first,
+#       top 10 rows only
+#    b) how many rows have a `Temp (C)` above 45?
+#    Pattern: DATA %>% select(COLUMN_1, COLUMN_2) %>% arrange(desc(COLUMN)) %>% head(10)
+#    ✅ Check: a) two columns, and the top temperature is 104.7   b) 27
 
 
 

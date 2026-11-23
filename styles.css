@@ -170,3 +170,27 @@ body.quarto-dark .gt_table caption * {
   color: #fff;
   font-weight: 600;
 }
+
+/* Session 1: a data frame drawn as columns of boxes (one type per column) */
+.df-diagram {
+  display: flex;
+  gap: 1rem;
+  margin: 0.75rem 0 1.25rem;
+}
+.df-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: center;
+}
+.df-head { font-weight: 700; font-family: var(--bs-font-monospace); }
+.df-cell {
+  font-family: var(--bs-font-monospace);
+  padding: 0.25rem 1rem;
+  min-width: 6rem;
+  border: 2px solid;
+  border-radius: 0.3rem;
+}
+.df-text .df-cell { border-color: #2a78d6; }
+.df-num .df-cell { border-color: #eb6834; }
+.df-type { font-size: 0.9rem; font-style: italic; }

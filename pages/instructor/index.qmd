@@ -15,6 +15,32 @@ Every part of every lesson follows the same three steps:
 
 This is the approach used by [The Carpentries](https://carpentries.org/): short demonstrations followed straight away by practice, so problems surface while they are still easy to fix.
 
+## Teaching with two instructors
+
+The workshop is taught by two instructors with two screens: **screen 1** shows Positron, **screen 2** shows the lesson page on this website. Give each instructor a clear role, so learners never have to choose whom to listen to.
+
+| | Lead | Co-instructor |
+|---|---|---|
+| **Screen** | Screen 1 (Positron) | Screen 2 (the lesson page) |
+| **During a Follow along** | Types **and** explains, so what learners see and hear always match | Scrolls the lesson page to the current Follow along or TRY IT, and otherwise stays quiet |
+| **During a TRY IT** | Helps learners with red sticky notes | Helps learners with red sticky notes; keeps time |
+| **Questions** | Answers questions about what's on screen now | Writes other questions in the **parking lot** and passes on the ones that matter now |
+
+-   **Don't explain to the whole room while the other instructor is typing.** Save asides for a TRY IT, when everyone is working on their own anyway.
+-   **Point to the numbers:** "we're on Follow along 3.2", "do TRY IT 2". Learners find the same number in their script and on screen 2.
+-   **Point to the explanations:** the 🔍 "What this code does" and 📖 "Good to know" boxes explain the *why*, so you don't have to say all of it out loud.
+
+### The parking lot
+
+Keep a shared document or a whiteboard for questions that don't belong to the current part:
+
+-   **Answered later today or in a later session:** "Great question, we'll get there in Session 3. I'll park it." Come back to it then.
+-   **Off-topic or about someone's own data:** answer it after class or by email.
+
+### Keep time
+
+Each session's instructor page has a **Start by** time for every part, and a list of what to skip when you're behind. The co-instructor watches the clock and gives the lead a signal ("five minutes left in this part"). If you run out of time, **stop at the end of a part** and point learners to the rest of the lesson page. Don't speed through the remaining parts.
+
 ## Live coding tips
 
 -   **Type, don't paste.** Learners need to see code being written — and your typos and fixes are useful teaching moments.
@@ -42,7 +68,7 @@ This is the approach used by [The Carpentries](https://carpentries.org/): short 
 
 | Session | Lesson | Time | Starts from |
 |---|---|---|---|
-| 1 | [R basics, importing, and inspecting data](session-01.qmd) | 90 min | `raw_data/` |
+| 1 | [R basics, importing, and inspecting data](session-01.qmd) | 75 min | `raw_data/` |
 | 2 | [Cleaning](session-02.qmd) | 104 min | `raw_data/` |
 | 3 | [Missing data, joins, and export](session-03.qmd) | 87 min | `processed_data/linelist_clean.rds` |
 | 4 | [Data structures](session-04.qmd) | 86 min | `processed_data/combined_linelist.rds` |
@@ -51,7 +77,7 @@ This is the approach used by [The Carpentries](https://carpentries.org/): short 
 | 7 | [Plotting further](session-07.qmd) | 87 min | `processed_data/combined_linelist.rds` |
 | 8 | [Programming](session-08.qmd) *(optional)* | 85 min | `processed_data/combined_linelist.rds` |
 
-Each session is planned for about 90 minutes including the TRY ITs. Real sessions with beginners often run long, so each session page lists what to cut if you're short on time.
+Sessions run 90 minutes. Session 1 is planned for 75 minutes of content, which leaves time for questions; the other sessions are being tightened the same way. Each session page lists what to skip if you're short on time.
 
 Every session starts from a file that is already in the repository, so learners who missed the previous session can still join.
 

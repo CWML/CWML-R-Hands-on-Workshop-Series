@@ -24,24 +24,31 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 measles_raw <- import(here("raw_data", "measles_raw.csv"))
 
 
-# ── PART 2: The pipe %>% ───────────────────────────────────────────────────
+# ── PART 2: The pipe %>%, filter(), and arrange() ──────────────────────────
 
-# 👀 Follow along 2.1: head(arrange(linelist_raw, wt_kg), 3), then the same with the pipe
-head(arrange(linelist_raw, wt_kg), 3)
+# 👀 Follow along 2.1: count(age_unit) with the pipe, then sort by weight and show 3 rows
+linelist_raw %>% count(age_unit)
 linelist_raw %>% arrange(wt_kg) %>% head(3)
 
-# 👀 Follow along 2.2: a longer pipeline, one step per line
+# 👀 Follow along 2.2: how many patients have ages in months? Then the 3 tallest patients
+linelist_raw %>% filter(age_unit == "months") %>% nrow()   # 37
+linelist_raw %>% arrange(desc(ht_cm)) %>% head(3)          # 295, 287, 272 cm: impossible
+
+# 👀 Follow along 2.3: a longer pipeline, one step per line
 linelist_raw %>%
   select(`Case ID`, wt_kg, ht_cm) %>%   # keep three columns
   arrange(wt_kg) %>%                    # sort by weight
   head(5)                               # show the first 5 rows
 
-# ✏️ TRY IT 2: rewrite Session 1's code with the pipe, plus select()
+# ✏️ TRY IT 2: select(), arrange(), filter() on measles_raw
+# a)
 measles_raw %>%
   select(`Patient ID`, `Temp (C)`) %>%
   arrange(desc(`Temp (C)`)) %>%
   head(10)
-# The top temperature is 104.7 (a Fahrenheit value), the same as in Session 1.
+# The top temperature is 104.7 (a Fahrenheit value)
+# b)
+measles_raw %>% filter(`Temp (C)` > 45) %>% nrow()   # 27
 
 
 # ── PART 3: Column names ───────────────────────────────────────────────────
