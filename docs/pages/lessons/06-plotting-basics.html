@@ -520,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
 <div class="follow-along">
-<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, and rio; import <code>combined_linelist.rds</code> as <code>linelist</code>, and put <code>age_cat</code> and <code>outcome</code> in order with <code>fct_relevel()</code> (same as Session 5).</p>
+<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, and rio; import <code>combined_linelist.rds</code> as <code>linelist</code>, and put <code>age_cat</code> and <code>outcome</code> in order with <code>fct_relevel()</code> (same as Session 5). These lines are already in your script: just run them.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -709,6 +709,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Layers of a ggplot are joined with <code>+</code>. Using <code>%&gt;%</code> between ggplot layers is the most common beginner error. Like the pipe, <code>+</code> goes at the <strong>end</strong> of a line, not the start of the next one.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Putting <code>+</code> at the <strong>start</strong> of the next line:</p>
+<pre><code>ggplot(data = linelist, mapping = aes(x = age_years))
+  + geom_histogram()</code></pre>
+<p>R runs the first line on its own as a complete command (and draws the empty axes). Then it reaches <code>+ geom_histogram()</code> with nothing on the left and stops with: <em>Cannot use <code>+</code> with a single argument. Did you accidentally put <code>+</code> on a new line?</em> Move the <code>+</code> to the end of the first line.</p></li>
+</ul>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -722,7 +740,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Build a histogram of <code>measles</code> <code>temp_c</code> in the same three steps: data, then <code>aes()</code>, then <code>geom_histogram()</code>.</p>
 <p>✅ <strong>Check:</strong> step 2 shows an empty plot with temperatures on the x-axis</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -731,10 +749,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -742,7 +760,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -750,8 +768,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -792,8 +810,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 3.1</strong> — Age histogram with <code>binwidth = 5</code> (then try 1 and 10).</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -827,8 +845,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 3.2</strong> — Add <code>fill = "#2a78d6"</code> and <code>color = "white"</code>.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -880,7 +898,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Make a histogram of <code>measles</code> <code>age_years</code> with <code>binwidth = 1</code>, a fill color, and a white outline. Which age has the most cases?</p>
 <p>✅ <strong>Check:</strong> the tallest bar is at age 2 (about 100 cases). The warning about “removed rows” is the 29 missing ages: that’s fine.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -889,11 +907,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -906,6 +924,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔁 The base R way: <code>hist()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Base R has its own plotting functions, and you’ll see them in older code and in help pages. <code>hist()</code> draws a histogram from one column (reading only, you don’t need to type this):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(linelist<span class="sc">$</span>age_years)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" alt="Base R histogram titled Histogram of linelist$age_years, with gray bars in 5-year bins. The tallest bar is ages 0 to 5 (about 1,400 patients), and the counts fall steadily with age." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔍 What this code does
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>hist(linelist$age_years)</code> takes one column with <code>$</code> and draws a histogram right away: no <code>aes()</code>, no layers, no <code>+</code>.</li>
+<li>R picks the bins itself (here 5 years wide, starting at 0), so the tallest bar is ages 0 to 5, with 1427 patients. It skips the missing ages without a warning.</li>
+<li>The title and axis label come from the code itself (“linelist$age_years”). You’d change them with arguments such as <code>main =</code> and <code>xlab =</code>.</li>
+</ul>
+</div>
+</div>
+<p><code>plot(x, y)</code> makes a scatter plot and <code>boxplot(y ~ group, data = ...)</code> a box plot. Base R plots are quick for a first look, but each kind of plot works a bit differently, and you can’t add layers to them later. That’s why this workshop uses ggplot.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -937,13 +996,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 4.1</strong> — Age histogram with <code>fill = outcome</code> inside <code>aes()</code>.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping: fill depends on the outcome column</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">fill =</span> outcome)) <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping: fill depends on the outcome column</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">fill =</span> outcome)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" alt="Age histogram in 5-year bins with each bar split by outcome (Recover, Death, Unknown) in ggplot's default colors. All three outcomes follow the same age pattern." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" alt="Age histogram in 5-year bins with each bar split by outcome (Recover, Death, Unknown) in ggplot's default colors. All three outcomes follow the same age pattern." width="672"></p>
 </figure>
 </div>
 </div>
@@ -959,8 +1018,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <p>Here is the plot you just made, taken apart:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">fill =</span> outcome)) <span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">fill =</span> outcome)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -1046,13 +1105,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 4.2</strong> — The same with <code>fill = "#2a78d6"</code> in <code>geom_histogram()</code>.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting: every bar is blue</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting: every bar is blue</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" alt="Age histogram in 5-year bins with every bar the same blue, set with a fixed fill color." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" alt="Age histogram in 5-year bins with every bar the same blue, set with a fixed fill color." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1077,7 +1136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 4.3</strong> — What happens with <code>fill = "blue"</code> inside <code>aes()</code>? Open the box below and try it.</p>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1086,15 +1145,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">fill =</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">fill =</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" alt="Age histogram where every bar is the same pink-red color, with a legend showing one entry labeled blue. Putting fill = 'blue' inside aes() treats 'blue' as data, not as a color." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" alt="Age histogram where every bar is the same pink-red color, with a legend showing one entry labeled blue. Putting fill = 'blue' inside aes() treats 'blue' as data, not as a color." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1147,7 +1206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Make a histogram of <code>measles</code> <code>temp_c</code> with <code>binwidth = 0.2</code>, then map <code>fill = fever</code> inside <code>aes()</code>. Why are there two “humps”?</p>
 <p>✅ <strong>Check:</strong> the small hump near 37 °C is “no” fever; the big one near 39 °C is “yes”</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1156,24 +1215,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" alt="Histogram of measles temperatures in 0.2-degree bins: a small hump near 37 degrees C and a large hump near 39 degrees C." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" alt="Histogram of measles temperatures in 0.2-degree bins: a small hump near 37 degrees C and a large hump near 39 degrees C." width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c, <span class="at">fill =</span> fever)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c, <span class="at">fill =</span> fever)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" alt="The same temperature histogram with bars colored by fever: the small hump near 37 degrees C is patients without fever, and the large hump near 39 degrees C is patients with fever." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" alt="The same temperature histogram with bars colored by fever: the small hump near 37 degrees C is patients without fever, and the large hump near 39 degrees C is patients with fever." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1192,12 +1251,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 5.1</strong> — <code>age_years</code> vs <code>wt_kg</code> with <code>geom_point()</code>.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" alt="Scatter plot of weight in kg against age in years for every patient. Weight rises steeply through childhood and more slowly in adults; the points overlap into a dense black mass." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" alt="Scatter plot of weight in kg against age in years for every patient. Weight rises steeply through childhood and more slowly in adults; the points overlap into a dense black mass." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1223,12 +1282,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 5.2</strong> — Add <code>size = 1</code> and <code>alpha = 0.3</code>; then map <code>color = gender</code> (the next two code blocks).</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" alt="The same weight-by-age scatter plot with smaller, semi-transparent points, so crowded areas look darker and individual points are easier to see." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" alt="The same weight-by-age scatter plot with smaller, semi-transparent points, so crowded areas look darker and individual points are easier to see." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1236,12 +1295,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="map-a-third-variable-to-color" class="level2">
 <h2 class="anchored" data-anchor-id="map-a-third-variable-to-color">Map a third variable to color</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg, <span class="at">color =</span> gender)) <span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg, <span class="at">color =</span> gender)) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" alt="Weight-by-age scatter plot with points colored by gender (female, male, Unknown). Males tend to be heavier at older ages; the groups overlap at younger ages." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" alt="Weight-by-age scatter plot with points colored by gender (female, male, Unknown). Males tend to be heavier at older ages; the groups overlap at younger ages." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1271,13 +1330,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 5.3</strong> — Add <code>geom_smooth(method = "lm", se = FALSE, color = "#eb6834")</code>.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#eb6834"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#eb6834"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" alt="Weight-by-age scatter plot with semi-transparent points and an orange straight trend line rising from about 33 kg at age 0 to about 130 kg at age 85. The straight line misses the curved shape of the points." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" alt="Weight-by-age scatter plot with semi-transparent points and an orange straight trend line rising from about 33 kg at age 0 to about 130 kg at age 85. The straight line misses the curved shape of the points." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1303,19 +1362,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="filter-right-inside-ggplot" class="level2">
 <h2 class="anchored" data-anchor-id="filter-right-inside-ggplot">Filter right inside <code>ggplot()</code></h2>
-<p>You can pipe data into <code>ggplot()</code>, so you can <code>filter()</code> first without making a new object:</p>
-<div class="follow-along">
-<p><strong>👀 Follow along 5.4</strong> — Only patients with fever: <code>filter()</code> first, then <code>ggplot()</code>.</p>
-</div>
+<p>You can pipe data into <code>ggplot()</code>, so you can <code>filter()</code> first without making a new object. Here, only patients with fever (reading only, you don’t need to type this; you’ll use the same idea in TRY IT 5):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fever <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fever <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> wt_kg)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" alt="Weight-by-age scatter plot for patients with fever only, showing the same curved pattern as for all patients." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" alt="Weight-by-age scatter plot for patients with fever only, showing the same curved pattern as for all patients." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1352,7 +1408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For hospitalized patients only (<code>filter(!is.na(days_in_hospital))</code>), plot <code>age_years</code> (x) against <code>days_in_hospital</code> (y) with <code>alpha</code>, and add a trend line. Is there a relationship?</p>
 <p>✅ <strong>Check:</strong> 427 hospitalized patients; the trend line is almost flat (no relationship)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1361,18 +1417,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(days_in_hospital)) <span class="sc">%&gt;%</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> days_in_hospital)) <span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#eb6834"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(days_in_hospital)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years, <span class="at">y =</span> days_in_hospital)) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#eb6834"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" alt="Scatter plot of days in hospital (1 to 11) against age for 427 hospitalized measles cases, with an almost flat orange trend line near 5 days: no relationship between age and length of stay." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" alt="Scatter plot of days in hospital (1 to 11) against age for 427 hospitalized measles cases, with an almost flat orange trend line near 5 days: no relationship between age and length of stay." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1414,12 +1470,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 6.1</strong> — <code>age_years</code> by <code>gender</code> with <code>geom_boxplot()</code>.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" alt="Box plots of age for each gender (female, male, Unknown). Males have a higher median age (17) than females (11), and every group has high outliers." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" alt="Box plots of age for each gender (female, male, Unknown). Males have a higher median age (17) than females (11), and every group has high outliers." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1447,15 +1503,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>👀 Follow along 6.2</strong> — Filter out “Unknown”, add <code>fill = gender</code>, and remove the legend.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" alt="Box plots of age for female (red) and male (teal) patients, without a legend. The male box sits higher, with a median of 17 versus 11." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" alt="Box plots of age for female (red) and male (teal) patients, without a legend. The male box sits higher, with a median of 17 versus 11." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1480,21 +1536,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="add-the-mean" class="level2">
 <h2 class="anchored" data-anchor-id="add-the-mean">Add the mean</h2>
-<p><code>stat_summary()</code> calculates a statistic for each group and draws it. Here, the mean as a diamond:</p>
-<div class="follow-along">
-<p><strong>👀 Follow along 6.3</strong> — Add the mean with <code>stat_summary()</code>.</p>
-</div>
+<p><code>stat_summary()</code> calculates a statistic for each group and draws it. Here, the mean as a diamond (reading only, you don’t need to type this; you can copy the <code>stat_summary()</code> line in TRY IT 6):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" alt="Box plots of age for female and male patients with a white diamond marking each mean. The means (about 13 and 20) sit slightly above the medians (11 and 17) because ages are right-skewed." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" alt="Box plots of age for female and male patients with a white diamond marking each mean. The means (about 13 and 20) sit slightly above the medians (11 and 17) because ages are right-skewed." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1517,7 +1570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-37-contents" aria-controls="callout-37" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1526,7 +1579,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-34" class="callout-34-contents callout-collapse collapse">
+<div id="callout-37" class="callout-37-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The ages are right-skewed: a few older patients pull the mean up. For example, the median age of female cases is 11 but the mean is 12.7.</p>
 </div>
@@ -1551,14 +1604,14 @@ Note
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (4 min): a box plot
+<span class="screen-reader-only">Important</span>✏️ TRY IT 6 (4 min, homework if behind): a box plot
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Make a box plot of <code>days_in_hospital</code> by <code>vaccinated</code> (hospitalized patients only), with the mean and no legend.</p>
+<p>Make a box plot of <code>days_in_hospital</code> by <code>vaccinated</code> (hospitalized patients only), with the mean and no legend. Copy the <code>stat_summary()</code> line from the box above.</p>
 <p>✅ <strong>Check:</strong> three boxes; the medians are 4–5 days for every group</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1567,19 +1620,19 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-36" class="callout-36-contents callout-collapse collapse">
+<div id="callout-39" class="callout-39-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(days_in_hospital)) <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> vaccinated, <span class="at">y =</span> days_in_hospital, <span class="at">fill =</span> vaccinated)) <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>measles <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(days_in_hospital)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> vaccinated, <span class="at">y =</span> days_in_hospital, <span class="at">fill =</span> vaccinated)) <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" alt="Box plots of days in hospital by vaccination status (Yes, No, Unknown) for hospitalized measles cases, with white diamonds for the means. All three groups have medians of 4 to 5 days and means near 5." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" alt="Box plots of days in hospital by vaccination status (Yes, No, Unknown) for hospitalized measles cases, with white diamonds for the means. All three groups have medians of 4 to 5 days and means near 5." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1600,22 +1653,22 @@ Note
 <p><strong>👀 Follow along 7.1</strong> — Add <code>labs()</code> to the box plot.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Age distribution by gender"</span>,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Cases with known gender"</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Gender"</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"Age (years)"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">"Source: workshop outbreak linelist"</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age_years, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Age distribution by gender"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Cases with known gender"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Gender"</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"Age (years)"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">"Source: workshop outbreak linelist"</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" alt="Box plots of age by gender titled Age distribution by gender, with the subtitle Cases with known gender, axis labels Gender and Age (years), and a source caption." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" alt="Box plots of age by gender titled Age distribution by gender, with the subtitle Cases with known gender, axis labels Gender and Age (years), and a source caption." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1645,18 +1698,18 @@ Note
 <p><strong>👀 Follow along 7.2</strong> — Try <code>theme_minimal()</code>, <code>theme_classic()</code>, and <code>theme_bw()</code> on the age histogram.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age distribution of cases"</span>,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Age (years)"</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"Number of cases"</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age distribution of cases"</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Age (years)"</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"Number of cases"</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" alt="Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme with larger text." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" alt="Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme with larger text." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1700,16 +1753,16 @@ Note
 <p><strong>👀 Follow along 7.3</strong> — Save a plot as <code>age_plot</code>, then add <code>labs()</code> and a theme to it.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>age_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>age_plot <span class="sc">+</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age distribution of cases"</span>, <span class="at">x =</span> <span class="st">"Age (years)"</span>, <span class="at">y =</span> <span class="st">"Number of cases"</span>) <span class="sc">+</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>age_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_years)) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#2a78d6"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>age_plot <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age distribution of cases"</span>, <span class="at">x =</span> <span class="st">"Age (years)"</span>, <span class="at">y =</span> <span class="st">"Number of cases"</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" alt="Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" alt="Histogram of patient ages in 5-year blue bins titled Age distribution of cases, with axis labels and a minimal theme." width="672"></p>
 </figure>
 </div>
 </div>
@@ -1737,14 +1790,22 @@ Note
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (5 min): finish a plot
+<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (5 min): make a plot presentation-ready
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Finish one of your measles plots with a title, subtitle, axis labels, a caption, and a theme. Save it as <code>my_plot</code>.</p>
-<p>✅ <strong>Check:</strong> typing <code>my_plot</code> in the Console shows your finished plot</p>
+<p>Take one of your measles plots and make it ready for a slide or a report. Save it as <code>my_plot</code>, then go through this checklist:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">The <strong>title</strong> says what the plot shows, or better, what it finds (“Patients with fever cluster around 39 °C”)</label></li>
+<li><label><input type="checkbox">Both <strong>axis labels</strong> are words, not column names, with units: “Temperature (°C)”, not <code>temp_c</code></label></li>
+<li><label><input type="checkbox">The <strong>legend title</strong> is a word too (<code>fill = "Fever"</code> inside <code>labs()</code>), or the legend is gone if the axis already names the groups</label></li>
+<li><label><input type="checkbox">A <strong>caption</strong> names the data source</label></li>
+<li><label><input type="checkbox">The text is big enough to read from the back of the room (<code>base_size</code> in the theme)</label></li>
+<li><label><input type="checkbox">Colors are fixed on purpose, not just ggplot’s defaults (Session 7 shows how)</label></li>
+</ul>
+<p>✅ <strong>Check:</strong> typing <code>my_plot</code> in the Console shows your finished plot, and you can tick the first five boxes</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1753,31 +1814,31 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-42" class="callout-42-contents callout-collapse collapse">
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c, <span class="at">fill =</span> fever)) <span class="sc">+</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Temperature of measles cases"</span>,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Patients with fever cluster around 39 °C"</span>,</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Temperature (°C)"</span>,</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"Number of cases"</span>,</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill     =</span> <span class="st">"Fever"</span>,</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">"Source: practice measles linelist"</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>my_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>my_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> temp_c, <span class="at">fill =</span> fever)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Temperature of measles cases"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Patients with fever cluster around 39 °C"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Temperature (°C)"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"Number of cases"</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill     =</span> <span class="st">"Fever"</span>,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">"Source: practice measles linelist"</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>my_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" alt="Histogram of measles temperatures colored by fever, titled Temperature of measles cases with the subtitle Patients with fever cluster around 39 degrees C. Patients without fever cluster near 37 degrees C." width="672"></p>
+<p><img src="06-plotting-basics_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" alt="Histogram of measles temperatures colored by fever, titled Temperature of measles cases with the subtitle Patients with fever cluster around 39 degrees C. Patients without fever cluster near 37 degrees C." width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This is one example — any measles plot works. <code>fill = "Fever"</code> inside <code>labs()</code> renames the legend title. Saving the plot as <code>my_plot</code> stores it in the <strong>Variables</strong> pane, and typing its name draws it.</p>
+<p>This is one example — any measles plot works. The title is in the subtitle here, as a finding. <code>fill = "Fever"</code> inside <code>labs()</code> renames the legend title, and <code>base_size = 14</code> makes the text bigger. Saving the plot as <code>my_plot</code> stores it in the <strong>Variables</strong> pane, and typing its name draws it.</p>
 </div>
 </div>
 </div>
@@ -1865,6 +1926,7 @@ Note
 <li><strong>Mapping</strong> (inside <code>aes()</code>) lets a column control color and adds a legend; <strong>setting</strong> (outside <code>aes()</code>) uses one fixed color.</li>
 <li><code>geom_point()</code> shows the relationship between two numbers; <code>alpha</code> and <code>size</code> help with overlapping points, and <code>geom_smooth(method = "lm")</code> adds a trend line.</li>
 <li><code>geom_boxplot()</code> compares a number across groups; <code>stat_summary()</code> adds the mean.</li>
+<li><code>+</code> goes at the <strong>end</strong> of a line. A <code>+</code> at the start of a line gives “Cannot use <code>+</code> with a single argument”.</li>
 <li><code>labs()</code> adds titles and axis labels, and a complete theme like <code>theme_minimal()</code> changes the overall look (put it before <code>theme(...)</code> changes).</li>
 <li>You can pipe data into <code>ggplot()</code> to <code>filter()</code> first, and save a plot as an object with <code>&lt;-</code>.</li>
 </ul>

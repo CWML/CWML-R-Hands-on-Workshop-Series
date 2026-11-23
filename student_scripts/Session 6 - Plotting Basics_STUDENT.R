@@ -30,10 +30,21 @@
 #    - The factor order from Session 5 isn't saved in the file, so we set it
 #      again right after importing. You can do both in one pipeline:
 #        DATA <- import(...) %>% mutate(COLUMN = fct_relevel(COLUMN, ...))
+#    - The set-up lines for linelist are filled in for you: just run them.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio; import combined_linelist.rds as linelist
-#    and fct_relevel() age_cat and outcome (same as Session 5)
+#    and fct_relevel() age_cat and outcome (same as Session 5) (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE) %>%
+  mutate(
+    age_cat = fct_relevel(age_cat, "Under 18", "18-29", "30-39", "40-49",
+                          "50-59", "60-69", "70-79", "80+", "Unknown"),
+    outcome = fct_relevel(outcome, "Recover", "Death", "Unknown")
+  )
 
 
 # ✏️ TRY IT 1 (3 min): import measles_final.rds as measles and fct_relevel()
@@ -55,7 +66,8 @@
 #
 # ⚠️ Common mistakes
 #    - Using %>% between layers instead of +
-#    - Putting + at the START of a line instead of the END
+#    - Putting + at the START of a line instead of the END. R then says:
+#      "Cannot use `+` with a single argument. Did you accidentally put `+` on a new line?"
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 2.1: 1. ggplot(data = linelist)   2. add aes(x = age_years)   3. add geom_histogram()
@@ -75,6 +87,9 @@
 #    - Inside geom_histogram(): fill = inside color, color = outline color.
 #      A white outline separates the bars.
 #    - Colors can be names ("steelblue") or hex codes ("#2a78d6").
+#
+# 🔁 Base R: hist(linelist$age_years) draws a histogram in one line, but you can't
+#    add layers to it later. Read the 🔁 box in Part 3 on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 3.1: age histogram with binwidth = 5 (then try 1 and 10)
@@ -129,7 +144,7 @@
 #    - geom_smooth(method = "lm", se = FALSE) adds a straight trend line.
 #    - You can pipe data INTO ggplot() to filter first:
 #        DATA %>% filter(...) %>% ggplot(aes(...)) + geom_point()
-#      %>% before ggplot(), + after it.
+#      %>% before ggplot(), + after it. (Reading only on the website; you'll use it in TRY IT 5.)
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 5.1: age_years vs wt_kg with geom_point()
@@ -139,9 +154,6 @@
 
 
 # 👀 Follow along 5.3: add geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
-
-
-# 👀 Follow along 5.4: only patients with fever: filter() first, then ggplot()
 
 
 # ✏️ TRY IT 5 (4 min): for hospitalized patients only (filter(!is.na(days_in_hospital))),
@@ -160,7 +172,8 @@
 #    - aes(x = GROUP, y = NUMBER, fill = GROUP)
 #    - theme(legend.position = "none") removes a legend you don't need.
 #    - stat_summary(fun = mean, geom = "point", shape = 23, size = 3, fill = "white")
-#      adds the mean as a white diamond.
+#      adds the mean as a white diamond. (Reading only on the website; copy this
+#      line in TRY IT 6.)
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: age_years by gender with geom_boxplot()
@@ -169,10 +182,7 @@
 # 👀 Follow along 6.2: filter out "Unknown", add fill = gender, and remove the legend
 
 
-# 👀 Follow along 6.3: add the mean with stat_summary()
-
-
-# ✏️ TRY IT 6 (4 min): a box plot of days_in_hospital by vaccinated (hospitalized
+# ✏️ TRY IT 6 (4 min, homework if behind): a box plot of days_in_hospital by vaccinated (hospitalized
 #    patients only), with the mean and no legend
 #    ✅ Check: three boxes; the medians are 4–5 days for every group
 
@@ -200,9 +210,16 @@
 # 👀 Follow along 7.3: save a plot as age_plot, then add labs() and a theme to it
 
 
-# ✏️ TRY IT 7 (5 min): finish one of your measles plots with a title, subtitle, axis
-#    labels, a caption, and a theme. Save it as my_plot.
-#    ✅ Check: typing my_plot in the Console shows your finished plot
+# ✏️ TRY IT 7 (5 min): make one of your measles plots presentation-ready. Save it as
+#    my_plot, then go through the checklist:
+#      [ ] the title says what the plot shows, or better, what it finds
+#      [ ] both axis labels are words with units: "Temperature (°C)", not temp_c
+#      [ ] the legend title is a word too (fill = "Fever" in labs()), or the legend is gone
+#      [ ] a caption names the data source
+#      [ ] the text is big enough to read from the back of the room (base_size)
+#      [ ] colors are fixed on purpose, not just the defaults (Session 7 shows how)
+#    ✅ Check: typing my_plot in the Console shows your finished plot, and you can
+#              tick the first five boxes
 
 
 

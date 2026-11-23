@@ -434,63 +434,75 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../pages/lessons/05-summarizing.html">→ Open the Session 5 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 78 minutes. The three 🔁 base R boxes and <code>across()</code> are reading only, so nobody types them.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 20%">
-<col style="width: 61%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Set up</td>
-<td>5 min</td>
+<td>Set up (pre-filled)</td>
+<td>3 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>Putting categories in order (factors, + 🔁 <code>factor()</code>)</td>
-<td>12 min</td>
+<td>Putting categories in order (factors)</td>
+<td>9 min</td>
+<td>0:03</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Counting and percentages with <code>count()</code> (+ 🔁 <code>table()</code>)</td>
-<td>19 min</td>
+<td>Counting and percentages with <code>count()</code></td>
+<td>15 min</td>
+<td>0:12</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Summary statistics with <code>summarise()</code> (2 TRY ITs, + 🔁 <code>tapply()</code>)</td>
-<td>27 min</td>
+<td>Summary statistics with <code>summarise()</code></td>
+<td>19 min</td>
+<td>0:27</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>Quick tables with <code>tabyl()</code></td>
-<td>12 min</td>
+<td>11 min</td>
+<td>0:46</td>
 </tr>
 <tr class="even">
 <td>6</td>
 <td>Table 1 with <code>gtsummary</code></td>
 <td>18 min</td>
+<td>0:57</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>Wrap-up and preview</td>
-<td>5 min</td>
+<td>3 min</td>
+<td>1:15</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>98 min</strong></td>
+<td><strong>78 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Make TRY IT 5 (case rates by district) homework (nothing later depends on it). Don’t cut TRY IT 7 (the measles Table 1) — it’s the payoff of the session.</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 5 (case rates by district): assign it as homework. Nothing later depends on it.</li>
+<li>The 🧩 “Reading a function call” box in Part 4: point to it on screen 2 and move on.</li>
+<li>Follow along 6.1 (the basic <code>tbl_summary()</code>): show it on screen 1 and let learners type only 6.2, which adds the <code>na_if()</code> line.</li>
+</ol>
+<p>Don’t cut TRY IT 7 (the measles Table 1): it’s the payoff of the session.</p>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -503,18 +515,18 @@ ul.task-list li input[type="checkbox"] {
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
 <p><strong>Overview — why these three packages.</strong> There are many packages for summary tables (base R <code>summary()</code> and <code>table()</code>, <code>psych::describe()</code>, <code>rstatix::get_summary_stats()</code>, …). This session teaches three that cover almost every need: <strong>dplyr</strong> (<code>count()</code>/<code>summarise()</code>) for flexible summaries you can plot, <strong>janitor</strong> (<code>tabyl()</code>) for quick cross-tabs, and <strong>gtsummary</strong> for tables you publish. Say this up front if learners ask “why not X?”.</p>
-<p><strong>Part 1 — Set up.</strong> Remind learners this is the dataset finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature). They can confirm the import in the <strong>Variables</strong> pane.</p>
-<p><strong>Part 2 — Factors.</strong> Run <code>count(age_cat)</code> <em>before</em> relevelling and ask learners what’s wrong with the order (“Under 18” sorts after “80+”). Emphasize that the order carries through to plots too — they’ll see it again in Sessions 6 and 7. Note: the <code>.rds</code> files saved in Session 3 contain plain text columns, not factors, so the order has to be set again after every import (the student script says this; the original instructor script implied the <code>.rds</code> already kept the order). A misspelled level gives an “Unknown levels” warning and is silently ignored.</p>
+<p><strong>Part 1 — Set up.</strong> The <code>library()</code> and <code>import()</code> lines are already in the student script: learners just run them. Only the measles import (TRY IT 1) is typed. Remind learners this is the dataset finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature). They can confirm the import in the <strong>Variables</strong> pane.</p>
+<p><strong>Part 2 — Factors.</strong> Run <code>count(age_cat)</code> <em>before</em> relevelling and ask learners what’s wrong with the order (“Under 18” sorts after “80+”). Emphasize that the order carries through to plots too — they’ll see it again in Sessions 6 and 7. Note: the <code>.rds</code> files saved in Session 3 contain plain text columns, not factors, so the order has to be set again after every import. A misspelled level gives an “Unknown levels” warning and is ignored.</p>
 <p><strong>Part 3 — Counting and percentages.</strong> After the <code>group_by(age_cat) %&gt;% count(outcome)</code> example, ask the class:</p>
 <ul>
 <li><em>How is this different from <code>count(age_cat, outcome)</code> without <code>group_by()</code>?</em> — Without grouping, the percentages are out of all 6,451 cases, so all rows together add up to 100%. With grouping, each age group adds up to 100%.</li>
 </ul>
 <p>Stress <code>ungroup()</code>: a grouped data frame stays grouped and can surprise them later.</p>
-<p><strong>Part 4 — <code>summarise()</code>.</strong> Show what happens without <code>na.rm = TRUE</code> (the whole result becomes <code>NA</code>). Connect <code>mean(fever == "yes")</code> to Session 4’s vectorization: TRUE/FALSE, <code>sum()</code> counts the TRUEs, <code>mean()</code> gives the proportion. In TRY IT 4 (statistics by outcome), <code>days_in_hospital</code> needs <code>na.rm = TRUE</code> because non-hospitalized patients have <code>NA</code>. In TRY IT 5 (district rates), point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the “Unknown” district gets no rate.</p>
+<p><strong>Part 4 — <code>summarise()</code>.</strong> Show what happens without <code>na.rm = TRUE</code> (the whole result becomes <code>NA</code>). <code>across()</code> is reading only: point to it on screen 2 and say learners will use it again in Part 6 (<code>mutate(across(where(is.character), ...))</code>). Connect <code>mean(fever == "yes")</code> (Follow along 4.3) to Session 4’s vectorization: TRUE/FALSE, <code>sum()</code> counts the TRUEs, <code>mean()</code> gives the proportion. In TRY IT 4 (statistics by outcome), <code>days_in_hospital</code> needs <code>na.rm = TRUE</code> because non-hospitalized patients have <code>NA</code>. TRY IT 5 (district rates) is homework if behind. If you do it, point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the “Unknown” district gets no rate.</p>
 <p><strong>Part 5 — <code>tabyl()</code>.</strong> Spend a moment on the order of the <code>adorn_</code> functions — totals must come before percentages because they need the raw counts. TRY IT 6 (vaccination and death: 6.3% vs 0.7%) is a good moment to discuss what this data does and doesn’t show: it’s fictional practice data, the numbers of deaths are small (2 vaccinated deaths), and a crude cross-tab doesn’t adjust for anything (e.g.&nbsp;age).</p>
 <p><strong>Part 6 — Table 1.</strong> Explain why we turn “Unknown” back into <code>NA</code> with <code>na_if()</code>: in Session 3 we replaced <code>NA</code> with “Unknown” so missing values show up in counts, but <code>tbl_summary()</code> has its own Missing row. <code>na_if()</code> with <code>where(is.character)</code> only touches text columns, so factor columns (<code>age_cat</code>, <code>vaccinated</code>) keep “Unknown” as a category. Mention <code>add_p()</code> but only for analyses where a statistical test is planned. The Word export uses <code>as_flex_table() %&gt;% flextable::save_as_docx()</code>; have learners find <code>outputs/table1.docx</code> in the <strong>Explorer</strong> and open it. For the measles Table 1, point out that “Missing” days in hospital means <em>not hospitalized</em>, not lost data.</p>
 <p><strong>Wrap-up.</strong> Recap: <code>fct_relevel()</code>, <code>count()</code>, <code>group_by()</code>, <code>summarise()</code>, <code>across()</code>, <code>tabyl()</code> + <code>adorn_*()</code>, <code>tbl_summary()</code>. Preview <strong>Session 6 — Plotting basics:</strong> <code>ggplot2</code> from the ground up — histograms, scatter plots, and box plots.</p>
-<p><strong>🔁 Base R boxes (about 2 minutes each).</strong> Three short demos: <code>factor()</code>, <code>table()</code> + <code>prop.table()</code>, and <code>tapply()</code> / <code>aggregate()</code>. The goal is <em>reading</em> knowledge: learners will meet these in papers’ code, help pages, and AI answers. One point per box: <code>factor()</code> turns misspelled levels into <code>NA</code> without a warning; a <code>table</code> is not a data frame; <code>aggregate()</code> drops rows with missing values. If time is short, show them as “here’s what this looks like in base R” without asking learners to type along.</p>
+<p><strong>🔁 Base R boxes (reading only, about 30 seconds each).</strong> Three boxes: <code>factor()</code>, <code>table()</code> + <code>prop.table()</code>, and <code>tapply()</code> / <code>aggregate()</code>. Nobody types them. The goal is <em>reading</em> knowledge: learners will meet these in papers’ code, help pages, and AI answers. Point to each on screen 2 and make one point: <code>factor()</code> turns misspelled levels into <code>NA</code> without a warning; a <code>table</code> is not a data frame; <code>aggregate()</code> drops rows with missing values.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -548,7 +560,7 @@ ul.task-list li input[type="checkbox"] {
 <td>Recovered n = 1048, median age 7; Died n = 50, median age 5 (Unknown n = 65)</td>
 </tr>
 <tr class="odd">
-<td>5. Case rates by district</td>
+<td>5. Case rates by district (homework if behind)</td>
 <td>East highest 22.8 per 10,000; Central lowest 5.2; Unknown has no rate</td>
 </tr>
 <tr class="even">

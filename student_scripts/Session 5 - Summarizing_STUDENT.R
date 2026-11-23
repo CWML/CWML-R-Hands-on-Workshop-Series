@@ -23,10 +23,19 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 # 🎯 Goal: Load packages and import the finished data from Session 3.
+#
+# 📖 The set-up lines are filled in for you: just run them.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio, janitor, gtsummary; import
-#    processed_data/combined_linelist.rds (trust = TRUE) as linelist
+#    processed_data/combined_linelist.rds (trust = TRUE) as linelist (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+library(gtsummary)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
 
 
 # ✏️ TRY IT 1 (1 min): import processed_data/measles_final.rds (trust = TRUE) as measles
@@ -51,6 +60,7 @@
 #
 # 🔁 Base R: factor(COLUMN, levels = c("FIRST", "SECOND", ...)) sets the order too,
 #    but a misspelled level turns those values into NA, with no warning.
+#    Read the 🔁 box in Part 2 on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 2.1: count(age_cat). What order are the groups in?
@@ -59,9 +69,6 @@
 # 👀 Follow along 2.2: fct_relevel() age_cat: "Under 18", "18-29", "30-39", "40-49", "50-59",
 #    "60-69", "70-79", "80+", "Unknown"; then outcome: "Recover", "Death", "Unknown"
 #    Pattern: DATA <- DATA %>% mutate(COLUMN = fct_relevel(COLUMN, "LEVEL_1", "LEVEL_2", ...))
-
-
-# 🔁 Follow along 2.3: the base R way. factor() with the right levels, then with "death" misspelled
 
 
 # ✏️ TRY IT 2 (3 min): in measles, fct_relevel()
@@ -88,6 +95,7 @@
 # 🔁 Base R: table(data$A, data$B) makes a cross-table, and
 #    prop.table(TABLE, margin = 1) turns it into row proportions.
 #    The result is a table, not a data frame (it won't work with mutate() or ggplot).
+#    Read the 🔁 box in Part 3 on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 3.1: count(outcome), then count(age_cat, outcome)
@@ -97,9 +105,6 @@
 
 
 # 👀 Follow along 3.3: percentages within each age group with group_by()
-
-
-# 🔁 Follow along 3.4: the base R way. table(age_cat, outcome), then prop.table(margin = 1)
 
 
 # ✏️ TRY IT 3 (5 min):
@@ -121,13 +126,14 @@
 #    - Useful functions: mean(), median(), sd(), min(), max(), IQR(), n(),
 #      n_distinct(), sum(is.na(x))
 #    - na.rm = TRUE skips missing values. Without it, one NA makes the result NA.
-#    - across() does the same calculation on many columns:
+#    - across() does the same calculation on many columns (reading only, on the website):
 #        summarise(across(c(age_years, bmi), ~ mean(.x, na.rm = TRUE)))
 #    - Remember from Session 4: mean(fever == "yes") is the PROPORTION with fever.
 #
 # 🔁 Base R, for ONE statistic by group:
 #      tapply(data$X, data$GROUP, median, na.rm = TRUE)       a named vector
 #      aggregate(X ~ GROUP, data = data, FUN = median)        a data frame
+#    Read the 🔁 box in Part 4 on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 4.1: summarise() n, mean, sd, and median of age_years for everyone
@@ -136,14 +142,8 @@
 # 👀 Follow along 4.2: the same by outcome, plus mean_bmi and mean_temp
 
 
-# 👀 Follow along 4.3: across(): the mean of age_years, bmi, and temp by outcome
-
-
-# 👀 Follow along 4.4: percentage with fever, cough, and vomiting by outcome:
+# 👀 Follow along 4.3: percentage with fever, cough, and vomiting by outcome:
 #    round(mean(fever == "yes") * 100, 1)
-
-
-# 🔁 Follow along 4.5: the base R way. Median age by outcome with tapply() and aggregate()
 
 
 # ✏️ TRY IT 4 (4 min): for each measles outcome, calculate the number of cases, mean and
@@ -152,7 +152,7 @@
 
 
 
-# ✏️ TRY IT 5 (4 min): cases per 10,000 people by district
+# ✏️ TRY IT 5 (4 min, homework if behind): cases per 10,000 people by district
 #    = number of cases / population * 10000
 #    HINT: count(district, population) gives both columns; then mutate() and arrange(desc())
 #    ✅ Check: East has the highest rate (22.8); Central the lowest (5.2)

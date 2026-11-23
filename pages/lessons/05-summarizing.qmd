@@ -38,7 +38,7 @@ There are many packages for summary tables. This session uses three that cover a
 # Part 1: Set up
 
 ::: follow-along
-**👀 Follow along 1.1** — Load today's packages and import `processed_data/combined_linelist.rds` as `linelist` (with `trust = TRUE`).
+**👀 Follow along 1.1** — Load today's packages and import `processed_data/combined_linelist.rds` as `linelist` (with `trust = TRUE`). These lines are already in your script: just run them.
 :::
 
 ```{r}
@@ -152,11 +152,7 @@ A `.csv` file can't store factor order at all. An `.rds` file can, but the files
 ::: callout-note
 ## 🔁 The base R way: `factor()`
 
-In other people's code you will see `factor(x, levels = c(...))`. It sets the order too, but a misspelled level is **not** ignored with a warning: every value that doesn't match becomes `NA`, silently.
-
-::: follow-along
-**🔁 Follow along 2.3** — The base R way: `factor()` with the right levels, then with "death" misspelled.
-:::
+In other people's code you will see `factor(x, levels = c(...))`. It sets the order too, but a misspelled level is **not** ignored with a warning: every value that doesn't match becomes `NA`, silently (reading only, you don't need to type this):
 
 ```{r}
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "Death"))
@@ -294,11 +290,7 @@ A grouped data frame stays grouped. End with `ungroup()` so later steps don't su
 ::: callout-note
 ## 🔁 The base R way: `table()` and `prop.table()`
 
-Base R makes a cross-table with `table()` (from Session 1), and turns it into proportions with `prop.table()`. `margin = 1` makes each **row** add up to 1, like `group_by(age_cat)` above:
-
-::: follow-along
-**🔁 Follow along 3.4** — The base R way: `table()` of age group by outcome, then `prop.table(margin = 1)`.
-:::
+Base R makes a cross-table with `table()` (from Session 1), and turns it into proportions with `prop.table()`. `margin = 1` makes each **row** add up to 1, like `group_by(age_cat)` above (reading only, you don't need to type this):
 
 ```{r}
 age_outcome <- table(linelist$age_cat, linelist$outcome)
@@ -439,11 +431,7 @@ Inside `summarise()`, the name on the **left** of `=` is the new column, and the
 
 ## The same calculation on many columns: `across()`
 
-You met `across()` in Session 3. In `summarise()` it saves a lot of typing:
-
-::: follow-along
-**👀 Follow along 4.3** — `across()`: the mean of `age_years`, `bmi`, and `temp` by outcome.
-:::
+You met `across()` in Session 3. In `summarise()` it saves a lot of typing (reading only, you don't need to type this; you'll use `across()` again in Part 6):
 
 ```{r}
 linelist %>%
@@ -464,7 +452,7 @@ linelist %>%
 `fever == "yes"` is TRUE or FALSE for each row (vectorization, from Session 4). `sum()` counts the TRUEs, and `mean()` gives the proportion that are TRUE:
 
 ::: follow-along
-**👀 Follow along 4.4** — The percentage with fever, cough, and vomiting by outcome, with `round(mean(fever == "yes") * 100, 1)`.
+**👀 Follow along 4.3** — The percentage with fever, cough, and vomiting by outcome, with `round(mean(fever == "yes") * 100, 1)`.
 :::
 
 ```{r}
@@ -491,11 +479,7 @@ linelist %>%
 ::: callout-note
 ## 🔁 The base R way: `tapply()` and `aggregate()`
 
-Two base R functions do what `group_by()` + `summarise()` does for **one** statistic:
-
-::: follow-along
-**🔁 Follow along 4.5** — The base R way: median age by outcome with `tapply()` and `aggregate()`.
-:::
+Two base R functions do what `group_by()` + `summarise()` does for **one** statistic (reading only, you don't need to type this):
 
 ```{r}
 tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)   # a named vector
@@ -546,7 +530,7 @@ Children who died were younger than children who recovered (median age 5 vs 7). 
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 5 (4 min): case rates by district
+## ✏️ TRY IT 5 (4 min, homework if behind): case rates by district
 
 Calculate cases per 10,000 people by district (number of cases / population \* 10000), sorted highest first.
 

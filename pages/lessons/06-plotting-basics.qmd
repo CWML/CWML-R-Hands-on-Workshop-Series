@@ -35,7 +35,7 @@ subtitle: "The grammar of graphics, histograms, mapping vs setting, scatter plot
 # Part 1: Set up
 
 ::: follow-along
-**👀 Follow along 1.1** — Load tidyverse, here, and rio; import `combined_linelist.rds` as `linelist`, and put `age_cat` and `outcome` in order with `fct_relevel()` (same as Session 5).
+**👀 Follow along 1.1** — Load tidyverse, here, and rio; import `combined_linelist.rds` as `linelist`, and put `age_cat` and `outcome` in order with `fct_relevel()` (same as Session 5). These lines are already in your script: just run them.
 :::
 
 ```{r}
@@ -137,6 +137,19 @@ ggplot(data = linelist, mapping = aes(x = age_years)) +
 ## `+` not `%>%`
 
 Layers of a ggplot are joined with `+`. Using `%>%` between ggplot layers is the most common beginner error. Like the pipe, `+` goes at the **end** of a line, not the start of the next one.
+:::
+
+::: callout-warning
+## Common mistakes
+
+-   Putting `+` at the **start** of the next line:
+
+    ```
+    ggplot(data = linelist, mapping = aes(x = age_years))
+      + geom_histogram()
+    ```
+
+    R runs the first line on its own as a complete command (and draws the empty axes). Then it reaches `+ geom_histogram()` with nothing on the left and stops with: *Cannot use `+` with a single argument. Did you accidentally put `+` on a new line?* Move the `+` to the end of the first line.
 :::
 
 ::: {.callout-important .tryit icon=false}
@@ -243,6 +256,27 @@ ggplot(data = measles, mapping = aes(x = age_years)) +
 
 The tallest bar is age 2 (102 cases), and most cases are ages 1–5. ggplot can't draw the 29 rows with a missing age, so it drops them and tells you.
 :::
+:::
+
+::: callout-note
+## 🔁 The base R way: `hist()`
+
+Base R has its own plotting functions, and you'll see them in older code and in help pages. `hist()` draws a histogram from one column (reading only, you don't need to type this):
+
+```{r}
+#| fig-alt: "Base R histogram titled Histogram of linelist$age_years, with gray bars in 5-year bins. The tallest bar is ages 0 to 5 (about 1,400 patients), and the counts fall steadily with age."
+hist(linelist$age_years)
+```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `hist(linelist$age_years)` takes one column with `$` and draws a histogram right away: no `aes()`, no layers, no `+`.
+-   R picks the bins itself (here 5 years wide, starting at 0), so the tallest bar is ages 0 to 5, with 1427 patients. It skips the missing ages without a warning.
+-   The title and axis label come from the code itself ("linelist$age_years"). You'd change them with arguments such as `main = ` and `xlab = `.
+:::
+
+`plot(x, y)` makes a scatter plot and `boxplot(y ~ group, data = ...)` a box plot. Base R plots are quick for a first look, but each kind of plot works a bit differently, and you can't add layers to them later. That's why this workshop uses ggplot.
 :::
 
 ::: {.callout-note icon=false}
@@ -448,11 +482,7 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
 
 ## Filter right inside `ggplot()`
 
-You can pipe data into `ggplot()`, so you can `filter()` first without making a new object:
-
-::: follow-along
-**👀 Follow along 5.4** — Only patients with fever: `filter()` first, then `ggplot()`.
-:::
+You can pipe data into `ggplot()`, so you can `filter()` first without making a new object. Here, only patients with fever (reading only, you don't need to type this; you'll use the same idea in TRY IT 5):
 
 ```{r}
 #| fig-alt: "Weight-by-age scatter plot for patients with fever only, showing the same curved pattern as for all patients."
@@ -556,11 +586,7 @@ linelist %>%
 
 ## Add the mean
 
-`stat_summary()` calculates a statistic for each group and draws it. Here, the mean as a diamond:
-
-::: follow-along
-**👀 Follow along 6.3** — Add the mean with `stat_summary()`.
-:::
+`stat_summary()` calculates a statistic for each group and draws it. Here, the mean as a diamond (reading only, you don't need to type this; you can copy the `stat_summary()` line in TRY IT 6):
 
 ```{r}
 #| fig-alt: "Box plots of age for female and male patients with a white diamond marking each mean. The means (about 13 and 20) sit slightly above the medians (11 and 17) because ages are right-skewed."
@@ -591,9 +617,9 @@ The ages are right-skewed: a few older patients pull the mean up. For example, t
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 6 (4 min): a box plot
+## ✏️ TRY IT 6 (4 min, homework if behind): a box plot
 
-Make a box plot of `days_in_hospital` by `vaccinated` (hospitalized patients only), with the mean and no legend.
+Make a box plot of `days_in_hospital` by `vaccinated` (hospitalized patients only), with the mean and no legend. Copy the `stat_summary()` line from the box above.
 
 ✅ **Check:** three boxes; the medians are 4–5 days for every group
 
@@ -709,11 +735,18 @@ age_plot +
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 7 (5 min): finish a plot
+## ✏️ TRY IT 7 (5 min): make a plot presentation-ready
 
-Finish one of your measles plots with a title, subtitle, axis labels, a caption, and a theme. Save it as `my_plot`.
+Take one of your measles plots and make it ready for a slide or a report. Save it as `my_plot`, then go through this checklist:
 
-✅ **Check:** typing `my_plot` in the Console shows your finished plot
+-   [ ] The **title** says what the plot shows, or better, what it finds ("Patients with fever cluster around 39 °C")
+-   [ ] Both **axis labels** are words, not column names, with units: "Temperature (°C)", not `temp_c`
+-   [ ] The **legend title** is a word too (`fill = "Fever"` inside `labs()`), or the legend is gone if the axis already names the groups
+-   [ ] A **caption** names the data source
+-   [ ] The text is big enough to read from the back of the room (`base_size` in the theme)
+-   [ ] Colors are fixed on purpose, not just ggplot's defaults (Session 7 shows how)
+
+✅ **Check:** typing `my_plot` in the Console shows your finished plot, and you can tick the first five boxes
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
@@ -730,12 +763,12 @@ my_plot <- ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +
     fill     = "Fever",
     caption  = "Source: practice measles linelist"
   ) +
-  theme_minimal()
+  theme_minimal(base_size = 14)
 
 my_plot
 ```
 
-This is one example — any measles plot works. `fill = "Fever"` inside `labs()` renames the legend title. Saving the plot as `my_plot` stores it in the **Variables** pane, and typing its name draws it.
+This is one example — any measles plot works. The title is in the subtitle here, as a finding. `fill = "Fever"` inside `labs()` renames the legend title, and `base_size = 14` makes the text bigger. Saving the plot as `my_plot` stores it in the **Variables** pane, and typing its name draws it.
 :::
 :::
 
@@ -770,6 +803,7 @@ See the solutions file for the code.
 -   **Mapping** (inside `aes()`) lets a column control color and adds a legend; **setting** (outside `aes()`) uses one fixed color.
 -   `geom_point()` shows the relationship between two numbers; `alpha` and `size` help with overlapping points, and `geom_smooth(method = "lm")` adds a trend line.
 -   `geom_boxplot()` compares a number across groups; `stat_summary()` adds the mean.
+-   `+` goes at the **end** of a line. A `+` at the start of a line gives "Cannot use `+` with a single argument".
 -   `labs()` adds titles and axis labels, and a complete theme like `theme_minimal()` changes the overall look (put it before `theme(...)` changes).
 -   You can pipe data into `ggplot()` to `filter()` first, and save a plot as an object with `<-`.
 

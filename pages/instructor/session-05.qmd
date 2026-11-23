@@ -7,18 +7,28 @@ subtitle: "Summarizing your data"
 
 ## Timing
 
-| Part | Topic | Time (incl. TRY IT) |
-|------|-------|---------------------|
-| 1 | Set up | 5 min |
-| 2 | Putting categories in order (factors, + 🔁 `factor()`) | 12 min |
-| 3 | Counting and percentages with `count()` (+ 🔁 `table()`) | 19 min |
-| 4 | Summary statistics with `summarise()` (2 TRY ITs, + 🔁 `tapply()`) | 27 min |
-| 5 | Quick tables with `tabyl()` | 12 min |
-| 6 | Table 1 with `gtsummary` | 18 min |
-|   | Wrap-up and preview | 5 min |
-|   | **Total** | **98 min** |
+The plan below adds up to about 78 minutes. The three 🔁 base R boxes and `across()` are reading only, so nobody types them.
 
-**Short on time?** Make TRY IT 5 (case rates by district) homework (nothing later depends on it). Don't cut TRY IT 7 (the measles Table 1) — it's the payoff of the session.
+| Part | Topic | Time (incl. TRY IT) | Start by |
+|------|-------|---------------------|----------|
+| 1 | Set up (pre-filled) | 3 min | 0:00 |
+| 2 | Putting categories in order (factors) | 9 min | 0:03 |
+| 3 | Counting and percentages with `count()` | 15 min | 0:12 |
+| 4 | Summary statistics with `summarise()` | 19 min | 0:27 |
+| 5 | Quick tables with `tabyl()` | 11 min | 0:46 |
+| 6 | Table 1 with `gtsummary` | 18 min | 0:57 |
+|   | Wrap-up and preview | 3 min | 1:15 |
+|   | **Total** | **78 min** | |
+
+**Running behind? Skip in this order:**
+
+1.  TRY IT 5 (case rates by district): assign it as homework. Nothing later depends on it.
+2.  The 🧩 "Reading a function call" box in Part 4: point to it on screen 2 and move on.
+3.  Follow along 6.1 (the basic `tbl_summary()`): show it on screen 1 and let learners type only 6.2, which adds the `na_if()` line.
+
+Don't cut TRY IT 7 (the measles Table 1): it's the payoff of the session.
+
+**Never speed-run.** If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.
 
 ## Before you start
 
@@ -30,9 +40,9 @@ subtitle: "Summarizing your data"
 
 **Overview — why these three packages.** There are many packages for summary tables (base R `summary()` and `table()`, `psych::describe()`, `rstatix::get_summary_stats()`, ...). This session teaches three that cover almost every need: **dplyr** (`count()`/`summarise()`) for flexible summaries you can plot, **janitor** (`tabyl()`) for quick cross-tabs, and **gtsummary** for tables you publish. Say this up front if learners ask "why not X?".
 
-**Part 1 — Set up.** Remind learners this is the dataset finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature). They can confirm the import in the **Variables** pane.
+**Part 1 — Set up.** The `library()` and `import()` lines are already in the student script: learners just run them. Only the measles import (TRY IT 1) is typed. Remind learners this is the dataset finished in Session 3: cleaned, de-duplicated, and joined to the case information (symptoms and temperature). They can confirm the import in the **Variables** pane.
 
-**Part 2 — Factors.** Run `count(age_cat)` *before* relevelling and ask learners what's wrong with the order ("Under 18" sorts after "80+"). Emphasize that the order carries through to plots too — they'll see it again in Sessions 6 and 7. Note: the `.rds` files saved in Session 3 contain plain text columns, not factors, so the order has to be set again after every import (the student script says this; the original instructor script implied the `.rds` already kept the order). A misspelled level gives an "Unknown levels" warning and is silently ignored.
+**Part 2 — Factors.** Run `count(age_cat)` *before* relevelling and ask learners what's wrong with the order ("Under 18" sorts after "80+"). Emphasize that the order carries through to plots too — they'll see it again in Sessions 6 and 7. Note: the `.rds` files saved in Session 3 contain plain text columns, not factors, so the order has to be set again after every import. A misspelled level gives an "Unknown levels" warning and is ignored.
 
 **Part 3 — Counting and percentages.** After the `group_by(age_cat) %>% count(outcome)` example, ask the class:
 
@@ -40,7 +50,7 @@ subtitle: "Summarizing your data"
 
 Stress `ungroup()`: a grouped data frame stays grouped and can surprise them later.
 
-**Part 4 — `summarise()`.** Show what happens without `na.rm = TRUE` (the whole result becomes `NA`). Connect `mean(fever == "yes")` to Session 4's vectorization: TRUE/FALSE, `sum()` counts the TRUEs, `mean()` gives the proportion. In TRY IT 4 (statistics by outcome), `days_in_hospital` needs `na.rm = TRUE` because non-hospitalized patients have `NA`. In TRY IT 5 (district rates), point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the "Unknown" district gets no rate.
+**Part 4 — `summarise()`.** Show what happens without `na.rm = TRUE` (the whole result becomes `NA`). `across()` is reading only: point to it on screen 2 and say learners will use it again in Part 6 (`mutate(across(where(is.character), ...))`). Connect `mean(fever == "yes")` (Follow along 4.3) to Session 4's vectorization: TRUE/FALSE, `sum()` counts the TRUEs, `mean()` gives the proportion. In TRY IT 4 (statistics by outcome), `days_in_hospital` needs `na.rm = TRUE` because non-hospitalized patients have `NA`. TRY IT 5 (district rates) is homework if behind. If you do it, point out that Central has the most people but the lowest rate — counts and rates tell different stories — and that the "Unknown" district gets no rate.
 
 **Part 5 — `tabyl()`.** Spend a moment on the order of the `adorn_` functions — totals must come before percentages because they need the raw counts. TRY IT 6 (vaccination and death: 6.3% vs 0.7%) is a good moment to discuss what this data does and doesn't show: it's fictional practice data, the numbers of deaths are small (2 vaccinated deaths), and a crude cross-tab doesn't adjust for anything (e.g. age).
 
@@ -48,7 +58,7 @@ Stress `ungroup()`: a grouped data frame stays grouped and can surprise them lat
 
 **Wrap-up.** Recap: `fct_relevel()`, `count()`, `group_by()`, `summarise()`, `across()`, `tabyl()` + `adorn_*()`, `tbl_summary()`. Preview **Session 6 — Plotting basics:** `ggplot2` from the ground up — histograms, scatter plots, and box plots.
 
-**🔁 Base R boxes (about 2 minutes each).** Three short demos: `factor()`, `table()` + `prop.table()`, and `tapply()` / `aggregate()`. The goal is *reading* knowledge: learners will meet these in papers' code, help pages, and AI answers. One point per box: `factor()` turns misspelled levels into `NA` without a warning; a `table` is not a data frame; `aggregate()` drops rows with missing values. If time is short, show them as "here's what this looks like in base R" without asking learners to type along.
+**🔁 Base R boxes (reading only, about 30 seconds each).** Three boxes: `factor()`, `table()` + `prop.table()`, and `tapply()` / `aggregate()`. Nobody types them. The goal is *reading* knowledge: learners will meet these in papers' code, help pages, and AI answers. Point to each on screen 2 and make one point: `factor()` turns misspelled levels into `NA` without a warning; a `table` is not a data frame; `aggregate()` drops rows with missing values.
 
 ## TRY IT answers at a glance
 
@@ -60,6 +70,6 @@ The numbers match the TRY IT numbers in the lesson, the student script, and the 
 | 2. Order the measles categories | One `mutate()` with three `fct_relevel()` lines; `count(age_cat)` starts with Under 5 (369) |
 | 3. Vaccination coverage | a) Yes 23.8% (277); b) 10-14 lowest at 21.2% |
 | 4. Statistics by outcome | Recovered n = 1048, median age 7; Died n = 50, median age 5 (Unknown n = 65) |
-| 5. Case rates by district | East highest 22.8 per 10,000; Central lowest 5.2; Unknown has no rate |
+| 5. Case rates by district (homework if behind) | East highest 22.8 per 10,000; Central lowest 5.2; Unknown has no rate |
 | 6. Vaccination and death | 6.3% of unvaccinated (45/709) vs 0.7% of vaccinated (2/277) died — fictional practice data |
 | 7. A measles Table 1 | Overall N = 1,098, Recovered N = 1,048, Died N = 50; 697 "Missing" days in hospital = not hospitalized |

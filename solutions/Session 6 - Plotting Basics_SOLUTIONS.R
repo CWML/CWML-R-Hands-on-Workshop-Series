@@ -9,7 +9,8 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along 1.1: load packages; import linelist and order the categories
+# 👀 Follow along 1.1 (already filled in in the student script): load packages;
+#    import linelist and order the categories
 library(tidyverse)
 library(here)
 library(rio)
@@ -60,6 +61,9 @@ ggplot(data = linelist, mapping = aes(x = age_years)) +
 ggplot(data = linelist, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 5, fill = "#2a78d6", color = "white")
 
+# 🔁 Reading only (on the website): base R draws a histogram in one line
+hist(linelist$age_years)
+
 # ✏️ TRY IT 3: measles ages, binwidth = 1
 ggplot(data = measles, mapping = aes(x = age_years)) +
   geom_histogram(binwidth = 1, fill = "#2a78d6", color = "white")
@@ -107,7 +111,7 @@ ggplot(data = linelist, mapping = aes(x = age_years, y = wt_kg)) +
   geom_point(size = 1, alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE, color = "#eb6834")
 
-# 👀 Follow along 5.4: only patients with fever
+# 📖 Reading only (on the website): filter() first, then pipe into ggplot()
 linelist %>%
   filter(fever == "yes") %>%
   ggplot(mapping = aes(x = age_years, y = wt_kg)) +
@@ -135,7 +139,7 @@ linelist %>%
   geom_boxplot() +
   theme(legend.position = "none")
 
-# 👀 Follow along 6.3: add the mean
+# 📖 Reading only (on the website): add the mean with stat_summary()
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = gender, y = age_years, fill = gender)) +
@@ -143,7 +147,7 @@ linelist %>%
   stat_summary(fun = mean, geom = "point", shape = 23, size = 3, fill = "white") +
   theme(legend.position = "none")
 
-# ✏️ TRY IT 6: days in hospital by vaccination status
+# ✏️ TRY IT 6 (homework if behind): days in hospital by vaccination status
 measles %>%
   filter(!is.na(days_in_hospital)) %>%
   ggplot(mapping = aes(x = vaccinated, y = days_in_hospital, fill = vaccinated)) +
@@ -182,7 +186,7 @@ age_plot +
   labs(title = "Age distribution of cases", x = "Age (years)", y = "Number of cases") +
   theme_minimal()
 
-# ✏️ TRY IT 7: finish a plot and save it as my_plot
+# ✏️ TRY IT 7: make a plot presentation-ready and save it as my_plot
 my_plot <- ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +
   geom_histogram(binwidth = 0.2, color = "white") +
   labs(
@@ -193,7 +197,7 @@ my_plot <- ggplot(data = measles, mapping = aes(x = temp_c, fill = fever)) +
     fill     = "Fever",
     caption  = "Source: practice measles linelist"
   ) +
-  theme_minimal()
+  theme_minimal(base_size = 14)
 
 my_plot
 

@@ -9,7 +9,8 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along 1.1: load packages; import combined_linelist.rds as linelist
+# 👀 Follow along 1.1 (already filled in in the student script): load packages;
+#    import combined_linelist.rds as linelist
 library(tidyverse)
 library(here)
 library(rio)
@@ -37,7 +38,7 @@ linelist <- linelist %>%
 
 linelist %>% count(age_cat)
 
-# 🔁 Follow along 2.3: the base R way
+# 🔁 Reading only (on the website): the base R way with factor()
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "Death"))
 factor(c("Recover", "Death", "Death"), levels = c("Recover", "death"))   # NA, no warning!
 
@@ -70,7 +71,7 @@ linelist %>%
   mutate(percent = scales::percent(n / sum(n), accuracy = 0.1)) %>%
   ungroup()
 
-# 🔁 Follow along 3.4: the base R way
+# 🔁 Reading only (on the website): the base R way with table() and prop.table()
 age_outcome <- table(linelist$age_cat, linelist$outcome)
 age_outcome
 round(prop.table(age_outcome, margin = 1) * 100, 1)   # each row adds up to 100
@@ -111,12 +112,12 @@ linelist %>%
     mean_temp  = mean(temp, na.rm = TRUE)
   )
 
-# 👀 Follow along 4.3: across()
+# 📖 Reading only (on the website): across() does the same calculation on many columns
 linelist %>%
   group_by(outcome) %>%
   summarise(across(c(age_years, bmi, temp), ~ mean(.x, na.rm = TRUE)))
 
-# 👀 Follow along 4.4: percentage with each symptom by outcome
+# 👀 Follow along 4.3: percentage with each symptom by outcome
 linelist %>%
   group_by(outcome) %>%
   summarise(
@@ -127,7 +128,7 @@ linelist %>%
     pct_vomit = round(mean(vomit == "yes") * 100, 1)
   )
 
-# 🔁 Follow along 4.5: the base R way
+# 🔁 Reading only (on the website): the base R way with tapply() and aggregate()
 tapply(linelist$age_years, linelist$outcome, median, na.rm = TRUE)   # 13, 13, 14
 aggregate(age_years ~ outcome, data = linelist, FUN = median)
 
@@ -143,7 +144,7 @@ measles %>%
   )
 # Recovered n = 1048 (median age 7); Died n = 50 (median age 5): children who died were younger
 
-# ✏️ TRY IT 5: cases per 10,000 people by district
+# ✏️ TRY IT 5 (homework if behind): cases per 10,000 people by district
 measles %>%
   count(district, population) %>%
   mutate(rate_per_10k = round(n / population * 10000, 1)) %>%

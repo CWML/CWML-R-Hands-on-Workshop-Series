@@ -72,12 +72,12 @@ Each session's instructor page has a **Start by** time for every part, and a lis
 | 2 | [Cleaning](session-02.qmd) | 85 min | `raw_data/` |
 | 3 | [Missing data, joins, and export](session-03.qmd) | 76 min | `processed_data/linelist_clean.rds` |
 | 4 | [Data structures](session-04.qmd) | 82 min | `processed_data/combined_linelist.rds` |
-| 5 | [Summarizing](session-05.qmd) | 92 min | `processed_data/combined_linelist.rds` |
-| 6 | [Plotting basics](session-06.qmd) | 87 min | `processed_data/combined_linelist.rds` |
+| 5 | [Summarizing](session-05.qmd) | 78 min | `processed_data/combined_linelist.rds` |
+| 6 | [Plotting basics](session-06.qmd) | 78 min | `processed_data/combined_linelist.rds` |
 | 7 | [Plotting further](session-07.qmd) | 87 min | `processed_data/combined_linelist.rds` |
 | 8 | [Programming](session-08.qmd) *(optional)* | 85 min | `processed_data/combined_linelist.rds` |
 
-Sessions run 90 minutes. Sessions 1 to 4 are planned for 75, 85, 76, and 82 minutes of content, which leaves time for questions; the other sessions are being tightened the same way. Each session page lists what to skip if you're short on time.
+Sessions run 90 minutes. Sessions 1 to 6 are planned for 75, 85, 76, 82, 78, and 78 minutes of content, which leaves time for questions; the other sessions are being tightened the same way. Each session page lists what to skip if you're short on time.
 
 Every session starts from a file that is already in the repository, so learners who missed the previous session can still join.
 

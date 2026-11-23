@@ -434,63 +434,87 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../pages/lessons/06-plotting-basics.html">→ Open the Session 6 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 78 minutes. Filtering into <code>ggplot()</code> (Part 5), <code>stat_summary()</code> (Part 6), and the 🔁 <code>hist()</code> box are reading only.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 47%">
+<col style="width: 22%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Set up</td>
-<td>6 min</td>
+<td>Set up (pre-filled)</td>
+<td>4 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>The grammar of graphics</td>
 <td>10 min</td>
+<td>0:04</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Histograms</td>
-<td>11 min</td>
+<td>Histograms (+ 🔁 <code>hist()</code>, reading only)</td>
+<td>12 min</td>
+<td>0:14</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Mapping vs setting</td>
 <td>12 min</td>
+<td>0:26</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>Scatter plots</td>
-<td>14 min</td>
+<td>12 min</td>
+<td>0:38</td>
 </tr>
 <tr class="even">
 <td>6</td>
 <td>Box plots</td>
-<td>15 min</td>
+<td>11 min</td>
+<td>0:50</td>
 </tr>
 <tr class="odd">
 <td>7</td>
-<td>Labels and themes</td>
+<td>Labels, themes, and the presentation-ready checklist</td>
 <td>14 min</td>
+<td>1:01</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>Wrap-up and preview</td>
-<td>5 min</td>
+<td>3 min</td>
+<td>1:15</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>87 min</strong></td>
+<td><strong>78 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Shorten Part 7: demo <code>labs()</code> and one theme, skip saving <code>age_plot</code>, and make TRY IT 7 (finish a plot) homework. Don’t cut Part 4 (mapping vs setting) — it is the key idea of the session.</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 6 (box plot by vaccination): assign it as homework.</li>
+<li>Follow along 7.3 (saving <code>age_plot</code>): show it on screen 1 and let learners read it.</li>
+<li>The 🧩 “Reading a function call” box in Part 4: point to it on screen 2 and move on.</li>
+</ol>
+<p>Don’t cut Part 4 (mapping vs setting): it’s the key idea of the session. Don’t cut TRY IT 7 (the checklist) either: Session 7 builds on finished plots.</p>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -504,21 +528,21 @@ ul.task-list li input[type="checkbox"] {
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
 <p><strong>Every part.</strong> Build each plot <strong>one layer at a time</strong> and run it after every <code>+</code>, so learners see what each layer adds.</p>
-<p><strong>Part 1 — Set up.</strong> Point out that the factor order from Session 5 isn’t saved in the <code>.rds</code> file, so it has to be set again right after importing — and that <code>import()</code> and <code>mutate()</code> can go in one pipeline.</p>
-<p><strong>Part 2 — The grammar of graphics.</strong> Run the three steps separately: empty canvas, axes only, then bars. Stress <code>+</code> not <code>%&gt;%</code> between layers, and that <code>+</code> goes at the <strong>end</strong> of the line — the two most common beginner errors.</p>
-<p><strong>Part 3 — Histograms.</strong> Point out the “using <code>bins = 30</code>” message from the Part 2 plot, then choose <code>binwidth</code> yourself. Live-try <code>binwidth = 1</code> and <code>binwidth = 10</code> so learners see the shape change. In TRY IT 3, reassure learners that the “removed rows” warning is just the 29 missing ages.</p>
+<p><strong>Part 1 — Set up.</strong> The <code>linelist</code> lines are already in the student script: learners just run them, then type the measles version (TRY IT 1). Point out that the factor order from Session 5 isn’t saved in the <code>.rds</code> file, so it has to be set again right after importing — and that <code>import()</code> and <code>mutate()</code> can go in one pipeline.</p>
+<p><strong>Part 2 — The grammar of graphics.</strong> Run the three steps separately: empty canvas, axes only, then bars. Stress <code>+</code> not <code>%&gt;%</code> between layers, and that <code>+</code> goes at the <strong>end</strong> of the line — the two most common beginner errors. Show the second one live: put <code>+ geom_histogram()</code> on its own line and run both lines. The first line draws empty axes, then R stops with <em>Cannot use <code>+</code> with a single argument. Did you accidentally put <code>+</code> on a new line?</em> The ⚠️ box on the lesson page has the same example.</p>
+<p><strong>Part 3 — Histograms.</strong> Point out the “using <code>bins = 30</code>” message from the Part 2 plot, then choose <code>binwidth</code> yourself. Live-try <code>binwidth = 1</code> and <code>binwidth = 10</code> so learners see the shape change. The 🔁 <code>hist()</code> box after TRY IT 3 is reading only (30 seconds): one line, quick for a first look, but no layers. In TRY IT 3, reassure learners that the “removed rows” warning is just the 29 missing ages.</p>
 <p><strong>Part 4 — Mapping vs setting.</strong> This is the key idea. Ask the class:</p>
 <ul>
 <li><em>What happens if you put <code>fill = "blue"</code> inside <code>aes()</code>?</em> Have them try it first. — The bars are pink-red and the legend says “blue”: ggplot treated “blue” as data (a column whose every value is the word “blue”) and gave it the first default color.</li>
 </ul>
-<p><strong>Part 5 — Scatter plots.</strong> With 6,451 rows, many points overlap — show <code>size</code> and <code>alpha</code> fixing that. When filtering inside the pipeline, point out the switch: <code>%&gt;%</code> <strong>into</strong> <code>ggplot()</code>, then <code>+</code> <strong>between</strong> layers. In TRY IT 5, emphasize that a flat trend line (“no relationship”) is a result too.</p>
-<p><strong>Part 6 — Box plots.</strong> Walk through the parts of the box (median, IQR, whiskers at 1.5 × IQR, outliers). Ask the class:</p>
+<p><strong>Part 5 — Scatter plots.</strong> With 6,451 rows, many points overlap — show <code>size</code> and <code>alpha</code> fixing that. Filtering into <code>ggplot()</code> is reading only: point to it on screen 2 and name the switch, <code>%&gt;%</code> <strong>into</strong> <code>ggplot()</code>, then <code>+</code> <strong>between</strong> layers. Learners use it right away in TRY IT 5, and type it in Follow along 6.2. In TRY IT 5, emphasize that a flat trend line (“no relationship”) is a result too.</p>
+<p><strong>Part 6 — Box plots.</strong> Walk through the parts of the box (median, IQR, whiskers at 1.5 × IQR, outliers). <code>stat_summary()</code> (the mean as a diamond) is reading only: show the plot on screen 2. Learners copy the line in TRY IT 6, which is homework if behind. Ask the class:</p>
 <ul>
 <li><em>Why is the mean (diamond) above the median (line)?</em> — The ages are right-skewed: a few older patients pull the mean up (female: median 11, mean 12.7; male: median 17, mean 19.5).</li>
 </ul>
 <p>Mention <code>geom_violin()</code> as an alternative.</p>
-<p><strong>Part 7 — Labels and themes.</strong> Point out that a complete theme like <code>theme_minimal()</code> resets everything, so it must come <strong>before</strong> <code>theme(legend.position = ...)</code>. <code>base_size = 14</code> is handy for slides. Early finishers: ⭐ BONUS (fill by <code>vaccinated</code>; <code>geom_violin()</code>).</p>
-<p><strong>Wrap-up.</strong> Today: <code>ggplot()</code>, <code>aes()</code>, <code>geom_histogram()</code>, <code>geom_point()</code>, <code>geom_smooth()</code>, <code>geom_boxplot()</code>, <code>stat_summary()</code>, <code>labs()</code>, themes. Next, Session 7 — Plotting further: bar charts, choosing colors, epidemic curves, facets, and saving plots to files.</p>
+<p><strong>Part 7 — Labels and themes.</strong> TRY IT 7 is a checklist for a presentation-ready plot: a title that states a finding, axis labels with units, a legend title in words, a source caption, and text big enough for the back of the room. Ask two or three learners to share their plot on screen and go through the list together. Point out that a complete theme like <code>theme_minimal()</code> resets everything, so it must come <strong>before</strong> <code>theme(legend.position = ...)</code>. <code>base_size = 14</code> is handy for slides. Early finishers: ⭐ BONUS (fill by <code>vaccinated</code>; <code>geom_violin()</code>).</p>
+<p><strong>Wrap-up.</strong> Today: <code>ggplot()</code>, <code>aes()</code>, <code>geom_histogram()</code>, <code>geom_point()</code>, <code>geom_smooth()</code>, <code>geom_boxplot()</code>, <code>labs()</code>, themes, and the presentation-ready checklist. Next, Session 7 — Plotting further: bar charts, choosing colors, epidemic curves, facets, and saving plots to files.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -556,12 +580,12 @@ ul.task-list li input[type="checkbox"] {
 <td><code>filter(!is.na(days_in_hospital))</code> gives 427 patients; the trend line is nearly flat</td>
 </tr>
 <tr class="even">
-<td>6. A box plot</td>
+<td>6. A box plot (homework if behind)</td>
 <td>Medians 4 days (Yes), 5 (No), 5 (Unknown) — no clear difference</td>
 </tr>
 <tr class="odd">
-<td>7. Finish a plot</td>
-<td>Any measles plot with <code>labs()</code> and a theme, saved as <code>my_plot</code> — see the solutions file</td>
+<td>7. Make a plot presentation-ready</td>
+<td>Any measles plot with <code>labs()</code> (title, axis labels with units, legend title, caption) and a theme with <code>base_size</code>, saved as <code>my_plot</code> — see the solutions file</td>
 </tr>
 </tbody>
 </table>
