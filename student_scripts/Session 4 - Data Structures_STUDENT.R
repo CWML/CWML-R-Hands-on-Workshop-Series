@@ -26,10 +26,17 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 # 🎯 Goal: Load packages and import the finished data from Session 3.
+#
+# 📖 The set-up lines are filled in for you: just run them.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio; import processed_data/combined_linelist.rds
-#    (trust = TRUE) and call it linelist
+#    (trust = TRUE) and call it linelist (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
 
 
 # ✏️ TRY IT 1 (2 min): import processed_data/measles_final.rds (trust = TRUE) and call it measles
@@ -54,6 +61,10 @@
 #      type, usually text: c(1, 2, "unknown") is all text. That's why a few
 #      "unknown" values made the measles Age (years) column text in Session 1!
 #    - Any calculation with NA gives NA, unless you add na.rm = TRUE.
+#
+# ⚠️ Common mistakes
+#    - x == NA is always NA, never TRUE. Find missing values with is.na(x).
+#    - as.numeric("00123") gives 123: IDs with leading zeros should stay text.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 2.1: pull out linelist$age_years as ages; head() and length() it
@@ -130,7 +141,10 @@
 #    - Forgetting the comma: df[1:3] picks COLUMNS 1–3, not rows!
 #    - Base R adds a row of NAs for every NA in the condition.
 #      linelist[linelist$temp > 40, ] gives 244 rows; filter(linelist, temp > 40) gives 93.
-#      Fix: add & !is.na(temp), or use filter().
+#      Fix: add & !is.na(temp), or use filter(). Read the "Base R and missing
+#      values" box on the website before TRY IT 4 (no typing).
+#    - Example (reading only): mean(linelist$temp[linelist$outcome == "Death"], na.rm = TRUE)
+#      is the mean temperature of the patients who died.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 4.1: temps_c[1], temps_c[c(1, 3)], temps_c[-1], temps_c[temps_c > 38]
@@ -140,13 +154,6 @@
 
 
 # 👀 Follow along 4.3: the first three hospital names with $ and with [[ ]]
-
-
-# 👀 Follow along 4.4: the mean temperature of patients who died:
-#    mean(linelist$temp[linelist$outcome == "Death"], na.rm = TRUE)
-
-
-# 👀 Follow along 4.5: compare nrow(linelist[linelist$temp > 40, ]) with nrow(filter(linelist, temp > 40))
 
 
 # ✏️ TRY IT 4 (5 min): with base R,
@@ -169,14 +176,13 @@
 #        x["name"]                 a smaller LIST (a smaller box)
 #        str(x)                    what is in each element
 #    - A data frame is a list of columns with the same length.
-#    - Test and model results are lists:
+#    - Test and model results are lists too. Read "Results are lists" on the
+#      website (no typing; try it yourself in the ⭐ Bonus):
 #        result <- t.test(NUMBER_COLUMN ~ GROUP_COLUMN, data = DATA)
 #        result$p.value     result$estimate     names(result)
 #
 # ⚠️ Common mistakes
 #    - x["age"] + 1 gives an error: [ ] returns a list. Use x[["age"]] or x$age.
-#    - t.test() needs exactly TWO groups. "grouping factor must have exactly
-#      2 levels" means there is a third group (like "Unknown"): filter() it out.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 5.1: make a list called patient with id, age, symptoms, and visits
@@ -187,17 +193,6 @@
 #    (name: Ana, Ben, Cho; age: 34, 51, 27) and pull out age with $.
 #    Then is.list(linelist) and length(linelist). A data frame is a list!
 #    Pattern: data.frame(COLUMN_1 = c(...), COLUMN_2 = c(...))
-
-
-# 👀 Follow along 5.3: t.test() of age_years by gender (leave out "Unknown"), saved as age_test.
-#    Then names(age_test), age_test$p.value, age_test$estimate
-
-
-# ✏️ TRY IT 5 (5 min):
-#    a) t.test() temp_c by vaccinated in measles, leaving out "Unknown". Save it as temp_test.
-#    b) pull out the p-value and the two group means with $
-#    ✅ Check: p-value 0.565; means 38.80 (No) and 38.84 (Yes)
-
 
 
 # ── PART 6: Tidy data and pivot_longer() ───────────────────────────────────
@@ -223,10 +218,10 @@
 
 
 # 👀 Follow along 6.3: count the patients with each symptom (filter present == "yes", then count)
-#    and plot it with ggplot() + geom_col() (a preview of Session 6)
+#    The plot of these counts on the website is a preview of Session 6 (reading only).
 
 
-# ✏️ TRY IT 6 (5 min): select patient_id, fever, and rash from measles, then
+# ✏️ TRY IT 5 (5 min): select patient_id, fever, and rash from measles, then
 #    pivot_longer() the two symptom columns. count() symptom and present.
 #    Pattern: pivot_longer(cols = c(COLUMN_1, COLUMN_2), names_to = "symptom", values_to = "present")
 #    ✅ Check: 2326 rows (1163 × 2); fever yes 1064, rash yes 976
@@ -252,7 +247,7 @@
 # 👀 Follow along 7.1: count(hospital_name, outcome), then pivot_wider() it
 
 
-# ✏️ TRY IT 7 (4 min): count() district and vaccinated in measles, then pivot_wider()
+# ✏️ TRY IT 6 (4 min, homework if behind): count() district and vaccinated in measles, then pivot_wider()
 #    so each vaccination status is a column
 #    ✅ Check: 6 rows (5 districts + Unknown); North has No 205, Unknown 49, Yes 88
 
@@ -262,11 +257,17 @@
 #
 #  ⭐ BONUS
 #
-#  1. Turn the district × vaccinated table into percentages: before pivot_wider(),
+#  1. A test result is a list: t.test() temp_c by vaccinated in measles,
+#     leaving out "Unknown". Save it as temp_test, then pull out the p-value
+#     and the two group means with $.
+#     ✅ p-value 0.565; means 38.80 (No) and 38.84 (Yes)
+#     t.test() needs exactly TWO groups: "grouping factor must have exactly
+#     2 levels" means there is a third group (like "Unknown"). filter() it out.
+#  2. Turn the district × vaccinated table into percentages: before pivot_wider(),
 #     group_by(district) and add mutate(pct = round(n / sum(n) * 100, 1)),
 #     then use values_from = pct.
-#  2. pivot_longer() the fever and rash columns, keep the "yes" rows, and plot
+#  3. pivot_longer() the fever and rash columns, keep the "yes" rows, and plot
 #     the count of each symptom by vaccinated with geom_bar(position = "dodge").
-#  3. Brought your own data? Is it wide or long? Reshape it the other way.
+#  4. Brought your own data? Is it wide or long? Reshape it the other way.
 #________________________________________________________________________________
 

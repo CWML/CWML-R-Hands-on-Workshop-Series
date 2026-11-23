@@ -34,13 +34,20 @@
 #      An .rds file can contain R code, so rio asks you to confirm you trust it.
 #      We made these files ourselves, so they are safe.
 #    - Missed Session 2? Ready-made copies of these files are already in processed_data/.
+#    - The set-up lines are filled in for you: just run them.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr
-
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+library(skimr)
 
 # 👀 Follow along 1.2: import processed_data/linelist_clean.rds (linelist_clean)
-#    and raw_data/case_info.csv (case_info)
+#    and raw_data/case_info.csv (case_info) (already filled in: run it)
+linelist_clean <- import(here("processed_data", "linelist_clean.rds"), trust = TRUE)
+case_info      <- import(here("raw_data", "case_info.csv"))
 
 
 # ✏️ TRY IT 1 (2 min): import processed_data/measles_clean.rds (measles_clean)
@@ -59,14 +66,13 @@
 #    - Three ways to handle missing values:
 #        1. Leave them as NA. Most functions skip them with na.rm = TRUE:
 #           mean(age_years, na.rm = TRUE)
-#        2. Remove the rows: drop_na(COLUMN). Careful, you can lose a lot of data.
+#        2. Remove the rows: drop_na(COLUMN). Careful, you can lose a lot of data:
+#           drop_na(bmi) would remove 1382 of 6604 patients (see the website,
+#           no typing).
 #        3. Replace them, e.g. with "Unknown" for categories (Part 5).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 2.1: colSums(is.na(linelist_clean))
-
-
-# 👀 Follow along 2.2: how many rows would drop_na(bmi) remove? Compare nrow() before and after.
 
 
 # ✏️ TRY IT 2 (2 min): count the missing values in each column of measles_clean.
@@ -82,17 +88,18 @@
 #    - We join on the ID column in Part 6, so rows without an ID can't be linked.
 #      Instead of deleting them, we save them separately with new IDs.
 #    - row_number() gives 1, 2, 3, ... for each row.
-#    - sprintf("%05d", 1) pads a number with zeros to 5 digits: "00001".
-#    - paste0() glues text together: paste0("ID", "00001") gives "ID00001".
+#    - paste0() glues text together with no space: paste0("ID", 1) gives "ID1".
+#    - Sorted as text, "ID10" comes before "ID2". To pad with zeros, see the
+#      📖 Good to know box in Part 3 on the website (sprintf()).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 3.1: create missing_ids: filter(is.na(case_id)), then give each row
-#    a new case_id with paste0("ID", sprintf("%05d", row_number()))
+#    a new case_id with paste0("ID", row_number())
 
 
-# ✏️ TRY IT 3 (3 min): create measles_missing_ids: the rows of measles_clean with no
-#    patient_id, with new IDs NEW-0001, NEW-0002, ...
-#    Pattern: paste0("NEW-", sprintf("%04d", row_number()))
+# ✏️ TRY IT 3 (3 min, homework if behind): create measles_missing_ids: the rows of
+#    measles_clean with no patient_id, with new IDs NEW-1, NEW-2, ...
+#    Pattern: paste0("NEW-", row_number())
 #    ✅ Check: measles_missing_ids has 37 rows
 
 
@@ -155,30 +162,27 @@
 #    left_join(A, B, by = "id")    every row of A, plus matching columns from B
 #    inner_join(A, B, by = "id")   only rows whose id is in BOTH
 #    full_join(A, B, by = "id")    every row from both
+#    semi_join(A, B, by = "id")    rows of A WITH a match in B (adds no columns)
 #    anti_join(A, B, by = "id")    rows of A with NO match in B (great for checking!)
 #
 #    - left_join() is the one you'll use most: start with your main data and
 #      add information to it.
 #    - Always check the number of rows. A left join should NOT add rows. If it
 #      does, the key appears more than once in B.
+#      relationship = "many-to-one" makes R stop with an error if that happens.
 #    - 🔁 Base R: merge(A, B, by = "id") is an INNER join by default.
-#      all.x = TRUE makes it a left join, all = TRUE a full join.
-#      A$id %in% B$id gives TRUE/FALSE for each id: is it found in B?
+#      all.x = TRUE makes it a left join. Read the 🔁 box on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: a tiny example. Make patients (id 1, 2, 3) and labs (id 2, 3, 4)
 #    with tibble(), then try all four joins on them.
 
 
-# 🔁 Follow along 6.2: the base R way. merge() with and without all.x = TRUE,
-#    then find patients with no lab result with %in%
-
-
-# 👀 Follow along 6.3: create combined_linelist by left_join()-ing case_info to linelist_final
+# 👀 Follow along 6.2: create combined_linelist by left_join()-ing case_info to linelist_final
 #    Pattern: NEW_DATA <- MAIN_DATA %>% left_join(OTHER_DATA, by = "KEY_COLUMN")
 
 
-# 👀 Follow along 6.4: check the join with nrow() and anti_join()
+# 👀 Follow along 6.3: check the join with nrow() and anti_join()
 
 
 # ✏️ TRY IT 6 (4 min): add district_info to measles_final with left_join() (the key is district)
@@ -197,15 +201,19 @@
 #           and missing text comes back as blank "" instead of NA.
 #    .xlsx  for sharing with Excel users. Same caveats as .csv.
 #    export() picks the type from the file extension, just like import().
+#
+# ⚠️ Common mistakes
+#    - Saved as .csv and imported again, missing IDs are "" instead of NA, so
+#      is.na() finds 0 instead of 130. No error: just a wrong answer.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 7.1: save combined_linelist as .rds, and linelist_final, missing_ids,
-#    and combined_linelist as .csv, all in processed_data/
+# 👀 Follow along 7.1: save combined_linelist as .rds and as .csv in processed_data/
+#    Pattern: export(DATA, here("FOLDER", "FILE_NAME.rds"))
 
 
 # ✏️ TRY IT 7 (2 min): save measles_final as processed_data/measles_final.rds AND
-#    measles_final.csv, and measles_missing_ids as processed_data/measles_missing_ids.csv
-#    ✅ Check: three new files in processed_data/. You need measles_final.rds in Sessions 4–8!
+#    processed_data/measles_final.csv
+#    ✅ Check: two new files in processed_data/. You need measles_final.rds in Sessions 4–8!
 
 
 

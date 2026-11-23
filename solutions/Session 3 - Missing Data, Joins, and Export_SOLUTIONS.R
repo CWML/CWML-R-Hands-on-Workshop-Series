@@ -34,9 +34,8 @@ district_info         # 5 rows
 # 👀 Follow along 2.1: colSums(is.na(linelist_clean))
 colSums(is.na(linelist_clean))
 
-# 👀 Follow along 2.2: how many rows would drop_na(bmi) remove?
-nrow(linelist_clean)                        # 6604
-linelist_clean %>% drop_na(bmi) %>% nrow()  # 5222: we would lose 1382 patients
+# 📖 Reading only (on the website): linelist_clean %>% drop_na(bmi) would keep
+#    5222 of 6604 rows, so we would lose 1382 patients.
 
 # ✏️ TRY IT 2: count the missing values in each column of measles_clean
 colSums(is.na(measles_clean))
@@ -48,14 +47,14 @@ colSums(is.na(measles_clean))
 # 👀 Follow along 3.1: create missing_ids
 missing_ids <- linelist_clean %>%
   filter(is.na(case_id)) %>%
-  mutate(case_id = paste0("ID", sprintf("%05d", row_number())))
+  mutate(case_id = paste0("ID", row_number()))
 
-nrow(missing_ids)   # 130
+nrow(missing_ids)   # 130: ID1 to ID130
 
-# ✏️ TRY IT 3: create measles_missing_ids with new IDs NEW-0001, NEW-0002, ...
+# ✏️ TRY IT 3 (homework if behind): create measles_missing_ids with new IDs NEW-1, NEW-2, ...
 measles_missing_ids <- measles_clean %>%
   filter(is.na(patient_id)) %>%
-  mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))
+  mutate(patient_id = paste0("NEW-", row_number()))
 
 nrow(measles_missing_ids)   # 37
 
@@ -120,22 +119,19 @@ inner_join(patients, labs, by = "id")   # only ids 2 and 3
 full_join(patients, labs, by = "id")    # ids 1–4
 anti_join(patients, labs, by = "id")    # Ana: no lab result
 
-# 🔁 Follow along 6.2: the base R way
-merge(patients, labs, by = "id")                # inner join (the default!)
-merge(patients, labs, by = "id", all.x = TRUE)  # left join
-merge(patients, labs, by = "id", all = TRUE)    # full join
-patients$id %in% labs$id                        # FALSE TRUE TRUE
-patients[!patients$id %in% labs$id, ]           # Ana: the same as anti_join()
+# 🔁 Reading only (on the website): base R merge() is an INNER join unless you
+#    add all.x = TRUE. patients[!patients$id %in% labs$id, ] is like anti_join().
 
-# 👀 Follow along 6.3: create combined_linelist
+# 👀 Follow along 6.2: create combined_linelist
 combined_linelist <- linelist_final %>%
   left_join(case_info, by = "case_id")
 
-# 👀 Follow along 6.4: check the join
+# 👀 Follow along 6.3: check the join
 nrow(linelist_final)      # 6451
 nrow(combined_linelist)   # 6451: no rows added
 anti_join(linelist_final, case_info, by = "case_id") %>% nrow()   # 0: every case matched
 sum(!linelist_final$case_id %in% case_info$case_id)               # 0: the same check in base R
+case_info %>% get_dupes(case_id) %>% nrow()                       # 0: case_id is unique in case_info
 
 # ✏️ TRY IT 6: add district_info to measles_final
 measles_final <- measles_final %>%
@@ -150,15 +146,11 @@ anti_join(measles_final, district_info, by = "district") %>% count(district)
 
 # 👀 Follow along 7.1: .rds for R, .csv for sharing
 export(combined_linelist, here("processed_data", "combined_linelist.rds"))
-
-export(linelist_final,    here("processed_data", "linelist_final.csv"))
-export(missing_ids,       here("processed_data", "missing_ids.csv"))
 export(combined_linelist, here("processed_data", "combined_linelist.csv"))
 
 # ✏️ TRY IT 7: save the measles files
-export(measles_final,       here("processed_data", "measles_final.rds"))
-export(measles_final,       here("processed_data", "measles_final.csv"))
-export(measles_missing_ids, here("processed_data", "measles_missing_ids.csv"))
+export(measles_final, here("processed_data", "measles_final.rds"))
+export(measles_final, here("processed_data", "measles_final.csv"))
 
 
 # ── ⭐ BONUS ───────────────────────────────────────────────────────────────

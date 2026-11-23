@@ -38,7 +38,7 @@ Sessions 1–3 used tidyverse functions that hide how R stores data. Today you l
 # Part 1: Set up
 
 ::: follow-along
-**👀 Follow along 1.1** — Load tidyverse, here, and rio, and import `processed_data/combined_linelist.rds` (with `trust = TRUE`) as `linelist`.
+**👀 Follow along 1.1** — Load tidyverse, here, and rio, and import `processed_data/combined_linelist.rds` (with `trust = TRUE`) as `linelist`. These lines are already in your script: just run them.
 :::
 
 ```{r}
@@ -196,6 +196,8 @@ Ages are numbers, vaccination status is text, and the report date is a real date
 
 -   **`NA` and "Unknown" are different.** `NA` means the value is missing, and R treats it specially: calculations with it give `NA`. "Unknown" is ordinary text, which R counts like any other value. In this data, unknown symptoms are written "Unknown", so `fever` has no `NA`s.
 -   **`str()` describes any object:** its type, its size, and its first values. For a data frame it works like `glimpse()`.
+-   **Don't test for missing values with `== NA`.** `ages == NA` asks "is this age equal to an unknown value?", and the answer is always unknown: `NA` for every row, so `sum(ages == NA)` is `NA`. Use `is.na(ages)` instead: `sum(is.na(ages))` gives 96.
+-   **IDs with leading zeros should stay text.** `as.numeric("00123")` gives `123`: the zeros are gone, and the ID no longer matches the same ID in another dataset. Store IDs, ZIP codes, and phone numbers as text, even when they look like numbers.
 :::
 
 # Part 3: Vectorization
@@ -371,9 +373,7 @@ linelist[["hospital_name"]][1:3]   # [[ ]] with a name in quotes — useful insi
 
 ## Conditions
 
-::: follow-along
-**👀 Follow along 4.4** — The mean temperature of patients who died.
-:::
+A condition inside `[ ]` keeps only the values where it is TRUE. For example, the mean temperature of patients who died (reading only, you don't need to type this):
 
 ```{r}
 # Mean temperature of patients who died
@@ -391,9 +391,7 @@ mean(linelist$temp[linelist$outcome == "Death"], na.rm = TRUE)
 ::: callout-warning
 ## Base R and missing values
 
-::: follow-along
-**👀 Follow along 4.5** — Compare `nrow(linelist[linelist$temp > 40, ])` with `nrow(filter(linelist, temp > 40))` (the next two code blocks).
-:::
+Read this box carefully: you'll meet the same trap in TRY IT 4. Compare base R with `filter()` (reading only):
 
 ```{r}
 nrow(linelist[linelist$temp > 40, ])   # 244 rows?!
@@ -543,11 +541,7 @@ That is why `$` and `[[ ]]` work on data frames too, and why `map()` in Session 
 
 ## Results are lists
 
-Statistical tests and models return lists. You don't need to know the statistics yet; look at the **shape** of the result:
-
-::: follow-along
-**👀 Follow along 5.3** — `t.test()` of `age_years` by `gender` (leave out "Unknown"), saved as `age_test`. Then `names(age_test)`, `age_test$p.value`, and `age_test$estimate` (the next two code blocks).
-:::
+Statistical tests and models return lists. You don't need to know the statistics yet; look at the **shape** of the result (reading only, you don't need to type this; you can try it yourself in the ⭐ Bonus):
 
 ```{r}
 age_test <- t.test(age_years ~ gender, data = filter(linelist, gender != "Unknown"))
@@ -578,28 +572,6 @@ Every test and model in R works this way (`chisq.test()`, `lm()`, `glm()`, survi
 
 -   `patient["age"] + 1` gives an error: `[ ]` returns a list. Use `patient[["age"]]` or `patient$age`.
 -   `t.test()` compares exactly **two** groups. *"grouping factor must have exactly 2 levels"* means there is a third group (like "Unknown"): `filter()` it out first.
-:::
-
-::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 5 (5 min): a test result is a list
-
-a)  Run `t.test()` on `temp_c` by `vaccinated` in `measles`, leaving out the "Unknown" vaccination status. Save it as `temp_test`.
-b)  Pull out the p-value and the two group means with `$`.
-
-✅ **Check:** p-value 0.565; means 38.80 (No) and 38.84 (Yes)
-
-::: {.callout-note collapse="true" icon=false}
-## Show solution
-
-```{r}
-temp_test <- t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))   # a)
-
-temp_test$p.value    # b)
-temp_test$estimate
-```
-
-Vaccinated and unvaccinated children had almost the same temperature (38.80 vs 38.84 °C), and a p-value of 0.565 means the small difference is easily explained by chance.
-:::
 :::
 
 ::: {.callout-note icon=false}
@@ -636,7 +608,29 @@ linelist %>% select(case_id, fever:vomit) %>% head(3)
 -   Each symptom has its own column, with "yes", "no", or "Unknown" in each cell. This is **wide** format.
 :::
 
-To count or plot **all** symptoms together, we want **long** format: one row per patient *per symptom*.
+To count or plot **all** symptoms together, we want **long** format: one row per patient *per symptom*. Here are the first two patients and two of their symptoms, before and after:
+
+```{=html}
+<div class="pivot-diagram" role="img" aria-label="Diagram of pivot_longer. At the top, wide data with one row per patient: columns case_id, fever, and cough; patient 5fe599 has fever no and cough yes, patient 8689b7 has Unknown for both. Below it, an arrow labelled pivot_longer points down to the long data, with one row per patient per symptom: columns case_id, symptom, and present, and four rows: 5fe599 fever no, 5fe599 cough yes, 8689b7 fever Unknown, 8689b7 cough Unknown. The old column names fever and cough become values in the symptom column, and the old cells become the present column.">
+  <div class="pv-table">
+    <div class="pv-title">Wide: one row per patient</div>
+    <div class="pv-row"><span class="pv-head">case_id</span><span class="pv-head pv-name">fever</span><span class="pv-head pv-name">cough</span></div>
+    <div class="pv-row"><span>5fe599</span><span class="pv-value">no</span><span class="pv-value">yes</span></div>
+    <div class="pv-row"><span>8689b7</span><span class="pv-value">Unknown</span><span class="pv-value">Unknown</span></div>
+  </div>
+  <div class="pv-arrow" aria-hidden="true">↓ <code>pivot_longer()</code></div>
+  <div class="pv-table">
+    <div class="pv-title">Long: one row per patient per symptom</div>
+    <div class="pv-row"><span class="pv-head">case_id</span><span class="pv-head">symptom</span><span class="pv-head">present</span></div>
+    <div class="pv-row"><span>5fe599</span><span class="pv-name">fever</span><span class="pv-value">no</span></div>
+    <div class="pv-row"><span>5fe599</span><span class="pv-name">cough</span><span class="pv-value">yes</span></div>
+    <div class="pv-row"><span>8689b7</span><span class="pv-name">fever</span><span class="pv-value">Unknown</span></div>
+    <div class="pv-row"><span>8689b7</span><span class="pv-name">cough</span><span class="pv-value">Unknown</span></div>
+  </div>
+</div>
+```
+
+The **orange** boxes are the old column names: they become values in the new `symptom` column. The **blue** boxes are the old cells: they move into the new `present` column. `case_id` is repeated once for each symptom.
 
 ## `pivot_longer()`: wide → long
 
@@ -690,7 +684,7 @@ Because every argument is named, you can read the call like a sentence: "pivot l
 Now one `count()` answers "how many patients had each symptom?":
 
 ::: follow-along
-**👀 Follow along 6.3** — Count the patients with each symptom (`filter()` `present == "yes"`, then `count()`), and plot it with `ggplot()` + `geom_col()` (the next two code blocks).
+**👀 Follow along 6.3** — Count the patients with each symptom: `filter()` `present == "yes"`, then `count()`.
 :::
 
 ```{r}
@@ -701,7 +695,7 @@ symptom_counts <- symptoms_long %>%
 symptom_counts
 ```
 
-And it's ready to plot (a preview of Session 6):
+And it's ready to plot. This is a preview of Session 6, so it's reading only:
 
 ```{r}
 #| fig-alt: "Horizontal bar chart of the number of patients reporting each symptom, longest at the top: cough (about 5,300), fever (about 5,100), vomiting (about 3,100), chills (about 1,200), and aches (about 600)."
@@ -721,7 +715,7 @@ ggplot(symptom_counts, aes(x = n, y = fct_reorder(symptom, n))) +
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 6 (5 min): measles symptoms long
+## ✏️ TRY IT 5 (5 min): measles symptoms long
 
 Select `patient_id`, `fever`, and `rash` from `measles`, then `pivot_longer()` the two symptom columns. `count()` `symptom` and `present`.
 
@@ -795,7 +789,7 @@ Keep data **long** for analysis and plotting; make it **wide** at the end for a 
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 7 (4 min): a district × vaccination table
+## ✏️ TRY IT 6 (4 min, homework if behind): a district × vaccination table
 
 `count()` `district` and `vaccinated` in `measles`, then `pivot_wider()` so each vaccination status is a column.
 
@@ -820,11 +814,12 @@ The values of `vaccinated` (No, Unknown, Yes) become the column names, and the c
 ::: callout-tip
 ## ⭐ Bonus
 
-1.  Turn the district × vaccination table into **percentages**: before `pivot_wider()`, `group_by(district)` and add `mutate(pct = round(n / sum(n) * 100, 1))`, then use `values_from = pct`.
-2.  `pivot_longer()` the `fever` and `rash` columns, keep the "yes" rows, and plot the count of each symptom by `vaccinated` with `geom_bar(position = "dodge")`.
-3.  Brought your own data? Is it wide or long? Reshape it the other way.
+1.  **A test result is a list.** Run `t.test()` on `temp_c` by `vaccinated` in `measles`, leaving out the "Unknown" vaccination status, and save it as `temp_test`. Then pull out the p-value and the two group means with `$`. ✅ p-value 0.565; means 38.80 (No) and 38.84 (Yes).
+2.  Turn the district × vaccination table into **percentages**: before `pivot_wider()`, `group_by(district)` and add `mutate(pct = round(n / sum(n) * 100, 1))`, then use `values_from = pct`.
+3.  `pivot_longer()` the `fever` and `rash` columns, keep the "yes" rows, and plot the count of each symptom by `vaccinated` with `geom_bar(position = "dodge")`.
+4.  Brought your own data? Is it wide or long? Reshape it the other way.
 
-The code for 1 and 2 is in the solutions file.
+The code for 1 to 3 is in the solutions file.
 :::
 
 # Key points

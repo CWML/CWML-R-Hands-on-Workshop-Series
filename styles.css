@@ -194,3 +194,28 @@ body.quarto-dark .gt_table caption * {
 .df-text .df-cell { border-color: #2a78d6; }
 .df-num .df-cell { border-color: #eb6834; }
 .df-type { font-size: 0.9rem; font-style: italic; }
+
+/* Session 4: pivot_longer() drawn as two small tables (orange = old column names, blue = old cells) */
+.pivot-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem;
+}
+.pv-table { display: flex; flex-direction: column; gap: 0.3rem; }
+.pv-title { font-weight: 700; margin-bottom: 0.2rem; }
+.pv-row { display: flex; gap: 0.3rem; }
+.pv-row span {
+  font-family: var(--bs-font-monospace);
+  min-width: 5.5rem;
+  padding: 0.2rem 0.5rem;
+  text-align: center;
+  border: 2px solid #9a9a95;
+  border-radius: 0.3rem;
+}
+.pv-row .pv-head { font-weight: 700; }
+.pv-row .pv-name { border-color: #eb6834; }
+.pv-row .pv-value { border-color: #2a78d6; }
+.pv-arrow { font-size: 1.5rem; line-height: 1.2; padding-left: 2rem; }
+.pv-arrow code { font-size: 0.85rem; }

@@ -41,7 +41,7 @@ Today you finish **two** datasets side by side, so they are ready for analysis:
 # Part 1: Set up
 
 ::: follow-along
-**👀 Follow along 1.1** — Load today's packages: tidyverse, here, rio, janitor, and skimr.
+**👀 Follow along 1.1** — Load today's packages: tidyverse, here, rio, janitor, and skimr. These lines are already in your script: just run them.
 :::
 
 ```{r}
@@ -60,7 +60,7 @@ library(skimr)
 :::
 
 ::: follow-along
-**👀 Follow along 1.2** — Import `processed_data/linelist_clean.rds` (`linelist_clean`) and `raw_data/case_info.csv` (`case_info`).
+**👀 Follow along 1.2** — Import `processed_data/linelist_clean.rds` (`linelist_clean`) and `raw_data/case_info.csv` (`case_info`). Also already in your script.
 :::
 
 ```{r}
@@ -148,9 +148,7 @@ No!
 3.  **Replace them** — e.g., with "Unknown" for categories, so they show up in tables. Never invent numbers without a statistical method (imputation)
 :::
 
-::: follow-along
-**👀 Follow along 2.2** — How many rows would `drop_na(bmi)` remove? Compare `nrow()` before and after.
-:::
+How many rows would `drop_na(bmi)` remove? Compare `nrow()` before and after (reading only, you don't need to type this):
 
 ```{r}
 # drop_na() example: how many rows would we lose?
@@ -198,37 +196,36 @@ colSums(is.na(measles_clean))
 In Part 6 we join `case_info` on `case_id`, so rows without an ID can't be linked. Instead of deleting them, we save them **separately** with new IDs so they are not lost.
 
 ::: follow-along
-**👀 Follow along 3.1** — Create `missing_ids`: `filter(is.na(case_id))`, then give each row a new `case_id` with `paste0()`, `sprintf()`, and `row_number()`.
+**👀 Follow along 3.1** — Create `missing_ids`: `filter(is.na(case_id))`, then give each row a new `case_id` with `paste0()` and `row_number()`.
 :::
 
 ```{r}
 missing_ids <- linelist_clean %>%
   filter(is.na(case_id)) %>%
-  mutate(case_id = paste0("ID", sprintf("%05d", row_number())))
+  mutate(case_id = paste0("ID", row_number()))
 
 missing_ids %>% select(case_id, gender, age_years, outcome) %>% head()
 nrow(missing_ids)
 ```
 
 -   `row_number()` gives 1, 2, 3, ... for each row
--   `sprintf("%05d", 1)` pads a number with zeros to 5 digits: `"00001"`
--   `paste0()` glues text together: `"ID"` + `"00001"` = `"ID00001"`
+-   `paste0()` glues text together with no space: `"ID"` + `1` = `"ID1"`
 
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
 -   `filter(is.na(case_id))` keeps only the 130 rows with no ID.
--   `mutate(case_id = ...)` overwrites the empty `case_id` column with new IDs, built from the three functions above: ID00001 for the first row up to ID00130 for the last.
+-   `mutate(case_id = ...)` overwrites the empty `case_id` column with new IDs, built from the two functions above: ID1 for the first row up to ID130 for the last.
 -   The new IDs start with "ID" so nobody can mistake them for real case IDs.
 -   The last two lines show 6 of the rows (only four columns, so they fit) and count them: 130.
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 3 (3 min): measles rows with no ID
+## ✏️ TRY IT 3 (3 min, homework if behind): measles rows with no ID
 
-Create `measles_missing_ids`: the rows of `measles_clean` with no `patient_id`, with new IDs NEW-0001, NEW-0002, ...
+Create `measles_missing_ids`: the rows of `measles_clean` with no `patient_id`, with new IDs NEW-1, NEW-2, ...
 
-Pattern: `paste0("NEW-", sprintf("%04d", row_number()))`
+Pattern: `paste0("NEW-", row_number())`
 
 ✅ **Check:** `measles_missing_ids` has 37 rows
 
@@ -238,13 +235,19 @@ Pattern: `paste0("NEW-", sprintf("%04d", row_number()))`
 ```{r}
 measles_missing_ids <- measles_clean %>%
   filter(is.na(patient_id)) %>%
-  mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))
+  mutate(patient_id = paste0("NEW-", row_number()))
 
 nrow(measles_missing_ids)
 ```
 
-These are the same 37 rows with no Patient ID you found in Session 1. `"%04d"` pads to 4 digits, so the IDs are NEW-0001 to NEW-0037.
+These are the same 37 rows with no Patient ID you found in Session 1. The new IDs go from NEW-1 to NEW-37. Nothing later depends on this TRY IT, so you can finish it at home.
 :::
+:::
+
+::: {.callout-note icon=false}
+## 📖 Good to know
+
+-   Sorted as text, `"ID10"` comes before `"ID2"`, because text is compared one character at a time. If the order matters, pad the numbers with zeros: `sprintf("%03d", 2)` gives `"002"`, so `paste0("ID", sprintf("%03d", row_number()))` makes ID001, ID002, ... ID130.
 :::
 
 # Part 4: Duplicates
@@ -456,24 +459,21 @@ anti_join(patients, labs, by = "id")    # patients with NO lab result
 -   `by = "id"` names the **key**: the column used to match rows. It must exist in both data frames.
 :::
 
-| Join           | Keeps                                   |
-|----------------|-----------------------------------------|
-| `left_join()`  | every row of the **first** data frame   |
-| `right_join()` | every row of the **second** data frame  |
-| `inner_join()` | only rows that match in **both**        |
-| `full_join()`  | every row from **both**                 |
-| `anti_join()`  | rows of the first with **no match** — great for checking |
+| Join           | Keeps                                   | A question it answers |
+|----------------|-----------------------------------------|-----------------------|
+| `left_join()`  | every row of the **first** data frame   | Add each patient's lab result, if there is one |
+| `right_join()` | every row of the **second** data frame  | (the same as `left_join()` with the two swapped) |
+| `inner_join()` | only rows that match in **both**        | Patients who have a lab result, with the result |
+| `full_join()`  | every row from **both**                 | Everyone in either list |
+| `semi_join()`  | rows of the first **with** a match, adding no columns | Which patients have a lab result? |
+| `anti_join()`  | rows of the first with **no match**     | Which patients are missing a lab result? Great for checking |
 
 **`left_join()` is the one you will use most:** start with your main dataset and add information to it.
 
 ::: callout-note
 ## 🔁 The base R way: `merge()` and `%in%`
 
-Base R joins with one function, `merge()`. The `all` arguments choose the type of join:
-
-::: follow-along
-**🔁 Follow along 6.2** — The base R way: `merge()` with and without `all.x = TRUE`, then find patients with no lab result with `%in%` (the next two code blocks).
-:::
+Base R joins with one function, `merge()`. The `all` arguments choose the type of join (reading only, you don't need to type this):
 
 ```{r}
 merge(patients, labs, by = "id")                # inner join (the default!)
@@ -502,7 +502,7 @@ patients[!patients$id %in% labs$id, ]   # the same as anti_join()
 ## Join the case information
 
 ::: follow-along
-**👀 Follow along 6.3** — Create `combined_linelist` by `left_join()`-ing `case_info` to `linelist_final`.
+**👀 Follow along 6.2** — Create `combined_linelist` by `left_join()`-ing `case_info` to `linelist_final`.
 
 Pattern: `NEW_DATA <- MAIN_DATA %>% left_join(OTHER_DATA, by = "KEY_COLUMN")`
 :::
@@ -547,7 +547,7 @@ Without the pipe, the same line is `left_join(linelist_final, case_info, by = "c
 Always check the number of rows. A left join should **not** add rows — if it does, the key appears more than once in the second data frame.
 
 ::: follow-along
-**👀 Follow along 6.4** — Check the join with `nrow()` and `anti_join()`.
+**👀 Follow along 6.3** — Check the join with `nrow()` and `anti_join()`.
 :::
 
 ```{r}
@@ -601,6 +601,7 @@ The number of rows did not change. `district_info` has no "Unknown" district, so
 
 -   Before any join, ask two questions: Is the key spelled and formatted the same way in both data frames ("ID001" won't match "id001" or "ID 001")? And is the key unique in the data frame you're adding? If not, rows multiply.
 -   When the key has different names in the two data frames, give both: `by = c("case_id" = "id")`.
+-   You can tell `left_join()` what you expect: `relationship = "many-to-one"` means "each row of the first data frame matches **at most one** row of the second". In `combined_linelist`, some case IDs appear more than once in the linelist (Part 4), but each one is in `case_info` only once. If `case_info` ever had a repeated ID, R would stop with an error ("Each row in `x` must match at most 1 row in `y`") instead of quietly adding rows.
 -   Joins are how you link different sources: lab results to patients, census figures to counties, survey answers to participants.
 :::
 
@@ -617,7 +618,9 @@ Like `import()`, `export()` picks the file type from the extension:
 We save the combined dataset both ways: `.rds` to keep working in R, `.csv` to share.
 
 ::: follow-along
-**👀 Follow along 7.1** — Save `combined_linelist` as `.rds`, and `linelist_final`, `missing_ids`, and `combined_linelist` as `.csv`, all in `processed_data/`.
+**👀 Follow along 7.1** — Save `combined_linelist` as `.rds` and as `.csv` in `processed_data/`.
+
+Pattern: `export(DATA, here("FOLDER", "FILE_NAME.rds"))`
 :::
 
 ```{r}
@@ -625,8 +628,6 @@ We save the combined dataset both ways: `.rds` to keep working in R, `.csv` to s
 export(combined_linelist, here("processed_data", "combined_linelist.rds"))
 
 # To share
-export(linelist_final,    here("processed_data", "linelist_final.csv"))
-export(missing_ids,       here("processed_data", "missing_ids.csv"))
 export(combined_linelist, here("processed_data", "combined_linelist.csv"))
 ```
 
@@ -635,26 +636,34 @@ export(combined_linelist, here("processed_data", "combined_linelist.csv"))
 
 -   `export(DATA, PATH)` writes a data frame to a file. Like `import()`, it chooses the format from the ending you give: `.rds` or `.csv`.
 -   `here("processed_data", ...)` builds the path, so the files land in `processed_data/` on any computer. If a file with that name already exists, it's replaced without asking.
--   Nothing prints. Look in the **Explorer**: four files in `processed_data/`. The `.csv` copy of `combined_linelist` is about six times bigger than the `.rds` copy (about 780 KB vs 130 KB), because `.rds` files are compressed.
+-   You can save any other data frame the same way, for example `missing_ids` to send the rows with no ID back to whoever collected the data.
+-   Nothing prints. Look in the **Explorer**: two files in `processed_data/`. The `.csv` copy of `combined_linelist` is about six times bigger than the `.rds` copy (about 780 KB vs 130 KB), because `.rds` files are compressed.
+:::
+
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: where did the missing IDs go?
+
+Say you saved `linelist_clean` as a `.csv`, imported it again, and counted the missing IDs with `sum(is.na(linelist_clean$case_id))`. You get **0**, not 130. Did the missing IDs get fixed?
+
+No. In a `.csv`, a missing value is just an empty cell. When it's imported again, an empty cell in a text column comes back as empty text, `""`, not as `NA`. The 130 rows are still there, but `is.na()` no longer finds them: `sum(linelist_clean$case_id == "")` gives 130. No error, no warning, and a wrong answer. That's why the data passed between sessions is saved as `.rds`.
 :::
 
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT 7 (2 min): save the measles data
 
-Save `measles_final` as `processed_data/measles_final.rds` **and** `measles_final.csv`, and `measles_missing_ids` as `processed_data/measles_missing_ids.csv`.
+Save `measles_final` as `processed_data/measles_final.rds` **and** `measles_final.csv`.
 
-✅ **Check:** three new files in `processed_data/` (look in the **Explorer**). You need `measles_final.rds` in Sessions 4–8!
+✅ **Check:** two new files in `processed_data/` (look in the **Explorer**). You need `measles_final.rds` in Sessions 4–8!
 
 ::: {.callout-note collapse="true" icon=false}
 ## Show solution
 
 ```{r}
-export(measles_final,       here("processed_data", "measles_final.rds"))
-export(measles_final,       here("processed_data", "measles_final.csv"))
-export(measles_missing_ids, here("processed_data", "measles_missing_ids.csv"))
+export(measles_final, here("processed_data", "measles_final.rds"))
+export(measles_final, here("processed_data", "measles_final.csv"))
 ```
 
-The `.rds` file keeps the dates, number columns, and `NA`s exactly as they are, so every later session starts from it. The `.csv` files are for sharing.
+The `.rds` file keeps the dates, number columns, and `NA`s exactly as they are, so every later session starts from it. The `.csv` file is for sharing.
 :::
 :::
 
@@ -671,10 +680,10 @@ See the solutions file for the answers.
 # Key points
 
 -   **Not every `NA` is a mistake.** Count them with `colSums(is.na(data))`, then decide: leave them, remove the rows (`drop_na()`), or replace them.
--   Set rows with no ID aside with new IDs (`filter(is.na(...))`, `paste0()`, `sprintf()`, `row_number()`) instead of losing them.
+-   Set rows with no ID aside with new IDs (`filter(is.na(...))`, `paste0()`, `row_number()`) instead of losing them.
 -   `distinct()` removes exact duplicate rows; `get_dupes(id)` finds IDs that appear more than once with different details.
 -   `mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))` fills missing text in every text column at once; `select()` chooses and orders columns.
--   `left_join(main, other, by = "key")` adds columns from a second dataset. Always check the row count and use `anti_join()` to find rows with no match.
+-   `left_join(main, other, by = "key")` adds columns from a second dataset. Always check the row count and use `anti_join()` to find rows with no match; `semi_join()` keeps only the rows that have one.
 -   `export()` saves data: `.rds` to keep working in R, `.csv` to share.
 
 **Next: Session 4 — Data structures.** We look at how R stores data (vectors), pull out pieces with base R subsetting, and reshape data between wide and long with `pivot_longer()` and `pivot_wider()`.

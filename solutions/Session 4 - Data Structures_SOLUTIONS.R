@@ -10,6 +10,7 @@
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio; import combined_linelist.rds as linelist
+#    (already filled in in the student script)
 library(tidyverse)
 library(here)
 library(rio)
@@ -83,13 +84,9 @@ linelist[1:3, c("case_id", "age_years", "outcome")]
 linelist$hospital_name[1:3]
 linelist[["hospital_name"]][1:3]
 
-# 👀 Follow along 4.4: the mean temperature of patients who died
-mean(linelist$temp[linelist$outcome == "Death"], na.rm = TRUE)
-
-# 👀 Follow along 4.5: base R vs filter() with missing values
-nrow(linelist[linelist$temp > 40, ])   # 244: includes 151 rows of NAs!
-nrow(filter(linelist, temp > 40))      # 93
-nrow(linelist[linelist$temp > 40 & !is.na(linelist$temp), ])   # 93: fixed
+# 📖 Reading only (on the website): mean(linelist$temp[linelist$outcome == "Death"], na.rm = TRUE)
+#    is 38.6. And nrow(linelist[linelist$temp > 40, ]) gives 244 rows (151 rows of NAs),
+#    but nrow(filter(linelist, temp > 40)) gives 93. Fix base R with & !is.na(linelist$temp).
 
 # ✏️ TRY IT 4:
 # a)
@@ -131,17 +128,7 @@ patients$age         # 34 51 27
 is.list(linelist)    # TRUE
 length(linelist)     # 19 columns
 
-# 👀 Follow along 5.3: a test result is a list
-age_test <- t.test(age_years ~ gender, data = filter(linelist, gender != "Unknown"))
-age_test
-names(age_test)
-age_test$p.value
-age_test$estimate
-
-# ✏️ TRY IT 5: a test result is a list
-temp_test <- t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))   # a)
-temp_test$p.value    # b) 0.565
-temp_test$estimate   #    38.80 (No) and 38.84 (Yes): almost no difference
+# 📖 Reading only (on the website): a t.test() result is a list. See ⭐ Bonus 1.
 
 
 # ── PART 6: Tidy data and pivot_longer() ───────────────────────────────────
@@ -161,19 +148,14 @@ symptoms_long <- linelist %>%
 head(symptoms_long)
 nrow(symptoms_long)   # 32255 = 6451 patients × 5 symptoms
 
-# 👀 Follow along 6.3: count the patients with each symptom, and plot it
+# 👀 Follow along 6.3: count the patients with each symptom
 symptom_counts <- symptoms_long %>%
   filter(present == "yes") %>%
   count(symptom)
 
-symptom_counts
+symptom_counts   # the plot on the website is reading only (Session 6)
 
-ggplot(symptom_counts, aes(x = n, y = fct_reorder(symptom, n))) +
-  geom_col(fill = "#2a78d6") +
-  labs(title = "Patients reporting each symptom", x = "Number of patients", y = NULL) +
-  theme_minimal()
-
-# ✏️ TRY IT 6: measles fever and rash, long
+# ✏️ TRY IT 5: measles fever and rash, long
 measles_symptoms <- measles %>%
   select(patient_id, fever, rash) %>%
   pivot_longer(
@@ -198,7 +180,7 @@ linelist %>%
     values_from = n
   )
 
-# ✏️ TRY IT 7: a district × vaccinated table
+# ✏️ TRY IT 6 (homework if behind): a district × vaccinated table
 measles %>%
   count(district, vaccinated) %>%
   pivot_wider(
@@ -210,7 +192,12 @@ measles %>%
 
 # ── ⭐ BONUS ───────────────────────────────────────────────────────────────
 
-# 1. Percentages instead of counts
+# 1. A test result is a list
+temp_test <- t.test(temp_c ~ vaccinated, data = filter(measles, vaccinated != "Unknown"))
+temp_test$p.value    # 0.565
+temp_test$estimate   # 38.80 (No) and 38.84 (Yes): almost no difference
+
+# 2. Percentages instead of counts
 measles %>%
   count(district, vaccinated) %>%
   group_by(district) %>%
@@ -219,7 +206,7 @@ measles %>%
   select(-n) %>%
   pivot_wider(names_from = vaccinated, values_from = pct)
 
-# 2. Symptoms by vaccination status
+# 3. Symptoms by vaccination status
 measles %>%
   select(patient_id, vaccinated, fever, rash) %>%
   pivot_longer(cols = c(fever, rash), names_to = "symptom", values_to = "present") %>%

@@ -469,63 +469,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="../../pages/lessons/03-missing-data-joins-export.html">→ Open the Session 3 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 76 minutes, which leaves about 15 minutes for questions in a 90-minute session.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Set up</td>
-<td>7 min</td>
+<td>Set up (pre-filled)</td>
+<td>4 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>Where is data missing?</td>
-<td>10 min</td>
+<td>8 min</td>
+<td>0:04</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Rows with no ID</td>
-<td>10 min</td>
+<td>8 min</td>
+<td>0:12</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Duplicates</td>
 <td>12 min</td>
+<td>0:20</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>Replacing missing values and choosing columns</td>
 <td>15 min</td>
+<td>0:32</td>
 </tr>
 <tr class="even">
 <td>6</td>
-<td>Joining datasets (+ 🔁 <code>merge()</code> / <code>%in%</code>)</td>
-<td>24 min</td>
+<td>Joining datasets</td>
+<td>20 min</td>
+<td>0:47</td>
 </tr>
 <tr class="odd">
 <td>7</td>
 <td>Exporting</td>
-<td>8 min</td>
+<td>6 min</td>
+<td>1:07</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>Wrap-up and preview</td>
-<td>5 min</td>
+<td>3 min</td>
+<td>1:13</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>91 min</strong></td>
+<td><strong>76 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Shorten Part 5 by skipping the step-by-step <code>select()</code> and showing only “the whole thing as one pipeline”. Do <strong>not</strong> cut TRY IT 7 (saving the measles data): every later session starts from <code>measles_final.rds</code> (ready-made copies are in <code>processed_data/</code> for anyone who doesn’t finish).</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 3 (measles rows with no ID): assign it as homework. Nothing later depends on it.</li>
+<li>In Part 5, skip the step-by-step <code>select()</code> and show only “the whole thing as one pipeline”.</li>
+<li>The 🧩 “Reading a function call” box in Part 6: point to it on screen 2 and move on.</li>
+</ol>
+<p>Do <strong>not</strong> cut TRY IT 6 (the join adds <code>population</code>, which Session 5 uses) or TRY IT 7 (saving the measles data): every later session starts from <code>measles_final.rds</code>. Ready-made copies are in <code>processed_data/</code> for anyone who doesn’t finish.</p>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -538,19 +556,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
-<p><strong>Part 1 — Set up.</strong> Explain <code>trust = TRUE</code> briefly (an <code>.rds</code> can contain R code; we made these files ourselves). If a learner’s <code>measles_clean.rds</code> is missing or broken, they can download a fresh copy from GitHub.</p>
-<p><strong>Part 2 — Where is data missing?</strong> Ask the class: <em>is every missing value a mistake?</em> — No.&nbsp;<code>date_of_outcome</code> is missing for patients with no outcome yet (real information); <code>bmi</code> is missing where Session 2 set impossible values to <code>NA</code>; a missing <code>case_id</code> <strong>is</strong> a problem because those rows can’t be linked. Point out that <code>drop_na(bmi)</code> would lose 1382 of 6604 patients.</p>
-<p><strong>Part 3 — Rows with no ID.</strong> Build <code>paste0("ID", sprintf("%05d", row_number()))</code> up piece by piece in the Console (<code>row_number()</code>, then <code>sprintf("%05d", 1)</code>, then <code>paste0()</code>) if learners look lost.</p>
+<p><strong>Part 1 — Set up.</strong> The <code>library()</code> and <code>import()</code> lines are already in the student script: learners just run them. Only the measles imports (TRY IT 1) are typed. Explain <code>trust = TRUE</code> briefly (an <code>.rds</code> can contain R code; we made these files ourselves). If a learner’s <code>measles_clean.rds</code> is missing or broken, they can download a fresh copy from GitHub.</p>
+<p><strong>Part 2 — Where is data missing?</strong> Ask the class: <em>is every missing value a mistake?</em> — No.&nbsp;<code>date_of_outcome</code> is missing for patients with no outcome yet (real information); <code>bmi</code> is missing where Session 2 set impossible values to <code>NA</code>; a missing <code>case_id</code> <strong>is</strong> a problem because those rows can’t be linked. The <code>drop_na(bmi)</code> example is <strong>reading only</strong>: point to it on screen 2. It would lose 1382 of 6604 patients.</p>
+<p><strong>Part 3 — Rows with no ID.</strong> The new IDs are simply <code>paste0("ID", row_number())</code>: ID1 to ID130. If learners look lost, run <code>paste0("ID", 1)</code> in the Console first. Zero-padding with <code>sprintf()</code> (so ID2 sorts before ID10) is in the 📖 box at the end of Part 3: mention it in one sentence.</p>
 <p><strong>Part 4 — Duplicates.</strong> After <code>distinct()</code>, <code>get_dupes(case_id)</code> still finds 1106 rows whose ID appears more than once. These rows are <strong>not</strong> exact copies, so <code>distinct()</code> keeps them. In a real project you would ask the data owner which record is correct. We keep them for this workshop, but it’s a good discussion point: cleaning often needs people, not just code.</p>
 <p><strong>Part 5 — Replacing missing values.</strong> Point out that <code>where(is.character)</code> skips number and date columns, so they keep their <code>NA</code>s — which is what we want.</p>
-<p><strong>Part 6 — Joining datasets.</strong> Draw the tiny <code>patients</code>/<code>labs</code> example on the board if you can. The old version of this workshop ran <code>distinct()</code> <strong>after</strong> the join. Removing duplicates <strong>before</strong> joining (Part 4) is the better habit: duplicates are easier to spot in the original data, and they can’t multiply during the join. Stress the row-count check: 6451 rows before and after.</p>
-<p><strong>🔁 <code>merge()</code> and <code>%in%</code> (4 min).</strong> Use the tiny example. Two points: <code>merge()</code> is an <strong>inner</strong> join unless you add <code>all.x = TRUE</code> (a common source of silently lost rows in older code), and <code>%in%</code> is a base R tool learners will use constantly, including inside <code>filter()</code>. Learners need to recognize <code>merge()</code>, but they should be able to <em>write</em> <code>%in%</code>.</p>
-<p><strong>Part 7 — Exporting: live demo of the <code>.csv</code> problem.</strong> Save <code>linelist_clean</code> as a <code>.csv</code>, read it back, and look for the missing IDs:</p>
+<p><strong>Part 6 — Joining datasets.</strong> Draw the tiny <code>patients</code>/<code>labs</code> example on the board if you can. The old version of this workshop ran <code>distinct()</code> <strong>after</strong> the join. Removing duplicates <strong>before</strong> joining (Part 4) is the better habit: duplicates are easier to spot in the original data, and they can’t multiply during the join. Stress the row-count check: 6451 rows before and after. Point to the new column in the join table (“a question it answers”): <code>semi_join()</code> asks “which patients have a lab result?” and <code>anti_join()</code> “which are missing one?”. The 📖 box at the end of Part 6 shows <code>relationship = "many-to-one"</code>, which turns a silently multiplied join into an error.</p>
+<p><strong>🔁 <code>merge()</code> and <code>%in%</code> box (reading only, 30 seconds).</strong> Point to it on screen 2. One point: <code>merge()</code> is an <strong>inner</strong> join unless you add <code>all.x = TRUE</code>, a common source of silently lost rows in older code. Learners already wrote <code>%in%</code> in Session 2.</p>
+<p><strong>Part 7 — Exporting.</strong> Learners save one <code>.rds</code> and one <code>.csv</code>. Then open the 🤔 “where did the missing IDs go?” box: a <code>.csv</code> turns missing text into <code>""</code>, so <code>is.na()</code> finds 0 instead of 130 missing IDs. That’s the reason the data passed between sessions is <code>.rds</code>. If you have time, show it live:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(linelist_clean, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"test.csv"</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"test.csv"</span>)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()   <span class="co"># 0, not 130!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The 130 missing IDs came back as blank text <code>""</code>, so <code>is.na()</code> no longer finds them. This is why Session 2 saved <code>linelist_clean</code> as <code>.rds</code>. Delete <code>test.csv</code> afterwards.</p>
+<p>Delete <code>test.csv</code> afterwards.</p>
 <p>Make sure everyone saves <code>measles_final.rds</code> — they need it for every remaining session. Early finishers: ⭐ Bonus (inner vs left join).</p>
-<p><strong>Wrap-up.</strong> Today: <code>is.na()</code>, <code>drop_na()</code>, <code>filter(!is.na())</code>, <code>distinct()</code>, <code>get_dupes()</code>, <code>replace_na()</code>, <code>across()</code>, <code>select()</code>, joins, <code>export()</code>. <strong>The data are ready!</strong> Sessions 4–8 start from <code>combined_linelist.rds</code> and <code>measles_final.rds</code>. Preview Session 4 — Data structures: vectors, base R subsetting, and <code>pivot_longer()</code> / <code>pivot_wider()</code>.</p>
+<p><strong>Wrap-up.</strong> Today: <code>is.na()</code>, <code>filter(!is.na())</code>, <code>paste0()</code>, <code>distinct()</code>, <code>get_dupes()</code>, <code>replace_na()</code>, <code>across()</code>, <code>select()</code>, joins, <code>export()</code>. <strong>The data are ready!</strong> Sessions 4–8 start from <code>combined_linelist.rds</code> and <code>measles_final.rds</code>. Preview Session 4 — Data structures: vectors, base R subsetting, and <code>pivot_longer()</code> / <code>pivot_wider()</code>.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -576,8 +594,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>days_in_hospital</code> has 766 NAs — never hospitalized, not a mistake</td>
 </tr>
 <tr class="odd">
-<td>3. Measles rows with no ID</td>
-<td><code>filter(is.na(patient_id)) %&gt;% mutate(patient_id = paste0("NEW-", sprintf("%04d", row_number())))</code> — 37 rows</td>
+<td>3. Measles rows with no ID (homework if behind)</td>
+<td><code>filter(is.na(patient_id)) %&gt;% mutate(patient_id = paste0("NEW-", row_number()))</code> — 37 rows, NEW-1 to NEW-37</td>
 </tr>
 <tr class="even">
 <td>4. Measles duplicates</td>
@@ -593,7 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td>7. Save the measles data</td>
-<td>Three <code>export()</code> lines: <code>measles_final.rds</code>, <code>measles_final.csv</code>, <code>measles_missing_ids.csv</code></td>
+<td>Two <code>export()</code> lines: <code>measles_final.rds</code> and <code>measles_final.csv</code></td>
 </tr>
 <tr class="even">
 <td>⭐ Bonus</td>

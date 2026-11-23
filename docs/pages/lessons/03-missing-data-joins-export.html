@@ -519,7 +519,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-1-set-up" class="level1">
 <h1>Part 1: Set up</h1>
 <div class="follow-along">
-<p><strong>👀 Follow along 1.1</strong> — Load today’s packages: tidyverse, here, rio, janitor, and skimr.</p>
+<p><strong>👀 Follow along 1.1</strong> — Load today’s packages: tidyverse, here, rio, janitor, and skimr. These lines are already in your script: just run them.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -544,7 +544,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="follow-along">
-<p><strong>👀 Follow along 1.2</strong> — Import <code>processed_data/linelist_clean.rds</code> (<code>linelist_clean</code>) and <code>raw_data/case_info.csv</code> (<code>case_info</code>).</p>
+<p><strong>👀 Follow along 1.2</strong> — Import <code>processed_data/linelist_clean.rds</code> (<code>linelist_clean</code>) and <code>raw_data/case_info.csv</code> (<code>case_info</code>). Also already in your script.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"linelist_clean.rds"</span>), <span class="at">trust =</span> <span class="cn">TRUE</span>)</span>
@@ -729,9 +729,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<div class="follow-along">
-<p><strong>👀 Follow along 2.2</strong> — How many rows would <code>drop_na(bmi)</code> remove? Compare <code>nrow()</code> before and after.</p>
-</div>
+<p>How many rows would <code>drop_na(bmi)</code> remove? Compare <code>nrow()</code> before and after (reading only, you don’t need to type this):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop_na() example: how many rows would we lose?</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -823,22 +821,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Part 3: Rows with no ID</h1>
 <p>In Part 6 we join <code>case_info</code> on <code>case_id</code>, so rows without an ID can’t be linked. Instead of deleting them, we save them <strong>separately</strong> with new IDs so they are not lost.</p>
 <div class="follow-along">
-<p><strong>👀 Follow along 3.1</strong> — Create <code>missing_ids</code>: <code>filter(is.na(case_id))</code>, then give each row a new <code>case_id</code> with <code>paste0()</code>, <code>sprintf()</code>, and <code>row_number()</code>.</p>
+<p><strong>👀 Follow along 3.1</strong> — Create <code>missing_ids</code>: <code>filter(is.na(case_id))</code>, then give each row a new <code>case_id</code> with <code>paste0()</code> and <code>row_number()</code>.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(case_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">case_id =</span> <span class="fu">paste0</span>(<span class="st">"ID"</span>, <span class="fu">sprintf</span>(<span class="st">"%05d"</span>, <span class="fu">row_number</span>())))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">case_id =</span> <span class="fu">paste0</span>(<span class="st">"ID"</span>, <span class="fu">row_number</span>()))</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="sc">%&gt;%</span> <span class="fu">select</span>(case_id, gender, age_years, outcome) <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  case_id gender age_years outcome
-1 ID00001   male      0.75 Recover
-2 ID00002 female     10.00   Death
-3 ID00003   male     44.00 Recover
-4 ID00004   &lt;NA&gt;        NA    &lt;NA&gt;
-5 ID00005   male      0.00 Recover
-6 ID00006 female      1.00   Death</code></pre>
+1     ID1   male      0.75 Recover
+2     ID2 female     10.00   Death
+3     ID3   male     44.00 Recover
+4     ID4   &lt;NA&gt;        NA    &lt;NA&gt;
+5     ID5   male      0.00 Recover
+6     ID6 female      1.00   Death</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(missing_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -847,8 +845,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li><code>row_number()</code> gives 1, 2, 3, … for each row</li>
-<li><code>sprintf("%05d", 1)</code> pads a number with zeros to 5 digits: <code>"00001"</code></li>
-<li><code>paste0()</code> glues text together: <code>"ID"</code> + <code>"00001"</code> = <code>"ID00001"</code></li>
+<li><code>paste0()</code> glues text together with no space: <code>"ID"</code> + <code>1</code> = <code>"ID1"</code></li>
 </ul>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -862,7 +859,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>filter(is.na(case_id))</code> keeps only the 130 rows with no ID.</li>
-<li><code>mutate(case_id = ...)</code> overwrites the empty <code>case_id</code> column with new IDs, built from the three functions above: ID00001 for the first row up to ID00130 for the last.</li>
+<li><code>mutate(case_id = ...)</code> overwrites the empty <code>case_id</code> column with new IDs, built from the two functions above: ID1 for the first row up to ID130 for the last.</li>
 <li>The new IDs start with “ID” so nobody can mistake them for real case IDs.</li>
 <li>The last two lines show 6 of the rows (only four columns, so they fit) and count them: 130.</li>
 </ul>
@@ -874,12 +871,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (3 min): measles rows with no ID
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (3 min, homework if behind): measles rows with no ID
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Create <code>measles_missing_ids</code>: the rows of <code>measles_clean</code> with no <code>patient_id</code>, with new IDs NEW-0001, NEW-0002, …</p>
-<p>Pattern: <code>paste0("NEW-", sprintf("%04d", row_number()))</code></p>
+<p>Create <code>measles_missing_ids</code>: the rows of <code>measles_clean</code> with no <code>patient_id</code>, with new IDs NEW-1, NEW-2, …</p>
+<p>Pattern: <code>paste0("NEW-", row_number())</code></p>
 <p>✅ <strong>Check:</strong> <code>measles_missing_ids</code> has 37 rows</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
@@ -896,17 +893,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>measles_missing_ids <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(patient_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">patient_id =</span> <span class="fu">paste0</span>(<span class="st">"NEW-"</span>, <span class="fu">sprintf</span>(<span class="st">"%04d"</span>, <span class="fu">row_number</span>())))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">patient_id =</span> <span class="fu">paste0</span>(<span class="st">"NEW-"</span>, <span class="fu">row_number</span>()))</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(measles_missing_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37</code></pre>
 </div>
 </div>
-<p>These are the same 37 rows with no Patient ID you found in Session 1. <code>"%04d"</code> pads to 4 digits, so the IDs are NEW-0001 to NEW-0037.</p>
+<p>These are the same 37 rows with no Patient ID you found in Session 1. The new IDs go from NEW-1 to NEW-37. Nothing later depends on this TRY IT, so you can finish it at home.</p>
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📖 Good to know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Sorted as text, <code>"ID10"</code> comes before <code>"ID2"</code>, because text is compared one character at a time. If the order matters, pad the numbers with zeros: <code>sprintf("%03d", 2)</code> gives <code>"002"</code>, so <code>paste0("ID", sprintf("%03d", row_number()))</code> makes ID001, ID002, … ID130.</li>
+</ul>
 </div>
 </div>
 </section>
@@ -1001,7 +1013,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Create <code>measles_final</code> from <code>measles_clean</code>: keep rows that have a <code>patient_id</code>, then remove exact duplicates. How many rows did <code>distinct()</code> remove?</p>
 <p>✅ <strong>Check:</strong> 1178 rows after <code>filter()</code>, 1163 after <code>distinct()</code></p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1010,7 +1022,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -1197,7 +1209,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 <p>Replace <code>NA</code> with “Unknown” in every text column of <code>measles_final</code>. Why does <code>days_in_hospital</code> still have NAs?</p>
 <p>✅ <strong>Check:</strong> <code>count(district)</code> now shows Unknown (34) instead of NA</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1206,7 +1218,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
@@ -1298,35 +1310,47 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <table class="caption-top table">
 <colgroup>
+<col style="width: 20%">
+<col style="width: 51%">
 <col style="width: 28%">
-<col style="width: 71%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Join</th>
 <th>Keeps</th>
+<th>A question it answers</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>left_join()</code></td>
 <td>every row of the <strong>first</strong> data frame</td>
+<td>Add each patient’s lab result, if there is one</td>
 </tr>
 <tr class="even">
 <td><code>right_join()</code></td>
 <td>every row of the <strong>second</strong> data frame</td>
+<td>(the same as <code>left_join()</code> with the two swapped)</td>
 </tr>
 <tr class="odd">
 <td><code>inner_join()</code></td>
 <td>only rows that match in <strong>both</strong></td>
+<td>Patients who have a lab result, with the result</td>
 </tr>
 <tr class="even">
 <td><code>full_join()</code></td>
 <td>every row from <strong>both</strong></td>
+<td>Everyone in either list</td>
 </tr>
 <tr class="odd">
+<td><code>semi_join()</code></td>
+<td>rows of the first <strong>with</strong> a match, adding no columns</td>
+<td>Which patients have a lab result?</td>
+</tr>
+<tr class="even">
 <td><code>anti_join()</code></td>
-<td>rows of the first with <strong>no match</strong> — great for checking</td>
+<td>rows of the first with <strong>no match</strong></td>
+<td>Which patients are missing a lab result? Great for checking</td>
 </tr>
 </tbody>
 </table>
@@ -1341,10 +1365,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Base R joins with one function, <code>merge()</code>. The <code>all</code> arguments choose the type of join:</p>
-<div class="follow-along">
-<p><strong>🔁 Follow along 6.2</strong> — The base R way: <code>merge()</code> with and without <code>all.x = TRUE</code>, then find patients with no lab result with <code>%in%</code> (the next two code blocks).</p>
-</div>
+<p>Base R joins with one function, <code>merge()</code>. The <code>all</code> arguments choose the type of join (reading only, you don’t need to type this):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(patients, labs, <span class="at">by =</span> <span class="st">"id"</span>)                <span class="co"># inner join (the default!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1406,7 +1427,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 <section id="join-the-case-information" class="level2">
 <h2 class="anchored" data-anchor-id="join-the-case-information">Join the case information</h2>
 <div class="follow-along">
-<p><strong>👀 Follow along 6.3</strong> — Create <code>combined_linelist</code> by <code>left_join()</code>-ing <code>case_info</code> to <code>linelist_final</code>.</p>
+<p><strong>👀 Follow along 6.2</strong> — Create <code>combined_linelist</code> by <code>left_join()</code>-ing <code>case_info</code> to <code>linelist_final</code>.</p>
 <p>Pattern: <code>NEW_DATA &lt;- MAIN_DATA %&gt;% left_join(OTHER_DATA, by = "KEY_COLUMN")</code></p>
 </div>
 <div class="cell">
@@ -1528,7 +1549,7 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <h2 class="anchored" data-anchor-id="check-the-join">Check the join</h2>
 <p>Always check the number of rows. A left join should <strong>not</strong> add rows — if it does, the key appears more than once in the second data frame.</p>
 <div class="follow-along">
-<p><strong>👀 Follow along 6.4</strong> — Check the join with <code>nrow()</code> and <code>anti_join()</code>.</p>
+<p><strong>👀 Follow along 6.3</strong> — Check the join with <code>nrow()</code> and <code>anti_join()</code>.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(linelist_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1586,7 +1607,7 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <p>Pattern: <code>anti_join(measles_final, district_info, by = "district") %&gt;% count(district)</code></p>
 <p>✅ <strong>Check:</strong> still 1163 rows; the 34 “Unknown” district rows have no population</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1595,7 +1616,7 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-34" class="callout-34-contents callout-collapse collapse">
+<div id="callout-35" class="callout-35-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>measles_final <span class="ot">&lt;-</span> measles_final <span class="sc">%&gt;%</span></span>
@@ -1630,6 +1651,7 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <ul>
 <li>Before any join, ask two questions: Is the key spelled and formatted the same way in both data frames (“ID001” won’t match “id001” or “ID 001”)? And is the key unique in the data frame you’re adding? If not, rows multiply.</li>
 <li>When the key has different names in the two data frames, give both: <code>by = c("case_id" = "id")</code>.</li>
+<li>You can tell <code>left_join()</code> what you expect: <code>relationship = "many-to-one"</code> means “each row of the first data frame matches <strong>at most one</strong> row of the second”. In <code>combined_linelist</code>, some case IDs appear more than once in the linelist (Part 4), but each one is in <code>case_info</code> only once. If <code>case_info</code> ever had a repeated ID, R would stop with an error (“Each row in <code>x</code> must match at most 1 row in <code>y</code>”) instead of quietly adding rows.</li>
 <li>Joins are how you link different sources: lab results to patients, census figures to counties, survey answers to participants.</li>
 </ul>
 </div>
@@ -1672,16 +1694,15 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </table>
 <p>We save the combined dataset both ways: <code>.rds</code> to keep working in R, <code>.csv</code> to share.</p>
 <div class="follow-along">
-<p><strong>👀 Follow along 7.1</strong> — Save <code>combined_linelist</code> as <code>.rds</code>, and <code>linelist_final</code>, <code>missing_ids</code>, and <code>combined_linelist</code> as <code>.csv</code>, all in <code>processed_data/</code>.</p>
+<p><strong>👀 Follow along 7.1</strong> — Save <code>combined_linelist</code> as <code>.rds</code> and as <code>.csv</code> in <code>processed_data/</code>.</p>
+<p>Pattern: <code>export(DATA, here("FOLDER", "FILE_NAME.rds"))</code></p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To keep working in R (Sessions 4–8 start from this file)</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.rds"</span>))</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To share</span></span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(linelist_final,    <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"linelist_final.csv"</span>))</span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(missing_ids,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"missing_ids.csv"</span>))</span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(combined_linelist, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"combined_linelist.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1696,8 +1717,26 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <ul>
 <li><code>export(DATA, PATH)</code> writes a data frame to a file. Like <code>import()</code>, it chooses the format from the ending you give: <code>.rds</code> or <code>.csv</code>.</li>
 <li><code>here("processed_data", ...)</code> builds the path, so the files land in <code>processed_data/</code> on any computer. If a file with that name already exists, it’s replaced without asking.</li>
-<li>Nothing prints. Look in the <strong>Explorer</strong>: four files in <code>processed_data/</code>. The <code>.csv</code> copy of <code>combined_linelist</code> is about six times bigger than the <code>.rds</code> copy (about 780 KB vs 130 KB), because <code>.rds</code> files are compressed.</li>
+<li>You can save any other data frame the same way, for example <code>missing_ids</code> to send the rows with no ID back to whoever collected the data.</li>
+<li>Nothing prints. Look in the <strong>Explorer</strong>: two files in <code>processed_data/</code>. The <code>.csv</code> copy of <code>combined_linelist</code> is about six times bigger than the <code>.rds</code> copy (about 780 KB vs 130 KB), because <code>.rds</code> files are compressed.</li>
 </ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Think about it: where did the missing IDs go?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-39" class="callout-39-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Say you saved <code>linelist_clean</code> as a <code>.csv</code>, imported it again, and counted the missing IDs with <code>sum(is.na(linelist_clean$case_id))</code>. You get <strong>0</strong>, not 130. Did the missing IDs get fixed?</p>
+<p>No.&nbsp;In a <code>.csv</code>, a missing value is just an empty cell. When it’s imported again, an empty cell in a text column comes back as empty text, <code>""</code>, not as <code>NA</code>. The 130 rows are still there, but <code>is.na()</code> no longer finds them: <code>sum(linelist_clean$case_id == "")</code> gives 130. No error, no warning, and a wrong answer. That’s why the data passed between sessions is saved as <code>.rds</code>.</p>
+</div>
 </div>
 </div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
@@ -1710,10 +1749,10 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Save <code>measles_final</code> as <code>processed_data/measles_final.rds</code> <strong>and</strong> <code>measles_final.csv</code>, and <code>measles_missing_ids</code> as <code>processed_data/measles_missing_ids.csv</code>.</p>
-<p>✅ <strong>Check:</strong> three new files in <code>processed_data/</code> (look in the <strong>Explorer</strong>). You need <code>measles_final.rds</code> in Sessions 4–8!</p>
+<p>Save <code>measles_final</code> as <code>processed_data/measles_final.rds</code> <strong>and</strong> <code>measles_final.csv</code>.</p>
+<p>✅ <strong>Check:</strong> two new files in <code>processed_data/</code> (look in the <strong>Explorer</strong>). You need <code>measles_final.rds</code> in Sessions 4–8!</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1722,14 +1761,13 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-38" class="callout-38-contents callout-collapse collapse">
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>))</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final,       <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.csv"</span>))</span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_missing_ids, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_missing_ids.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.rds"</span>))</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_final, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_final.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The <code>.rds</code> file keeps the dates, number columns, and <code>NA</code>s exactly as they are, so every later session starts from it. The <code>.csv</code> files are for sharing.</p>
+<p>The <code>.rds</code> file keeps the dates, number columns, and <code>NA</code>s exactly as they are, so every later session starts from it. The <code>.csv</code> file is for sharing.</p>
 </div>
 </div>
 </div>
@@ -1758,10 +1796,10 @@ $ temp              &lt;dbl&gt; 36.8, 36.9, 36.9, 36.8, 36.9, 37.6, 37.3, 37.0, 
 <h1>Key points</h1>
 <ul>
 <li><strong>Not every <code>NA</code> is a mistake.</strong> Count them with <code>colSums(is.na(data))</code>, then decide: leave them, remove the rows (<code>drop_na()</code>), or replace them.</li>
-<li>Set rows with no ID aside with new IDs (<code>filter(is.na(...))</code>, <code>paste0()</code>, <code>sprintf()</code>, <code>row_number()</code>) instead of losing them.</li>
+<li>Set rows with no ID aside with new IDs (<code>filter(is.na(...))</code>, <code>paste0()</code>, <code>row_number()</code>) instead of losing them.</li>
 <li><code>distinct()</code> removes exact duplicate rows; <code>get_dupes(id)</code> finds IDs that appear more than once with different details.</li>
 <li><code>mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))</code> fills missing text in every text column at once; <code>select()</code> chooses and orders columns.</li>
-<li><code>left_join(main, other, by = "key")</code> adds columns from a second dataset. Always check the row count and use <code>anti_join()</code> to find rows with no match.</li>
+<li><code>left_join(main, other, by = "key")</code> adds columns from a second dataset. Always check the row count and use <code>anti_join()</code> to find rows with no match; <code>semi_join()</code> keeps only the rows that have one.</li>
 <li><code>export()</code> saves data: <code>.rds</code> to keep working in R, <code>.csv</code> to share.</li>
 </ul>
 <p><strong>Next: Session 4 — Data structures.</strong> We look at how R stores data (vectors), pull out pieces with base R subsetting, and reshape data between wide and long with <code>pivot_longer()</code> and <code>pivot_wider()</code>.</p>
