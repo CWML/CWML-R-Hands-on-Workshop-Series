@@ -434,68 +434,93 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../pages/lessons/02-cleaning.html">→ Open the Session 2 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 85 minutes. This is the fullest session of the series, so use the skip list early rather than speed up.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 47%">
+<col style="width: 22%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Set up and recall the problem list</td>
-<td>8 min</td>
+<td>Set up (pre-filled) and recall the problem list</td>
+<td>5 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>The pipe <code>%&gt;%</code>, <code>filter()</code>, and <code>arrange()</code></td>
 <td>12 min</td>
+<td>0:05</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Column names: <code>clean_names()</code> and <code>rename()</code></td>
-<td>10 min</td>
+<td>8 min</td>
+<td>0:17</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Fixing types with <code>mutate()</code></td>
-<td>11 min</td>
+<td>10 min</td>
+<td>0:25</td>
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>Fixing values with <code>if_else()</code> (+ 🔁 <code>ifelse()</code> demo)</td>
-<td>15 min</td>
+<td>Fixing values with <code>if_else()</code></td>
+<td>11 min</td>
+<td>0:35</td>
 </tr>
 <tr class="even">
 <td>6</td>
 <td>Recoding categories with <code>case_when()</code> (2 TRY ITs)</td>
-<td>22 min</td>
+<td>20 min</td>
+<td>0:46</td>
 </tr>
 <tr class="odd">
 <td>7</td>
-<td>Creating new variables (+ 🔁 <code>cut()</code> demo)</td>
-<td>15 min</td>
+<td>Creating new variables: age groups</td>
+<td>10 min</td>
+<td>1:06</td>
 </tr>
 <tr class="even">
 <td>8</td>
-<td>One pipeline and saving your work</td>
-<td>10 min</td>
+<td>One pipeline (pre-filled) and saving your work</td>
+<td>6 min</td>
+<td>1:16</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>Wrap-up and preview</td>
-<td>5 min</td>
+<td>3 min</td>
+<td>1:22</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>108 min</strong></td>
+<td><strong>85 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> This session is now the longest of the series. Do TRY IT 7 (district) together together as a live-coded demo instead of solo work, or assign it as homework. Do <strong>not</strong> cut TRY IT 9 (saving <code>measles_clean.rds</code>) — Session 3 starts from that file. Learners who fall behind can use the ready-made copy in <code>processed_data/</code>. The two 🔁 base R demos (<code>ifelse()</code>, <code>cut()</code>) can also be skipped and left for learners to read.</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 7 (district): assign it as homework. Learners then run their TRY IT 9 line again at home, because Session 3 joins on <code>district</code>.</li>
+<li>Follow along 2.3 (the longer pipeline): show it on screen 1 and let learners read it rather than type it.</li>
+<li>The 🧩 “Reading a function call” box in Part 5: point to it on screen 2 and move on.</li>
+</ol>
+<p>Do <strong>not</strong> cut TRY IT 9 (saving <code>measles_clean.rds</code>): Session 3 starts from that file. Learners who fall behind can use the ready-made copy in <code>processed_data/</code>.</p>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -508,7 +533,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
 <p><strong>Overall rhythm.</strong> Learners build <strong>two</strong> cleaned datasets side by side: <code>linelist_clean</code> with you (Follow along), and <code>measles_clean</code> in the TRY ITs. Both are built <strong>one step at a time</strong>: each part takes the current object, adds one fix, and saves it back with <code>&lt;-</code>. Part 8 then shows the same linelist steps as one pipeline — the version you would keep in a real project. If a learner’s object gets into a bad state, they can re-run from Part 3 (<code>linelist_clean &lt;- linelist_raw %&gt;% clean_names()</code>). The filled-in script is <code>solutions/Session 2 - Cleaning_SOLUTIONS.R</code>.</p>
-<p><strong>Part 1 — Set up.</strong> Briefly put up the Session 1 problem list and the “Fixed in” column; emphasize <em>never edit the raw data file</em>.</p>
+<p><strong>Part 1 — Set up.</strong> The <code>library()</code> and <code>import()</code> lines are already in the student script: learners just run them. Only the measles import (TRY IT 1) is typed. Briefly put up the Session 1 problem list and the “Fixed in” column; emphasize <em>never edit the raw data file</em>.</p>
 <p><strong>Part 2 — The pipe, <code>filter()</code>, and <code>arrange()</code>.</strong> All three are new today: Session 1 used one function at a time. Start from <code>count(linelist_raw, age_unit)</code>, which learners know, and show that <code>linelist_raw %&gt;% count(age_unit)</code> does the same; then read <code>linelist_raw %&gt;% arrange(wt_kg) %&gt;% head(3)</code> aloud as “and then”. Show the keyboard shortcut. <code>filter()</code> and <code>arrange()</code> find two of the problems from the Session 1 list (37 ages in months, impossible heights). <code>select()</code> is introduced here too. The two common slips: <code>%&gt;%</code> at the start of a line, and a trailing <code>%&gt;%</code> on the last line (the Console shows <code>+</code> and waits — press Esc).</p>
 <p><strong>Part 3 — Column names.</strong> Show <code>names()</code> before and after <code>clean_names()</code>. Point out that backticks are no longer needed. Stress that in <code>rename()</code> the <strong>new</strong> name goes on the left.</p>
 <p><strong>Part 4 — Types.</strong> Point out the <em>“NAs introduced by coercion”</em> warning when learners convert measles <code>age_years</code>: it is expected (the 27 “unknown” values) — a warning is not an error. The TRY IT’s <code>summary()</code> showing a max of 999 sets up Part 5. A common slip is forgetting the <code>&lt;-</code>, so nothing is saved.</p>
@@ -517,16 +542,12 @@ ul.task-list li input[type="checkbox"] {
 <li><em>What would have happened in later analyses if we had skipped the months → years step?</em> — A 6-month-old baby would be counted as 6 years old (37 ages are in months).</li>
 </ul>
 <p>Explain why we replace impossible weights with <code>NA</code> rather than deleting the row: we keep the patient’s age, outcome, and dates.</p>
-<p><strong>🔁 <code>ifelse()</code> demo (3 min).</strong> Run both lines and let the class react to the numbers <code>ifelse()</code> returns. The message: base R <code>ifelse()</code> is everywhere in other people’s code, but it strips the Date type; <code>if_else()</code> is strict about types, which is why we use it. Learners only need to <em>recognize</em> <code>ifelse()</code>, not switch to it.</p>
-<p><strong>Part 6 — <code>case_when()</code>.</strong> Point out that rows matching no condition become <code>NA</code> (gender), and that <code>.default</code> catches everything else (hospital). Show <code>count(hospital, hospital_name)</code> as the way to check every recode. Common errors: <code>=</code> instead of <code>~</code>, a missing or extra comma. TRY IT 7 (district) is the hardest of the session — expect red sticky notes; a hint is to run <code>str_to_title()</code> first so each <code>str_detect()</code> only needs to catch misspellings.</p>
-<p><strong>Part 7 — New variables.</strong> Ask the class (a “Think about it” on the lesson page):</p>
-<ul>
-<li><em>A BMI of 1,250?</em> — The heights and weights don’t fit together. Set BMIs outside 10–60 to <code>NA</code>.</li>
-</ul>
-<p>About 1,400 BMIs (1,382) end up <code>NA</code> because the height and weight values in this teaching dataset are unrealistic. The old version of this workshop <strong>filtered out</strong> those rows, which removed about 20% of the cases from every later analysis. Setting only the bad value to <code>NA</code> keeps everything else about the patient.</p>
-<p>For <code>age_cat</code>, point out that <code>case_when()</code> stops at the first TRUE line, and warn against ending with <code>TRUE ~ "80+"</code> / <code>.default = "80+"</code> — it puts missing ages into the oldest group. <code>count()</code> shows the groups in alphabetical order; that is fixed with factors in Session 5.</p>
-<p><strong>🔁 <code>cut()</code> demo (3 min).</strong> <code>cut()</code> is very common in epidemiology and clinical code for age groups. Show that the counts match <code>case_when()</code> and that the groups come out in order (a factor, a preview of Session 5). Point out <code>right = FALSE</code>: without it, an 18-year-old goes into “Under 18”.</p>
-<p><strong>Part 8 — One pipeline and saving.</strong> Point out that inside one <code>mutate()</code>, later lines can use columns made on earlier lines (<code>bmi</code> is created, then fixed). Make sure everyone saves <code>measles_clean.rds</code> — they need it in Session 3. Early finishers: the ⭐ Bonus asks them to rewrite all their measles steps as one pipeline.</p>
+<p><strong>🔁 <code>ifelse()</code> box (reading only, 30 seconds).</strong> Point to it on screen 2: “you’ll see <code>ifelse()</code> in other people’s code; it looks the same, but it turns dates into numbers, so use <code>if_else()</code>.” Nobody types it. The 📖 box at the end of Part 5 mentions <code>na_if()</code> and <code>coalesce()</code> as shortcuts; mention them in one sentence.</p>
+<p><strong>Part 6 — <code>case_when()</code>.</strong> Point out that rows matching no condition become <code>NA</code> (gender), and that <code>.default</code> catches everything else (hospital). Show <code>count(hospital, hospital_name)</code> as the way to check every recode. Common errors: <code>=</code> instead of <code>~</code>, a missing or extra comma. After TRY IT 6, open the 🤔 “it ran without an error, but is it right?” box: leaving <code>"M"</code> out of the male line silently makes 86 patients <code>NA</code>. This is the habit to build: check every recode. TRY IT 7 (district) is the hardest of the session and the first to become homework; a hint is to run <code>str_to_title()</code> first so each <code>str_detect()</code> only needs to catch misspellings.</p>
+<p><strong>Part 7 — New variables.</strong> BMI is <strong>reading only</strong>: walk through it on screen 2 in about a minute, and open the “Think about it” box (<em>a BMI of 1,250?</em> — the heights and weights don’t fit together, so BMIs outside 10–60 become <code>NA</code>). About 1,400 BMIs (1,382) end up <code>NA</code> because the height and weight values in this teaching dataset are unrealistic. Setting only the bad value to <code>NA</code>, instead of filtering out those rows, keeps everything else about the patient. BMI is in the Part 8 pipeline, so the saved file has it.</p>
+<p>For <code>age_cat</code> (Follow along 7.1), point out that <code>case_when()</code> stops at the first TRUE line, and warn against ending with <code>TRUE ~ "80+"</code> / <code>.default = "80+"</code> — it puts missing ages into the oldest group. <code>count()</code> shows the groups in alphabetical order; that is fixed with factors in Session 5.</p>
+<p><strong>🔁 <code>cut()</code> box (reading only, 30 seconds).</strong> <code>cut()</code> is very common in epidemiology and clinical code for age groups. Point out on screen 2 that the counts match <code>case_when()</code>, that the groups come out in order (a factor, a preview of Session 5), and that without <code>right = FALSE</code> an 18-year-old goes into “Under 18”.</p>
+<p><strong>Part 8 — One pipeline and saving.</strong> The pipeline is already in the student script: nobody types it. Read it aloud from top to bottom, naming the part each group of lines came from, then run it. Point out that inside one <code>mutate()</code>, later lines can use columns made on earlier lines (<code>bmi</code> is created, then fixed). Make sure everyone saves <code>measles_clean.rds</code> — they need it in Session 3. Early finishers: the ⭐ Bonus asks them to rewrite all their measles steps as one pipeline.</p>
 <p><strong>Wrap-up.</strong> Today: <code>clean_names()</code>, <code>rename()</code>, <code>mutate()</code>, <code>as.Date()</code>, <code>as.numeric()</code>, <code>if_else()</code>, <code>case_when()</code>, <code>str_detect()</code>, <code>export()</code>. Preview Session 3 — Missing data, joins, and export: rows with no Case ID, duplicates, replacing missing values, joining <code>case_info</code>, and saving the final datasets.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
@@ -569,7 +590,7 @@ ul.task-list li input[type="checkbox"] {
 <td><code>case_when()</code> + <code>%in%</code> — sex: female 533, male 642, NA 40; vaccinated: No 741, Unknown 183, Yes 291</td>
 </tr>
 <tr class="odd">
-<td>7. District</td>
+<td>7. District (homework if behind)</td>
 <td><code>str_to_title()</code> then <code>case_when()</code> + <code>str_detect()</code> — Central 113, East 233, North 356, South 297, West 182, NA 34</td>
 </tr>
 <tr class="even">

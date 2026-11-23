@@ -41,7 +41,7 @@ You will build **two** cleaned datasets side by side: `linelist_clean` in the Fo
 Every session starts the same way: open the project, load packages, import data.
 
 ::: follow-along
-**👀 Follow along 1.1** — Load today's packages: tidyverse, here, rio, janitor, and skimr.
+**👀 Follow along 1.1** — Load today's packages: tidyverse, here, rio, janitor, and skimr. These lines are already in your script: just run them.
 :::
 ```{r}
 #| message: false
@@ -55,12 +55,13 @@ library(skimr)
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
+-   You typed these lines yourself in Session 1. From now on, the set-up lines are filled in at the top of each student script, so you can start right away.
 -   The same packages as in Session 1. Today `janitor` gives you `clean_names()`, and the tidyverse gives you the pipe, `mutate()`, `if_else()`, `case_when()`, and the `str_` text functions.
 -   On this page the start-up messages are hidden; in Positron you'll see them in the Console. Messages are fine: only a line that starts with **Error** is a problem.
 :::
 
 ::: follow-along
-**👀 Follow along 1.2** — Import `raw_data/linelist_raw.xlsx` (`linelist_raw`) and `raw_data/hosp_info.txt` (`hosp_info`).
+**👀 Follow along 1.2** — Import `raw_data/linelist_raw.xlsx` (`linelist_raw`) and `raw_data/hosp_info.txt` (`hosp_info`). Also already in your script.
 :::
 ```{r}
 linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
@@ -519,11 +520,7 @@ summary(linelist_clean$wt_kg)
 ::: callout-note
 ## 🔁 The base R way: `ifelse()` (one letter shorter, one big difference)
 
-Base R has `ifelse()`, and you will see it everywhere. It works the same way **until you use it on dates**. Say we want an "estimated onset" that uses the hospital date when the onset date is missing:
-
-::: follow-along
-**🔁 Follow along 5.3** — Estimated onset (`hospital_date` when `onset_date` is missing) with `if_else()` and with `ifelse()`. Compare the first 3 values.
-:::
+Base R has `ifelse()`, and you will see it everywhere. It works the same way **until you use it on dates**. Say we want an "estimated onset" that uses the hospital date when the onset date is missing. Compare the first 3 values (reading only, you don't need to type this):
 
 ```{r}
 if_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
@@ -572,6 +569,7 @@ The four 999s are now `NA` (31 missing ages in total), and the 27 Fahrenheit tem
 ::: {.callout-note icon=false}
 ## 📖 Good to know
 
+-   Two shortcuts for jobs you just did with `if_else()`: `na_if(age_years, 999)` turns every 999 into `NA`, and `coalesce(onset_date, hospital_date)` takes the onset date, or the hospital date when the onset date is missing (the "estimated onset" from the 🔁 box). Both give the same result as the `if_else()` versions.
 -   A comparison with a missing value gives a missing answer: `NA <= 0` is `NA`, not TRUE or FALSE. So `if_else()` gives `NA` for those rows, and missing values stay missing unless you deal with them on purpose (Session 3).
 -   Prefer `NA` to deleting rows. A patient with an impossible weight still has a real age, outcome, and dates that you want to keep.
 :::
@@ -706,10 +704,20 @@ Six spellings of sex became two values (the 40 missing stay `NA`), and eight spe
 :::
 :::
 
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: it ran without an error, but is it right?
+
+Say you forgot `"M"` in the male line: `sex %in% c("Male", "male") ~ "male"`. What happens?
+
+R gives no error and no warning. The 86 patients recorded as `"M"` match no line, so they quietly become `NA`: `count(sex)` shows male 556 and NA 126 instead of male 642 and NA 40. The only way to notice is to check, for example with `count(old_column, new_column)` or by comparing the number of `NA`s before and after. Code that runs is not the same as code that's right.
+:::
+
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 7 (5 min): district
+## ✏️ TRY IT 7 (5 min, homework if behind): district
 
 Make `district` one of North, South, East, West, Central.
+
+If you run out of time in class, finish this at home, then run your TRY IT 9 line again so the saved file has the clean districts. Session 3 joins on `district`.
 
 -   Step 1: `district = str_to_title(district)` fixes the capitals
 -   Step 2: `case_when()` + `str_detect()` fixes the misspellings ("Nroth", "Cetnral") and the "... District" versions. Keep `NA` as `NA` (no `.default`).
@@ -751,11 +759,7 @@ measles_clean %>% count(district)
 
 ## BMI
 
-`mutate()` can calculate a new column from other columns.
-
-::: follow-along
-**👀 Follow along 7.1** — Calculate `bmi`, then set BMIs below 10 or above 60 to `NA` (the next two code blocks).
-:::
+`mutate()` can calculate a new column from other columns. Here is BMI, calculated from weight and height, then cleaned (reading only, you don't need to type this: BMI is included in the Part 8 pipeline).
 
 ```{r}
 linelist_clean <- linelist_clean %>%
@@ -790,7 +794,7 @@ About 1,400 BMIs are now `NA`, because many height and weight values in this tea
 ## Age groups
 
 ::: follow-along
-**👀 Follow along 7.2** — Create `age_cat`: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+.
+**👀 Follow along 7.1** — Create `age_cat`: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+.
 :::
 
 ```{r}
@@ -824,11 +828,7 @@ Because `case_when()` stops at the first TRUE line, `age_years < 30` only catche
 ::: callout-note
 ## 🔁 The base R way: `cut()`
 
-Base R's `cut()` makes groups from numbers by giving the **break points**. `right = FALSE` means each group includes its lower limit (18 goes into "18-29"):
-
-::: follow-along
-**🔁 Follow along 7.3** — The same groups with `cut()`. Check with `table(useNA = "ifany")`.
-:::
+Base R's `cut()` makes groups from numbers by giving the **break points**. `right = FALSE` means each group includes its lower limit (18 goes into "18-29"). Here are the same groups, counted with `table(useNA = "ifany")` (reading only):
 
 ```{r}
 cut(linelist_clean$age_years,
@@ -901,7 +901,7 @@ measles_clean %>% count(age_cat)
 Here is every step as **one** pipeline. This is the version to keep in a real project: one block that goes from raw data to clean data, so anyone can re-run it and get exactly the same result.
 
 ::: follow-along
-**👀 Follow along 8.1** — One pipeline from `linelist_raw` to `linelist_clean`.
+**👀 Follow along 8.1** — One pipeline from `linelist_raw` to `linelist_clean`. Don't type it: it's already in your script (or use the copy button at the top right of the code below). Read it with the instructor, then run it.
 
 Pattern: `linelist_clean <- linelist_raw %>% clean_names() %>% rename(...) %>% mutate(...)`
 :::

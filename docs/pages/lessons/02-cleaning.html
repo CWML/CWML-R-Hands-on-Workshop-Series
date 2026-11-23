@@ -535,7 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Part 1: Set up and recall the problem list</h1>
 <p>Every session starts the same way: open the project, load packages, import data.</p>
 <div class="follow-along">
-<p><strong>👀 Follow along 1.1</strong> — Load today’s packages: tidyverse, here, rio, janitor, and skimr.</p>
+<p><strong>👀 Follow along 1.1</strong> — Load today’s packages: tidyverse, here, rio, janitor, and skimr. These lines are already in your script: just run them.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -555,13 +555,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li>You typed these lines yourself in Session 1. From now on, the set-up lines are filled in at the top of each student script, so you can start right away.</li>
 <li>The same packages as in Session 1. Today <code>janitor</code> gives you <code>clean_names()</code>, and the tidyverse gives you the pipe, <code>mutate()</code>, <code>if_else()</code>, <code>case_when()</code>, and the <code>str_</code> text functions.</li>
 <li>On this page the start-up messages are hidden; in Positron you’ll see them in the Console. Messages are fine: only a line that starts with <strong>Error</strong> is a problem.</li>
 </ul>
 </div>
 </div>
 <div class="follow-along">
-<p><strong>👀 Follow along 1.2</strong> — Import <code>raw_data/linelist_raw.xlsx</code> (<code>linelist_raw</code>) and <code>raw_data/hosp_info.txt</code> (<code>hosp_info</code>).</p>
+<p><strong>👀 Follow along 1.2</strong> — Import <code>raw_data/linelist_raw.xlsx</code> (<code>linelist_raw</code>) and <code>raw_data/hosp_info.txt</code> (<code>hosp_info</code>). Also already in your script.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"linelist_raw.xlsx"</span>))</span>
@@ -1439,10 +1440,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Base R has <code>ifelse()</code>, and you will see it everywhere. It works the same way <strong>until you use it on dates</strong>. Say we want an “estimated onset” that uses the hospital date when the onset date is missing:</p>
-<div class="follow-along">
-<p><strong>🔁 Follow along 5.3</strong> — Estimated onset (<code>hospital_date</code> when <code>onset_date</code> is missing) with <code>if_else()</code> and with <code>ifelse()</code>. Compare the first 3 values.</p>
-</div>
+<p>Base R has <code>ifelse()</code>, and you will see it everywhere. It works the same way <strong>until you use it on dates</strong>. Say we want an “estimated onset” that uses the hospital date when the onset date is missing. Compare the first 3 values (reading only, you don’t need to type this):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">if_else</span>(<span class="fu">is.na</span>(linelist_clean<span class="sc">$</span>onset_date), linelist_clean<span class="sc">$</span>hospital_date, linelist_clean<span class="sc">$</span>onset_date) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1536,6 +1534,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li>Two shortcuts for jobs you just did with <code>if_else()</code>: <code>na_if(age_years, 999)</code> turns every 999 into <code>NA</code>, and <code>coalesce(onset_date, hospital_date)</code> takes the onset date, or the hospital date when the onset date is missing (the “estimated onset” from the 🔁 box). Both give the same result as the <code>if_else()</code> versions.</li>
 <li>A comparison with a missing value gives a missing answer: <code>NA &lt;= 0</code> is <code>NA</code>, not TRUE or FALSE. So <code>if_else()</code> gives <code>NA</code> for those rows, and missing values stay missing unless you deal with them on purpose (Session 3).</li>
 <li>Prefer <code>NA</code> to deleting rows. A patient with an impossible weight still has a real age, outcome, and dates that you want to keep.</li>
 </ul>
@@ -1779,24 +1778,42 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Think about it: it ran without an error, but is it right?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Say you forgot <code>"M"</code> in the male line: <code>sex %in% c("Male", "male") ~ "male"</code>. What happens?</p>
+<p>R gives no error and no warning. The 86 patients recorded as <code>"M"</code> match no line, so they quietly become <code>NA</code>: <code>count(sex)</code> shows male 556 and NA 126 instead of male 642 and NA 40. The only way to notice is to check, for example with <code>count(old_column, new_column)</code> or by comparing the number of <code>NA</code>s before and after. Code that runs is not the same as code that’s right.</p>
+</div>
+</div>
+</div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (5 min): district
+<span class="screen-reader-only">Important</span>✏️ TRY IT 7 (5 min, homework if behind): district
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Make <code>district</code> one of North, South, East, West, Central.</p>
+<p>If you run out of time in class, finish this at home, then run your TRY IT 9 line again so the saved file has the clean districts. Session 3 joins on <code>district</code>.</p>
 <ul>
 <li>Step 1: <code>district = str_to_title(district)</code> fixes the capitals</li>
 <li>Step 2: <code>case_when()</code> + <code>str_detect()</code> fixes the misspellings (“Nroth”, “Cetnral”) and the “… District” versions. Keep <code>NA</code> as <code>NA</code> (no <code>.default</code>).</li>
 </ul>
 <p>✅ <strong>Check:</strong> <code>count(district)</code> shows exactly 5 districts plus NA (34)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1805,7 +1822,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -1860,10 +1877,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 <h1>Part 7: Creating new variables</h1>
 <section id="bmi" class="level2">
 <h2 class="anchored" data-anchor-id="bmi">BMI</h2>
-<p><code>mutate()</code> can calculate a new column from other columns.</p>
-<div class="follow-along">
-<p><strong>👀 Follow along 7.1</strong> — Calculate <code>bmi</code>, then set BMIs below 10 or above 60 to <code>NA</code> (the next two code blocks).</p>
-</div>
+<p><code>mutate()</code> can calculate a new column from other columns. Here is BMI, calculated from weight and height, then cleaned (reading only, you don’t need to type this: BMI is included in the Part 8 pipeline).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bmi =</span> <span class="fu">round</span>(wt_kg <span class="sc">/</span> (ht_cm <span class="sc">/</span> <span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>, <span class="dv">1</span>))</span>
@@ -1875,7 +1889,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1884,7 +1898,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-47" class="callout-47-contents callout-collapse collapse">
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>That is impossible: the heights and weights don’t fit together. Set BMIs outside a plausible range (10–60) to <code>NA</code>.</p>
 </div>
@@ -1922,7 +1936,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 <section id="age-groups" class="level2">
 <h2 class="anchored" data-anchor-id="age-groups">Age groups</h2>
 <div class="follow-along">
-<p><strong>👀 Follow along 7.2</strong> — Create <code>age_cat</code>: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+.</p>
+<p><strong>👀 Follow along 7.1</strong> — Create <code>age_cat</code>: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
@@ -1980,10 +1994,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Base R’s <code>cut()</code> makes groups from numbers by giving the <strong>break points</strong>. <code>right = FALSE</code> means each group includes its lower limit (18 goes into “18-29”):</p>
-<div class="follow-along">
-<p><strong>🔁 Follow along 7.3</strong> — The same groups with <code>cut()</code>. Check with <code>table(useNA = "ifany")</code>.</p>
-</div>
+<p>Base R’s <code>cut()</code> makes groups from numbers by giving the <strong>break points</strong>. <code>right = FALSE</code> means each group includes its lower limit (18 goes into “18-29”). Here are the same groups, counted with <code>table(useNA = "ifany")</code> (reading only):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(linelist_clean<span class="sc">$</span>age_years,</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">18</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">80</span>, <span class="cn">Inf</span>),</span>
@@ -2049,7 +2060,7 @@ Under 18    18-29    30-39    40-49    50-59    60-69    70-79      80+
 </ol>
 <p>✅ <strong>Check:</strong> <code>count(outcome)</code> shows only Died, Recovered, NA; <code>count(age_cat)</code> shows 4 groups plus NA (31)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-53-contents" aria-controls="callout-53" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -2058,7 +2069,7 @@ Under 18    18-29    30-39    40-49    50-59    60-69    70-79      80+
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-53" class="callout-53-contents callout-collapse collapse">
+<div id="callout-54" class="callout-54-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -2117,7 +2128,7 @@ Under 18    18-29    30-39    40-49    50-59    60-69    70-79      80+
 <h1>Part 8: One pipeline and saving your work</h1>
 <p>Here is every step as <strong>one</strong> pipeline. This is the version to keep in a real project: one block that goes from raw data to clean data, so anyone can re-run it and get exactly the same result.</p>
 <div class="follow-along">
-<p><strong>👀 Follow along 8.1</strong> — One pipeline from <code>linelist_raw</code> to <code>linelist_clean</code>.</p>
+<p><strong>👀 Follow along 8.1</strong> — One pipeline from <code>linelist_raw</code> to <code>linelist_clean</code>. Don’t type it: it’s already in your script (or use the copy button at the top right of the code below). Read it with the instructor, then run it.</p>
 <p>Pattern: <code>linelist_clean &lt;- linelist_raw %&gt;% clean_names() %&gt;% rename(...) %&gt;% mutate(...)</code></p>
 </div>
 <div class="cell">
@@ -2248,7 +2259,7 @@ $ age_cat           &lt;chr&gt; "Under 18", "Under 18", "50-59", "18-29", "Under
 <p>Save <code>measles_clean</code> as <code>processed_data/measles_clean.rds</code>. You need this file in Session 3!</p>
 <p>✅ <strong>Check:</strong> the file appears in the <code>processed_data</code> folder (<strong>Explorer</strong>, on the left)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-58-contents" aria-controls="callout-58" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-59-contents" aria-controls="callout-59" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -2257,7 +2268,7 @@ $ age_cat           &lt;chr&gt; "Under 18", "Under 18", "50-59", "18-29", "Under
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-58" class="callout-58-contents callout-collapse collapse">
+<div id="callout-59" class="callout-59-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_clean, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_clean.rds"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

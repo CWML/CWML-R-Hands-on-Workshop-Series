@@ -31,14 +31,23 @@
 #
 # 📖 What you need to know
 #    - Every session starts the same way: open the project, load packages, import data.
+#      You typed these lines yourself in Session 1. From now on they are filled
+#      in for you: just run them (Cmd + Return on a Mac, Ctrl + Enter on Windows).
 #    - NEVER edit the raw data file. Every fix happens in code, so anyone can
 #      re-run your script and get the same result.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr
-
+# 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+library(skimr)
 
 # 👀 Follow along 1.2: import raw_data/linelist_raw.xlsx (linelist_raw) and raw_data/hosp_info.txt (hosp_info)
+#    (already filled in: run it)
+linelist_raw <- import(here("raw_data", "linelist_raw.xlsx"))
+hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 
 
 # ✏️ TRY IT 1 (1 min): import raw_data/measles_raw.csv and call it measles_raw
@@ -162,18 +171,17 @@
 #    - Use NA as the value to blank out impossible values:
 #        if_else(wt_kg <= 0, NA, wt_kg)
 #      Better than deleting the row: we keep the patient's other information.
-#    - 🔁 Base R: ifelse() does the same, but silently turns DATES into numbers.
-#      if_else() keeps the type (and gives an error instead of a surprise).
+#    - Shortcuts: na_if(age_years, 999) turns every 999 into NA.
+#      coalesce(onset_date, hospital_date) uses the hospital date when the onset
+#      date is missing.
+#    - 🔁 Base R: ifelse() does the same as if_else(), but silently turns DATES
+#      into numbers. Read the 🔁 box in Part 5 on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 5.1: create age_years (ages in months divided by 12)
 
 
 # 👀 Follow along 5.2: replace weights of 0 or below with NA
-
-
-# 🔁 Follow along 5.3: estimated onset (hospital_date when onset_date is missing)
-#    with if_else() and with ifelse(). Compare the first 3 values.
 
 
 # ✏️ TRY IT 5 (4 min): in measles_clean,
@@ -206,6 +214,8 @@
 #    - ~ (tilde) not = between the condition and the new value
 #    - A comma after each line EXCEPT the last
 #    - Check every recode with count(OLD_COLUMN, NEW_COLUMN)
+#    - Code that runs isn't always right: leave "M" out of the male line and
+#      86 patients quietly become NA. No error, no warning. Always check.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: recode gender "m" -> "male", "f" -> "female". Check with count().
@@ -224,7 +234,8 @@
 
 
 
-# ✏️ TRY IT 7 (5 min): make district one of North, South, East, West, Central
+# ✏️ TRY IT 7 (5 min, homework if behind): make district one of North, South, East, West, Central
+#    No time in class? Finish it at home, then run your TRY IT 9 line again.
 #    Step 1: district = str_to_title(district)   fixes the capitals
 #    Step 2: case_when() + str_detect() fixes the misspellings ("Nroth", "Cetnral")
 #            and the "... District" versions. Keep NA as NA (no .default).
@@ -233,15 +244,17 @@
 
 
 # ── PART 7: Creating new variables ─────────────────────────────────────────
-# 🎯 Goal: Calculate BMI and create age groups.
+# 🎯 Goal: Create age groups.
 #
 # 📖 What you need to know
-#    - mutate() can calculate a new column from other columns:
+#    - mutate() can calculate a new column from other columns. Read the BMI
+#      example on the website (no typing; BMI is included in Part 8):
 #        mutate(bmi = round(wt_kg / (ht_cm / 100)^2, 1))
 #    - Use case_when() with < to make groups. Because case_when() stops at the
 #      first TRUE line, age_years < 30 on the second line only catches 18–29.
 #    - 🔁 Base R: cut(x, breaks = c(...), labels = c(...), right = FALSE) makes
 #      the same groups from break points, and returns them in order (a factor).
+#      Read the 🔁 box in Part 7 on the website (no typing).
 #
 # ⚠️ Common mistakes
 #    - Ending with .default = "80+" (or TRUE ~ "80+") puts every patient with a
@@ -249,13 +262,7 @@
 #        age_years >= 80 ~ "80+"
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 7.1: calculate bmi, then set BMIs below 10 or above 60 to NA
-
-
-# 👀 Follow along 7.2: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
-
-
-# 🔁 Follow along 7.3: the same groups with cut(). Check with table(useNA = "ifany").
+# 👀 Follow along 7.1: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
 
 
 # ✏️ TRY IT 8 (4 min): in measles_clean,
@@ -280,7 +287,54 @@
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 8.1: one pipeline from linelist_raw to linelist_clean
+#    Already filled in: read it with the instructor, then run it.
 #    Pattern: linelist_clean <- linelist_raw %>% clean_names() %>% rename(...) %>% mutate(...)
+linelist_clean <- linelist_raw %>%
+  clean_names() %>%
+  rename(
+    date_of_infection = infection_date,
+    onset_date        = date_onset,
+    hospital_date     = hosp_date
+  ) %>%
+  mutate(
+    # Types
+    date_of_infection = as.Date(date_of_infection),
+    onset_date        = as.Date(onset_date),
+    hospital_date     = as.Date(hospital_date),
+    date_of_outcome   = as.Date(date_of_outcome),
+    age               = as.numeric(age),
+    # Values
+    age_years = if_else(age_unit == "months", age / 12, age),
+    wt_kg     = if_else(wt_kg <= 0, NA, wt_kg),
+    gender    = case_when(
+      gender == "m" ~ "male",
+      gender == "f" ~ "female"
+    ),
+    hospital_name = case_when(
+      str_detect(hospital, "Central")           ~ "Central Hospital",
+      str_detect(hospital, "Military|Mitylira") ~ "Military Hospital",
+      str_detect(hospital, "Regional")          ~ "Regional Medical center",
+      str_detect(hospital, "Mark")              ~ "St. Mark's Maternity Hospital",
+      str_detect(hospital, "HMO")               ~ "HMO Health",
+      str_detect(hospital, "Premier")           ~ "Premiere Health",
+      .default = "Other/Unknown"
+    ),
+    # New variables
+    bmi = round(wt_kg / (ht_cm / 100)^2, 1),
+    bmi = if_else(bmi < 10 | bmi > 60, NA, bmi),
+    age_cat = case_when(
+      age_years < 18  ~ "Under 18",
+      age_years < 30  ~ "18-29",
+      age_years < 40  ~ "30-39",
+      age_years < 50  ~ "40-49",
+      age_years < 60  ~ "50-59",
+      age_years < 70  ~ "60-69",
+      age_years < 80  ~ "70-79",
+      age_years >= 80 ~ "80+"
+    )
+  )
+
+glimpse(linelist_clean)
 
 
 # 👀 Follow along 8.2: save linelist_clean as processed_data/linelist_clean.rds

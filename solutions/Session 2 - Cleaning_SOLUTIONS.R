@@ -113,10 +113,8 @@ linelist_clean <- linelist_clean %>%
 linelist_clean <- linelist_clean %>%
   mutate(wt_kg = if_else(wt_kg <= 0, NA, wt_kg))
 
-# 🔁 Follow along 5.3: estimated onset with if_else() and ifelse()
-if_else(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
-ifelse(is.na(linelist_clean$onset_date), linelist_clean$hospital_date, linelist_clean$onset_date) %>% head(3)
-# ifelse() returns numbers (days since 1970-01-01): the Date type is lost
+# 🔁 Reading only (on the website): base R ifelse() works like if_else(), but
+#    turns dates into numbers (days since 1970-01-01). Use if_else().
 
 # ✏️ TRY IT 5: a) 999 -> NA, b) Fahrenheit -> Celsius
 measles_clean <- measles_clean %>%
@@ -175,7 +173,7 @@ measles_clean <- measles_clean %>%
 measles_clean %>% count(sex)          # female 533, male 642, NA 40
 measles_clean %>% count(vaccinated)
 
-# ✏️ TRY IT 7: make district one of North, South, East, West, Central
+# ✏️ TRY IT 7 (homework if behind): make district one of North, South, East, West, Central
 measles_clean <- measles_clean %>%
   mutate(
     district = str_to_title(district),
@@ -193,16 +191,10 @@ measles_clean %>% count(district)     # 5 districts + NA (34)
 
 # ── PART 7: Creating new variables ─────────────────────────────────────────
 
-# 👀 Follow along 7.1: calculate bmi, then set BMIs below 10 or above 60 to NA
-linelist_clean <- linelist_clean %>%
-  mutate(
-    bmi = round(wt_kg / (ht_cm / 100)^2, 1),
-    bmi = if_else(bmi < 10 | bmi > 60, NA, bmi)
-  )
+# 📖 Reading only (on the website): BMI = wt_kg / (ht_cm / 100)^2, with BMIs
+#    below 10 or above 60 set to NA. It's included in the Part 8 pipeline.
 
-summary(linelist_clean$bmi)
-
-# 👀 Follow along 7.2: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
+# 👀 Follow along 7.1: create age_cat: Under 18, 18-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
 linelist_clean <- linelist_clean %>%
   mutate(age_cat = case_when(
     age_years < 18  ~ "Under 18",
@@ -217,12 +209,8 @@ linelist_clean <- linelist_clean %>%
 
 linelist_clean %>% count(age_cat)
 
-# 🔁 Follow along 7.3: the same groups with cut()
-cut(linelist_clean$age_years,
-    breaks = c(0, 18, 30, 40, 50, 60, 70, 80, Inf),
-    labels = c("Under 18", "18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80+"),
-    right  = FALSE) %>%
-  table(useNA = "ifany")   # same counts, already in order
+# 🔁 Reading only (on the website): base R cut() makes the same groups from
+#    break points, already in order. Remember right = FALSE.
 
 # ✏️ TRY IT 8: a) outcome with str_to_title(), b) age_cat for measles
 measles_clean <- measles_clean %>%
@@ -243,6 +231,7 @@ measles_clean %>% count(age_cat)      # 4 groups + NA (31)
 # ── PART 8: One pipeline and saving your work ──────────────────────────────
 
 # 👀 Follow along 8.1: one pipeline from linelist_raw to linelist_clean
+#    (already filled in: read it with the instructor, then run it)
 linelist_clean <- linelist_raw %>%
   clean_names() %>%
   rename(
@@ -287,6 +276,8 @@ linelist_clean <- linelist_raw %>%
       age_years >= 80 ~ "80+"
     )
   )
+
+glimpse(linelist_clean)   # 6604 rows, 16 columns
 
 # 👀 Follow along 8.2: save linelist_clean as processed_data/linelist_clean.rds
 export(linelist_clean, here("processed_data", "linelist_clean.rds"))
