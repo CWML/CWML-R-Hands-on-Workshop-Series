@@ -39,7 +39,7 @@ subtitle: "Bar charts of counts and values, choosing colors, epidemic curves, fa
 Load the packages, import the finished linelist, and put the categories in a sensible order (the same as Session 6):
 
 ::: follow-along
-**👀 Follow along 1.1** — Load tidyverse, here, and rio; import `combined_linelist.rds` as `linelist`, and `fct_relevel()` `age_cat` and `outcome` (same as Session 6).
+**👀 Follow along 1.1** — Load tidyverse, here, and rio; import `combined_linelist.rds` as `linelist`, and `fct_relevel()` `age_cat` and `outcome` (same as Session 6). These lines are already in your script: just run them.
 :::
 
 ```{r}
@@ -301,7 +301,7 @@ Not much. Check `n` in `death_by_age`: the 70–79 bar is based on 6 patients an
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 3 (5 min): case rates by district
+## ✏️ TRY IT 3 (5 min, homework if behind): case rates by district
 
 a)  Calculate cases per 10,000 people by district (Session 5), leaving out "Unknown".
 b)  Plot it with `geom_col()`, using `x = fct_reorder(district, rate_per_10k)`.
@@ -357,7 +357,7 @@ outcome_colors <- c("Recover" = "#2a78d6", "Death" = "#eb6834", "Unknown" = "#9a
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "fill", color = "white") +
   scale_fill_manual(values = outcome_colors) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::label_percent()) +
   labs(
     title = "Outcome by age group",
     x     = "Age group",
@@ -373,7 +373,7 @@ ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
 -   `outcome_colors` is a **named vector**: each name ("Recover", "Death", "Unknown") is a category, and each value is its color. Saving it once lets you reuse it in every plot.
 -   `scale_fill_manual(values = outcome_colors)` matches the colors to the categories **by name**, so Recover is always blue, even in a plot where some outcomes are missing.
 -   `geom_bar(position = "fill", color = "white")` makes 100% bars, and `color = "white"` draws a thin white line between the pieces.
--   `scale_y_continuous(labels = scales::percent)` shows the y-axis values 0.25, 0.50, ... as 25%, 50%, ....
+-   `scale_y_continuous(labels = scales::label_percent())` shows the y-axis values 0.25, 0.50, ... as 25%, 50%, .... In Session 5 you used `scales::percent()` to turn numbers into percent **text** in a table. `label_percent()` is its partner for **axes**: you hand it to `labels =`, and ggplot uses it on every axis value. The scales package has one for other formats too, such as `label_comma()` for 1,000 and `label_dollar()` for $.
 -   In `labs()`, `fill = "Outcome"` sets the title of the legend.
 :::
 
@@ -410,7 +410,7 @@ Make a 100% bar chart of `vaccinated` by `age_cat`, with `vacc_colors`, a percen
 ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
   geom_bar(position = "fill", color = "white") +
   scale_fill_manual(values = vacc_colors) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::label_percent()) +
   labs(
     title = "Vaccination status of measles cases by age group",
     x     = "Age group",
@@ -589,11 +589,7 @@ linelist %>%
 -   `date_breaks = "4 months"` labels the axis less often, because each panel is narrow.
 :::
 
-Facets work with any plot:
-
-::: follow-along
-**👀 Follow along 6.2** — An age histogram with `facet_wrap(~ gender)`, leaving out "Unknown".
-:::
+Facets work with any plot. Here, an age histogram by gender (reading only, you don't need to type this):
 
 ```{r}
 #| fig-alt: "Two age histograms side by side, for female and male patients. Female patients are mostly under 25, while male ages are spread more widely, up to about 75."

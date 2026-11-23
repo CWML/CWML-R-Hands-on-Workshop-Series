@@ -517,7 +517,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Part 1: Set up</h1>
 <p>Load the packages, import the finished linelist, and put the categories in a sensible order (the same as Session 6):</p>
 <div class="follow-along">
-<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, and rio; import <code>combined_linelist.rds</code> as <code>linelist</code>, and <code>fct_relevel()</code> <code>age_cat</code> and <code>outcome</code> (same as Session 6).</p>
+<p><strong>👀 Follow along 1.1</strong> — Load tidyverse, here, and rio; import <code>combined_linelist.rds</code> as <code>linelist</code>, and <code>fct_relevel()</code> <code>age_cat</code> and <code>outcome</code> (same as Session 6). These lines are already in your script: just run them.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -993,7 +993,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (5 min): case rates by district
+<span class="screen-reader-only">Important</span>✏️ TRY IT 3 (5 min, homework if behind): case rates by district
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1072,7 +1072,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> linelist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> outcome)) <span class="sc">+</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> outcome_colors) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>()) <span class="sc">+</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Outcome by age group"</span>,</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Age group"</span>,</span>
@@ -1102,7 +1102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>outcome_colors</code> is a <strong>named vector</strong>: each name (“Recover”, “Death”, “Unknown”) is a category, and each value is its color. Saving it once lets you reuse it in every plot.</li>
 <li><code>scale_fill_manual(values = outcome_colors)</code> matches the colors to the categories <strong>by name</strong>, so Recover is always blue, even in a plot where some outcomes are missing.</li>
 <li><code>geom_bar(position = "fill", color = "white")</code> makes 100% bars, and <code>color = "white"</code> draws a thin white line between the pieces.</li>
-<li><code>scale_y_continuous(labels = scales::percent)</code> shows the y-axis values 0.25, 0.50, … as 25%, 50%, ….</li>
+<li><code>scale_y_continuous(labels = scales::label_percent())</code> shows the y-axis values 0.25, 0.50, … as 25%, 50%, …. In Session 5 you used <code>scales::percent()</code> to turn numbers into percent <strong>text</strong> in a table. <code>label_percent()</code> is its partner for <strong>axes</strong>: you hand it to <code>labels =</code>, and ggplot uses it on every axis value. The scales package has one for other formats too, such as <code>label_comma()</code> for 1,000 and <code>label_dollar()</code> for $.</li>
 <li>In <code>labs()</code>, <code>fill = "Outcome"</code> sets the title of the legend.</li>
 </ul>
 </div>
@@ -1164,7 +1164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> measles, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> vaccinated)) <span class="sc">+</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> vacc_colors) <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>()) <span class="sc">+</span></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vaccination status of measles cases by age group"</span>,</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Age group"</span>,</span>
@@ -1451,10 +1451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </div>
 </div>
-<p>Facets work with any plot:</p>
-<div class="follow-along">
-<p><strong>👀 Follow along 6.2</strong> — An age histogram with <code>facet_wrap(~ gender)</code>, leaving out “Unknown”.</p>
-</div>
+<p>Facets work with any plot. Here, an age histogram by gender (reading only, you don’t need to type this):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">%&gt;%</span></span>

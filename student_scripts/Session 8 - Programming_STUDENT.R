@@ -26,9 +26,18 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 # 🎯 Goal: Load packages and import the data.
+#
+# 📖 The set-up lines are filled in for you: just run them.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio, janitor; import combined_linelist.rds as linelist
+#    (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE)
 
 
 # ✏️ TRY IT 1 (1 min): import processed_data/measles_final.rds as measles
@@ -87,6 +96,9 @@
 #      function(data, district) { data %>% filter(district == district) }
 #      R compares the column with itself, so every row is kept.
 #      Name it district_name instead.
+#    - Code can run without an error and still be wrong: a typo such as
+#      hospital_summary(linelist, "Military hospital") gives 0 cases, not an error.
+#      Open the 🤔 box after Follow along 3.2 on the website.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 3.1: write pct(x, digits = 1) that returns round(mean(x, na.rm = TRUE) * 100, digits)
@@ -124,6 +136,10 @@
 #    - For a whole column, use the vectorized if_else() from Session 2.
 #    - if is perfect for checking inputs. stop("message") ends the function with
 #      a helpful error:  if (!is.numeric(temp_c)) stop("temp_c must be a number")
+#    - stopifnot(CONDITION) does the if and the stop() in one line: it stops unless
+#      CONDITION is TRUE. For example, inside hospital_summary():
+#        stopifnot(hospital %in% data$hospital_name)
+#      (reading only, on the website)
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 4.1: fever_status(temp) with if / else; test it on 39.2 and 36.9
@@ -155,6 +171,8 @@
 #          CODE THAT USES ITEM
 #        }
 #      ITEM takes each value of VECTOR in turn.
+#      The smallest loop on the website (reading only) prints two hospital names:
+#        for (h in c("Central Hospital", "Military Hospital")) { print(h) }
 #    - Inside a loop, nothing prints automatically: use print().
 #    - To keep results, create an empty container BEFORE the loop (results <- c())
 #      and fill it inside the loop (results[ITEM] <- ...).
@@ -165,17 +183,14 @@
 #      already repeat work for you. Use a loop to repeat a WHOLE task.
 # ────────────────────────────────────────────────────────────────────────────
 
-# 👀 Follow along 5.1: a loop that prints two hospital names
-
-
-# 👀 Follow along 5.2: make the hospitals vector (no "Other/Unknown"), then loop and print
+# 👀 Follow along 5.1: make the hospitals vector (no "Other/Unknown"), then loop and print
 #    the number of cases at each
 
 
-# 👀 Follow along 5.3: save the counts in case_counts
+# 👀 Follow along 5.2: save the counts in case_counts
 
 
-# 👀 Follow along 5.4: THE PAYOFF: loop over hospitals and ggsave() one epicurve each to outputs/
+# 👀 Follow along 5.3: THE PAYOFF: loop over hospitals and ggsave() one epicurve each to outputs/
 
 
 # ✏️ TRY IT 5 (6 min): write make_measles_epicurve(data, district_name) for weekly cases by
@@ -202,6 +217,7 @@
 #    sapply(X, FUNCTION) is like map_dbl(), but it GUESSES the shape of the
 #    result (a vector, a matrix, or a list). Extra arguments go after the
 #    function: sapply(DATA, mean, na.rm = TRUE)
+#    Read the 🔁 box in Part 6 on the website (no typing).
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: map_dbl() for the mean of age_years, bmi, and temp
@@ -213,11 +229,7 @@
 # 👀 Follow along 6.3: walk() to save them all (the same as the Part 5 loop)
 
 
-# 🔁 Follow along 6.4: the base R way. sapply() and lapply() on age_years, bmi, and temp
-#    with mean and with range. Which one returns a matrix?
-
-
-# ✏️ TRY IT 6 (5 min):
+# ✏️ TRY IT 6 (5 min, homework if behind):
 #    a) use map_dbl() to find the mean of age_years, temp_c, and days_in_hospital in measles
 #    b) replace your district loop with walk()
 #    ✅ Check: a) 8.75, 38.82, 4.94   b) the same five .png files

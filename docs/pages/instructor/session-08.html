@@ -433,63 +433,81 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../pages/lessons/08-programming.html">→ Open the Session 8 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 80 minutes. The smallest loop (Part 5), <code>stopifnot()</code> (Part 4), and the 🔁 <code>lapply()</code> / <code>sapply()</code> box (Part 6) are reading only.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 20%">
-<col style="width: 61%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 47%">
+<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Set up</td>
-<td>5 min</td>
+<td>Set up (pre-filled)</td>
+<td>3 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>Writing your first function</td>
-<td>15 min</td>
+<td>13 min</td>
+<td>0:03</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Functions that use data</td>
-<td>15 min</td>
+<td>16 min</td>
+<td>0:16</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td><code>if</code> / <code>else</code></td>
 <td>14 min</td>
+<td>0:32</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td><code>for</code> loops</td>
-<td>18 min</td>
+<td>15 min</td>
+<td>0:46</td>
 </tr>
 <tr class="even">
 <td>6</td>
-<td>Iteration the tidyverse way: <code>map()</code> and <code>walk()</code> (+ 🔁 <code>lapply()</code> / <code>sapply()</code>)</td>
-<td>17 min</td>
+<td>Iteration the tidyverse way: <code>map()</code> and <code>walk()</code></td>
+<td>14 min</td>
+<td>1:01</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>Wrap-up</td>
 <td>5 min</td>
+<td>1:15</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>89 min</strong></td>
+<td><strong>80 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Demo <code>walk()</code> but make TRY IT 6 (map and walk) homework — part (b) just repeats the district loop from TRY IT 5. Don’t cut the Part 5 loop: it is the payoff of the session.</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 6 (map and walk): assign it as homework. Part (b) repeats the district loop from TRY IT 5.</li>
+<li>Follow along 6.3 (<code>walk()</code>): show it on screen 1 and let learners read it.</li>
+<li>The 🧩 “Reading a function call” box in Part 6: point to it on screen 2 and move on.</li>
+</ol>
+<p>Don’t cut the Part 5 loop (Follow along 5.3 and TRY IT 5): it’s the payoff of the session.</p>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -503,13 +521,15 @@ ul.task-list li input[type="checkbox"] {
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
 <p><strong>The motivating example.</strong> Keep returning to it: <em>“Your manager wants an epidemic curve for every hospital, every week.”</em> By the end, one loop does it.</p>
+<p><strong>Part 1 — Set up.</strong> The <code>library()</code> and <code>import()</code> lines are already in the student script: learners just run them. Only the measles import (TRY IT 1) is typed.</p>
 <p><strong>Part 2 — Writing your first function.</strong> Show that a function only exists after you run the whole block — it then appears in the <strong>Variables</strong> pane. When you change a function, re-run the block, or R keeps using the old version. Point out that <code>c_to_f()</code> is vectorized because the maths inside is, so it works inside <code>mutate()</code>. The <code>f_to_c(104.7)</code> result (40.4) is the Fahrenheit temperature learners found in the measles data in Session 1.</p>
 <p><strong>Part 3 — Functions that use data.</strong> Point out that <code>pct()</code> replaces the <code>round(mean(...) * 100, 1)</code> learners wrote over and over in Session 5, and that <code>paste("Weekly cases:", hospital)</code> gives every plot the right title. In TRY IT 3, watch for learners naming the argument <code>district</code>: then <code>filter(district == district)</code> compares the column with itself and keeps every row — no error, just the wrong answer (n = 1163 instead of 342). That’s why the argument is called <code>district_name</code>. The lesson page has this as a warning box.</p>
-<p><strong>Part 4 — <code>if</code> / <code>else</code>.</strong> Run <code>fever_status(c(39.2, 36.9))</code> live so learners see the error “the condition has length &gt; 1”: <code>if</code> asks one yes/no question. Then switch to the vectorized <code>if_else()</code> from Session 2. Present <code>stop()</code> input checks as where <code>if</code> really shines. (Both error chunks are deliberate; the lesson page shows the errors.)</p>
-<p><strong>Part 5 — <code>for</code> loops.</strong> Stress that inside a loop nothing prints automatically (<code>print()</code>), and that results need a container created <strong>before</strong> the loop. In the payoff loop, point out <code>make_clean_names()</code> turning “St.&nbsp;Mark’s Maternity Hospital” into <code>st_marks_maternity_hospital</code> and <code>paste0()</code> building the file name: six files, one loop — and next week you just re-run it. Have learners check the <strong>Explorer</strong> for the new files in <code>outputs/</code>. Remind them that <code>mutate()</code>, <code>group_by()</code> + <code>summarise()</code>, and <code>across()</code> already loop for them; a <code>for</code> loop is for repeating a <strong>whole task</strong>.</p>
+<p>After Follow along 3.2, open the 🤔 “it ran without an error, but is it right?” box: <code>hospital_summary(linelist, "Military hospital")</code> (lower-case “h”) gives 0 cases and <code>NaN</code>, with no error. Ask the class what would happen if this ran inside a report every week. Part 4 comes back to it with <code>stopifnot()</code>.</p>
+<p><strong>Part 4 — <code>if</code> / <code>else</code>.</strong> Run <code>fever_status(c(39.2, 36.9))</code> live so learners see the error “the condition has length &gt; 1”: <code>if</code> asks one yes/no question. Then switch to the vectorized <code>if_else()</code> from Session 2. Present <code>stop()</code> input checks as where <code>if</code> really shines. (Both error chunks are deliberate; the lesson page shows the errors.) <code>stopifnot()</code> is reading only: show on screen 2 how one line fixes the silent typo from Part 3, so <code>"Military hospital"</code> now stops with an error instead of returning 0.</p>
+<p><strong>Part 5 — <code>for</code> loops.</strong> The smallest loop (two hospital names) is reading only: read it aloud from the screen (“for each <code>h</code> in this vector…”), then have learners type Follow along 5.1. Stress that inside a loop nothing prints automatically (<code>print()</code>), and that results need a container created <strong>before</strong> the loop. In the payoff loop, point out <code>make_clean_names()</code> turning “St.&nbsp;Mark’s Maternity Hospital” into <code>st_marks_maternity_hospital</code> and <code>paste0()</code> building the file name: six files, one loop — and next week you just re-run it. Have learners check the <strong>Explorer</strong> for the new files in <code>outputs/</code>. Remind them that <code>mutate()</code>, <code>group_by()</code> + <code>summarise()</code>, and <code>across()</code> already loop for them; a <code>for</code> loop is for repeating a <strong>whole task</strong>.</p>
 <p><strong>Part 6 — <code>map()</code> and <code>walk()</code>.</strong> Point out that a data frame is a list of columns, so <code>map_dbl()</code> runs once per column, and that <code>~ .x</code> is the same shorthand they used with <code>across()</code> in Session 3. Loop or <code>map()</code>? Both are fine — tell learners to use the one they can read.</p>
-<p><strong>🔁 <code>lapply()</code> / <code>sapply()</code> (4 min).</strong> Learners who go on to bioinformatics will meet these constantly: Bioconductor code and vignettes use the apply family far more than purrr. Show the translation table, then let the class predict what <code>sapply(three_cols, range, na.rm = TRUE)</code> returns before running it: the matrix is the teaching moment for why <code>map_dbl()</code> exists.</p>
-<p><strong>Wrap-up.</strong> Today: <code>function()</code>, arguments and defaults, <code>if</code>/<code>else</code>, <code>stop()</code>, <code>if_else()</code>, <code>for</code> loops, <code>map()</code>, <code>map_dbl()</code>, <code>walk()</code>. The big idea: write it once, run it many times — a function plus a loop (or <code>walk()</code>) turns an hour of copy-paste into one line you can re-run every week. Where to go next: <a href="https://r4ds.hadley.nz/">R for Data Science</a> (functions and iteration chapters) and <a href="https://epirhandbook.com/">The Epidemiologist R Handbook</a>.</p>
+<p><strong>🔁 <code>lapply()</code> / <code>sapply()</code> (reading only, 2 min).</strong> Learners who go on to bioinformatics will meet these constantly: Bioconductor code and vignettes use the apply family far more than purrr. Show the translation table on screen 2, then let the class predict what <code>sapply(three_cols, range, na.rm = TRUE)</code> returns before you scroll to the output: the matrix is the teaching moment for why <code>map_dbl()</code> exists. Nobody types it.</p>
+<p><strong>Wrap-up.</strong> Today: <code>function()</code>, arguments and defaults, <code>if</code>/<code>else</code>, <code>stop()</code>, <code>stopifnot()</code>, <code>if_else()</code>, <code>for</code> loops, <code>map()</code>, <code>map_dbl()</code>, <code>walk()</code>. The big idea: write it once, run it many times — a function plus a loop (or <code>walk()</code>) turns an hour of copy-paste into one line you can re-run every week. Where to go next: <a href="https://r4ds.hadley.nz/">R for Data Science</a> (functions and iteration chapters) and <a href="https://epirhandbook.com/">The Epidemiologist R Handbook</a>.</p>
 </section>
 <section id="try-it-answers-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-answers-at-a-glance">TRY IT answers at a glance</h2>
@@ -547,7 +567,7 @@ ul.task-list li input[type="checkbox"] {
 <td>Five files: <code>measles_central.png</code>, <code>measles_east.png</code>, <code>measles_north.png</code>, <code>measles_south.png</code>, <code>measles_west.png</code></td>
 </tr>
 <tr class="even">
-<td>6. Map and walk</td>
+<td>6. Map and walk (homework if behind)</td>
 <td>a) 8.75, 38.82, 4.94; b) the same five files</td>
 </tr>
 </tbody>

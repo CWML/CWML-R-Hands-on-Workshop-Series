@@ -12,7 +12,7 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along 1.1: load packages; import linelist
+# 👀 Follow along 1.1 (already filled in in the student script): load packages; import linelist
 library(tidyverse)
 library(here)
 library(rio)
@@ -84,6 +84,9 @@ hospital_summary <- function(data, hospital) {
 
 hospital_summary(linelist, "Military Hospital")
 hospital_summary(linelist, "Central Hospital")
+
+# 🤔 It runs, but is it right? A typo gives 0 cases and NaN, with no error:
+hospital_summary(linelist, "Military hospital")
 
 # 👀 Follow along 3.3: make_epicurve()
 make_epicurve <- function(data, hospital) {
@@ -163,6 +166,20 @@ c_to_f <- function(temp_c, digits = 1) {
 
 try(c_to_f("38"))   # Error: temp_c must be a number, not character (on purpose)
 
+# 📖 Reading only (on the website): stopifnot() does the if and the stop() in one line
+hospital_summary <- function(data, hospital) {
+  stopifnot(hospital %in% data$hospital_name)
+  data %>%
+    filter(hospital_name == hospital) %>%
+    summarise(
+      n         = n(),
+      pct_death = pct(outcome == "Death")
+    )
+}
+
+hospital_summary(linelist, "Military Hospital")        # works: 896 cases, 44.5% died
+try(hospital_summary(linelist, "Military hospital"))   # Error: ... is not TRUE (on purpose)
+
 # ✏️ TRY IT 4:
 # a)
 fever_status_one <- function(temp) {
@@ -187,12 +204,12 @@ measles %>%
 
 # ── PART 5: for loops ──────────────────────────────────────────────────────
 
-# 👀 Follow along 5.1: a loop that prints two hospital names
+# 📖 Reading only (on the website): the smallest loop prints two hospital names
 for (h in c("Central Hospital", "Military Hospital")) {
   print(h)
 }
 
-# 👀 Follow along 5.2: the hospitals vector, and a loop that prints the number of cases
+# 👀 Follow along 5.1: the hospitals vector, and a loop that prints the number of cases
 hospitals <- linelist %>%
   filter(hospital_name != "Other/Unknown") %>%
   distinct(hospital_name) %>%
@@ -206,7 +223,7 @@ for (h in hospitals) {
   print(paste(h, "has", n_cases, "cases"))
 }
 
-# 👀 Follow along 5.3: save the counts
+# 👀 Follow along 5.2: save the counts
 case_counts <- c()
 
 for (h in hospitals) {
@@ -215,7 +232,7 @@ for (h in hospitals) {
 
 case_counts
 
-# 👀 Follow along 5.4: THE PAYOFF: one epicurve per hospital
+# 👀 Follow along 5.3: THE PAYOFF: one epicurve per hospital
 for (h in hospitals) {
   p <- make_epicurve(linelist, h)
   file_name <- paste0("epicurve_", make_clean_names(h), ".png")
@@ -263,13 +280,13 @@ walk(hospitals, ~ ggsave(
   plot = make_epicurve(linelist, .x), width = 8, height = 5, dpi = 300
 ))
 
-# 🔁 Follow along 6.4: the base R way
+# 🔁 Reading only (on the website): the base R way with sapply() and lapply()
 three_cols <- linelist[, c("age_years", "bmi", "temp")]
 sapply(three_cols, mean, na.rm = TRUE)    # like map_dbl()
 lapply(three_cols, range, na.rm = TRUE)   # like map(): a list
 sapply(three_cols, range, na.rm = TRUE)   # a matrix: sapply() guesses the shape
 
-# ✏️ TRY IT 6:
+# ✏️ TRY IT 6 (homework if behind):
 # a)
 measles %>%
   select(age_years, temp_c, days_in_hospital) %>%

@@ -40,7 +40,7 @@ This session is **optional / advanced**: it builds on everything before it, espe
 # Part 1: Set up
 
 ::: follow-along
-**👀 Follow along 1.1** — Load tidyverse, here, rio, and janitor, and import `combined_linelist.rds` as `linelist`.
+**👀 Follow along 1.1** — Load tidyverse, here, rio, and janitor, and import `combined_linelist.rds` as `linelist`. These lines are already in your script: just run them.
 :::
 
 ```{r}
@@ -265,6 +265,18 @@ hospital_summary(linelist, "Central Hospital")
 -   Same function, different input: Military Hospital has 896 cases (44.5% died) and Central Hospital has 454 (42.5%).
 :::
 
+::: {.callout-note collapse="true" icon=false}
+## 🤔 Think about it: it ran without an error, but is it right?
+
+Here the hospital name has a small typo, a lower-case "h":
+
+```{r}
+hospital_summary(linelist, "Military hospital")
+```
+
+No error and no warning, but 0 cases and a death percentage of `NaN` ("not a number": 0 divided by 0). `filter()` found no hospital called "Military hospital", because R treats upper and lower case as different letters. In a longer script, a 0 like this can slip into a report unnoticed. In Part 4 you'll see how to make a function **stop** when its input doesn't make sense.
+:::
+
 ## A function that makes a plot
 
 ::: follow-along
@@ -450,6 +462,34 @@ c_to_f("38")
 -   `"38"` is in quotes, so it's text, and the function stops before doing any maths. Without the check, R would give a less helpful error: "non-numeric argument to binary operator".
 :::
 
+## A shorter check: `stopifnot()`
+
+`stopifnot()` does the `if` and the `stop()` in one line: it stops unless the condition is TRUE. It fixes the silent typo from Part 3 (reading only, you don't need to type this):
+
+```{r}
+#| eval: false
+hospital_summary <- function(data, hospital) {
+  stopifnot(hospital %in% data$hospital_name)
+  data %>%
+    filter(hospital_name == hospital) %>%
+    summarise(
+      n         = n(),
+      pct_death = pct(outcome == "Death")
+    )
+}
+
+hospital_summary(linelist, "Military Hospital")   # works: 896 cases
+hospital_summary(linelist, "Military hospital")   # stops with an error
+```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `hospital %in% data$hospital_name` is TRUE when the name you gave appears in the `hospital_name` column. "Military Hospital" does, so the function runs as before.
+-   "Military hospital" doesn't, so `stopifnot()` stops the function with: *hospital %in% data\$hospital_name is not TRUE*. An error you can see is better than a 0 you might miss.
+-   For a friendlier message, name the condition: `stopifnot("hospital not found" = hospital %in% data$hospital_name)` stops with "hospital not found".
+:::
+
 ::: {.callout-important .tryit icon=false}
 ## ✏️ TRY IT 4 (5 min): fever status for the measles data
 
@@ -496,11 +536,7 @@ measles %>%
 
 # Part 5: `for` loops
 
-A `for` loop runs the same code **once for each value** in a vector:
-
-::: follow-along
-**👀 Follow along 5.1** — A loop that prints two hospital names.
-:::
+A `for` loop runs the same code **once for each value** in a vector. Here is the smallest possible loop (reading only, you don't need to type this):
 
 ```{r}
 for (h in c("Central Hospital", "Military Hospital")) {
@@ -520,7 +556,7 @@ Read it as: "for each `h` in this vector, run the code between `{ }`". `h` takes
 ## Loop over every hospital
 
 ::: follow-along
-**👀 Follow along 5.2** — Make the `hospitals` vector (without "Other/Unknown"), then loop and print the number of cases at each.
+**👀 Follow along 5.1** — Make the `hospitals` vector (without "Other/Unknown"), then loop and print the number of cases at each.
 :::
 
 ```{r}
@@ -553,7 +589,7 @@ Inside a loop, results are not printed automatically — use `print()`.
 To keep results, create an empty container **before** the loop and fill it inside:
 
 ::: follow-along
-**👀 Follow along 5.3** — Save the counts in `case_counts`.
+**👀 Follow along 5.2** — Save the counts in `case_counts`.
 :::
 
 ```{r}
@@ -577,7 +613,7 @@ case_counts
 ## The payoff: one epidemic curve per hospital
 
 ::: follow-along
-**👀 Follow along 5.4** — The payoff: loop over `hospitals` and `ggsave()` one epicurve each to `outputs/`.
+**👀 Follow along 5.3** — The payoff: loop over `hospitals` and `ggsave()` one epicurve each to `outputs/`.
 :::
 
 ```{r}
@@ -754,9 +790,7 @@ Base R's apply family does the same job, and you will see it **everywhere** in o
 | `map(x, f)` | `lapply(x, f)` | a list |
 | `map_dbl(x, f)` | `sapply(x, f)` (or `vapply(x, f, numeric(1))`) | a vector, *usually* |
 
-::: follow-along
-**🔁 Follow along 6.4** — The base R way: `sapply()` and `lapply()` on `age_years`, `bmi`, and `temp`, with `mean` and with `range`. Which one returns a matrix?
-:::
+Here are both on `age_years`, `bmi`, and `temp`, with `mean` and with `range` (reading only, you don't need to type this). Which one returns a matrix?
 
 ```{r}
 three_cols <- linelist[, c("age_years", "bmi", "temp")]
@@ -779,7 +813,7 @@ Extra arguments (`na.rm = TRUE`) go after the function name. `sapply()` *guesses
 :::
 
 ::: {.callout-important .tryit icon=false}
-## ✏️ TRY IT 6 (5 min): map and walk
+## ✏️ TRY IT 6 (5 min, homework if behind): map and walk
 
 a)  Use `map_dbl()` to find the mean of `age_years`, `temp_c`, and `days_in_hospital` in `measles`.
 b)  Replace your district loop with `walk()`.
@@ -825,7 +859,8 @@ See the solutions file for answers.
 -   **Write it once, run it many times:** if you copy and paste code more than twice, write a function with `function()`.
 -   A function takes **arguments** (which can have **default values**) and returns the result of its last line. Re-run the block after every change.
 -   Never give an argument the same name as a column — use `district_name`, not `district`.
--   `if` / `else` works on **one** value (great for input checks with `stop()`); `if_else()` works on a whole column.
+-   `if` / `else` works on **one** value (great for input checks with `stop()` or `stopifnot()`); `if_else()` works on a whole column.
+-   Code that runs without an error can still give a wrong answer: a typo in a value gives 0 rows, not an error. Check your results, and let functions check their inputs.
 -   A `for` loop repeats a **whole task** for each value; create an empty container before the loop to keep results.
 -   `map()` returns a list, `map_dbl()` a number vector, and `walk()` just does something (like saving files) for each element. In base R code you will see `lapply()` (always a list) and `sapply()` (it guesses the shape).
 

@@ -434,63 +434,81 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../pages/lessons/07-plotting-further.html">→ Open the Session 7 lesson</a></p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<p>The plan below adds up to about 80 minutes. The age histogram by gender (Part 6) is reading only.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Part</th>
 <th>Topic</th>
 <th>Time (incl.&nbsp;TRY IT)</th>
+<th>Start by</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Set up</td>
-<td>6 min</td>
+<td>Set up (pre-filled)</td>
+<td>4 min</td>
+<td>0:00</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>Bar charts of counts: <code>geom_bar()</code></td>
-<td>15 min</td>
+<td>14 min</td>
+<td>0:04</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Bar charts of values: <code>geom_col()</code></td>
-<td>13 min</td>
+<td>12 min</td>
+<td>0:18</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Choosing colors</td>
 <td>12 min</td>
+<td>0:30</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>Epidemic curves</td>
 <td>17 min</td>
+<td>0:42</td>
 </tr>
 <tr class="even">
 <td>6</td>
 <td>Facets</td>
-<td>12 min</td>
+<td>9 min</td>
+<td>0:59</td>
 </tr>
 <tr class="odd">
 <td>7</td>
 <td>Saving plots</td>
 <td>7 min</td>
+<td>1:08</td>
 </tr>
 <tr class="even">
 <td></td>
-<td>Wrap-up</td>
+<td>Wrap-up: the whole workflow</td>
 <td>5 min</td>
+<td>1:15</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><strong>Total</strong></td>
-<td><strong>87 min</strong></td>
+<td><strong>80 min</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Short on time?</strong> Make TRY IT 3 (case rates by district) homework — it repeats Session 5’s rate calculation and nothing later depends on it. Don’t skip TRY IT 5 (the measles epicurve): learners need <code>measles_epicurve</code> for Parts 6 and 7. The <strong>Extra</strong> box-plot section is optional — use it only if there is time, or for learners who finish early.</p>
+<p><strong>Running behind? Skip in this order:</strong></p>
+<ol type="1">
+<li>TRY IT 3 (case rates by district): assign it as homework. It repeats Session 5’s rate calculation, and nothing later depends on it.</li>
+<li>The “Rotate long labels” example in Part 4: point to it on screen 2 and move on.</li>
+<li>The 🧩 “Reading a function call” box in Part 2: point to it on screen 2 and move on.</li>
+</ol>
+<p>Don’t cut TRY IT 5 (the measles epicurve): learners need <code>measles_epicurve</code> for TRY IT 6 and 7. The <strong>Extra</strong> box-plot section is optional: use it only for learners who finish early.</p>
+<p><strong>Never speed-run.</strong> If you reach the end of the time, stop at the end of a part and point learners to the rest of the lesson page.</p>
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
@@ -502,12 +520,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="teaching-notes-by-part" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-notes-by-part">Teaching notes by part</h2>
-<p><strong>Part 1 — Set up.</strong> Same import pipeline as Session 6. Point out why we save <code>vacc_colors</code> now: every plot later in the session reuses it, so “Yes” is always the same blue.</p>
+<p><strong>Part 1 — Set up.</strong> The <code>linelist</code> lines are already in the student script: learners just run them, then type the measles version and <code>vacc_colors</code> (TRY IT 1). Point out why we save <code>vacc_colors</code> now: every plot later in the session reuses it, so “Yes” is always the same blue.</p>
 <p><strong>Part 2 — <code>geom_bar()</code>.</strong> Start with <code>x = hospital_name</code> so learners see the overlapping labels, then switch to <code>y</code>. Ask the class: <em>which version (stack, fill, or dodge) answers “do older patients die more often?”</em> — the 100% <code>"fill"</code> version; the stacked one mostly shows that there are many more young patients.</p>
-<p><strong>Part 3 — <code>geom_col()</code>.</strong> Ask the class: <em>the 70–79 and 80+ bars are based on very few patients — check <code>n</code> in <code>death_by_age</code>. How much should we trust them?</em> — Not much: 70–79 has 6 patients and 80+ has 1 (0% died).</p>
-<p><strong>Part 4 — Choosing colors.</strong> The original workshop used red/green and dark red/red. These pages use blue, orange, and gray (<code>#2a78d6</code>, <code>#eb6834</code>, <code>#9a9a95</code>); blue, orange, and aqua (<code>#2a78d6</code>, <code>#eb6834</code>, <code>#1baf7a</code>) stay distinguishable for the common types of color blindness. For more colors, the <strong>viridis</strong> scales are built in: <code>scale_fill_viridis_d()</code>.</p>
+<p><strong>Part 3 — <code>geom_col()</code>.</strong> TRY IT 3 is homework if behind. Ask the class: <em>the 70–79 and 80+ bars are based on very few patients — check <code>n</code> in <code>death_by_age</code>. How much should we trust them?</em> — Not much: 70–79 has 6 patients and 80+ has 1 (0% died).</p>
+<p><strong>Part 4 — Choosing colors.</strong> The original workshop used red/green and dark red/red. These pages use blue, orange, and gray (<code>#2a78d6</code>, <code>#eb6834</code>, <code>#9a9a95</code>); blue, orange, and aqua (<code>#2a78d6</code>, <code>#eb6834</code>, <code>#1baf7a</code>) stay distinguishable for the common types of color blindness. For more colors, the <strong>viridis</strong> scales are built in: <code>scale_fill_viridis_d()</code>. For the percent axis, connect <code>scales::label_percent()</code> to Session 5’s <code>scales::percent()</code>: the same package, one for table text, one for axes.</p>
 <p><strong>Part 5 — Epidemic curves.</strong> Show the full-range epicurve first and ask the class: <em>what is going on before 2014?</em> — 538 onset dates fall in 2012–2013 (April 2012 – April 2013), long before the outbreak, and every one belongs to a case ID that appears more than once (the duplicate IDs from Session 3), usually with the same day and month but a different year. Almost certainly data-entry errors. Make the point: <strong>plots reveal problems tables hide.</strong></p>
-<p><strong>Part 6 — Facets.</strong> Point out that facets share axes by default, which is what makes them comparable; <code>scales = "free_y"</code> breaks that. In TRY IT 6, district peaks are close but not identical with weekly bins (Central and North peak the week of 17 March, East the week of 24 March, West 10 March, and South is nearly flat from early March into April) — “they all peak in March” is the fair answer.</p>
+<p><strong>Part 6 — Facets.</strong> The age histogram by gender is reading only: show it on screen 2 to make the point that facets work with any plot. Point out that facets share axes by default, which is what makes them comparable; <code>scales = "free_y"</code> breaks that. In TRY IT 6, district peaks are close but not identical with weekly bins (Central and North peak the week of 17 March, East the week of 24 March, West 10 March, and South is nearly flat from early March into April) — “they all peak in March” is the fair answer.</p>
 <p><strong>Part 7 — Saving plots.</strong> Have learners open the saved PNG from the <strong>Explorer</strong> (<code>outputs/</code> folder) — text size in the file often looks different from the Plots pane; adjust <code>width</code>/<code>height</code> to fix it.</p>
 <p><strong>Wrap-up.</strong> Recap the journey: problem list (S1) → cleaning pipeline (S2) → de-duplicated, joined file (S3) → vectors, subsetting, reshaping (S4) → summary tables and Table 1 (S5) → histograms, scatter, box plots (S6) → bar charts, epicurves, facets saved to files (S7). Session 8 (Programming) is optional: functions, if/else, and loops — for example, one epicurve per hospital automatically. Encourage learners to repeat the whole workflow on their own data.</p>
 </section>
@@ -535,12 +553,12 @@ ul.task-list li input[type="checkbox"] {
 <td><code>aes(y = fct_rev(fct_infreq(district)))</code> + <code>geom_bar()</code>; North (342) on top, Unknown (34) at the bottom</td>
 </tr>
 <tr class="odd">
-<td>3. Case rates by district</td>
+<td>3. Case rates by district (homework if behind)</td>
 <td>Central lowest (5.2 per 10,000), then North 18.5, South 20.0, West 22.2, East highest (22.8)</td>
 </tr>
 <tr class="even">
 <td>4. Vaccination by age group</td>
-<td><code>geom_bar(position = "fill", color = "white") + scale_fill_manual(values = vacc_colors) + scale_y_continuous(labels = scales::percent)</code></td>
+<td><code>geom_bar(position = "fill", color = "white") + scale_fill_manual(values = vacc_colors) + scale_y_continuous(labels = scales::label_percent())</code></td>
 </tr>
 <tr class="odd">
 <td>5. The measles epicurve</td>

@@ -9,7 +9,8 @@
 
 # ── PART 1: Set up ─────────────────────────────────────────────────────────
 
-# 👀 Follow along 1.1: load packages; import linelist and order the categories
+# 👀 Follow along 1.1 (already filled in in the student script): load packages;
+#    import linelist and order the categories
 library(tidyverse)
 library(here)
 library(rio)
@@ -82,7 +83,7 @@ ggplot(data = death_by_age, mapping = aes(x = age_cat, y = pct_death)) +
   labs(title = "Case fatality by age group", x = "Age group", y = "Deaths (% of cases)") +
   theme_minimal()
 
-# ✏️ TRY IT 3: case rates by district
+# ✏️ TRY IT 3 (homework if behind): case rates by district
 # a)
 district_rates <- measles %>%
   filter(district != "Unknown") %>%
@@ -110,7 +111,7 @@ outcome_colors <- c("Recover" = "#2a78d6", "Death" = "#eb6834", "Unknown" = "#9a
 ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
   geom_bar(position = "fill", color = "white") +
   scale_fill_manual(values = outcome_colors) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::label_percent()) +
   labs(
     title = "Outcome by age group",
     x     = "Age group",
@@ -123,7 +124,7 @@ ggplot(data = linelist, mapping = aes(x = age_cat, fill = outcome)) +
 ggplot(data = measles, mapping = aes(x = age_cat, fill = vaccinated)) +
   geom_bar(position = "fill", color = "white") +
   scale_fill_manual(values = vacc_colors) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::label_percent()) +
   labs(
     title = "Vaccination status of measles cases by age group",
     x     = "Age group",
@@ -196,7 +197,7 @@ linelist %>%
   labs(title = "Weekly cases by hospital", x = "Week of onset", y = "Number of cases") +
   theme_minimal()
 
-# 👀 Follow along 6.2: age histogram by gender
+# 📖 Reading only (on the website): facets work with any plot, here an age histogram by gender
 linelist %>%
   filter(gender != "Unknown") %>%
   ggplot(mapping = aes(x = age_years)) +

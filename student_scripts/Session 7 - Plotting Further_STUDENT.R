@@ -29,10 +29,21 @@
 #    - Saving your colors in a named vector means every plot uses the SAME color
 #      for the same category:
 #        vacc_colors <- c("Yes" = "#2a78d6", "No" = "#eb6834", "Unknown" = "#9a9a95")
+#    - The set-up lines for linelist are filled in for you: just run them.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio; import combined_linelist.rds as linelist
-#    and fct_relevel() age_cat and outcome (same as Session 6)
+#    and fct_relevel() age_cat and outcome (same as Session 6) (already filled in: run it)
+library(tidyverse)
+library(here)
+library(rio)
+
+linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE) %>%
+  mutate(
+    age_cat = fct_relevel(age_cat, "Under 18", "18-29", "30-39", "40-49",
+                          "50-59", "60-69", "70-79", "80+", "Unknown"),
+    outcome = fct_relevel(outcome, "Recover", "Death", "Unknown")
+  )
 
 
 # ✏️ TRY IT 1 (3 min): import measles_final.rds as measles, fct_relevel() age_cat and
@@ -83,7 +94,7 @@
 # 👀 Follow along 3.1: create death_by_age (percentage who died per age group), then geom_col()
 
 
-# ✏️ TRY IT 3 (5 min):
+# ✏️ TRY IT 3 (5 min, homework if behind):
 #    a) calculate cases per 10,000 people by district (Session 5), leaving out "Unknown"
 #    b) plot it with geom_col(), using x = fct_reorder(district, rate_per_10k)
 #    ✅ Check: bars from Central (lowest, 5.2) to East (highest, 22.8)
@@ -98,7 +109,8 @@
 #      green, and two shades of the same color.
 #    - Give "Unknown" or "Other" a gray so it doesn't compete with real categories.
 #    - scale_fill_manual(values = YOUR_COLORS) for fill; scale_color_manual() for color.
-#    - scale_y_continuous(labels = scales::percent) shows 0.25 as 25%.
+#    - scale_y_continuous(labels = scales::label_percent()) shows 0.25 as 25% on the axis.
+#      (Session 5's scales::percent() makes percent TEXT in a table; label_percent() is for axes.)
 #    - Long x-axis labels: theme(axis.text.x = element_text(angle = 45, hjust = 1))
 # ────────────────────────────────────────────────────────────────────────────
 
@@ -149,12 +161,11 @@
 #    - ncol = 2 sets the number of columns; scales = "free_y" gives each panel its
 #      own y-axis (harder to compare, so use with care).
 #    - facet_grid(ROWS ~ COLUMNS) makes a grid from two variables.
+#    - Facets work with any plot: the age histogram by gender on the website is
+#      reading only.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: the epicurve with facet_wrap(~ hospital_name) (leave out "Other/Unknown")
-
-
-# 👀 Follow along 6.2: an age histogram with facet_wrap(~ gender) (leave out "Unknown")
 
 
 # ✏️ TRY IT 6 (4 min): facet your measles epicurve by district (leave out "Unknown").
