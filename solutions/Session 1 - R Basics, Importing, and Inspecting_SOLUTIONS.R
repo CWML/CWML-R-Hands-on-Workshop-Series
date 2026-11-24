@@ -35,7 +35,11 @@ mean(my_temps)   # 38.5
 #    then load the ones we need today (EVERY time you open R).
 # ────────────────────────────────────────────────────────────────────────────
 
-# Install (run once; skip this if you did the pre-workshop setup)
+# Install ONE package: its name in quotes (example only)
+# install.packages("janitor")
+
+# Install SEVERAL packages at once with c() (run once; skip this if you did the
+# pre-workshop setup)
 install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 
 # 👀 Follow along 2.1: load today's packages, one library() line each

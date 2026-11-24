@@ -67,6 +67,8 @@
 # 📖 What you need to know
 #    - A package is a set of extra functions someone else wrote.
 #    - install.packages() downloads it to your computer: once, like buying a book.
+#        One package:       install.packages("PACKAGE_NAME")
+#        Several packages:  install.packages(c("PACKAGE_1", "PACKAGE_2"))
 #    - library() loads it so you can use it: every session, like taking the book off the shelf.
 #    - Today's packages:
 #        tidyverse  data wrangling and plotting (includes dplyr and ggplot2)
@@ -85,7 +87,12 @@
 #      message R gave you (copy it).
 # ────────────────────────────────────────────────────────────────────────────
 
-# Install (run once; skip this if you did the pre-workshop setup)
+# Install ONE package: its name in quotes (example only, no need to run it:
+# janitor is in the line below)
+# install.packages("janitor")
+
+# Install SEVERAL packages at once with c() (run once; skip this if you did the
+# pre-workshop setup)
 install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 
 # 👀 Follow along 2.1: load today's packages, one library() line each

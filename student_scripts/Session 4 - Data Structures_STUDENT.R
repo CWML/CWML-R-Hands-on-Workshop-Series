@@ -48,6 +48,8 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: See that every column is a vector, and every vector has one type.
 #
 # 📖 What you need to know
+#    - Most of today's functions (length(), class(), c(), str(), list(),
+#      data.frame()) are base R: built into R, no package needed.
 #    - A vector is a set of values of the SAME type. Every column of a data
 #      frame is a vector. DATA$COLUMN pulls one out.
 #    - length() tells you how many values a vector has.
@@ -199,6 +201,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: Reshape wide data into long data.
 #
 # 📖 What you need to know
+#    - pivot_longer() and pivot_wider() come from the tidyr package (tidyverse).
 #    - Data is TIDY when each variable is a column, each observation is a row,
 #      and each value is a cell.
 #    - WIDE: one column per symptom (fever, chills, cough, ...)

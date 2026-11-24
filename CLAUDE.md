@@ -58,6 +58,10 @@ match across all of them.
   - an **open** "🔍 What this code does" callout after every Follow along's code
   - "📖 Good to know" callouts with background at the end of a part
   - one "🧩 Reading a function call" box per session, breaking down its key call
+- **Name packages and functions.** Say "package" for packages and "function" for functions,
+  and say which package a function comes from when you introduce it: "the function
+  `rename()`, from the dplyr package", not "`rename()` (dplyr)". Say "base R" for functions
+  that need no package.
 - **Lesson pages speak to the learner** ("you"); timing, teaching notes, and "ask the class"
   prompts go on the instructor pages.
 - **IDE is Positron** for everyone, not RStudio: open the folder with File → Open Folder;

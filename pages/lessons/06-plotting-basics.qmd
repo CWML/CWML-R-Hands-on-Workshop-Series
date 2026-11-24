@@ -89,7 +89,7 @@ levels(measles$age_cat)
 
 # Part 2: The grammar of graphics
 
-Every ggplot is built from the same parts, added together with `+`:
+Every ggplot is built from the same parts, added together with `+`. The function `ggplot()` and all the functions in this session that start with `geom_`, `stat_`, `scale_`, or `theme_`, as well as `aes()` and `labs()`, come from the **ggplot2** package, part of the tidyverse:
 
 | Part            | Function    | Question it answers                        |
 |-----------------|-------------|--------------------------------------------|

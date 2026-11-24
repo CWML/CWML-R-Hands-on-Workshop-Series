@@ -102,7 +102,7 @@ linelist %>% count(age_cat)
 -   This order would carry into every table and plot, which is why you set a better one next.
 :::
 
-"Under 18" should come first, and "Unknown" last. A **factor** is a text column with a set order of categories (called **levels**). `fct_relevel()` from the forcats package (part of the tidyverse) sets that order:
+"Under 18" should come first, and "Unknown" last. A **factor** is a text column with a set order of categories (called **levels**). The function `fct_relevel()`, from the **forcats** package (part of the tidyverse), sets that order:
 
 ::: follow-along
 **👀 Follow along 2.2** — Put `age_cat` and `outcome` in order with `fct_relevel()` (the next two code blocks).
@@ -230,7 +230,7 @@ linelist %>% count(age_cat, outcome)
 
 ## Percentages
 
-`count()` makes a column called `n`. Divide by the total to get a proportion, and use `scales::percent()` to show it nicely:
+`count()` makes a column called `n`. Divide by the total to get a proportion, and use the function `percent()` from the **scales** package to show it nicely. `scales::percent()` means "`percent()` from the scales package", so you don't need a `library(scales)` line:
 
 ::: follow-along
 **👀 Follow along 3.2** — Add a percent column to `count(outcome)`.
@@ -252,7 +252,7 @@ linelist %>%
 
 ## Percentages within groups: `group_by()`
 
-`group_by()` makes the next steps happen **separately for each group**. Here, `sum(n)` becomes the total *within each age group*, so each age group adds up to 100%:
+The function `group_by()`, from the **dplyr** package, makes the next steps happen **separately for each group**. Here, `sum(n)` becomes the total *within each age group*, so each age group adds up to 100%:
 
 ::: follow-along
 **👀 Follow along 3.3** — Percentages within each age group with `group_by()`.
@@ -348,7 +348,7 @@ Fewer than a quarter of all cases were vaccinated. In b), each age group adds up
 
 # Part 4: Summary statistics with `summarise()`
 
-`summarise()` collapses many rows into **one row** of results. You name each new column on the left of `=`.
+The function `summarise()`, from the **dplyr** package, collapses many rows into **one row** of results. You name each new column on the left of `=`.
 
 ::: follow-along
 **👀 Follow along 4.1** — `summarise()` the number of cases and the mean, SD, and median age for everyone.
@@ -427,11 +427,13 @@ Inside `summarise()`, the name on the **left** of `=` is the new column, and the
 ## Useful summary functions
 
 **Centre:** `mean()`, `median()` · **Spread:** `sd()`, `IQR()`, `min()`, `max()`, `quantile(x, 0.25)` · **Counts:** `n()`, `n_distinct()`, `sum(is.na(x))`
+
+All of these are base R functions, except `n()` and `n_distinct()`, which come from the dplyr package.
 :::
 
 ## The same calculation on many columns: `across()`
 
-You met `across()` in Session 3. In `summarise()` it saves a lot of typing (reading only, you don't need to type this; you'll use `across()` again in Part 6):
+You met `across()`, from the dplyr package, in Session 3. In `summarise()` it saves a lot of typing (reading only, you don't need to type this; you'll use `across()` again in Part 6):
 
 ```{r}
 linelist %>%
@@ -562,7 +564,7 @@ Central has the most people but the lowest rate: raw counts and rates can tell d
 
 # Part 5: Quick tables with `tabyl()`
 
-`tabyl()` from janitor makes frequency tables with percentages in one step:
+The function `tabyl()`, from the **janitor** package, makes frequency tables with percentages in one step:
 
 ::: follow-along
 **👀 Follow along 5.1** — `tabyl(outcome)`, then `tabyl(age_cat, outcome)`.
@@ -637,7 +639,7 @@ Unvaccinated cases died far more often than vaccinated cases (6.3% vs 0.7%). Rem
 
 # Part 6: Table 1 with `gtsummary`
 
-Most papers start with a "Table 1" that describes the study population. `tbl_summary()` makes one from a data frame: it detects which columns are numbers and which are categories.
+Most papers start with a "Table 1" that describes the study population. The function `tbl_summary()`, from the **gtsummary** package, makes one from a data frame: it detects which columns are numbers and which are categories.
 
 ::: follow-along
 **👀 Follow along 6.1** — A basic `tbl_summary(by = outcome)`.
@@ -654,7 +656,7 @@ linelist %>%
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `filter(outcome != "Unknown")` keeps the 4998 patients with a known outcome, and `fct_drop()` removes the now-empty "Unknown" level.
+-   `filter(outcome != "Unknown")` keeps the 4998 patients with a known outcome, and `fct_drop()`, from the forcats package, removes the now-empty "Unknown" level.
 -   `select()` chooses what goes in the table: each selected column becomes one variable in Table 1. `by = outcome` makes the outcomes the column groups.
 -   `tbl_summary()` works out each column's type. Categories (like `gender`) show count (%). Numbers (like `age_years`) show the median and, in brackets, the 25th and 75th percentiles: 13 (6, 23) years for patients who recovered.
 -   The headers show the size of each group: N = 2,158 recovered and N = 2,840 died.
@@ -730,7 +732,7 @@ table1
 
 ## Save it to Word
 
-`as_flex_table()` turns the table into a **flextable**, and `save_as_docx()` writes the Word file. The new file appears in the `outputs/` folder in the **Explorer**.
+`as_flex_table()`, from the gtsummary package, turns the table into a **flextable**, and `save_as_docx()`, from the **flextable** package, writes the Word file. `flextable::save_as_docx()` uses it without a `library(flextable)` line. The new file appears in the `outputs/` folder in the **Explorer**.
 
 ```{r}
 #| eval: false

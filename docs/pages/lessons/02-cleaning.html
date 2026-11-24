@@ -556,8 +556,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <ul>
 <li>You typed these lines yourself in Session 1. From now on, the set-up lines are filled in at the top of each student script, so you can start right away.</li>
-<li>The same packages as in Session 1. Today <code>janitor</code> gives you <code>clean_names()</code>, and the tidyverse gives you the pipe, <code>mutate()</code>, <code>if_else()</code>, <code>case_when()</code>, and the <code>str_</code> text functions.</li>
+<li>The same packages as in Session 1, plus one new package: <strong>janitor</strong>, which gives you the function <code>clean_names()</code>.</li>
+<li>The <strong>tidyverse</strong> packages give you most of today’s functions: the pipe <code>%&gt;%</code> (from the magrittr package), <code>filter()</code>, <code>arrange()</code>, <code>select()</code>, <code>rename()</code>, <code>mutate()</code>, <code>if_else()</code>, and <code>case_when()</code> (all from the <strong>dplyr</strong> package), and the <code>str_</code> text functions (from the <strong>stringr</strong> package).</li>
 <li>On this page the start-up messages are hidden; in Positron you’ll see them in the Console. Messages are fine: only a line that starts with <strong>Error</strong> is a problem.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Quick review from Session 1: <code>import()</code> and <code>here()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The function <code>here()</code>, from the <strong>here</strong> package, builds a file path that starts at the top of the workshop folder. <code>here("raw_data", "linelist_raw.xlsx")</code> means “the file <code>linelist_raw.xlsx</code> in the <code>raw_data</code> folder”. The same code works on any computer, wherever the folder is saved. To see where the top of the folder is, run <code>here::here()</code>.</li>
+<li>The function <code>import()</code>, from the <strong>rio</strong> package, reads the file at that path. It works out the file type from the ending (<code>.xlsx</code>, <code>.csv</code>, <code>.txt</code>), so one function reads all three of today’s files.</li>
+<li>Together, <code>import(here("raw_data", "linelist_raw.xlsx"))</code> runs from the inside out: <code>here()</code> builds the path, then <code>import()</code> reads the file, and <code>&lt;-</code> saves the result under a name.</li>
+<li>An error that says “No such file” usually means a typo in the folder or file name (check them in the <strong>Explorer</strong>), or that Positron doesn’t have the workshop folder open (<strong>File → Open Folder…</strong>).</li>
 </ul>
 </div>
 </div>
@@ -652,7 +671,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All fixes happen in code. The raw file stays exactly as it arrived, so anyone can re-run your script and get the same result.</p>
+<p>All fixes happen in code. The raw file stays exactly as it arrived, so anyone can re-run your script and get the same result. In practice, that means three habits:</p>
+<ol type="1">
+<li><strong>Leave the raw file alone.</strong> Don’t open <code>raw_data/linelist_raw.xlsx</code> in Excel to fix things by hand, and never save over it from R.</li>
+<li><strong>Make a new object for the clean version.</strong> <code>linelist_raw</code> is the data exactly as imported. In Part 3 you make a <strong>new object</strong> called <code>linelist_clean</code>, and every fix goes into that one. The endings <code>_raw</code> and <code>_clean</code> tell you at a glance which is which, and if a step goes wrong, <code>linelist_raw</code> is still there to start again from.</li>
+<li><strong>Save the result as a new file in a different folder.</strong> In Part 8 you save <code>linelist_clean</code> as <code>processed_data/linelist_clean.rds</code>. The raw file in <code>raw_data/</code> never changes.</li>
+</ol>
+<p>The path of the data today: <code>raw_data/linelist_raw.xlsx</code> → <code>import()</code> → <code>linelist_raw</code> → cleaning steps → <code>linelist_clean</code> → <code>export()</code> → <code>processed_data/linelist_clean.rds</code></p>
 </div>
 </div>
 <div class="tryit callout callout-style-default callout-important no-icon callout-titled">
@@ -668,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Import <code>raw_data/measles_raw.csv</code> and call it <code>measles_raw</code>.</p>
 <p>✅ <strong>Check:</strong> in the <strong>Variables</strong> pane, <code>measles_raw</code> shows 1215 rows and 11 columns</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -677,7 +702,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"raw_data"</span>, <span class="st">"measles_raw.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -690,7 +715,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-2-the-pipe-filter-and-arrange" class="level1">
 <h1>Part 2: The pipe <code>%&gt;%</code>, <code>filter()</code>, and <code>arrange()</code></h1>
-<p>In Session 1 you used one function at a time, with the data first: <code>count(linelist_raw, age_unit)</code>. Real work needs several steps in a row. The <strong>pipe</strong> <code>%&gt;%</code> passes the data from one step to the next, <strong>in order, from left to right</strong>. Read it as <strong>“and then”</strong>.</p>
+<p>In Session 1 you used one function at a time, with the data first: <code>count(linelist_raw, age_unit)</code> (the function <code>count()</code> comes from the <strong>dplyr</strong> package, part of the tidyverse). Real work needs several steps in a row. The <strong>pipe</strong> <code>%&gt;%</code> passes the data from one step to the next, <strong>in order, from left to right</strong>. Read it as <strong>“and then”</strong>.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 2.1</strong> — <code>count()</code> with the pipe, then sort by weight and show 3 rows.</p>
 <p>Pattern: <code>DATA %&gt;% STEP_1() %&gt;% STEP_2()</code></p>
@@ -736,6 +761,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="keeping-rows-filter.-sorting-rows-arrange" class="level2">
 <h2 class="anchored" data-anchor-id="keeping-rows-filter.-sorting-rows-arrange">Keeping rows: <code>filter()</code>. Sorting rows: <code>arrange()</code></h2>
+<p>Both functions come from the <strong>dplyr</strong> package, part of the tidyverse:</p>
 <ul>
 <li><code>filter()</code> keeps the <strong>rows</strong> that meet a condition</li>
 <li><code>arrange()</code> sorts the rows; <code>desc()</code> sorts largest first</li>
@@ -795,7 +821,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="longer-pipelines" class="level2">
 <h2 class="anchored" data-anchor-id="longer-pipelines">Longer pipelines</h2>
-<p>Put each step on its own line, with the <code>%&gt;%</code> at the <strong>end</strong> of the line. <code>select()</code> keeps only the <strong>columns</strong> you name:</p>
+<p>Put each step on its own line, with the <code>%&gt;%</code> at the <strong>end</strong> of the line. The function <code>select()</code>, also from the dplyr package, keeps only the <strong>columns</strong> you name:</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 2.3</strong> — A longer pipeline, one step per line: <code>select()</code> <code>Case ID</code>, <code>wt_kg</code>, and <code>ht_cm</code>, then <code>arrange()</code> by <code>wt_kg</code>, then <code>head(5)</code>.</p>
 </div>
@@ -826,6 +852,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><code>select(`Case ID`, wt_kg, ht_cm)</code> keeps only these three columns, in this order. <code>Case ID</code> has a space in it, so it needs backticks.</li>
 <li><code>arrange(wt_kg)</code> sorts the rows by weight, smallest first, and <code>head(5)</code> keeps the first 5.</li>
+<li>In the output, the impossible weights from Follow along 2.1 are back: the lightest patients weigh -11, -10, and -9 kg. They’re on the problem list (number 6), and you’ll replace them in Part 5. For now, just notice them: looking at sorted data is how you find problems like this.</li>
 <li>Each line ends with <code>%&gt;%</code>, so R knows the next line continues the same pipeline. The text after <code>#</code> is a comment for people; R ignores it.</li>
 <li>Without the pipe, you’d have to put each function inside the next one: <code>head(arrange(select(linelist_raw, ...), wt_kg), 5)</code>, which you read from the inside out. The pipe keeps the steps in the order they happen.</li>
 </ul>
@@ -877,7 +904,7 @@ Note
 <p>Pattern: <code>DATA %&gt;% select(COLUMN_1, COLUMN_2) %&gt;% arrange(desc(COLUMN)) %&gt;% head(10)</code></p>
 <p>✅ <strong>Check:</strong> a) two columns, and the top temperature is 104.7 b) 27</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -886,7 +913,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>measles_raw <span class="sc">%&gt;%</span></span>
@@ -939,7 +966,7 @@ Note
 <h1>Part 3: Column names</h1>
 <section id="clean_names" class="level2">
 <h2 class="anchored" data-anchor-id="clean_names"><code>clean_names()</code></h2>
-<p>One function (from janitor) makes every name lower case, replaces spaces and dots with <code>_</code>, and removes symbols. <code>"Case ID"</code> becomes <code>case_id</code> — after this, you never need backticks again!</p>
+<p>The function <code>clean_names()</code>, from the <strong>janitor</strong> package, makes every name lower case, replaces spaces and dots with <code>_</code>, and removes symbols. <code>"Case ID"</code> becomes <code>case_id</code> — after this, you never need backticks again!</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 3.1</strong> — Create <code>linelist_clean</code> from <code>linelist_raw</code> with <code>clean_names()</code>. Compare <code>names()</code> before and after.</p>
 <p>Pattern: <code>NEW_DATA &lt;- OLD_DATA %&gt;% clean_names()</code></p>
@@ -981,7 +1008,7 @@ Note
 </section>
 <section id="rename" class="level2">
 <h2 class="anchored" data-anchor-id="rename"><code>rename()</code></h2>
-<p><code>rename(new_name = old_name)</code> — the <strong>new</strong> name goes on the left.</p>
+<p>The function <code>rename()</code>, from the <strong>dplyr</strong> package, changes the names you choose: <code>rename(new_name = old_name)</code>. The <strong>new</strong> name goes on the left.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 3.2</strong> — Rename <code>infection_date</code> → <code>date_of_infection</code>, <code>date_onset</code> → <code>onset_date</code>, and <code>hosp_date</code> → <code>hospital_date</code>.</p>
 <p>Pattern: <code>DATA &lt;- DATA %&gt;% rename(NEW_NAME = OLD_NAME, NEW_NAME = OLD_NAME)</code></p>
@@ -1047,7 +1074,7 @@ Note
 <p>Create <code>measles_clean</code> from <code>measles_raw</code> with <code>clean_names()</code>. What did <code>`Temp (C)`</code> and <code>`Vaccinated?`</code> turn into?</p>
 <p>✅ <strong>Check:</strong> <code>names(measles_clean)</code> includes <code>"temp_c"</code> and <code>"vaccinated"</code></p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1056,7 +1083,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_raw <span class="sc">%&gt;%</span></span>
@@ -1095,10 +1122,10 @@ Note
 </section>
 <section id="part-4-fixing-types-with-mutate" class="level1">
 <h1>Part 4: Fixing types with <code>mutate()</code></h1>
-<p><code>mutate()</code> creates a new column or overwrites an existing one: <code>mutate(column = what_to_put_in_it)</code>. Use the same name to overwrite a column; a new name to add one.</p>
+<p>The function <code>mutate()</code>, from the <strong>dplyr</strong> package, creates a new column or overwrites an existing one: <code>mutate(column = what_to_put_in_it)</code>. Use the same name to overwrite a column; a new name to add one.</p>
 <section id="dates" class="level2">
 <h2 class="anchored" data-anchor-id="dates">Dates</h2>
-<p><code>as.Date()</code> converts text or date-times to dates.</p>
+<p>The function <code>as.Date()</code> converts text or date-times to dates. It’s built into R (base R), so it doesn’t need a package.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 4.1</strong> — Turn <code>date_of_infection</code>, <code>onset_date</code>, <code>hospital_date</code>, and <code>date_of_outcome</code> into dates with <code>as.Date()</code>.</p>
 <p>Pattern: <code>DATA &lt;- DATA %&gt;% mutate(COLUMN = as.Date(COLUMN), COLUMN = as.Date(COLUMN))</code></p>
@@ -1156,7 +1183,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </section>
 <section id="numbers-stored-as-text" class="level2">
 <h2 class="anchored" data-anchor-id="numbers-stored-as-text">Numbers stored as text</h2>
-<p><code>as.numeric()</code> turns text like <code>"56"</code> into the number 56. Text that isn’t a number (like <code>"unknown"</code>) becomes <code>NA</code>, and R warns you: <em>“NAs introduced by coercion”</em>. That warning is fine <strong>if</strong> you expected it.</p>
+<p>The base R function <code>as.numeric()</code> turns text like <code>"56"</code> into the number 56. Text that isn’t a number (like <code>"unknown"</code>) becomes <code>NA</code>, and R warns you: <em>“NAs introduced by coercion”</em>. That warning is fine <strong>if</strong> you expected it.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 4.2</strong> — Turn <code>age</code> into a number with <code>as.numeric()</code>.</p>
 </div>
@@ -1218,7 +1245,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </ol>
 <p>✅ <strong>Check:</strong> <code>summary(measles_clean$age_years)</code> shows a maximum of 999. Suspicious!</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1227,7 +1254,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -1268,7 +1295,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </section>
 <section id="part-5-fixing-values-with-if_else" class="level1">
 <h1>Part 5: Fixing values with <code>if_else()</code></h1>
-<p><code>if_else(condition, value_if_TRUE, value_if_FALSE)</code> checks every row and fixes the values that meet one condition.</p>
+<p>The function <code>if_else()</code>, from the <strong>dplyr</strong> package, checks every row and fixes the values that meet one condition: <code>if_else(condition, value_if_TRUE, value_if_FALSE)</code>.</p>
 <section id="ages-in-months-years" class="level2">
 <h2 class="anchored" data-anchor-id="ages-in-months-years">Ages in months → years</h2>
 <p>“If the unit is months, divide by 12; otherwise keep the age.”</p>
@@ -1382,7 +1409,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1391,7 +1418,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A 6-month-old baby would be counted as 6 years old. All 37 ages recorded in months would be too old, which would shift the age groups and the average age.</p>
 </div>
@@ -1488,7 +1515,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </ol>
 <p>✅ <strong>Check:</strong> <code>summary()</code> shows <code>age_years</code> max 52 and <code>temp_c</code> max 40.9</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1497,7 +1524,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-35" class="callout-35-contents callout-collapse collapse">
+<div id="callout-36" class="callout-36-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -1534,7 +1561,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Two shortcuts for jobs you just did with <code>if_else()</code>: <code>na_if(age_years, 999)</code> turns every 999 into <code>NA</code>, and <code>coalesce(onset_date, hospital_date)</code> takes the onset date, or the hospital date when the onset date is missing (the “estimated onset” from the 🔁 box). Both give the same result as the <code>if_else()</code> versions.</li>
+<li>Two shortcuts from the dplyr package for jobs you just did with <code>if_else()</code>: <code>na_if(age_years, 999)</code> turns every 999 into <code>NA</code>, and <code>coalesce(onset_date, hospital_date)</code> takes the onset date, or the hospital date when the onset date is missing (the “estimated onset” from the 🔁 box). Both give the same result as the <code>if_else()</code> versions.</li>
 <li>A comparison with a missing value gives a missing answer: <code>NA &lt;= 0</code> is <code>NA</code>, not TRUE or FALSE. So <code>if_else()</code> gives <code>NA</code> for those rows, and missing values stay missing unless you deal with them on purpose (Session 3).</li>
 <li>Prefer <code>NA</code> to deleting rows. A patient with an impossible weight still has a real age, outcome, and dates that you want to keep.</li>
 </ul>
@@ -1544,7 +1571,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </section>
 <section id="part-6-recoding-categories-with-case_when" class="level1">
 <h1>Part 6: Recoding categories with <code>case_when()</code></h1>
-<p><code>case_when()</code> is <code>if_else()</code> for <strong>many</strong> conditions. R checks each line in order and uses the first one that is TRUE:</p>
+<p>The function <code>case_when()</code>, also from the dplyr package, is <code>if_else()</code> for <strong>many</strong> conditions. R checks each line in order and uses the first one that is TRUE:</p>
 <pre><code>case_when(
   condition_1 ~ new_value_1,
   condition_2 ~ new_value_2,
@@ -1631,7 +1658,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 14                                 &lt;NA&gt; 1509</code></pre>
 </div>
 </div>
-<p><code>str_detect(column, "pattern")</code> is TRUE when the text <strong>contains</strong> the pattern, so one line catches every misspelling. <code>|</code> means “or”.</p>
+<p>The function <code>str_detect(column, "pattern")</code>, from the <strong>stringr</strong> package (part of the tidyverse), is TRUE when the text <strong>contains</strong> the pattern, so one line catches every misspelling. <code>|</code> means “or”.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>linelist_clean <span class="ot">&lt;-</span> linelist_clean <span class="sc">%&gt;%</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hospital_name =</span> <span class="fu">case_when</span>(</span>
@@ -1689,7 +1716,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Other useful text functions (stringr)
+<span class="screen-reader-only">Note</span>Other useful text functions (from the stringr package)
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1732,7 +1759,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 <p>Pattern: <code>COLUMN %in% c("VALUE_1", "VALUE_2") ~ "NEW_VALUE"</code></p>
 <p>✅ <strong>Check:</strong> <code>count(sex)</code> shows female 533, male 642, NA 40; <code>count(vaccinated)</code> shows only No, Unknown, Yes</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-43-contents" aria-controls="callout-43" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1741,7 +1768,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-42" class="callout-42-contents callout-collapse collapse">
+<div id="callout-43" class="callout-43-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -1779,7 +1806,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1788,7 +1815,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Say you forgot <code>"M"</code> in the male line: <code>sex %in% c("Male", "male") ~ "male"</code>. What happens?</p>
 <p>R gives no error and no warning. The 86 patients recorded as <code>"M"</code> match no line, so they quietly become <code>NA</code>: <code>count(sex)</code> shows male 556 and NA 126 instead of male 642 and NA 40. The only way to notice is to check, for example with <code>count(old_column, new_column)</code> or by comparing the number of <code>NA</code>s before and after. Code that runs is not the same as code that’s right.</p>
@@ -1813,7 +1840,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </ul>
 <p>✅ <strong>Check:</strong> <code>count(district)</code> shows exactly 5 districts plus NA (34)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1822,7 +1849,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -1889,7 +1916,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-49-contents" aria-controls="callout-49" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1898,7 +1925,7 @@ $ date_of_outcome   &lt;date&gt; NA, 2014-05-18, 2014-05-30, NA, 2014-05-29, 201
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-48" class="callout-48-contents callout-collapse collapse">
+<div id="callout-49" class="callout-49-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>That is impossible: the heights and weights don’t fit together. Set BMIs outside a plausible range (10–60) to <code>NA</code>.</p>
 </div>
@@ -2060,7 +2087,7 @@ Under 18    18-29    30-39    40-49    50-59    60-69    70-79      80+
 </ol>
 <p>✅ <strong>Check:</strong> <code>count(outcome)</code> shows only Died, Recovered, NA; <code>count(age_cat)</code> shows 4 groups plus NA (31)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-55-contents" aria-controls="callout-55" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -2069,7 +2096,7 @@ Under 18    18-29    30-39    40-49    50-59    60-69    70-79      80+
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-54" class="callout-54-contents callout-collapse collapse">
+<div id="callout-55" class="callout-55-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>measles_clean <span class="ot">&lt;-</span> measles_clean <span class="sc">%&gt;%</span></span>
@@ -2219,7 +2246,7 @@ $ age_cat           &lt;chr&gt; "Under 18", "Under 18", "50-59", "18-29", "Under
 <p>Inside one <code>mutate()</code>, later lines can use columns made on earlier lines (<code>bmi</code> is created, then fixed).</p>
 <section id="save-your-work" class="level2">
 <h2 class="anchored" data-anchor-id="save-your-work">Save your work</h2>
-<p><code>export()</code> is the opposite of <code>import()</code>. Save cleaned data to <code>processed_data/</code> — never over the raw file.</p>
+<p>The function <code>export()</code>, also from the <strong>rio</strong> package, is the opposite of <code>import()</code>. Save cleaned data to <code>processed_data/</code> — never over the raw file.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 8.2</strong> — Save <code>linelist_clean</code> as <code>processed_data/linelist_clean.rds</code>.</p>
 <p>Pattern: <code>export(DATA, here("FOLDER", "FILE_NAME.rds"))</code></p>
@@ -2259,7 +2286,7 @@ $ age_cat           &lt;chr&gt; "Under 18", "Under 18", "50-59", "18-29", "Under
 <p>Save <code>measles_clean</code> as <code>processed_data/measles_clean.rds</code>. You need this file in Session 3!</p>
 <p>✅ <strong>Check:</strong> the file appears in the <code>processed_data</code> folder (<strong>Explorer</strong>, on the left)</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-59-contents" aria-controls="callout-59" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-60-contents" aria-controls="callout-60" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -2268,7 +2295,7 @@ $ age_cat           &lt;chr&gt; "Under 18", "Under 18", "50-59", "18-29", "Under
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-59" class="callout-59-contents callout-collapse collapse">
+<div id="callout-60" class="callout-60-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(measles_clean, <span class="fu">here</span>(<span class="st">"processed_data"</span>, <span class="st">"measles_clean.rds"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

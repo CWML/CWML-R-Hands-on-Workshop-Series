@@ -50,6 +50,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 #
 # 📖 What you need to know
 #    - Rule of thumb: if you copy and paste code more than twice, write a function.
+#    - function(), if, else, for, and stop() are base R: no package needed.
 #    - The shape of a function:
 #        FUNCTION_NAME <- function(ARGUMENT) {
 #          CODE THAT USES ARGUMENT
@@ -89,7 +90,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 #      or a plot.
 #    - An argument holding a VALUE (like a hospital's name) can go straight into
 #      filter(): filter(hospital_name == hospital)
-#    - paste("Weekly cases:", hospital) builds text from an argument, e.g. a title.
+#    - paste("Weekly cases:", hospital) (base R) builds text from an argument, e.g. a title.
 #
 # ⚠️ Common mistakes
 #    - Don't give an argument the same name as a column! In
@@ -136,7 +137,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 #    - For a whole column, use the vectorized if_else() from Session 2.
 #    - if is perfect for checking inputs. stop("message") ends the function with
 #      a helpful error:  if (!is.numeric(temp_c)) stop("temp_c must be a number")
-#    - stopifnot(CONDITION) does the if and the stop() in one line: it stops unless
+#    - stopifnot(CONDITION) (base R) does the if and the stop() in one line: it stops unless
 #      CONDITION is TRUE. For example, inside hospital_summary():
 #        stopifnot(hospital %in% data$hospital_name)
 #      (reading only, on the website)
@@ -203,7 +204,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # ── PART 6: Iteration the tidyverse way: map() and walk() ──────────────────
 # 🎯 Goal: Do what a loop does, in one line.
 #
-# 📖 What you need to know (purrr, part of the tidyverse)
+# 📖 What you need to know (the purrr package, part of the tidyverse)
 #    map(X, FUNCTION)       run FUNCTION on each element of X; return a LIST of results
 #    map_dbl(X, FUNCTION)   the same, but return a vector of NUMBERS
 #    walk(X, FUNCTION)      run FUNCTION on each element for its side effect

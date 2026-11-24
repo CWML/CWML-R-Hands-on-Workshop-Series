@@ -57,6 +57,8 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: Build a plot one piece at a time.
 #
 # 📖 What you need to know
+#    ggplot(), aes(), labs(), and every geom_, stat_, scale_, and theme_ function
+#    come from the ggplot2 package (part of the tidyverse).
 #    Every ggplot is built from the same parts, joined with +:
 #      ggplot(data = DATA)          which data frame?            (an empty canvas)
 #      mapping = aes(x = COLUMN)    which columns go where?      (axes appear)

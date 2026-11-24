@@ -125,7 +125,7 @@ colSums(is.na(linelist_clean))
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `is.na()` gives TRUE for every missing cell; `colSums()` adds up each column (TRUE counts as 1). You get one number per column.
+-   `is.na()` gives TRUE for every missing cell; `colSums()` adds up each column (both are base R functions, so no package is needed) (TRUE counts as 1). You get one number per column.
 -   `case_id` is missing for 130 rows, `outcome` for 1493, and `bmi` for 1382: the impossible BMIs you set to `NA` in Session 2 are counted here too.
 -   `hospital_name` has 0, because in Session 2 every missing or unclear hospital became "Other/Unknown"; the original `hospital` column still has its 1509 NAs.
 :::
@@ -144,7 +144,7 @@ No!
 ## Three common ways to handle missing values
 
 1.  **Leave them as `NA`** — most R functions have `na.rm = TRUE` to skip them (e.g., `mean(x, na.rm = TRUE)`)
-2.  **Remove the rows** — `drop_na(column)` removes rows missing that column. Use carefully: you may lose a lot of data
+2.  **Remove the rows** — the function `drop_na(column)`, from the **tidyr** package (part of the tidyverse), removes rows missing that column. Use carefully: you may lose a lot of data
 3.  **Replace them** — e.g., with "Unknown" for categories, so they show up in tables. Never invent numbers without a statistical method (imputation)
 :::
 
@@ -208,8 +208,8 @@ missing_ids %>% select(case_id, gender, age_years, outcome) %>% head()
 nrow(missing_ids)
 ```
 
--   `row_number()` gives 1, 2, 3, ... for each row
--   `paste0()` glues text together with no space: `"ID"` + `1` = `"ID1"`
+-   `row_number()`, from the **dplyr** package, gives 1, 2, 3, ... for each row
+-   `paste0()`, a base R function, glues text together with no space: `"ID"` + `1` = `"ID1"`
 
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
@@ -252,7 +252,7 @@ These are the same 37 rows with no Patient ID you found in Session 1. The new ID
 
 # Part 4: Duplicates
 
-`distinct()` keeps one copy of each row that appears more than once.
+The function `distinct()`, from the **dplyr** package, keeps one copy of each row that appears more than once.
 
 ::: follow-along
 **👀 Follow along 4.1** — Create `linelist_final`: keep the rows that have a `case_id` with `filter(!is.na(case_id))`, then remove exact copies with `distinct()`.
@@ -295,7 +295,7 @@ These rows are **not** exact copies (every column the same), so `distinct()` kee
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `get_dupes(case_id)` (janitor) checks only the `case_id` column, not the whole row. It returns every row whose ID appears more than once, with a `dupe_count` column saying how many times.
+-   `get_dupes(case_id)`, from the janitor package, checks only the `case_id` column, not the whole row. It returns every row whose ID appears more than once, with a `dupe_count` column saying how many times.
 -   The first line counts those rows: 1106 rows, sharing 543 IDs.
 -   The second pipeline shows the first 6, with a few columns picked by `select()`, so you can compare the records that share an ID.
 :::
@@ -337,7 +337,7 @@ nrow(measles_final)
 
 ## `replace_na()` with `across()`
 
-`across()` applies the same function to many columns at once. Here: for every **text** column, replace `NA` with `"Unknown"`.
+The function `across()`, from the **dplyr** package, applies the same function to many columns at once, and `replace_na()`, from the **tidyr** package, replaces missing values. Here: for every **text** column, replace `NA` with `"Unknown"`.
 
 ::: follow-along
 **👀 Follow along 5.1** — Replace `NA` with "Unknown" in every text column of `linelist_final`. Check with `count(gender)` and `count(outcome)`.
@@ -434,7 +434,7 @@ measles_final %>% count(district)
 
 ## How joins work
 
-A join combines two data frames by matching rows on a **key** column that both share. A tiny example first:
+A join combines two data frames by matching rows on a **key** column that both share. All the join functions (`left_join()`, `inner_join()`, and the rest) come from the **dplyr** package. A tiny example first:
 
 ::: follow-along
 **👀 Follow along 6.1** — A tiny example. Make `patients` (id 1, 2, 3) and `labs` (id 2, 3, 4) with `tibble()`, then try four joins on them.
@@ -453,7 +453,7 @@ anti_join(patients, labs, by = "id")    # patients with NO lab result
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `tibble()` makes a small data frame by hand, like `data.frame()` in the Session 1 diagram.
+-   `tibble()`, from the **tibble** package (part of the tidyverse), makes a small data frame by hand, like `data.frame()` in the Session 1 diagram.
 -   `patients` has ids 1, 2, 3 and `labs` has ids 2, 3, 4, so ids 2 and 3 are in both, 1 is only in `patients`, and 4 is only in `labs`.
 -   `left_join()` keeps all 3 patients; Ana (id 1) gets `NA` for `result` because she has no lab. `inner_join()` keeps only the 2 ids in both. `full_join()` keeps all 4 ids. `anti_join()` returns the 1 patient with no lab.
 -   `by = "id"` names the **key**: the column used to match rows. It must exist in both data frames.

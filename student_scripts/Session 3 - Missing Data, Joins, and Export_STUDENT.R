@@ -66,7 +66,7 @@ case_info      <- import(here("raw_data", "case_info.csv"))
 #    - Three ways to handle missing values:
 #        1. Leave them as NA. Most functions skip them with na.rm = TRUE:
 #           mean(age_years, na.rm = TRUE)
-#        2. Remove the rows: drop_na(COLUMN). Careful, you can lose a lot of data:
+#        2. Remove the rows: drop_na(COLUMN) (tidyr package). Careful, you can lose a lot of data:
 #           drop_na(bmi) would remove 1382 of 6604 patients (see the website,
 #           no typing).
 #        3. Replace them, e.g. with "Unknown" for categories (Part 5).
@@ -87,8 +87,8 @@ case_info      <- import(here("raw_data", "case_info.csv"))
 # 📖 What you need to know
 #    - We join on the ID column in Part 6, so rows without an ID can't be linked.
 #      Instead of deleting them, we save them separately with new IDs.
-#    - row_number() gives 1, 2, 3, ... for each row.
-#    - paste0() glues text together with no space: paste0("ID", 1) gives "ID1".
+#    - row_number() (dplyr package) gives 1, 2, 3, ... for each row.
+#    - paste0() (base R) glues text together with no space: paste0("ID", 1) gives "ID1".
 #    - Sorted as text, "ID10" comes before "ID2". To pad with zeros, see the
 #      📖 Good to know box in Part 3 on the website (sprintf()).
 # ────────────────────────────────────────────────────────────────────────────
@@ -109,9 +109,9 @@ case_info      <- import(here("raw_data", "case_info.csv"))
 #
 # 📖 What you need to know
 #    - ! means "not": filter(!is.na(case_id)) keeps rows that HAVE an ID.
-#    - distinct() keeps one copy of each row that appears more than once.
+#    - distinct() (dplyr package) keeps one copy of each row that appears more than once.
 #      It only removes EXACT copies (every column the same).
-#    - get_dupes(case_id) shows IDs that appear more than once even if the rest
+#    - get_dupes(case_id) (janitor package) shows IDs that appear more than once even if the rest
 #      of the row is different. Those need a person to decide which is right.
 # ────────────────────────────────────────────────────────────────────────────
 
@@ -132,11 +132,12 @@ case_info      <- import(here("raw_data", "case_info.csv"))
 # 🎯 Goal: Replace missing text with "Unknown", then keep and order the columns we need.
 #
 # 📖 What you need to know
-#    - across() applies the same function to many columns at once:
+#    - across() (dplyr package) applies the same function to many columns at once:
 #        mutate(across(where(is.character), ~ replace_na(.x, "Unknown")))
 #      Read it as: "for every text column (.x), replace its NAs with Unknown".
 #    - where(is.character) picks only text columns, so number columns keep their NAs.
 #    - For one column: mutate(gender = replace_na(gender, "Unknown"))
+#      (replace_na() comes from the tidyr package)
 #    - select() keeps columns in the order you list them.
 #      select(-COLUMN) drops a column; select(COLUMN, everything()) moves it first.
 # ────────────────────────────────────────────────────────────────────────────
@@ -158,7 +159,7 @@ case_info      <- import(here("raw_data", "case_info.csv"))
 # ── PART 6: Joining datasets ───────────────────────────────────────────────
 # 🎯 Goal: Combine two datasets by matching rows on a shared ID column (the "key").
 #
-# 📖 What you need to know
+# 📖 What you need to know (all joins come from the dplyr package)
 #    left_join(A, B, by = "id")    every row of A, plus matching columns from B
 #    inner_join(A, B, by = "id")   only rows whose id is in BOTH
 #    full_join(A, B, by = "id")    every row from both
@@ -175,7 +176,7 @@ case_info      <- import(here("raw_data", "case_info.csv"))
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 6.1: a tiny example. Make patients (id 1, 2, 3) and labs (id 2, 3, 4)
-#    with tibble(), then try all four joins on them.
+#    with tibble() (tibble package, part of the tidyverse), then try all four joins on them.
 
 
 # 👀 Follow along 6.2: create combined_linelist by left_join()-ing case_info to linelist_final

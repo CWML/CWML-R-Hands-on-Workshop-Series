@@ -191,12 +191,27 @@ A **package** is a collection of functions someone else wrote. There are two ste
 | Install | `install.packages()` | **Once** per computer     | Buying a book           |
 | Load    | `library()`          | **Every** time you open R | Taking it off the shelf |
 
-Install everything for the whole workshop series (skip this if you did the [Setup](../setup.qmd)):
+To install **one** package, put its name in quotes:
+
+```{r}
+#| eval: false
+install.packages("janitor")
+```
+
+To install **several** at once, combine the names with `c()`, the same `c()` you used for vectors in Part 1. This line installs everything for the whole workshop series (skip it if you did the [Setup](../setup.qmd)):
 
 ```{r}
 #| eval: false
 install.packages(c("tidyverse", "here", "rio", "janitor", "skimr", "gtsummary", "flextable", "scales"))
 ```
+
+::: {.callout-note icon=false}
+## 🔍 What this code does
+
+-   `install.packages("janitor")` downloads one package, janitor, from CRAN (R's official package library, see below) and installs it on your computer. Some packages need a few others to work: R installs those too, so you may see several downloads.
+-   `install.packages(c(...))` does the same for every name in the list, one after the other. It can take several minutes.
+-   You install a package **once** per computer. You only need to install it again after you install a new version of R, or to get a newer version of the package.
+:::
 
 Load only what you need today:
 

@@ -593,7 +593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Part 2: Writing your first function</h1>
 <section id="why-write-functions" class="level2">
 <h2 class="anchored" data-anchor-id="why-write-functions">Why write functions?</h2>
-<p>If you copy and paste code more than twice, write a function. Functions:</p>
+<p>If you copy and paste code more than twice, write a function. The tools for that, <code>function()</code>, <code>if</code>, <code>else</code>, <code>for</code>, and <code>stop()</code>, are all <strong>base R</strong>: they’re built into R, so they need no package. Functions:</p>
 <ul>
 <li>avoid copy-paste mistakes (change it once, fixed everywhere)</li>
 <li>give a task a clear name (<code>c_to_f()</code> says what it does)</li>
@@ -940,7 +940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><code>paste("Weekly cases:", hospital)</code> builds the title from the argument, so every plot gets the right title.</p>
+<p><code>paste("Weekly cases:", hospital)</code>, a base R function, builds the title from the argument, so every plot gets the right title.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1192,7 +1192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-shorter-check-stopifnot" class="level2">
 <h2 class="anchored" data-anchor-id="a-shorter-check-stopifnot">A shorter check: <code>stopifnot()</code></h2>
-<p><code>stopifnot()</code> does the <code>if</code> and the <code>stop()</code> in one line: it stops unless the condition is TRUE. It fixes the silent typo from Part 3 (reading only, you don’t need to type this):</p>
+<p><code>stopifnot()</code>, also base R, does the <code>if</code> and the <code>stop()</code> in one line: it stops unless the condition is TRUE. It fixes the silent typo from Part 3 (reading only, you don’t need to type this):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>hospital_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(data, hospital) {</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(hospital <span class="sc">%in%</span> data<span class="sc">$</span>hospital_name)</span>
@@ -1375,7 +1375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>The pipeline makes a vector of the six hospital names: <code>filter()</code> drops “Other/Unknown”, <code>distinct()</code> keeps each name once, <code>pull()</code> turns the column into a plain vector, and <code>sort()</code> puts it in alphabetical order.</li>
+<li>The pipeline makes a vector of the six hospital names: <code>filter()</code> drops “Other/Unknown”, <code>distinct()</code> keeps each name once, <code>pull()</code> turns the column into a plain vector (all three from the dplyr package), and the base R function <code>sort()</code> puts it in alphabetical order.</li>
 <li>In the loop, <code>linelist$hospital_name == h</code> is TRUE for each case at hospital <code>h</code>, and <code>sum()</code> counts the TRUEs.</li>
 <li><code>paste()</code> joins the pieces into a sentence with spaces between them, and <code>print()</code> shows it: “Central Hospital has 454 cases”.</li>
 </ul>
@@ -1436,7 +1436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><code>make_clean_names()</code> (janitor) turns “St.&nbsp;Mark’s Maternity Hospital” into <code>st_marks_maternity_hospital</code> — safe for a file name</li>
+<li><code>make_clean_names()</code>, from the janitor package, turns “St.&nbsp;Mark’s Maternity Hospital” into <code>st_marks_maternity_hospital</code> — safe for a file name</li>
 <li><code>paste0()</code> glues the pieces with no spaces into <code>epicurve_st_marks_maternity_hospital.png</code></li>
 <li>Six files, one loop. Next week, re-run it with the new data — check the <strong>Explorer</strong> to see the new files in <code>outputs/</code></li>
 </ul>

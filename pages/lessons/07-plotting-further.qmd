@@ -102,6 +102,8 @@ The same import pipeline as Session 6, plus a named color vector: each name (`"Y
 
 # Part 2: Bar charts of counts: `geom_bar()`
 
+The functions for plots, labels, colors, facets, and saving today (`geom_bar()`, `geom_col()`, `scale_fill_manual()`, `facet_wrap()`, `ggsave()`, and the rest) all come from the **ggplot2** package, as in Session 6.
+
 `geom_bar()` **counts the rows** in each category for you — you only give it `x`.
 
 ::: follow-along
@@ -133,7 +135,7 @@ ggplot(data = linelist, mapping = aes(y = hospital_name)) +
 
 ## Order the bars
 
-Alphabetical order rarely helps. `fct_infreq()` orders by count (most common first), and `fct_rev()` flips it so the longest bar is at the top:
+Alphabetical order rarely helps. Two functions from the **forcats** package (Session 5) fix that: `fct_infreq()` orders by count (most common first), and `fct_rev()` flips it so the longest bar is at the top:
 
 ::: follow-along
 **👀 Follow along 2.2** — Order the bars with `fct_rev(fct_infreq(hospital_name))`, and add a fill color and `labs()`.
@@ -291,7 +293,7 @@ ggplot(data = death_by_age, mapping = aes(x = age_cat, y = pct_death)) +
 
 `geom_bar()` counts rows for you (one row per patient): give it `x` only. `geom_col()` draws numbers you already have (one row per bar): give it `x` **and** `y`.
 
-`fct_reorder(CATEGORY, NUMBER)` sorts the bars by the number.
+`fct_reorder(CATEGORY, NUMBER)`, also from the forcats package, sorts the bars by the number.
 :::
 
 ::: {.callout-note collapse="true" icon=false}

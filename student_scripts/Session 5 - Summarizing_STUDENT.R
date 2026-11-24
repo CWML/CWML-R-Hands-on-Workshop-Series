@@ -49,9 +49,9 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 📖 What you need to know
 #    - R sorts text alphabetically, so "Under 18" comes after "80+".
 #    - A factor is a text column with a set order of categories (its "levels").
-#    - fct_relevel(COLUMN, "FIRST", "SECOND", ...) sets that order. The order
+#    - fct_relevel(COLUMN, "FIRST", "SECOND", ...) (forcats package) sets that order. The order
 #      then carries through to every table AND every plot.
-#    - Other forcats helpers: fct_infreq() orders by frequency, fct_rev() reverses.
+#    - Other helpers from the forcats package: fct_infreq() orders by frequency, fct_rev() reverses.
 #    - Factor order is not saved in a .csv, and we didn't save it in our .rds,
 #      so we set it again after importing.
 #
@@ -87,7 +87,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 #      The counts go in a column called n.
 #    - Add a percentage with mutate(): n / sum(n) is the proportion.
 #      scales::percent(n / sum(n), accuracy = 0.1) shows it as "23.8%".
-#    - group_by(A) makes the NEXT steps happen separately for each group.
+#    - group_by(A) (dplyr package) makes the NEXT steps happen separately for each group.
 #      group_by(age_cat) %>% count(outcome) %>% mutate(...) gives percentages
 #      WITHIN each age group (each group adds up to 100%).
 #    - End with ungroup() when you're done with the groups.
@@ -119,7 +119,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: Calculate statistics overall and for each group.
 #
 # 📖 What you need to know
-#    - summarise() collapses many rows into ONE row of results. Name each result
+#    - summarise() (dplyr package) collapses many rows into ONE row of results. Name each result
 #      on the left of =:
 #        summarise(n = n(), mean_age = mean(age_years, na.rm = TRUE))
 #    - With group_by() first, you get one row PER GROUP.
@@ -163,7 +163,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: Frequency tables and cross-tabs with totals and percentages in one step.
 #
 # 📖 What you need to know
-#    - tabyl(A) or tabyl(A, B) (janitor) makes the table.
+#    - tabyl(A) or tabyl(A, B) (janitor package) makes the table.
 #    - The adorn_ functions add to it, IN THIS ORDER:
 #        adorn_totals("row")              totals (needs the raw counts, so first)
 #        adorn_percentages("row")         turn counts into proportions ("row" or "col")
@@ -188,13 +188,14 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: Make a publication-ready table of patient characteristics, and save it to Word.
 #
 # 📖 What you need to know
-#    - tbl_summary(by = GROUP) describes every column you select(): counts and %
+#    - tbl_summary(by = GROUP) (gtsummary package) describes every column you select(): counts and %
 #      for categories, median (IQR) for numbers.
 #    - gtsummary has its own "Missing" row, so turn "Unknown" back into NA first:
 #        mutate(across(where(is.character), ~ na_if(.x, "Unknown")))
 #    - Customize: label = list(COLUMN ~ "Nice name"), statistic = all_continuous() ~ "{mean} ({sd})",
 #      then add_overall(), bold_labels(), modify_caption("**Title**")
-#    - Save to Word: TABLE %>% as_flex_table() %>%
+#    - Save to Word (as_flex_table() from gtsummary, save_as_docx() from the
+#      flextable package): TABLE %>% as_flex_table() %>%
 #        flextable::save_as_docx(path = here("outputs", "FILE.docx"))
 #
 # ⚠️ Common mistakes

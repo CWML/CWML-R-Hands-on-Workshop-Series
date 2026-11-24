@@ -42,7 +42,7 @@ The session starts with the **basics of the language** (objects and functions), 
 
 **Part 1 — R basics.** Keep this brisk (about 10 minutes); learners practise all of it in every later session. Have someone make a deliberate mistake (`Mean(ages)`) to show that R is case-sensitive. The data frame diagram is **reading only**: point to it on screen 2 and explain "each column is one type". Nobody types `data.frame()` today.
 
-**Part 2 — Packages, and error, warning, or message.** Learners who did the setup only need the `library()` lines. Use the red text that `library(tidyverse)` just printed to introduce the table: "this red text is a message, nothing to do". Point out the "Asking for help" box: it's how you want questions phrased during the course.
+**Part 2 — Packages, and error, warning, or message.** Show both ways to install: one package, `install.packages("janitor")`, and several at once with `c()` (the `c()` from Part 1). Nobody needs to run either if they did the setup: they only need the `library()` lines. Use the red text that `library(tidyverse)` just printed to introduce the table: "this red text is a message, nothing to do". Point out the "Asking for help" box: it's how you want questions phrased during the course.
 
 **Part 3 — Project folders and `here()`.** Show that `here::here()` points at the workshop folder because it's open in Positron (and has a `.here` file). There is no TRY IT here; learners use `here()` in the import TRY IT next.
 

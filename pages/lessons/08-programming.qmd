@@ -84,7 +84,7 @@ dim(measles)
 
 ## Why write functions?
 
-If you copy and paste code more than twice, write a function. Functions:
+If you copy and paste code more than twice, write a function. The tools for that, `function()`, `if`, `else`, `for`, and `stop()`, are all **base R**: they're built into R, so they need no package. Functions:
 
 -   avoid copy-paste mistakes (change it once, fixed everywhere)
 -   give a task a clear name (`c_to_f()` says what it does)
@@ -301,7 +301,7 @@ make_epicurve <- function(data, hospital) {
 make_epicurve(linelist, "Military Hospital")
 ```
 
-`paste("Weekly cases:", hospital)` builds the title from the argument, so every plot gets the right title.
+`paste("Weekly cases:", hospital)`, a base R function, builds the title from the argument, so every plot gets the right title.
 
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
@@ -464,7 +464,7 @@ c_to_f("38")
 
 ## A shorter check: `stopifnot()`
 
-`stopifnot()` does the `if` and the `stop()` in one line: it stops unless the condition is TRUE. It fixes the silent typo from Part 3 (reading only, you don't need to type this):
+`stopifnot()`, also base R, does the `if` and the `stop()` in one line: it stops unless the condition is TRUE. It fixes the silent typo from Part 3 (reading only, you don't need to type this):
 
 ```{r}
 #| eval: false
@@ -579,7 +579,7 @@ Inside a loop, results are not printed automatically — use `print()`.
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   The pipeline makes a vector of the six hospital names: `filter()` drops "Other/Unknown", `distinct()` keeps each name once, `pull()` turns the column into a plain vector, and `sort()` puts it in alphabetical order.
+-   The pipeline makes a vector of the six hospital names: `filter()` drops "Other/Unknown", `distinct()` keeps each name once, `pull()` turns the column into a plain vector (all three from the dplyr package), and the base R function `sort()` puts it in alphabetical order.
 -   In the loop, `linelist$hospital_name == h` is TRUE for each case at hospital `h`, and `sum()` counts the TRUEs.
 -   `paste()` joins the pieces into a sentence with spaces between them, and `print()` shows it: "Central Hospital has 454 cases".
 :::
@@ -625,7 +625,7 @@ for (h in hospitals) {
 }
 ```
 
--   `make_clean_names()` (janitor) turns "St. Mark's Maternity Hospital" into `st_marks_maternity_hospital` — safe for a file name
+-   `make_clean_names()`, from the janitor package, turns "St. Mark's Maternity Hospital" into `st_marks_maternity_hospital` — safe for a file name
 -   `paste0()` glues the pieces with no spaces into `epicurve_st_marks_maternity_hospital.png`
 -   Six files, one loop. Next week, re-run it with the new data — check the **Explorer** to see the new files in `outputs/`
 

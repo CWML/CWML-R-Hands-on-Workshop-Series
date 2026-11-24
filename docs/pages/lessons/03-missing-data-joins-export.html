@@ -685,7 +685,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>is.na()</code> gives TRUE for every missing cell; <code>colSums()</code> adds up each column (TRUE counts as 1). You get one number per column.</li>
+<li><code>is.na()</code> gives TRUE for every missing cell; <code>colSums()</code> adds up each column (both are base R functions, so no package is needed) (TRUE counts as 1). You get one number per column.</li>
 <li><code>case_id</code> is missing for 130 rows, <code>outcome</code> for 1493, and <code>bmi</code> for 1382: the impossible BMIs you set to <code>NA</code> in Session 2 are counted here too.</li>
 <li><code>hospital_name</code> has 0, because in Session 2 every missing or unclear hospital became “Other/Unknown”; the original <code>hospital</code> column still has its 1509 NAs.</li>
 </ul>
@@ -724,7 +724,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><strong>Leave them as <code>NA</code></strong> — most R functions have <code>na.rm = TRUE</code> to skip them (e.g., <code>mean(x, na.rm = TRUE)</code>)</li>
-<li><strong>Remove the rows</strong> — <code>drop_na(column)</code> removes rows missing that column. Use carefully: you may lose a lot of data</li>
+<li><strong>Remove the rows</strong> — the function <code>drop_na(column)</code>, from the <strong>tidyr</strong> package (part of the tidyverse), removes rows missing that column. Use carefully: you may lose a lot of data</li>
 <li><strong>Replace them</strong> — e.g., with “Unknown” for categories, so they show up in tables. Never invent numbers without a statistical method (imputation)</li>
 </ol>
 </div>
@@ -844,8 +844,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li><code>row_number()</code> gives 1, 2, 3, … for each row</li>
-<li><code>paste0()</code> glues text together with no space: <code>"ID"</code> + <code>1</code> = <code>"ID1"</code></li>
+<li><code>row_number()</code>, from the <strong>dplyr</strong> package, gives 1, 2, 3, … for each row</li>
+<li><code>paste0()</code>, a base R function, glues text together with no space: <code>"ID"</code> + <code>1</code> = <code>"ID1"</code></li>
 </ul>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -924,7 +924,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-4-duplicates" class="level1">
 <h1>Part 4: Duplicates</h1>
-<p><code>distinct()</code> keeps one copy of each row that appears more than once.</p>
+<p>The function <code>distinct()</code>, from the <strong>dplyr</strong> package, keeps one copy of each row that appears more than once.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 4.1</strong> — Create <code>linelist_final</code>: keep the rows that have a <code>case_id</code> with <code>filter(!is.na(case_id))</code>, then remove exact copies with <code>distinct()</code>.</p>
 </div>
@@ -994,7 +994,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>get_dupes(case_id)</code> (janitor) checks only the <code>case_id</code> column, not the whole row. It returns every row whose ID appears more than once, with a <code>dupe_count</code> column saying how many times.</li>
+<li><code>get_dupes(case_id)</code>, from the janitor package, checks only the <code>case_id</code> column, not the whole row. It returns every row whose ID appears more than once, with a <code>dupe_count</code> column saying how many times.</li>
 <li>The first line counts those rows: 1106 rows, sharing 543 IDs.</li>
 <li>The second pipeline shows the first 6, with a few columns picked by <code>select()</code>, so you can compare the records that share an ID.</li>
 </ul>
@@ -1067,7 +1067,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Part 5: Replacing missing values and choosing columns</h1>
 <section id="replace_na-with-across" class="level2">
 <h2 class="anchored" data-anchor-id="replace_na-with-across"><code>replace_na()</code> with <code>across()</code></h2>
-<p><code>across()</code> applies the same function to many columns at once. Here: for every <strong>text</strong> column, replace <code>NA</code> with <code>"Unknown"</code>.</p>
+<p>The function <code>across()</code>, from the <strong>dplyr</strong> package, applies the same function to many columns at once, and <code>replace_na()</code>, from the <strong>tidyr</strong> package, replaces missing values. Here: for every <strong>text</strong> column, replace <code>NA</code> with <code>"Unknown"</code>.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 5.1</strong> — Replace <code>NA</code> with “Unknown” in every text column of <code>linelist_final</code>. Check with <code>count(gender)</code> and <code>count(outcome)</code>.</p>
 </div>
@@ -1247,7 +1247,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 <h1>Part 6: Joining datasets</h1>
 <section id="how-joins-work" class="level2">
 <h2 class="anchored" data-anchor-id="how-joins-work">How joins work</h2>
-<p>A join combines two data frames by matching rows on a <strong>key</strong> column that both share. A tiny example first:</p>
+<p>A join combines two data frames by matching rows on a <strong>key</strong> column that both share. All the join functions (<code>left_join()</code>, <code>inner_join()</code>, and the rest) come from the <strong>dplyr</strong> package. A tiny example first:</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 6.1</strong> — A tiny example. Make <code>patients</code> (id 1, 2, 3) and <code>labs</code> (id 2, 3, 4) with <code>tibble()</code>, then try four joins on them.</p>
 </div>
@@ -1301,7 +1301,7 @@ $ outcome           &lt;chr&gt; "Unknown", "Recover", "Recover", "Unknown", "Rec
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>tibble()</code> makes a small data frame by hand, like <code>data.frame()</code> in the Session 1 diagram.</li>
+<li><code>tibble()</code>, from the <strong>tibble</strong> package (part of the tidyverse), makes a small data frame by hand, like <code>data.frame()</code> in the Session 1 diagram.</li>
 <li><code>patients</code> has ids 1, 2, 3 and <code>labs</code> has ids 2, 3, 4, so ids 2 and 3 are in both, 1 is only in <code>patients</code>, and 4 is only in <code>labs</code>.</li>
 <li><code>left_join()</code> keeps all 3 patients; Ana (id 1) gets <code>NA</code> for <code>result</code> because she has no lab. <code>inner_join()</code> keeps only the 2 ids in both. <code>full_join()</code> keeps all 4 ids. <code>anti_join()</code> returns the 1 patient with no lab.</li>
 <li><code>by = "id"</code> names the <strong>key</strong>: the column used to match rows. It must exist in both data frames.</li>

@@ -53,7 +53,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `library()` loads today's three packages: tidyverse (which includes `pivot_longer()` and `pivot_wider()`), here, and rio.
+-   `library()` loads today's three packages: tidyverse (which includes the tidyr package, with `pivot_longer()` and `pivot_wider()`), here, and rio.
 -   `import()` reads `combined_linelist.rds`, the finished linelist you saved in Session 3. `.rds` files can contain R code, so rio asks you to confirm that you trust the file with `trust = TRUE`.
 -   `linelist` has 6451 rows (patients) and 19 columns.
 :::
@@ -78,6 +78,8 @@ The cleaned measles data from Session 3 has 1163 rows (cases) and 14 columns. Yo
 :::
 
 # Part 2: Vectors and types
+
+Most of today's functions, such as `length()`, `class()`, `c()`, `str()`, `list()`, and `data.frame()`, are **base R**: they're built into R, so they need no package.
 
 A **vector** is a set of values of the **same type**. Every column of a data frame is a vector. `$` pulls one column out:
 
@@ -415,7 +417,7 @@ nrow(linelist[linelist$temp > 40 & !is.na(linelist$temp), ])   # 93: fixed
 
 ## Base R vs tidyverse
 
-| Task | Base R | Tidyverse |
+| Task | Base R | Tidyverse (dplyr package) |
 |------|--------|-----------|
 | Rows that meet a condition | `df[df$age > 40, ]` | `filter(df, age > 40)` |
 | Some columns | `df[, c("a", "b")]` | `select(df, a, b)` |
@@ -559,7 +561,7 @@ age_test$estimate
 ::: {.callout-note icon=false}
 ## 🔍 What this code does
 
--   `t.test(age_years ~ gender, ...)` compares the mean age of the two genders. Read `~` as "by": age by gender.
+-   `t.test(age_years ~ gender, ...)`, a base R function, compares the mean age of the two genders. Read `~` as "by": age by gender.
 -   `data = filter(linelist, gender != "Unknown")` gives `t.test()` only the rows with a known gender, because it needs exactly two groups.
 -   `age_test` is a list. `names(age_test)` lists its 10 elements, such as `p.value`, `estimate`, and `conf.int`.
 -   `age_test$p.value` takes out the p-value as a plain number: `1.271186e-102`, R's way of writing 1.27 × 10^-102^ (extremely small). `age_test$estimate` gives the two means: 12.7 years (female) and 19.5 years (male).
@@ -633,6 +635,8 @@ To count or plot **all** symptoms together, we want **long** format: one row per
 The **orange** boxes are the old column names: they become values in the new `symptom` column. The **blue** boxes are the old cells: they move into the new `present` column. `case_id` is repeated once for each symptom.
 
 ## `pivot_longer()`: wide → long
+
+The functions `pivot_longer()` and `pivot_wider()` come from the **tidyr** package, part of the tidyverse.
 
 ::: follow-along
 **👀 Follow along 6.2** — `pivot_longer()` the five symptoms into `symptoms_long`, and check `nrow()`.

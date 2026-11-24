@@ -33,8 +33,19 @@
 #    - Every session starts the same way: open the project, load packages, import data.
 #      You typed these lines yourself in Session 1. From now on they are filled
 #      in for you: just run them (Cmd + Return on a Mac, Ctrl + Enter on Windows).
+#    - Quick review from Session 1:
+#        here("raw_data", "linelist_raw.xlsx")  builds the path to a file, starting at
+#                                               the top of the workshop folder (here package)
+#        import(PATH)                            reads the file; it works out the file type
+#                                               from the ending: .xlsx, .csv, .txt (rio package)
+#        here::here()                            shows where the top of the folder is
 #    - NEVER edit the raw data file. Every fix happens in code, so anyone can
-#      re-run your script and get the same result.
+#      re-run your script and get the same result:
+#        1. leave raw_data/linelist_raw.xlsx alone (no fixing by hand in Excel)
+#        2. make a NEW object for the clean version (linelist_clean) and put every
+#           fix in it; linelist_raw stays as imported
+#        3. save the result as a NEW file in processed_data/ (Part 8)
+#    - janitor is the one new package today: it gives you clean_names().
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 1.1: load tidyverse, here, rio, janitor, skimr (already filled in: run it)
@@ -65,6 +76,7 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 #        take linelist_raw, AND THEN sort it by weight, AND THEN show 3 rows.
 #    - The pipe fills in the data as the FIRST argument of the next function:
 #        count(linelist_raw, age_unit)   is the same as   linelist_raw %>% count(age_unit)
+#    - filter(), arrange(), select(), and count() come from the dplyr package (tidyverse).
 #    - filter(CONDITION) keeps the ROWS that meet a condition
 #      Conditions: == equal, != not equal, > < >= <=, %in% c(...), is.na() missing
 #      Use == (two equals signs) to compare. One = is for naming arguments.
@@ -89,6 +101,7 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 
 # 👀 Follow along 2.3: a longer pipeline, one step per line:
 #    select() Case ID, wt_kg, and ht_cm, then arrange() by wt_kg, then head(5)
+#    Look at the weights in the output: what do you notice? (Fixed in Part 5.)
 
 
 # ✏️ TRY IT 2 (4 min): in measles_raw,
@@ -104,10 +117,10 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 # 🎯 Goal: Make every column name lower case with underscores, then rename columns.
 #
 # 📖 What you need to know
-#    - clean_names() (janitor) fixes every column name at once: lower case,
+#    - clean_names() (janitor package) fixes every column name at once: lower case,
 #      spaces and dots become _, symbols are removed. "Case ID" becomes case_id.
 #      After this, you never need backticks again!
-#    - rename(new_name = old_name) changes one name. The NEW name goes on the LEFT.
+#    - rename(new_name = old_name) (dplyr package) changes one name. The NEW name goes on the LEFT.
 #    - We build the clean data one step at a time. Each step takes the current
 #      version, changes one thing, and saves it back with <- :
 #        linelist_clean <- linelist_clean %>% STEP()
@@ -134,12 +147,12 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 # 🎯 Goal: Turn date columns into dates and text columns into numbers.
 #
 # 📖 What you need to know
-#    - mutate() creates a new column or overwrites an existing one:
+#    - mutate() (dplyr package) creates a new column or overwrites an existing one:
 #        mutate(COLUMN = WHAT_TO_PUT_IN_IT)
 #      Use the same name to overwrite; a new name to add a column.
-#    - as.Date() turns text like "2014-05-13" into a date.
+#    - as.Date() (base R, no package needed) turns text like "2014-05-13" into a date.
 #      Other date formats: dmy("13/05/2014"), mdy("05/13/2014") from lubridate.
-#    - as.numeric() turns text like "56" into the number 56. Text that isn't a
+#    - as.numeric() (base R) turns text like "56" into the number 56. Text that isn't a
 #      number (like "unknown") becomes NA, and R warns you:
 #      "NAs introduced by coercion". That warning is fine IF you expected it.
 #
@@ -165,7 +178,7 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 # 🎯 Goal: Fix values that meet ONE condition.
 #
 # 📖 What you need to know
-#    - if_else(CONDITION, VALUE_IF_TRUE, VALUE_IF_FALSE) checks every row:
+#    - if_else(CONDITION, VALUE_IF_TRUE, VALUE_IF_FALSE) (dplyr package) checks every row:
 #        if_else(age_unit == "months", age / 12, age)
 #      "If the unit is months, divide by 12; otherwise keep the age."
 #    - Use NA as the value to blank out impossible values:
@@ -196,7 +209,7 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 # 🎯 Goal: Fix categories with MANY conditions: gender and hospital names.
 #
 # 📖 What you need to know
-#    - case_when() is if_else() for many conditions. R checks each line in
+#    - case_when() (dplyr package) is if_else() for many conditions. R checks each line in
 #      order and uses the FIRST one that is TRUE:
 #        case_when(
 #          CONDITION_1 ~ NEW_VALUE_1,
@@ -205,9 +218,9 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 #        )
 #      Without .default, rows that match nothing become NA.
 #    - %in% checks for any of several values:   sex %in% c("Male", "male", "M")
-#    - str_detect(COLUMN, "pattern") is TRUE if the text CONTAINS the pattern,
+#    - str_detect(COLUMN, "pattern") (stringr package) is TRUE if the text CONTAINS the pattern,
 #      so one line catches several spellings. | means "or": "Military|Mitylira"
-#    - Text helpers (stringr): str_to_title("north") gives "North",
+#    - Text helpers (stringr package): str_to_title("north") gives "North",
 #      str_to_lower(), str_to_upper(), str_trim() removes extra spaces
 #
 # ⚠️ Common mistakes
@@ -280,7 +293,7 @@ hosp_info    <- import(here("raw_data", "hosp_info.txt"))
 #    - In a real project, keep ONE block of code that goes from raw data to
 #      clean data. Anyone can re-run it and get exactly the same result.
 #    - Inside one mutate(), later lines can use columns made on earlier lines.
-#    - export() is the opposite of import(). Save clean data in processed_data/,
+#    - export() (rio package) is the opposite of import(). Save clean data in processed_data/,
 #      never over the raw file.
 #    - .rds is R's own file type. It keeps dates as dates and missing values as NA,
 #      so it's the best choice for files you will open in R again.

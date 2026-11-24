@@ -56,8 +56,18 @@ library(skimr)
 ## 🔍 What this code does
 
 -   You typed these lines yourself in Session 1. From now on, the set-up lines are filled in at the top of each student script, so you can start right away.
--   The same packages as in Session 1. Today `janitor` gives you `clean_names()`, and the tidyverse gives you the pipe, `mutate()`, `if_else()`, `case_when()`, and the `str_` text functions.
+-   The same packages as in Session 1, plus one new package: **janitor**, which gives you the function `clean_names()`.
+-   The **tidyverse** packages give you most of today's functions: the pipe `%>%` (from the magrittr package), `filter()`, `arrange()`, `select()`, `rename()`, `mutate()`, `if_else()`, and `case_when()` (all from the **dplyr** package), and the `str_` text functions (from the **stringr** package).
 -   On this page the start-up messages are hidden; in Positron you'll see them in the Console. Messages are fine: only a line that starts with **Error** is a problem.
+:::
+
+::: callout-note
+## Quick review from Session 1: `import()` and `here()`
+
+-   The function `here()`, from the **here** package, builds a file path that starts at the top of the workshop folder. `here("raw_data", "linelist_raw.xlsx")` means "the file `linelist_raw.xlsx` in the `raw_data` folder". The same code works on any computer, wherever the folder is saved. To see where the top of the folder is, run `here::here()`.
+-   The function `import()`, from the **rio** package, reads the file at that path. It works out the file type from the ending (`.xlsx`, `.csv`, `.txt`), so one function reads all three of today's files.
+-   Together, `import(here("raw_data", "linelist_raw.xlsx"))` runs from the inside out: `here()` builds the path, then `import()` reads the file, and `<-` saves the result under a name.
+-   An error that says "No such file" usually means a typo in the folder or file name (check them in the **Explorer**), or that Positron doesn't have the workshop folder open (**File → Open Folder...**).
 :::
 
 ::: follow-along
@@ -92,7 +102,13 @@ The problem list from Session 1 is today's to-do list:
 ::: callout-important
 ## Never edit the raw data file
 
-All fixes happen in code. The raw file stays exactly as it arrived, so anyone can re-run your script and get the same result.
+All fixes happen in code. The raw file stays exactly as it arrived, so anyone can re-run your script and get the same result. In practice, that means three habits:
+
+1.  **Leave the raw file alone.** Don't open `raw_data/linelist_raw.xlsx` in Excel to fix things by hand, and never save over it from R.
+2.  **Make a new object for the clean version.** `linelist_raw` is the data exactly as imported. In Part 3 you make a **new object** called `linelist_clean`, and every fix goes into that one. The endings `_raw` and `_clean` tell you at a glance which is which, and if a step goes wrong, `linelist_raw` is still there to start again from.
+3.  **Save the result as a new file in a different folder.** In Part 8 you save `linelist_clean` as `processed_data/linelist_clean.rds`. The raw file in `raw_data/` never changes.
+
+The path of the data today: `raw_data/linelist_raw.xlsx` → `import()` → `linelist_raw` → cleaning steps → `linelist_clean` → `export()` → `processed_data/linelist_clean.rds`
 :::
 
 ::: {.callout-important .tryit icon=false}
@@ -113,7 +129,7 @@ measles_raw <- import(here("raw_data", "measles_raw.csv"))
 
 # Part 2: The pipe `%>%`, `filter()`, and `arrange()`
 
-In Session 1 you used one function at a time, with the data first: `count(linelist_raw, age_unit)`. Real work needs several steps in a row. The **pipe** `%>%` passes the data from one step to the next, **in order, from left to right**. Read it as **"and then"**.
+In Session 1 you used one function at a time, with the data first: `count(linelist_raw, age_unit)` (the function `count()` comes from the **dplyr** package, part of the tidyverse). Real work needs several steps in a row. The **pipe** `%>%` passes the data from one step to the next, **in order, from left to right**. Read it as **"and then"**.
 
 ::: follow-along
 **👀 Follow along 2.1** — `count()` with the pipe, then sort by weight and show 3 rows.
@@ -138,6 +154,8 @@ linelist_raw %>% arrange(wt_kg) %>% head(3)
 -   Keyboard shortcut for `%>%`: **Shift + Cmd + M** (Mac) or **Shift + Ctrl + M** (Windows)
 
 ## Keeping rows: `filter()`. Sorting rows: `arrange()`
+
+Both functions come from the **dplyr** package, part of the tidyverse:
 
 -   `filter()` keeps the **rows** that meet a condition
 -   `arrange()` sorts the rows; `desc()` sorts largest first
@@ -172,7 +190,7 @@ Use `==` (two equals signs) to compare. One `=` is for naming arguments.
 
 ## Longer pipelines
 
-Put each step on its own line, with the `%>%` at the **end** of the line. `select()` keeps only the **columns** you name:
+Put each step on its own line, with the `%>%` at the **end** of the line. The function `select()`, also from the dplyr package, keeps only the **columns** you name:
 
 ::: follow-along
 **👀 Follow along 2.3** — A longer pipeline, one step per line: `select()` `Case ID`, `wt_kg`, and `ht_cm`, then `arrange()` by `wt_kg`, then `head(5)`.
@@ -190,6 +208,7 @@ linelist_raw %>%
 
 -   `` select(`Case ID`, wt_kg, ht_cm) `` keeps only these three columns, in this order. `Case ID` has a space in it, so it needs backticks.
 -   `arrange(wt_kg)` sorts the rows by weight, smallest first, and `head(5)` keeps the first 5.
+-   In the output, the impossible weights from Follow along 2.1 are back: the lightest patients weigh -11, -10, and -9 kg. They're on the problem list (number 6), and you'll replace them in Part 5. For now, just notice them: looking at sorted data is how you find problems like this.
 -   Each line ends with `%>%`, so R knows the next line continues the same pipeline. The text after `#` is a comment for people; R ignores it.
 -   Without the pipe, you'd have to put each function inside the next one: `head(arrange(select(linelist_raw, ...), wt_kg), 5)`, which you read from the inside out. The pipe keeps the steps in the order they happen.
 :::
@@ -242,7 +261,7 @@ These are the Fahrenheit temperatures you found with `skim()` in Session 1: 27 o
 
 ## `clean_names()`
 
-One function (from janitor) makes every name lower case, replaces spaces and dots with `_`, and removes symbols. `"Case ID"` becomes `case_id` — after this, you never need backticks again!
+The function `clean_names()`, from the **janitor** package, makes every name lower case, replaces spaces and dots with `_`, and removes symbols. `"Case ID"` becomes `case_id` — after this, you never need backticks again!
 
 ::: follow-along
 **👀 Follow along 3.1** — Create `linelist_clean` from `linelist_raw` with `clean_names()`. Compare `names()` before and after.
@@ -269,7 +288,7 @@ names(linelist_clean)
 
 ## `rename()`
 
-`rename(new_name = old_name)` — the **new** name goes on the left.
+The function `rename()`, from the **dplyr** package, changes the names you choose: `rename(new_name = old_name)`. The **new** name goes on the left.
 
 ::: follow-along
 **👀 Follow along 3.2** — Rename `infection_date` → `date_of_infection`, `date_onset` → `onset_date`, and `hosp_date` → `hospital_date`.
@@ -336,11 +355,11 @@ names(measles_clean)
 
 # Part 4: Fixing types with `mutate()`
 
-`mutate()` creates a new column or overwrites an existing one: `mutate(column = what_to_put_in_it)`. Use the same name to overwrite a column; a new name to add one.
+The function `mutate()`, from the **dplyr** package, creates a new column or overwrites an existing one: `mutate(column = what_to_put_in_it)`. Use the same name to overwrite a column; a new name to add one.
 
 ## Dates
 
-`as.Date()` converts text or date-times to dates.
+The function `as.Date()` converts text or date-times to dates. It's built into R (base R), so it doesn't need a package.
 
 ::: follow-along
 **👀 Follow along 4.1** — Turn `date_of_infection`, `onset_date`, `hospital_date`, and `date_of_outcome` into dates with `as.Date()`.
@@ -377,7 +396,7 @@ linelist_clean %>% select(date_of_infection:date_of_outcome) %>% glimpse()
 
 ## Numbers stored as text
 
-`as.numeric()` turns text like `"56"` into the number 56. Text that isn't a number (like `"unknown"`) becomes `NA`, and R warns you: *"NAs introduced by coercion"*. That warning is fine **if** you expected it.
+The base R function `as.numeric()` turns text like `"56"` into the number 56. Text that isn't a number (like `"unknown"`) becomes `NA`, and R warns you: *"NAs introduced by coercion"*. That warning is fine **if** you expected it.
 
 ::: follow-along
 **👀 Follow along 4.2** — Turn `age` into a number with `as.numeric()`.
@@ -440,7 +459,7 @@ The 27 `"unknown"` ages became `NA` — that is what the warning is about. A max
 
 # Part 5: Fixing values with `if_else()`
 
-`if_else(condition, value_if_TRUE, value_if_FALSE)` checks every row and fixes the values that meet one condition.
+The function `if_else()`, from the **dplyr** package, checks every row and fixes the values that meet one condition: `if_else(condition, value_if_TRUE, value_if_FALSE)`.
 
 ## Ages in months → years
 
@@ -569,14 +588,14 @@ The four 999s are now `NA` (31 missing ages in total), and the 27 Fahrenheit tem
 ::: {.callout-note icon=false}
 ## 📖 Good to know
 
--   Two shortcuts for jobs you just did with `if_else()`: `na_if(age_years, 999)` turns every 999 into `NA`, and `coalesce(onset_date, hospital_date)` takes the onset date, or the hospital date when the onset date is missing (the "estimated onset" from the 🔁 box). Both give the same result as the `if_else()` versions.
+-   Two shortcuts from the dplyr package for jobs you just did with `if_else()`: `na_if(age_years, 999)` turns every 999 into `NA`, and `coalesce(onset_date, hospital_date)` takes the onset date, or the hospital date when the onset date is missing (the "estimated onset" from the 🔁 box). Both give the same result as the `if_else()` versions.
 -   A comparison with a missing value gives a missing answer: `NA <= 0` is `NA`, not TRUE or FALSE. So `if_else()` gives `NA` for those rows, and missing values stay missing unless you deal with them on purpose (Session 3).
 -   Prefer `NA` to deleting rows. A patient with an impossible weight still has a real age, outcome, and dates that you want to keep.
 :::
 
 # Part 6: Recoding categories with `case_when()`
 
-`case_when()` is `if_else()` for **many** conditions. R checks each line in order and uses the first one that is TRUE:
+The function `case_when()`, also from the dplyr package, is `if_else()` for **many** conditions. R checks each line in order and uses the first one that is TRUE:
 
 ```
 case_when(
@@ -623,7 +642,7 @@ hosp_info
 linelist_clean %>% count(hospital)
 ```
 
-`str_detect(column, "pattern")` is TRUE when the text **contains** the pattern, so one line catches every misspelling. `|` means "or".
+The function `str_detect(column, "pattern")`, from the **stringr** package (part of the tidyverse), is TRUE when the text **contains** the pattern, so one line catches every misspelling. `|` means "or".
 
 ```{r}
 linelist_clean <- linelist_clean %>%
@@ -652,7 +671,7 @@ linelist_clean %>% count(hospital, hospital_name)
 :::
 
 ::: callout-note
-## Other useful text functions (stringr)
+## Other useful text functions (from the stringr package)
 
 `str_to_lower()`, `str_to_upper()`, `str_to_title()` change capitalization (`str_to_title("north")` gives `"North"`) · `str_trim()` removes extra spaces · `str_replace(x, "old", "new")` replaces text. You may need these for the TRY ITs!
 
@@ -967,7 +986,7 @@ Inside one `mutate()`, later lines can use columns made on earlier lines (`bmi` 
 
 ## Save your work
 
-`export()` is the opposite of `import()`. Save cleaned data to `processed_data/` — never over the raw file.
+The function `export()`, also from the **rio** package, is the opposite of `import()`. Save cleaned data to `processed_data/` — never over the raw file.
 
 ::: follow-along
 **👀 Follow along 8.2** — Save `linelist_clean` as `processed_data/linelist_clean.rds`.

@@ -549,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>library()</code> loads today’s three packages: tidyverse (which includes <code>pivot_longer()</code> and <code>pivot_wider()</code>), here, and rio.</li>
+<li><code>library()</code> loads today’s three packages: tidyverse (which includes the tidyr package, with <code>pivot_longer()</code> and <code>pivot_wider()</code>), here, and rio.</li>
 <li><code>import()</code> reads <code>combined_linelist.rds</code>, the finished linelist you saved in Session 3. <code>.rds</code> files can contain R code, so rio asks you to confirm that you trust the file with <code>trust = TRUE</code>.</li>
 <li><code>linelist</code> has 6451 rows (patients) and 19 columns.</li>
 </ul>
@@ -595,6 +595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-2-vectors-and-types" class="level1">
 <h1>Part 2: Vectors and types</h1>
+<p>Most of today’s functions, such as <code>length()</code>, <code>class()</code>, <code>c()</code>, <code>str()</code>, <code>list()</code>, and <code>data.frame()</code>, are <strong>base R</strong>: they’re built into R, so they need no package.</p>
 <p>A <strong>vector</strong> is a set of values of the <strong>same type</strong>. Every column of a data frame is a vector. <code>$</code> pulls one column out:</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 2.1</strong> — Pull out <code>linelist$age_years</code> as <code>ages</code>, then <code>head()</code> and <code>length()</code> it.</p>
@@ -1210,7 +1211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th>Task</th>
 <th>Base R</th>
-<th>Tidyverse</th>
+<th>Tidyverse (dplyr package)</th>
 </tr>
 </thead>
 <tbody>
@@ -1512,7 +1513,7 @@ mean in group female   mean in group male
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>t.test(age_years ~ gender, ...)</code> compares the mean age of the two genders. Read <code>~</code> as “by”: age by gender.</li>
+<li><code>t.test(age_years ~ gender, ...)</code>, a base R function, compares the mean age of the two genders. Read <code>~</code> as “by”: age by gender.</li>
 <li><code>data = filter(linelist, gender != "Unknown")</code> gives <code>t.test()</code> only the rows with a known gender, because it needs exactly two groups.</li>
 <li><code>age_test</code> is a list. <code>names(age_test)</code> lists its 10 elements, such as <code>p.value</code>, <code>estimate</code>, and <code>conf.int</code>.</li>
 <li><code>age_test$p.value</code> takes out the p-value as a plain number: <code>1.271186e-102</code>, R’s way of writing 1.27 × 10<sup>-102</sup> (extremely small). <code>age_test$estimate</code> gives the two means: 12.7 years (female) and 19.5 years (male).</li>
@@ -1615,6 +1616,7 @@ mean in group female   mean in group male
 </section>
 <section id="pivot_longer-wide-long" class="level2">
 <h2 class="anchored" data-anchor-id="pivot_longer-wide-long"><code>pivot_longer()</code>: wide → long</h2>
+<p>The functions <code>pivot_longer()</code> and <code>pivot_wider()</code> come from the <strong>tidyr</strong> package, part of the tidyverse.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 6.2</strong> — <code>pivot_longer()</code> the five symptoms into <code>symptoms_long</code>, and check <code>nrow()</code>.</p>
 </div>

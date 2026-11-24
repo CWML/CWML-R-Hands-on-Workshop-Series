@@ -56,9 +56,11 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 # 🎯 Goal: Count rows in each category, order the bars, and split them by a second variable.
 #
 # 📖 What you need to know
+#    - All of today's plot functions (geom_bar(), geom_col(), scale_fill_manual(),
+#      facet_wrap(), ggsave(), ...) come from the ggplot2 package.
 #    - geom_bar() COUNTS the rows in each category for you. Give it only x (or y).
 #    - Long labels? Put the category on y to get horizontal bars: aes(y = COLUMN)
-#    - Order the bars by count: fct_infreq(COLUMN) (most common first);
+#    - Order the bars by count with the forcats package: fct_infreq(COLUMN) (most common first);
 #      wrap it in fct_rev() so the longest bar is at the TOP of a horizontal chart.
 #    - Fill by a second variable, and choose how the pieces sit with position =
 #        "stack"  stacked counts (the default)
@@ -88,7 +90,7 @@ linelist <- import(here("processed_data", "combined_linelist.rds"), trust = TRUE
 #    - geom_bar()  counts rows for you (one row per patient): give it x only
 #    - geom_col()  draws numbers you already have (one row per bar): give it x AND y
 #    - Typical use: summarise() or count() first (Session 5), then geom_col().
-#    - fct_reorder(CATEGORY, NUMBER) sorts the bars by the number.
+#    - fct_reorder(CATEGORY, NUMBER) (forcats package) sorts the bars by the number.
 # ────────────────────────────────────────────────────────────────────────────
 
 # 👀 Follow along 3.1: create death_by_age (percentage who died per age group), then geom_col()

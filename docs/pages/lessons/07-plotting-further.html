@@ -611,6 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-2-bar-charts-of-counts-geom_bar" class="level1">
 <h1>Part 2: Bar charts of counts: <code>geom_bar()</code></h1>
+<p>The functions for plots, labels, colors, facets, and saving today (<code>geom_bar()</code>, <code>geom_col()</code>, <code>scale_fill_manual()</code>, <code>facet_wrap()</code>, <code>ggsave()</code>, and the rest) all come from the <strong>ggplot2</strong> package, as in Session 6.</p>
 <p><code>geom_bar()</code> <strong>counts the rows</strong> in each category for you — you only give it <code>x</code>.</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 2.1</strong> — <code>geom_bar()</code> with <code>x = hospital_name</code>, then with <code>y = hospital_name</code> (the next two code blocks).</p>
@@ -658,7 +659,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="order-the-bars" class="level2">
 <h2 class="anchored" data-anchor-id="order-the-bars">Order the bars</h2>
-<p>Alphabetical order rarely helps. <code>fct_infreq()</code> orders by count (most common first), and <code>fct_rev()</code> flips it so the longest bar is at the top:</p>
+<p>Alphabetical order rarely helps. Two functions from the <strong>forcats</strong> package (Session 5) fix that: <code>fct_infreq()</code> orders by count (most common first), and <code>fct_rev()</code> flips it so the longest bar is at the top:</p>
 <div class="follow-along">
 <p><strong>👀 Follow along 2.2</strong> — Order the bars with <code>fct_rev(fct_infreq(hospital_name))</code>, and add a fill color and <code>labs()</code>.</p>
 </div>
@@ -968,7 +969,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <p><code>geom_bar()</code> counts rows for you (one row per patient): give it <code>x</code> only. <code>geom_col()</code> draws numbers you already have (one row per bar): give it <code>x</code> <strong>and</strong> <code>y</code>.</p>
-<p><code>fct_reorder(CATEGORY, NUMBER)</code> sorts the bars by the number.</p>
+<p><code>fct_reorder(CATEGORY, NUMBER)</code>, also from the forcats package, sorts the bars by the number.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
