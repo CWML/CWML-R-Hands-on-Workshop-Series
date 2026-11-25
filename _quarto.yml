@@ -32,8 +32,11 @@ website:
       - text: "Instructor Guide"
         href: pages/instructor/index.qmd
     right:
-      - text: "Feedback"
-        icon: envelope
+      - text: "Ask a question"
+        icon: question-circle
+        href: "https://forms.cloud.microsoft/r/pYBgxQa9jW"
+        aria-label: "Ask the instructors a question (Microsoft Form)"
+      - icon: envelope
         href: "mailto:maximilian.wegener@yale.edu?subject=Feedback%3A%20R%20Hands-on%20Workshop%20Series"
         aria-label: "Send feedback by email"
       - icon: github
@@ -69,7 +72,7 @@ website:
 
   page-footer:
     left: "Cushing/Whitney Medical Library, Yale School of Medicine"
-    center: "Questions or feedback? [Email Max Wegener](mailto:maximilian.wegener@yale.edu?subject=Feedback%3A%20R%20Hands-on%20Workshop%20Series)"
+    center: "Questions? [Ask the instructors](https://forms.cloud.microsoft/r/pYBgxQa9jW). Feedback? [Email Max Wegener](mailto:maximilian.wegener@yale.edu?subject=Feedback%3A%20R%20Hands-on%20Workshop%20Series)"
     right: "Built with [Quarto](https://quarto.org)"
 
 format:

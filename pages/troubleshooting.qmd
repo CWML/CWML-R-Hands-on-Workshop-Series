@@ -31,7 +31,7 @@ Caused by error:
 2.  **Find the function** named after `Error in`, and look at that line of your code.
 3.  **Check the spelling** of every name: columns, objects, functions. R treats `Age` and `age` as different names.
 4.  **Run the code piece by piece.** In a pipeline, select the lines up to just before a `%>%` and run them. Add one line at a time until the error appears.
-5.  **Still stuck?** Search for the exact message in quotes (leave out your own object names), check the function's help page with `?function_name`, or ask: a person, or an [AI assistant](ai-assistants.qmd) (with care).
+5.  **Still stuck?** Search for the exact message in quotes (leave out your own object names), check the function's help page with `?function_name`, or ask: a person, the instructors through the [question form](https://forms.cloud.microsoft/r/pYBgxQa9jW), or an [AI assistant](ai-assistants.qmd) (with care).
 
 ### Common errors in this workshop
 
